@@ -492,4 +492,5 @@ void CDirectXFramework::createGroundBox(hkpWorld* world)
 
 void CDirectXFramework::playerUpdate(float dt)
 {
+	// Need to sync it
 }
