@@ -3,6 +3,16 @@
 *.lo
 *.o
 
+# User-specific files
+*.suo
+*.user
+*.sln.docstates
+
+# Build results
+[Dd]ebug/
+[Rr]elease/
+x64
+
 # Compiled Dynamic libraries
 *.so
 *.dylib
