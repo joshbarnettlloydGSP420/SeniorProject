@@ -1,6 +1,8 @@
 //--------------------------- BASIC PROPERTIES ------------------------------
 // The world transformation
 float4x4 World;
+float4x4 WVP;
+float4x4 WVPIT;
 float4x4 OutlineWorld;
  
 // The view transformation
@@ -119,23 +121,30 @@ VertexToPixel OutlineVertexShader(AppToVertex input)
 {
     VertexToPixel output = (VertexToPixel)0;
  
-    // Calculate where the vertex ought to be.  This line is equivalent
-    // to the transformations in the CelVertexShader.
-    float4 original = mul(mul(mul(input.Position, World), View), Projection);
- 
-    // Calculates the normal of the vertex like it ought to be.
-    //float4 normal = mul(mul(mul(input.Normal, World), View), Projection);
-	float4 normal = mul( input.Normal, WorldInverseTranspose );
-	normalize( normal );
- 
-    // Take the correct "original" location and translate the vertex a little
-    // bit in the direction of the normal to draw a slightly expanded object.
-    // Later, we will draw over most of this with the right color, except the expanded
-    // part, which will leave the outline that we want.
-    //output.Position    = original + (mul(LineThickness, normal));
-	output.Position = original + ( LineThickness * normal );
- 
-    return output;
+    //// Calculate where the vertex ought to be.  This line is equivalent
+    //// to the transformations in the CelVertexShader.
+    //float4 original = mul(mul(mul(input.Position, World), View), Projection);
+ 	//
+    //// Calculates the normal of the vertex like it ought to be.
+    ////float4 normal = mul(mul(mul(input.Normal, World), View), Projection);
+	//float4 normal = mul( input.Normal, WorldInverseTranspose );
+	//normalize( normal );
+ 	//
+    //// Take the correct "original" location and translate the vertex a little
+    //// bit in the direction of the normal to draw a slightly expanded object.
+    //// Later, we will draw over most of this with the right color, except the expanded
+    //// part, which will leave the outline that we want.
+    ////output.Position    = original + (mul(LineThickness, normal));
+	//output.Position = original + ( LineThickness * normal );
+ 	//
+    //return output;
+
+	float4 position = mul(input.Position, WVP);
+	float4 normal = float4(normalize(input.Normal), 0.0);
+	normal = mul(normal, WVPIT);
+	position += (LineThickness * normal);
+	output.Position = position;
+	return output;
 }
  
 // The pixel shader for the outline.  It is pretty simple:  draw everything with the

@@ -123,8 +123,9 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 		dXF.Render(dt);
 		dXF.Update(dt);
 
-		//*************************************************************************
+		prevTimeStamp = currTimeStamp;
 
+		//*************************************************************************
 	}
 
 	//*************************************************************************

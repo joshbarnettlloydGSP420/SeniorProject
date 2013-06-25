@@ -22,12 +22,12 @@ void Object_Base::Update(float deltaTime)
 
 void Object_Base::convertPosition(hkVector4* phyPosition, D3DXVECTOR4* m_Position)
 {
-	D3DXVECTOR4 temp = D3DXVECTOR3(0, 0, 0);
+	D3DXVECTOR4 temp = D3DXVECTOR4(0, 0, 0, 0);
 
-	temp.x = (float)(*phyPosition).getComponent(0);
-	temp.y = (float)(*phyPosition).getComponent(1);
-	temp.z = (float)(*phyPosition).getComponent(2);
-	temp.w = (float)(*phyPosition).getComponent(3);
+	temp.x = (float)phyPosition->getComponent(0);
+	temp.y = (float)phyPosition->getComponent(1);
+	temp.z = (float)phyPosition->getComponent(2);
+	temp.w = (float)phyPosition->getComponent(3);
 
 	*m_Position = temp;
 }
@@ -66,7 +66,7 @@ void Object_Base::createSphereObject(hkpWorld* world)
 	// Set The Object's Properties
 	bodyInfo.m_shape = sphereShape;
 	bodyInfo.m_position.set(position.x, position.y, position.z, 0.0f);
-	bodyInfo.m_motionType = hkpMotion::MOTION_DYNAMIC;
+	bodyInfo.m_motionType = hkpMotion::MOTION_CHARACTER;
 	bodyInfo.m_friction = 1.0f;
 	bodyInfo.m_restitution = 0.2f;
 
@@ -99,7 +99,7 @@ void Object_Base::createBoxObject(hkpWorld* world)
 	// Set The Object's Properties
 	bodyInfo.m_shape = boxShape;
 	bodyInfo.m_position.set(position.x, position.y, position.z, 0.0f);
-	bodyInfo.m_motionType = hkpMotion::MOTION_DYNAMIC;
+	bodyInfo.m_motionType = hkpMotion::MOTION_CHARACTER;
 
 	// Calculate Mass Properties
 	hkMassProperties massProperties;
@@ -131,7 +131,7 @@ void Object_Base::createCapsuleObject(hkpWorld* world)
 	// Set The Object's Properties
 	bodyInfo.m_shape = capsuleShape;
 	bodyInfo.m_position.set(position.x, position.y, position.z, 0.0f);
-	bodyInfo.m_motionType = hkpMotion::MOTION_DYNAMIC;
+	bodyInfo.m_motionType = hkpMotion::MOTION_CHARACTER;
 
 	// Calculate Mass Properties
 	hkMassProperties massProperties;
