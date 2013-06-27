@@ -117,6 +117,7 @@ void CDirectXFramework::Init(HWND& hWnd, HINSTANCE& hInst, bool bWindowed)
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Material Settings																					 //
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 	ZeroMemory(&m_pMaterial[0], sizeof(m_pMaterial[0]));
 	m_pMaterial[0].Ambient				= D3DXCOLOR(0.5f, 0.5f, 0.5f, 1.0f);
 	m_pMaterial[0].Diffuse				= D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
@@ -223,6 +224,12 @@ void CDirectXFramework::Init(HWND& hWnd, HINSTANCE& hInst, bool bWindowed)
 	// Load Test Mesh
 	loadMesh("Dwarf.X", &Player->objectMesh);
 
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Create 3D Mesh From X																				 //
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	// Input Manager Init
+	//m_pDInput->Init(&m_hWnd, &hInst);
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Create Havok Object																					 //
@@ -243,9 +250,21 @@ void CDirectXFramework::Init(HWND& hWnd, HINSTANCE& hInst, bool bWindowed)
 
 void CDirectXFramework::Update(float dt)
 {
+	//m_pDInput->Update();
 	havok->stepSimulation(dt);
 	Player->Update(dt);
+
+	/*// Test Movement //
+	if(m_pDInput->CheckKeyboardKey(DIK_A))
+	{
 	Player->bodyInfo.m_position.set(Player->position.x + dt, 0.0f, 0.0f, 0.0f);
+	}
+	else if(m_pDInput->CheckKeyboardKey(DIK_D))
+	{
+	Player->bodyInfo.m_position.set(Player->position.x - dt, 0.0f, 0.0f, 0.0f);
+	}
+	// Test Movement //*/
+
 	cameraUpdate(dt);
 }
 

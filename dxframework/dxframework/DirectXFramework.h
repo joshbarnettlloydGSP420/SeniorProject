@@ -27,6 +27,7 @@
 #include "HavokCore.h"
 #include "Object_Base.h"
 #include "Camera.h"
+#include "InputManager.h"
 
 // Macro to release COM objects fast and safely
 #define SAFE_RELEASE(x) if(x){x->Release(); x = 0;}
@@ -61,7 +62,7 @@ class CDirectXFramework
 	//////////////////////////////////////////////////////////////////////////
 	// Input Manager														//
 	//////////////////////////////////////////////////////////////////////////
-	
+	//InputManager*				m_pDInput;
 
 	//////////////////////////////////////////////////////////////////////////
 	// Camera																//
