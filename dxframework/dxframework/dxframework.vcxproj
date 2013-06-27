@@ -83,6 +83,7 @@
   <ItemGroup>
     <ClCompile Include="DirectXFramework.cpp" />
     <ClCompile Include="HavokCore.cpp" />
+    <ClCompile Include="Item.cpp" />
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="Object_Base.cpp" />
     <ClCompile Include="Vertex.cpp" />
@@ -91,6 +92,7 @@
   <ItemGroup>
     <ClInclude Include="DirectXFramework.h" />
     <ClInclude Include="HavokCore.h" />
+    <ClInclude Include="Item.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="Object_Base.h" />
     <ClInclude Include="Vertex.h" />
