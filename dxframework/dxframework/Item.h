@@ -6,6 +6,7 @@
 #include <d3dx9.h>
 #include <dinput.h>
 #include <windows.h>
+#include <vector>
 #include <iostream>
 #include <string>
 
@@ -24,31 +25,35 @@ class Item
 {
 
 private:
-	string	name; // name of the key
-	bool		haveItem;	//							
-	bool		renderKey;	// render key if player has it in the hud
+	string		name;			// name of the Item
+	int			itemAmount;		// how many of the item
+	bool		gotItem;		//	check if player has item						
+	bool		renderItem;		// render item  if player has it in the hud/ inventory list
+	int itemAmountReceived[15];	// store the quantity of the item maximum amount array 
 
  public:
-
+	 std::vector<string*> newItem;  // store the name of the item
 	 // need to create item
 	Item();
+	Item(string itemName, int itemAmount);
+	
 		
 	// need to name the item
 
 	//set name of item
-	void setItem(string s);
+	void setItemName(string *s);
 
 	//return the item name
 	string getItemName();
 
 	// Check if player has possesition
-	bool PlayerHaveItem(haveKey);
+	bool PlayerGotItem(bool gotItem);
 
-	//If item created add to array of items
-	bool NeedNewItemArray(bool newItem);
+	//If item created add to array/vector list of items
+	void AddItemToArray(bool gotItem);
 
 	//have hud render if the player has item
-	bool RenderKey(bool renderKey);
+	bool RenderItem(bool renderItem);
 
 
 	~Item(void);
