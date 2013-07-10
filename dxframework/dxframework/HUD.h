@@ -40,23 +40,27 @@ private:
 	int score, highScore;
 
 	// all rects
-	RECT scoreRect, highScoreRect, timeRect, livesRect, levelRect, hudRect, healthRect, shieldRect;
+	RECT scoreRect, highScoreRect, timeRect, livesRect, levelRect, hudRect, healthRect, shieldRect, blackBar1Rect, blackBar2Rect;
 
 	//exact cuts of the hud items
 	RECT hudSheetRect;
 	RECT healthSheetRect;
 	RECT shieldSheetRect;
+	RECT blackBar1SheetRect;
+	RECT blackBar2SheetRect;
+
 
 	//hud textures
 	IDirect3DTexture9* hudTexture;
 	IDirect3DTexture9* healthTexture;
 	IDirect3DTexture9* shieldTexture;
+	IDirect3DTexture9* blackBarTexture;
 
 	struct rectPositions
 	{
 		D3DXVECTOR3 position;
 	}
-	hudPosition, healthPosition, shieldPosition;
+	hudPosition, healthPosition, shieldPosition, blackBar1Position, blackBar2Position;
 
 	//hud position variables, the health/shield bars will be dependant on hud pos
 	D3DXVECTOR3 hudLocation;

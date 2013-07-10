@@ -5,10 +5,10 @@ HUD::HUD(void)
 {
 	//player hud variables
 	maxHealth = 100;
-	currentHealth = 90;
+	currentHealth = 85;
 	
 	maxShield = 100;
-	currentShield = 75;
+	currentShield = 50;
 	
 	//
 	bullets = 50;
@@ -44,6 +44,17 @@ HUD::HUD(void)
 	shieldPosition.position.x = hudLocation.x + 37;
 	shieldPosition.position.y = hudLocation.y + 40;
 	
+	//black bar background stuff
+	//behind health
+	SetRect(&blackBar1SheetRect, 32, 2, 242, 29);
+	blackBar1Position.position.x = hudLocation.x + 37;
+	blackBar1Position.position.y = hudLocation.y + 12;
+
+	//behind shield
+	SetRect(&blackBar2SheetRect, 32, 2, 242, 29);
+	blackBar2Position.position.x = hudLocation.x + 37;
+	blackBar2Position.position.y = hudLocation.y + 40;
+
 	//var for manip size of bars
 	widthHealth = healthSheetRect.right;
 	widthShield = shieldSheetRect.right;
@@ -71,6 +82,11 @@ void HUD::Init(IDirect3DDevice9* device)
 		D3DFMT_UNKNOWN, D3DPOOL_MANAGED, D3DX_DEFAULT, 
 		D3DX_DEFAULT, D3DCOLOR_XRGB(255, 0, 255), 
 		0, 0, &shieldTexture);
+
+	D3DXCreateTextureFromFileExA(device, "blackBar.png", 256, 32, 0, 0,
+		D3DFMT_UNKNOWN, D3DPOOL_MANAGED, D3DX_DEFAULT, 
+		D3DX_DEFAULT, D3DCOLOR_XRGB(255, 0, 255), 
+		0, 0, &blackBarTexture);
 	//D3DXCreateTextureFromFile(device, "healthHUD.png", &hudTexture);
 
 }
@@ -111,6 +127,9 @@ void HUD::Render(IDirect3DDevice9* device, ID3DXFont* font, ID3DXSprite* sprite,
 	//	DT_LEFT | DT_TOP | DT_NOCLIP,
 	//	D3DCOLOR_ARGB(255, 255, 255, 255));
 	//	
+	sprite->Draw(blackBarTexture, &blackBar1SheetRect, &D3DXVECTOR3(0,0,0), &blackBar1Position.position, D3DCOLOR_ARGB(255, 255, 255, 255));
+	sprite->Draw(blackBarTexture, &blackBar2SheetRect, &D3DXVECTOR3(0,0,0), &blackBar2Position.position, D3DCOLOR_ARGB(255, 255, 255, 255));
+
 	sprite->Draw(healthTexture, &healthSheetRect, &D3DXVECTOR3(0,0,0), &healthPosition.position, D3DCOLOR_ARGB(255, 255, 255, 255));
 	sprite->Draw(shieldTexture, &shieldSheetRect, &D3DXVECTOR3(0,0,0), &shieldPosition.position, D3DCOLOR_ARGB(255, 255, 255, 255));	
 	sprite->Draw(hudTexture, &hudSheetRect, &D3DXVECTOR3(0,0,0), &hudPosition.position, D3DCOLOR_ARGB(255, 255, 255, 255));
