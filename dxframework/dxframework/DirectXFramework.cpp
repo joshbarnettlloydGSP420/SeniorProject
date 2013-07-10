@@ -130,32 +130,35 @@ void CDirectXFramework::Init(HWND& hWnd, HINSTANCE& hInst, bool bWindowed)
 // Creating Camera																						 //
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	// Initialize View Matrix
-	eyePos								= D3DXVECTOR3(0.0f, 1.0f, -2.0f);			// Camera Position
-	lookAt								= eyePos + D3DXVECTOR3(0.0f, 0.0f, 1.0f);	// Position camera is viewing
-	upVec								= D3DXVECTOR3(0.0f, 1.0f, 0.0f);			// Rotational orientation
+	//// Initialize View Matrix
+	//eyePos								= D3DXVECTOR3(0.0f, 1.0f, -2.0f);			// Camera Position
+	//lookAt								= eyePos + D3DXVECTOR3(0.0f, 0.0f, 1.0f);	// Position camera is viewing
+	//upVec								= D3DXVECTOR3(0.0f, 1.0f, 0.0f);			// Rotational orientation
 
-	// Easily calculate the view matrix with 3 intuitive vectors
-	D3DXMatrixLookAtLH(&viewMat,											// Returned viewMat
-						&eyePos,											// Eye Position
-						&lookAt,											// LookAt Position
-						&upVec);											// Up Vector
+	//// Easily calculate the view matrix with 3 intuitive vectors
+	//D3DXMatrixLookAtLH(&viewMat,											// Returned viewMat
+	//					&eyePos,											// Eye Position
+	//					&lookAt,											// LookAt Position
+	//					&upVec);											// Up Vector
 
-	// Apply the view matrix in the scene
-	m_pD3DDevice->SetTransform(D3DTS_VIEW, &viewMat);
+	//// Apply the view matrix in the scene
+	//m_pD3DDevice->SetTransform(D3DTS_VIEW, &viewMat);
 
-	// Initialize perspective projection matrix, this creates view frustum
-	D3DXMatrixPerspectiveFovLH(&projMat,									// Return Projection Matrix
-								D3DXToRadian(65.0f),						// Field of View
-								(float)screenWidth / (float)screenHeight,	// Aspect Ratio
-								1.0f,										// Near Plane
-								1000.0f);
+	//// Initialize perspective projection matrix, this creates view frustum
+	//D3DXMatrixPerspectiveFovLH(&projMat,									// Return Projection Matrix
+	//							D3DXToRadian(65.0f),						// Field of View
+	//							(float)screenWidth / (float)screenHeight,	// Aspect Ratio
+	//							1.0f,										// Near Plane
+	//							1000.0f);
 
 
-	// Apply the projection matrix in the scene
-	m_pD3DDevice->SetTransform(D3DTS_PROJECTION, &projMat);
+	//// Apply the projection matrix in the scene
+	//m_pD3DDevice->SetTransform(D3DTS_PROJECTION, &projMat);
 
-	m_pD3DDevice->SetRenderState(D3DRS_ZENABLE, D3DZB_TRUE);
+	//m_pD3DDevice->SetRenderState(D3DRS_ZENABLE, D3DZB_TRUE);
+
+	camera = new CameraObj();
+	camera->createCamera(1000.0f, 1.0f, 1.3333f, D3DXToRadian(65.0f));
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -254,18 +257,9 @@ void CDirectXFramework::Update(float dt)
 	havok->stepSimulation(dt);
 	Player->Update(dt);
 
-	/*// Test Movement //
-	if(m_pDInput->CheckKeyboardKey(DIK_A))
-	{
-	Player->bodyInfo.m_position.set(Player->position.x + dt, 0.0f, 0.0f, 0.0f);
-	}
-	else if(m_pDInput->CheckKeyboardKey(DIK_D))
-	{
-	Player->bodyInfo.m_position.set(Player->position.x - dt, 0.0f, 0.0f, 0.0f);
-	}
-	// Test Movement //*/
+	camera->updateCamera();
 
-	cameraUpdate(dt);
+	//cameraUpdate(dt);
 }
 
 void CDirectXFramework::Render(float dt)
@@ -526,28 +520,28 @@ void CDirectXFramework::playerUpdate(float dt)
 
 void CDirectXFramework::cameraUpdate(float dt)
 {
-	// Initialize View Matrix
-	eyePos								= D3DXVECTOR3(Player->position.x, Player->position.y + 1.5f, Player->position.z - 2.0f);	// Camera Position
-	lookAt								= D3DXVECTOR3(Player->position.x, Player->position.y, Player->position.z + 1.0f);			// Position camera is viewing
-	upVec								= D3DXVECTOR3(0.0f, 1.0f, 0.0f);															// Rotational orientation
+	//// Initialize View Matrix
+	//eyePos								= D3DXVECTOR3(Player->position.x, Player->position.y + 1.5f, Player->position.z - 2.0f);	// Camera Position
+	//lookAt								= D3DXVECTOR3(Player->position.x, Player->position.y, Player->position.z + 1.0f);			// Position camera is viewing
+	//upVec								= D3DXVECTOR3(0.0f, 1.0f, 0.0f);															// Rotational orientation
 
-	// Easily calculate the view matrix with 3 intuitive vectors
-	D3DXMatrixLookAtLH(&viewMat,											// Returned viewMat
-						&eyePos,											// Eye Position
-						&lookAt,											// LookAt Position
-						&upVec);											// Up Vector
+	//// Easily calculate the view matrix with 3 intuitive vectors
+	//D3DXMatrixLookAtLH(&viewMat,											// Returned viewMat
+	//					&eyePos,											// Eye Position
+	//					&lookAt,											// LookAt Position
+	//					&upVec);											// Up Vector
 
-	// Apply the view matrix in the scene
-	m_pD3DDevice->SetTransform(D3DTS_VIEW, &viewMat);
+	//// Apply the view matrix in the scene
+	//m_pD3DDevice->SetTransform(D3DTS_VIEW, &viewMat);
 
-	// Initialize perspective projection matrix, this creates view frustum
-	D3DXMatrixPerspectiveFovLH(&projMat,									// Return Projection Matrix
-								D3DXToRadian(65.0),							// Field of View
-								(float)screenWidth / (float)screenHeight,	// Aspect Ratio
-								1.0f,										// Near Plane
-								1000.0f);
+	//// Initialize perspective projection matrix, this creates view frustum
+	//D3DXMatrixPerspectiveFovLH(&projMat,									// Return Projection Matrix
+	//							D3DXToRadian(65.0),							// Field of View
+	//							(float)screenWidth / (float)screenHeight,	// Aspect Ratio
+	//							1.0f,										// Near Plane
+	//							1000.0f);
 
 
-	// Apply the projection matrix in the scene
-	m_pD3DDevice->SetTransform(D3DTS_PROJECTION, &projMat);
+	//// Apply the projection matrix in the scene
+	//m_pD3DDevice->SetTransform(D3DTS_PROJECTION, &projMat);
 }

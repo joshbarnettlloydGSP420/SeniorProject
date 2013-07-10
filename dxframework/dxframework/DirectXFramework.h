@@ -26,8 +26,7 @@
 
 #include "HavokCore.h"
 #include "Object_Base.h"
-#include "Camera.h"
-#include "InputManager.h"
+#include "CameraObj.h"
 
 // Macro to release COM objects fast and safely
 #define SAFE_RELEASE(x) if(x){x->Release(); x = 0;}
@@ -64,10 +63,11 @@ class CDirectXFramework
 	//////////////////////////////////////////////////////////////////////////
 	//InputManager*				m_pDInput;
 
+
 	//////////////////////////////////////////////////////////////////////////
 	// Camera																//
 	//////////////////////////////////////////////////////////////////////////
-	//Camera*						camera;
+	CameraObj*						camera;
 
 	//////////////////////////////////////////////////////////////////////////
 	// Structs																//
@@ -174,14 +174,14 @@ class CDirectXFramework
 	//////////////////////////////////////////////////////////////////////////
 	// Font Variables														//
 	//////////////////////////////////////////////////////////////////////////
-	ID3DXFont*						m_pD3DFont;		// Font Object
+	ID3DXFont*						m_pD3DFont;			// Font Object
 
 	//////////////////////////////////////////////////////////////////////////
 	// Sprite Variables														//
 	//////////////////////////////////////////////////////////////////////////
-	ID3DXSprite*					m_pD3DSprite;	// Sprite Object
+	ID3DXSprite*					m_pD3DSprite;		// Sprite Object
 	IDirect3DTexture9*				m_pTexture[10];		// Texture Object for a sprite
-	D3DXIMAGE_INFO					m_imageInfo;	// File details of a texture
+	D3DXIMAGE_INFO					m_imageInfo;		// File details of a texture
 
 	//////////////////////////////////////////////////////////////////////////
 	// Havok																//
@@ -199,54 +199,17 @@ class CDirectXFramework
 
 
 public:
-	//////////////////////////////////////////////////////////////////////////
-	// Init and Shutdown are preferred to constructors and destructor,
-	// due to having more control when to explicitly call them when global.
-	//////////////////////////////////////////////////////////////////////////
+
 	CDirectXFramework(void);
 	~CDirectXFramework(void);
 
-	//////////////////////////////////////////////////////////////////////////
-	// Name:		Init
-	// Parameters:	HWND hWnd - Handle to the window for the application
-	//				HINSTANCE hInst - Handle to the application instance
-	//				bool bWindowed - Boolean to control windowed or full-screen
-	// Return:		void
-	// Description:	Ran once at the start.  Initialize DirectX components and 
-	//				variables to control the application.  
-	//////////////////////////////////////////////////////////////////////////
+
 	void Init(HWND& hWnd, HINSTANCE& hInst, bool bWindowed);
 
-	//////////////////////////////////////////////////////////////////////////
-	// Name:		Update
-	// Parameters:	float elapsedTime - Time that has elapsed since the last
-	//					update call.
-	// Return:		void
-	// Description: Runs every frame, use dt to limit functionality called to
-	//				a certain amount of elapsed time that has passed.  Used 
-	//				for updating variables and processing input commands prior
-	//				to calling render.
-	//////////////////////////////////////////////////////////////////////////
 	void Update(float dt);
 
-	//////////////////////////////////////////////////////////////////////////
-	// Name:		Render
-	// Parameters:	float elapsedTime - Time that has elapsed since the last
-	//					render call.
-	// Return:		void
-	// Description: Runs every frame, use dt to limit functionality called to
-	//				a certain amount of elapsed time that has passed.  Render
-	//				calls all draw call to render objects to the screen.
-	//////////////////////////////////////////////////////////////////////////
 	void Render(float dt);
 
-	//////////////////////////////////////////////////////////////////////////
-	// Name:		Shutdown
-	// Parameters:	void
-	// Return:		void
-	// Description:	Runs once at the end of an application.  Destroy COM 
-	//				objects and deallocate dynamic memory.
-	//////////////////////////////////////////////////////////////////////////
 	void Shutdown();
 
 	void loadMesh(LPCSTR fileName, Mesh** meshObject);

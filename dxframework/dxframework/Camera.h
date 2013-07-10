@@ -8,17 +8,16 @@ public:
 	Camera(void);
 	~Camera(void);
 
-	bool create(LPDIRECT3DDEVICE9& device, float nearView, float farView);
-	void setLookAt(D3DXVECTOR3 newTarget);
-	void setPosition(D3DXVECTOR3 newPosition);
-	void resetView();
+	bool create(IDirect3DDevice9* device, D3DXMATRIX view, D3DXMATRIX projection, int screenWidth, int screenHeight, float nearView, float farView);
+	/*void setLookAt(D3DXVECTOR3 newTarget);
+	void setPosition(D3DXVECTOR3 newPosition);*/
+	void Update(IDirect3DDevice9* device, D3DXMATRIX view, D3DXMATRIX projection, D3DXVECTOR4 target, int screenWidth, int screenHeight, float dt);
+	/*void resetView();*/
 	// GET AND SET VIEW MATRIX
 
 	// THEN MAKE THESE PRIVATE
-	D3DXMATRIX viewMatrix; //the view matrix
-	D3DXMATRIX projectionMatrix; // the projection matrix
-	D3DXVECTOR3 target;		// Camera Target
-	D3DXVECTOR3 position;		// Position of camera
+	D3DXVECTOR3 lookAt;			// Camera Target
+	D3DXVECTOR3 eyePos;			// Position of camera
 	D3DXVECTOR3 upVec;
 	float nearClip;
 	float farClip;
