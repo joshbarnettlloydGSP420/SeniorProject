@@ -5,10 +5,10 @@ HUD::HUD(void)
 {
 	//player hud variables
 	maxHealth = 100;
-	currentHealth = 85;
+	currentHealth = 100;
 	
 	maxShield = 100;
-	currentShield = 50;
+	currentShield = 100;
 	
 	//
 	bullets = 50;
