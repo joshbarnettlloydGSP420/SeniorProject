@@ -9,7 +9,7 @@ public:
 	~CameraObj(void);
 
 	void createCamera(float farPlane, float nearPlane, float aspect, float FOV);
-	void updateCamera();
+	void updateCamera(D3DXVECTOR3 lookAtRot, D3DXVECTOR4 TargetPos);
 
 	
 	void setLook(D3DXVECTOR3 lookingAt, D3DXVECTOR3& position, D3DXVECTOR3& up);

@@ -24,8 +24,17 @@ void CameraObj::createCamera(float farPlane, float nearPlane, float aspect, floa
 	viewProjMat = viewMat * projMat;
 }
 
-void CameraObj::updateCamera()
+void CameraObj::updateCamera(D3DXVECTOR3 lookAtRot, D3DXVECTOR4 TargetPos)
 {
+	D3DXVECTOR3 tempTargetPos;
+
+	tempTargetPos.x = TargetPos.x;
+	tempTargetPos.y = TargetPos.y;
+	tempTargetPos.z = TargetPos.z;
+
+
+	setLook(lookAtRot, tempTargetPos, upVec);
+
 	D3DXVec3Normalize(&lookAt, &lookAt);
 	D3DXVec3Normalize(&eyePos, &eyePos);
 	D3DXVec3Normalize(&upVec, &upVec);

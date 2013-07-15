@@ -22,6 +22,7 @@ private:
 public:
 	// Variables
 	D3DXVECTOR4			position;
+	D3DXVECTOR3			rotation;
 	D3DXVECTOR3			scale;
 	int					health;
 	bool				isAlive;
