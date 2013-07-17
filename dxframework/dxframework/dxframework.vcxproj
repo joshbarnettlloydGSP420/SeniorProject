@@ -81,7 +81,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+<<<<<<< HEAD
     <ClCompile Include="..\..\..\..\..\Desktop\CameraObj.cpp" />
+=======
+    <ClCompile Include="CameraObj.cpp" />
+>>>>>>> origin/MartinezWorking
     <ClCompile Include="DirectXFramework.cpp" />
     <ClCompile Include="HavokCore.cpp" />
     <ClCompile Include="HUD.cpp" />
@@ -91,7 +95,11 @@
     <ClCompile Include="winMain.cpp" />
   </ItemGroup>
   <ItemGroup>
+<<<<<<< HEAD
     <ClInclude Include="..\..\..\..\..\Desktop\CameraObj.h" />
+=======
+    <ClInclude Include="CameraObj.h" />
+>>>>>>> origin/MartinezWorking
     <ClInclude Include="DirectXFramework.h" />
     <ClInclude Include="HavokCore.h" />
     <ClInclude Include="HUD.h" />

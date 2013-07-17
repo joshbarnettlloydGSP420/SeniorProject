@@ -117,6 +117,7 @@ void CDirectXFramework::Init(HWND& hWnd, HINSTANCE& hInst, bool bWindowed)
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Material Settings																					 //
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 	ZeroMemory(&m_pMaterial[0], sizeof(m_pMaterial[0]));
 	m_pMaterial[0].Ambient				= D3DXCOLOR(0.5f, 0.5f, 0.5f, 1.0f);
 	m_pMaterial[0].Diffuse				= D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
@@ -129,32 +130,9 @@ void CDirectXFramework::Init(HWND& hWnd, HINSTANCE& hInst, bool bWindowed)
 // Creating Camera																						 //
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	// Initialize View Matrix
-	eyePos								= D3DXVECTOR3(0.0f, 1.0f, -2.0f);	// Camera Position
-	lookAt								= eyePos + D3DXVECTOR3(0.0f, 0.0f, 1.0f);	// Position camera is viewing
-	upVec								= D3DXVECTOR3(0.0f, 1.0f, 0.0f);	// Rotational orientation
+	camera = new CameraObj();
+	camera->createCamera(1000.0f, 1.0f, 1.3333f, D3DXToRadian(65.0f));
 
-	// Easily calculate the view matrix with 3 intuitive vectors
-	D3DXMatrixLookAtLH(&viewMat,											// Returned viewMat
-						&eyePos,											// Eye Position
-						&lookAt,											// LookAt Position
-						&upVec);											// Up Vector
-
-	// Apply the view matrix in the scene
-	m_pD3DDevice->SetTransform(D3DTS_VIEW, &viewMat);
-
-	// Initialize perspective projection matrix, this creates view frustum
-	D3DXMatrixPerspectiveFovLH(&projMat,									// Return Projection Matrix
-								D3DXToRadian(65.0f),						// Field of View
-								(float)screenWidth / (float)screenHeight,	// Aspect Ratio
-								1.0f,										// Near Plane
-								1000.0f);
-
-
-	// Apply the projection matrix in the scene
-	m_pD3DDevice->SetTransform(D3DTS_PROJECTION, &projMat);
-
-	m_pD3DDevice->SetRenderState(D3DRS_ZENABLE, D3DZB_TRUE);
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Loading Textures																						 //
@@ -212,7 +190,7 @@ void CDirectXFramework::Init(HWND& hWnd, HINSTANCE& hInst, bool bWindowed)
 							&ErrorMessage);
 	if( ErrorMessage )
 	{
-		char error[256];
+		char error[512];
 		ZeroMemory( error, 256 );
 		strcpy_s( error, (char*)ErrorMessage->GetBufferPointer() );
 		MessageBox(0, (LPCSTR)error, "Shader Error", MB_OK );
@@ -228,6 +206,12 @@ void CDirectXFramework::Init(HWND& hWnd, HINSTANCE& hInst, bool bWindowed)
 	// Load Test Mesh
 	loadMesh("Dwarf.X", &Player->objectMesh);
 
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Create 3D Mesh From X																				 //
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	// Input Manager Init
+	//m_pDInput->Init(&m_hWnd, &hInst);
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Create Havok Object																					 //
@@ -248,12 +232,19 @@ void CDirectXFramework::Init(HWND& hWnd, HINSTANCE& hInst, bool bWindowed)
 
 void CDirectXFramework::Update(float dt)
 {
+	//m_pDInput->Update();
 	havok->stepSimulation(dt);
 	Player->Update(dt);
 
+<<<<<<< HEAD
 	//hud update
 	hud.Update(dt);
 
+=======
+	camera->updateCamera(Player->rotation, Player->position);
+
+	//cameraUpdate(dt);
+>>>>>>> origin/MartinezWorking
 }
 
 void CDirectXFramework::Render(float dt)
@@ -304,6 +295,13 @@ void CDirectXFramework::Render(float dt)
 		D3DXMatrixInverse(&invTransMat, 0, &worldMat);
 		D3DXMatrixTranspose(&invTransMat, &invTransMat);
 
+		D3DXMATRIX wvp = worldMat * viewMat * projMat;
+		D3DXMATRIX wvpit;
+		D3DXMatrixInverse(&wvpit, 0, &wvp);
+		D3DXMatrixTranspose(&wvpit, &wvpit);
+
+		fx[0]->SetMatrix("WVP", &wvp);
+		fx[0]->SetMatrix("WVPIT", &wvpit);
 		fx[0]->SetMatrix("World", &worldMat);
 		fx[0]->SetMatrix("View", &viewMat);
 		fx[0]->SetMatrix("Projection", &projMat);
@@ -516,4 +514,32 @@ void CDirectXFramework::createGroundBox(hkpWorld* world)
 void CDirectXFramework::playerUpdate(float dt)
 {
 	// Need to sync it
+}
+
+void CDirectXFramework::cameraUpdate(float dt)
+{
+	//// Initialize View Matrix
+	//eyePos								= D3DXVECTOR3(Player->position.x, Player->position.y + 1.5f, Player->position.z - 2.0f);	// Camera Position
+	//lookAt								= D3DXVECTOR3(Player->position.x, Player->position.y, Player->position.z + 1.0f);			// Position camera is viewing
+	//upVec								= D3DXVECTOR3(0.0f, 1.0f, 0.0f);															// Rotational orientation
+
+	//// Easily calculate the view matrix with 3 intuitive vectors
+	//D3DXMatrixLookAtLH(&viewMat,											// Returned viewMat
+	//					&eyePos,											// Eye Position
+	//					&lookAt,											// LookAt Position
+	//					&upVec);											// Up Vector
+
+	//// Apply the view matrix in the scene
+	//m_pD3DDevice->SetTransform(D3DTS_VIEW, &viewMat);
+
+	//// Initialize perspective projection matrix, this creates view frustum
+	//D3DXMatrixPerspectiveFovLH(&projMat,									// Return Projection Matrix
+	//							D3DXToRadian(65.0),							// Field of View
+	//							(float)screenWidth / (float)screenHeight,	// Aspect Ratio
+	//							1.0f,										// Near Plane
+	//							1000.0f);
+
+
+	//// Apply the projection matrix in the scene
+	//m_pD3DDevice->SetTransform(D3DTS_PROJECTION, &projMat);
 }

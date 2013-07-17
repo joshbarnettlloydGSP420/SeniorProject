@@ -42,10 +42,14 @@
     <ClCompile Include="Object_Base.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+<<<<<<< HEAD
     <ClCompile Include="HUD.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\..\..\Desktop\CameraObj.cpp">
+=======
+    <ClCompile Include="CameraObj.cpp">
+>>>>>>> origin/MartinezWorking
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -65,10 +69,14 @@
     <ClInclude Include="Object_Base.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+<<<<<<< HEAD
     <ClInclude Include="HUD.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\..\..\Desktop\CameraObj.h">
+=======
+    <ClInclude Include="CameraObj.h">
+>>>>>>> origin/MartinezWorking
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
