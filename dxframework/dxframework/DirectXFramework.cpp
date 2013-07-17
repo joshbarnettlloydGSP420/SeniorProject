@@ -250,7 +250,7 @@ void CDirectXFramework::Update(float dt)
 	Player->Update(dt);
 
 	//hud update
-	//hud.Update(dt);
+	hud.Update(dt);
 }
 
 void CDirectXFramework::Render(float dt)

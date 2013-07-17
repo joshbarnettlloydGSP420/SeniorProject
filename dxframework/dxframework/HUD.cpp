@@ -4,8 +4,8 @@
 HUD::HUD(void)
 {
 	//player hud variables
-	maxHealth = 100;
-	currentHealth = 100;
+	maxHealth = 100.0f;
+	currentHealth = 100.0f;
 	
 	maxShield = 100;
 	currentShield = 100;
@@ -93,6 +93,9 @@ void HUD::Init(IDirect3DDevice9* device)
 
 void HUD::Update(float dt)
 {
+	//example of getting hit
+	if(currentHealth >= 50)
+		currentHealth -= .2f*(dt*.02);
 }
 
 void HUD::Render(IDirect3DDevice9* device, ID3DXFont* font, ID3DXSprite* sprite, D3DXIMAGE_INFO imageInfo)
