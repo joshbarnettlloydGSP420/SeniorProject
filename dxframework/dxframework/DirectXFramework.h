@@ -1,18 +1,6 @@
-//////////////////////////////////////////////////////////////////////////
-// Name:	DirectXFramework.h
-// Date:	April 2nd, 2010
-// Author:	Kyle Lauing [klauing@devry.edu] or [kylelauing@gmail.com]
-// Purpose: This file is used to create a very simple framework for using
-//			DirectX 9 for the GSP 381 course for DeVry University.
-// Disclaimer:	
-//			Copyright © 2010 by DeVry Educational Development Corporation.
-//			All rights reserved.  No part of this work may be reproduced 
-//			or used in any form or by any means – graphic, electronic, or 
-//			mechanical, including photocopying, recording, Web distribution 
-//			or information storage and retrieval systems – without the 
-//			prior consent of DeVry Educational Development Corporation.
-//////////////////////////////////////////////////////////////////////////
 #pragma once
+
+#include "GameStateManager.h"
 
 //////////////////////////////////////////////////////////////////////////
 // DirectX 9 headers and library files								    //
@@ -23,6 +11,7 @@
 #pragma comment(lib, "winmm.lib")
 #pragma comment(lib, "d3d9.lib")
 #pragma comment(lib, "d3dx9.lib")
+<<<<<<< HEAD
 
 #include "HavokCore.h"
 #include "Object_Base.h"
@@ -31,15 +20,18 @@
 =======
 >>>>>>> origin/MartinezWorking
 #include "CameraObj.h"
+=======
+#pragma comment(lib, "dinput8.lib")
+>>>>>>> origin/HeatherWorking
 
 // Macro to release COM objects fast and safely
 #define SAFE_RELEASE(x) if(x){x->Release(); x = 0;}
 
-
-// Enums
-
 class CDirectXFramework
 {
+private:
+
+	GameStateManager			gSM;
 	//////////////////////////////////////////////////////////////////////////
 	// Application Variables												//
 	//////////////////////////////////////////////////////////////////////////
@@ -52,6 +44,7 @@ class CDirectXFramework
 	IDirect3D9*					m_pD3DObject;	// Direct3D 9 Object
 	IDirect3DDevice9*			m_pD3DDevice;	// Direct3D 9 Device
 	D3DCAPS9					m_D3DCaps;		// Device Capabilities
+	D3DPRESENT_PARAMETERS		D3Dpp;
 
 	//////////////////////////////////////////////////////////////////////////
 	// Screen Variables														//
@@ -62,6 +55,7 @@ class CDirectXFramework
 	int							screenWidth;
 	int							screenHeight;
 
+<<<<<<< HEAD
 	//////////////////////////////////////////////////////////////////////////
 	// Input Manager														//
 	//////////////////////////////////////////////////////////////////////////
@@ -201,6 +195,9 @@ class CDirectXFramework
 	//////////////////////////////////////////////////////////////////////////
 	Object_Base*					Player;
 
+=======
+public:
+>>>>>>> origin/HeatherWorking
 	//////////////////////////////////////////////////////////////////////////
 	// HUD																	//
 	//////////////////////////////////////////////////////////////////////////
@@ -218,15 +215,33 @@ public:
 
 	void Update(float dt);
 
+<<<<<<< HEAD
 	void Render(float dt);
+=======
+	//////////////////////////////////////////////////////////////////////////
+	// Name:		Render
+	// Parameters:	float elapsedTime - Time that has elapsed since the last
+	//					render call.
+	// Return:		void
+	// Description: Runs every frame, use dt to limit functionality called to
+	//				a certain amount of elapsed time that has passed.  Render
+	//				calls all draw call to render objects to the screen.
+	//////////////////////////////////////////////////////////////////////////
+	void Render();
+>>>>>>> origin/HeatherWorking
 
 	void Shutdown();
 
-	void loadMesh(LPCSTR fileName, Mesh** meshObject);
+	bool isDeviceLost();
+	virtual void onLostDevice() {};
+	virtual void onResetDevice() {};
+	virtual bool checkDeviceCaps() { return true; };
 
-	void createGroundBox(hkpWorld* world);
-
+<<<<<<< HEAD
 	void playerUpdate(float dt);
 
 	void cameraUpdate(float dt);
+=======
+	void enableFullScreenMode( bool enable);
+>>>>>>> origin/HeatherWorking
 };

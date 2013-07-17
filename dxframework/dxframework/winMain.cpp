@@ -120,12 +120,15 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 
 		//*************************************************************************
 		// This is where you call your DirectXFramework/Game render/update calls
-		dXF.Render(dt);
 		dXF.Update(dt);
+<<<<<<< HEAD
 
 		prevTimeStamp = currTimeStamp;
 
 		//*************************************************************************
+=======
+		dXF.Render();
+>>>>>>> origin/HeatherWorking
 	}
 
 	//*************************************************************************

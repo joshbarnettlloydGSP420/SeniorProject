@@ -85,6 +85,7 @@ void CDirectXFramework::Init(HWND& hWnd, HINSTANCE& hInst, bool bWindowed)
 								deviceBehaviorFlags,	// behavior flags
 								&D3Dpp,					// presentation parameters
 								&m_pD3DDevice);			// returned device pointer
+<<<<<<< HEAD
 	// create a vertex format
 	D3DVERTEXELEMENT9 elems[] =
 	{
@@ -225,13 +226,18 @@ void CDirectXFramework::Init(HWND& hWnd, HINSTANCE& hInst, bool bWindowed)
 
 	Player->createHavokObject(havok->getWorld());
 	createGroundBox(havok->getWorld());	
+=======
+>>>>>>> origin/HeatherWorking
 	
-	havok->getWorld()->unlock();
-
+	//////////////////////////////////////////////////////////////////////////
+	// Create an instance of the GameStateManager
+	//////////////////////////////////////////////////////////////////////////
+	gSM.Init(&hWnd, &D3Dpp, hInst, m_pD3DDevice);
 }
 
 void CDirectXFramework::Update(float dt)
 {
+<<<<<<< HEAD
 	//m_pDInput->Update();
 	havok->stepSimulation(dt);
 	Player->Update(dt);
@@ -245,10 +251,14 @@ void CDirectXFramework::Update(float dt)
 
 	//cameraUpdate(dt);
 >>>>>>> origin/MartinezWorking
+=======
+	gSM.Update(dt);
+>>>>>>> origin/HeatherWorking
 }
 
-void CDirectXFramework::Render(float dt)
+void CDirectXFramework::Render()
 {
+<<<<<<< HEAD
 	// If the device was not created successfully, return
 	if(!m_pD3DDevice)
 		return;
@@ -409,6 +419,9 @@ void CDirectXFramework::Render(float dt)
 	//*************************************************************************
 
 
+=======
+	gSM.Render();
+>>>>>>> origin/HeatherWorking
 }
 
 void CDirectXFramework::Shutdown()
@@ -416,101 +429,113 @@ void CDirectXFramework::Shutdown()
 	//*************************************************************************
 	// Release COM objects in the opposite order they were created in
 
-	// Texture
-	//SAFE_RELEASE(m_pTexture)
-
-	// Sprite
-	SAFE_RELEASE(m_pD3DSprite)
-
-	// Font
-	SAFE_RELEASE(m_pD3DFont)
-
 	// 3DDevice	
-	SAFE_RELEASE(m_pD3DDevice)
+	SAFE_RELEASE(m_pD3DDevice);
 
 	// 3DObject
+<<<<<<< HEAD
 	SAFE_RELEASE(m_pD3DObject)
 
 	hud.Shutdown();
+=======
+	SAFE_RELEASE(m_pD3DObject);
+>>>>>>> origin/HeatherWorking
 	//*************************************************************************
 
 }
 
-void CDirectXFramework::loadMesh(LPCSTR fileName, Mesh** meshObject)
+void CDirectXFramework::enableFullScreenMode( bool enable )
 {
-	// Create a Temp Mesh
-	Mesh* temp = new Mesh();
-
-	// Load Mesh to Temp
-	D3DXLoadMeshFromX(fileName, D3DXMESH_SYSTEMMEM, m_pD3DDevice, &adjBuffer, &matBuffer, &effBuffer, &temp->numMaterials, &temp->p_Mesh);
-
-	// Vertex Declarations
-	D3DVERTEXELEMENT9 elems[65];
-	UINT numElems = 0;
-	d3dVertexDecl->GetDeclaration( elems, &numElems );
-
-	ID3DXMesh* t = 0;
-
-	temp->p_Mesh->CloneMesh( D3DXMESH_MANAGED, elems, m_pD3DDevice, &t );
-	temp->p_Mesh->Release();
-	temp->p_Mesh = t;
-
-	temp->p_Mesh->Optimize(D3DXMESH_MANAGED,
-									(DWORD*)adjBuffer->GetBufferPointer(),
-									0, 0, 0,
-									&temp->p_Mesh);
-	
-	// Compute Normals (Doesn't Always Look Good)
-	//D3DXComputeNormals( temp->p_Mesh, NULL );
-	
-	// Check for Materials already in the Mesh
-	if( matBuffer )
+	// Switch to full screen mode.
+	if(enable)
 	{
-		D3DXMATERIAL* mat = (D3DXMATERIAL*)matBuffer->GetBufferPointer();
-		temp->textures.clear();
-		temp->textures.reserve( temp->numMaterials );
-
-		short nummaterials = temp->GetNumMaterials();
-
-		for( short i = 0; i < temp->GetNumMaterials(); ++i )
-		{
-			temp->textures.push_back( NULL );
-
-			if( mat[i].pTextureFilename != 0 )
-			{
-				D3DXCreateTextureFromFileA( m_pD3DDevice, (LPCSTR)mat[i].pTextureFilename, &temp->textures[i] );
-			}
-		}
+		// Are we already in full screen mode?
+		if( !D3Dpp.Windowed )
+			return;
+		// Get the current screen resolution.
+		int width  = GetSystemMetrics(SM_CXSCREEN);
+		int height = GetSystemMetrics(SM_CYSCREEN);
+		D3Dpp.BackBufferFormat = D3DFMT_X8R8G8B8;
+		D3Dpp.BackBufferWidth  = width;
+		D3Dpp.BackBufferHeight = height;
+		D3Dpp.Windowed         = false;
+		// Change the window style to a more full screen
+		// friendly style.
+		SetWindowLongPtr(m_hWnd, GWL_STYLE, WS_POPUP);
+		// If we call SetWindowLongPtr, MSDN states that we need
+		// to call SetWindowPos for the change to take effect.
+		// In addition, we need to call this function anyway
+		// to update the window dimensions.
+		SetWindowPos(m_hWnd, HWND_TOP, 0, 0,
+			width, height, SWP_NOZORDER | SWP_SHOWWINDOW | SWP_FRAMECHANGED);
 	}
-	// Else it will just appear black (with Toon Shading)
 
-	// Load Mesh Object with the temp variables
-	*meshObject = temp;
+	// Switch to windowed mode.
+	else
+	{
+		// Are we already in windowed mode?
+		if(  D3Dpp.Windowed )
+			return;
+		// Default to a client rectangle of 800x600.
+		RECT R = {0, 0, 800, 600};
+		AdjustWindowRect(&R, WS_OVERLAPPEDWINDOW, false);
+		D3Dpp.BackBufferFormat = D3DFMT_UNKNOWN;
+		D3Dpp.BackBufferWidth  = 800;
+		D3Dpp.BackBufferHeight = 600;
+		D3Dpp.Windowed         = true;
+		// Change the window style to a more windowed
+		// friendly style.
+		SetWindowLongPtr(m_hWnd,GWL_STYLE,WS_OVERLAPPEDWINDOW);
+		// If we call SetWindowLongPtr, MSDN states that we
+		// need to call SetWindowPos for the change to take effect.
+		// In addition, we need to call this function anyway to
+		// update the window dimensions.
+		SetWindowPos(m_hWnd, HWND_TOP, 100, 100,
+			R.right, R.bottom, SWP_NOZORDER | SWP_SHOWWINDOW | SWP_FRAMECHANGED);
+	}
+
+	// Reset the device with the changes
+	onLostDevice();
+	m_pD3DDevice->Reset(&D3Dpp);
+	onResetDevice();
 }
 
-void CDirectXFramework::createGroundBox(hkpWorld* world)
+bool CDirectXFramework::isDeviceLost()
 {
-	// Create a ground area
-	hkVector4 halfExtents(20.0f, 2.0f, 30.0f);
-	hkpBoxShape* boxShape = new hkpBoxShape(halfExtents);
+	// Returns true if lost, false otherwise
 
-	// Set its properties
-	hkpRigidBodyCinfo ci;
-	ci.m_shape = boxShape;
-	ci.m_position = hkVector4(0.0f, 0.0f, 0.0f);
-	ci.m_motionType = hkpMotion::MOTION_FIXED;
+	// get the state of the graphics device
+	HRESULT hr = m_pD3DDevice->TestCooperativeLevel();
 
-	// Create the rigid body
-	hkpRigidBody* rigidBody = new hkpRigidBody(ci);
-
-	// No longer need the reference on the boxShape, as the rigidBody now owns it
-	boxShape->removeReference();
-
-	// Remove reference and add the rigidbody to the world
-	world->addEntity(rigidBody)->removeReference();
-
+	// if the device is lost and cannot be reset yet, then sleep
+	// for a bit and we'll try again on the next message loop cycle
+	if ( hr == D3DERR_DEVICELOST )
+	{
+		Sleep(20);
+		return true;
+	}
+	// Driver error, exit
+	else if ( hr == D3DERR_DRIVERINTERNALERROR )
+	{
+		MessageBox( 0, "Internal Driver Error... Exiting", 0, 0);
+		PostQuitMessage(0);
+		return true;
+	}
+	// the device is lost but we can reset and restore it.
+	else if ( hr == D3DERR_DEVICENOTRESET )
+	{
+		onLostDevice();
+		HRESULT(m_pD3DDevice->Reset(&D3Dpp));
+		onResetDevice();
+		// not lost anymore
+		return false;
+	}
+	else
+		// not lost anymore
+		return false;
 }
 
+<<<<<<< HEAD
 void CDirectXFramework::playerUpdate(float dt)
 {
 	// Need to sync it
@@ -543,3 +568,5 @@ void CDirectXFramework::cameraUpdate(float dt)
 	//// Apply the projection matrix in the scene
 	//m_pD3DDevice->SetTransform(D3DTS_PROJECTION, &projMat);
 }
+=======
+>>>>>>> origin/HeatherWorking
