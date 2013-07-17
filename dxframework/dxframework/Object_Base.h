@@ -19,7 +19,6 @@ private:
 	void createBoxObject(hkpWorld* world);
 	void createCapsuleObject(hkpWorld* world);
 
-public:
 	// Variables
 	D3DXVECTOR4			position;
 	D3DXVECTOR3			scale;
@@ -27,7 +26,7 @@ public:
 	bool				isAlive;
 
 	// Mesh
-	Mesh*				objectMesh;
+	//Mesh*				objectMesh;
 	
 	// Havok
 	short				shape;
@@ -35,14 +34,21 @@ public:
 	hkReal				mass;	
 	hkVector4			shapeSize;
 
+public:
 	// Constructor, Destructor, and Methods
 	Object_Base(void);
 	~Object_Base(void);
+
+	void Init();
+	void Render();
 
 	void Update(float deltaTime);
 
 	void convertPosition(hkVector4* phyPosition, D3DXVECTOR4* m_Position);
 
 	void createHavokObject(hkpWorld* world);
+
+	void setPosition( D3DXVECTOR4 newPosition ) { position = newPosition; };
+	void setShape( short newShape ) { shape = newShape; };
 };
 

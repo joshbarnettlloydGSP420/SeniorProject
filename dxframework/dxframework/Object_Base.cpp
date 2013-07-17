@@ -3,18 +3,26 @@
 
 Object_Base::Object_Base(void)
 {
-	objectMesh = new Mesh();
+
+}
+
+Object_Base::~Object_Base(void)
+{
+}
+
+void Object_Base::Init()
+{
+	//objectMesh = new Mesh();
 	position = D3DXVECTOR4(0.0f, 0.0f, 0.0f, 0.0f);
 	scale = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
 	mass = 5.0f;
 	shape = BOX;
 }
 
-
-Object_Base::~Object_Base(void)
+void Object_Base::Render()
 {
-}
 
+}
 void Object_Base::Update(float deltaTime)
 {
 	convertPosition(&bodyInfo.m_position, &position);

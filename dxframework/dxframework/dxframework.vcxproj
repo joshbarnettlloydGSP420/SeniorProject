@@ -50,14 +50,14 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;HK_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\Users\D03100341\Desktop\hk2012_1_0_r1\Source;C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Program Files\Microsoft DirectX SDK %28June 2010%29\Include;C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Include;C:\Users\Heather\Desktop\Senior Project\Havok\hk2012_1_0_r1\Source;C:\Users\D03100341\Desktop\hk2012_1_0_r1\Source;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\Users\D03100341\Desktop\hk2012_1_0_r1\Lib\win32_vs2010_noSimd\debug_multithreaded_dll;C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Lib\x86;C:\Program Files\Microsoft DirectX SDK %28June 2010%29\Lib\x86;C:\Users\D03100341\Desktop\hk2012_1_0_r1\Lib\win32_vs2010_noSimd\debug_multithreaded_dll;C:\Users\Heather\Desktop\Senior Project\Havok\hk2012_1_0_r1\Lib\win32_vs2010_noSimd\debug_multithreaded_dll;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>dxguid.lib;opengl32.lib;hkgBridge.lib;hkgOgls.lib;hkgOglES.lib;hkgOglES2.lib;hkgDx11.lib;hkgDx9s.lib;hkgSoundCommon.lib;hkgSoundXAudio2.lib;hkgCommon.lib;hkpUtilities.lib;hkpVehicle.lib;hkpDynamics.lib;hkpCollide.lib;hkpInternal.lib;hkpConstraintSolver.lib;hkaRagdoll.lib;hkaInternal.lib;hkaAnimation.lib;hkInternal.lib;hkGeometryUtilities.lib;hkVisualize.lib;hkSerialize.lib;hkCompat.lib;hkSceneData.lib;hkBase.lib;hkcdCollide.lib;hkcdInternal.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
@@ -81,18 +81,50 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="BaseMenu.cpp" />
+    <ClCompile Include="Camera.cpp" />
     <ClCompile Include="DirectXFramework.cpp" />
+    <ClCompile Include="Enemy_Base.cpp" />
+    <ClCompile Include="Enemy_Movement.cpp" />
+    <ClCompile Include="Game.cpp" />
+    <ClCompile Include="GameStateManager.cpp" />
     <ClCompile Include="HavokCore.cpp" />
+    <ClCompile Include="HUD.cpp" />
+    <ClCompile Include="InputManager.cpp" />
+    <ClCompile Include="LightManager.cpp" />
+    <ClCompile Include="MenuMain.cpp" />
     <ClCompile Include="Mesh.cpp" />
+    <ClCompile Include="Model.cpp" />
     <ClCompile Include="Object_Base.cpp" />
+    <ClCompile Include="OptionsMenu.cpp" />
+    <ClCompile Include="PauseMenu.cpp" />
+    <ClCompile Include="Player.cpp" />
+    <ClCompile Include="Sprite2D.cpp" />
+    <ClCompile Include="Timer.cpp" />
     <ClCompile Include="Vertex.cpp" />
     <ClCompile Include="winMain.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BaseMenu.h" />
+    <ClInclude Include="Camera.h" />
     <ClInclude Include="DirectXFramework.h" />
+    <ClInclude Include="Enemy_Base.h" />
+    <ClInclude Include="Enemy_Movement.h" />
+    <ClInclude Include="Game.h" />
+    <ClInclude Include="GameStateManager.h" />
     <ClInclude Include="HavokCore.h" />
+    <ClInclude Include="HUD.h" />
+    <ClInclude Include="InputManager.h" />
+    <ClInclude Include="LightManager.h" />
+    <ClInclude Include="MenuMain.h" />
     <ClInclude Include="Mesh.h" />
+    <ClInclude Include="Model.h" />
     <ClInclude Include="Object_Base.h" />
+    <ClInclude Include="OptionsMenu.h" />
+    <ClInclude Include="PauseMenu.h" />
+    <ClInclude Include="Player.h" />
+    <ClInclude Include="Sprite2D.h" />
+    <ClInclude Include="Timer.h" />
     <ClInclude Include="Vertex.h" />
   </ItemGroup>
   <ItemGroup>
@@ -108,6 +140,7 @@
     <None Include="Metal_Texture.jpg" />
     <None Include="Pack.dds" />
     <None Include="Parallax.fx" />
+    <None Include="test.tga" />
     <None Include="ToonColored.fx" />
     <None Include="Weapons.dds" />
   </ItemGroup>
