@@ -81,7 +81,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Camera.cpp" />
     <ClCompile Include="CameraObj.cpp" />
     <ClCompile Include="DirectXFramework.cpp" />
     <ClCompile Include="HavokCore.cpp" />
@@ -91,7 +90,6 @@
     <ClCompile Include="winMain.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Camera.h" />
     <ClInclude Include="CameraObj.h" />
     <ClInclude Include="DirectXFramework.h" />
     <ClInclude Include="HavokCore.h" />
