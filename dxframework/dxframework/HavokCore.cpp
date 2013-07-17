@@ -85,9 +85,13 @@ void HavokCore::initPhysicsWorld()
 	// Set the simulation type of the world to multi-threaded
 	_pWorldInfo.m_simulationType = hkpWorldCinfo::SIMULATION_TYPE_MULTITHREADED;
 
+	// Set the gravity
+	_pWorldInfo.m_gravity.set(0.0f, -9.8f, 0.0f);
+
 	// Flag objects that fall "out of the world" to be automatically removed
 	_pWorldInfo.m_broadPhaseBorderBehaviour = hkpWorldCinfo::BROADPHASE_BORDER_REMOVE_ENTITY;
 
+	// Set the world using the worldinfo just set
 	_pWorld = new hkpWorld(_pWorldInfo);
 
 	// Disable deactivation, so that you can view timers on the visual debugger.
@@ -188,4 +192,9 @@ void HavokCore::stepVDBSimulation()
 {
 	_context->syncTimers(_threadPool);
 	_vdb->step();
+}
+
+void createPhatomShape()
+{
+
 }

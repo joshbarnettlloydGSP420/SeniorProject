@@ -205,7 +205,7 @@ void CDirectXFramework::Init(HWND& hWnd, HINSTANCE& hInst, bool bWindowed)
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	// Input Manager Init
-	//m_pDInput->Init(&m_hWnd, &hInst);
+	m_pDInput->init(hInst, m_hWnd);
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Create Havok Object																					 //
@@ -226,13 +226,21 @@ void CDirectXFramework::Init(HWND& hWnd, HINSTANCE& hInst, bool bWindowed)
 
 void CDirectXFramework::Update(float dt)
 {
-	//m_pDInput->Update();
+	
 	havok->stepSimulation(dt);
 	Player->Update(dt);
 
 	camera->updateCamera(Player->rotation, Player->position);
 
-	//cameraUpdate(dt);
+	m_pDInput->getInput();
+
+	if(m_pDInput->keyPress(DIK_UP))
+	{
+		Player->bodyInfo.m_position.set(Player->position.x + (1.0f * dt), 
+										Player->position.y,
+										Player->position.z,
+										0.0f);
+	}
 }
 
 void CDirectXFramework::Render(float dt)
@@ -474,6 +482,7 @@ void CDirectXFramework::createGroundBox(hkpWorld* world)
 	ci.m_shape = boxShape;
 	ci.m_position = hkVector4(0.0f, 0.0f, 0.0f);
 	ci.m_motionType = hkpMotion::MOTION_FIXED;
+	ci.m_friction = 1.0f;
 
 	// Create the rigid body
 	hkpRigidBody* rigidBody = new hkpRigidBody(ci);
@@ -489,32 +498,4 @@ void CDirectXFramework::createGroundBox(hkpWorld* world)
 void CDirectXFramework::playerUpdate(float dt)
 {
 	// Need to sync it
-}
-
-void CDirectXFramework::cameraUpdate(float dt)
-{
-	//// Initialize View Matrix
-	//eyePos								= D3DXVECTOR3(Player->position.x, Player->position.y + 1.5f, Player->position.z - 2.0f);	// Camera Position
-	//lookAt								= D3DXVECTOR3(Player->position.x, Player->position.y, Player->position.z + 1.0f);			// Position camera is viewing
-	//upVec								= D3DXVECTOR3(0.0f, 1.0f, 0.0f);															// Rotational orientation
-
-	//// Easily calculate the view matrix with 3 intuitive vectors
-	//D3DXMatrixLookAtLH(&viewMat,											// Returned viewMat
-	//					&eyePos,											// Eye Position
-	//					&lookAt,											// LookAt Position
-	//					&upVec);											// Up Vector
-
-	//// Apply the view matrix in the scene
-	//m_pD3DDevice->SetTransform(D3DTS_VIEW, &viewMat);
-
-	//// Initialize perspective projection matrix, this creates view frustum
-	//D3DXMatrixPerspectiveFovLH(&projMat,									// Return Projection Matrix
-	//							D3DXToRadian(65.0),							// Field of View
-	//							(float)screenWidth / (float)screenHeight,	// Aspect Ratio
-	//							1.0f,										// Near Plane
-	//							1000.0f);
-
-
-	//// Apply the projection matrix in the scene
-	//m_pD3DDevice->SetTransform(D3DTS_PROJECTION, &projMat);
 }

@@ -72,6 +72,11 @@ private:
 	void stepPhysicsSimulation(float dt);			// Physics Update
 	void stepVDBSimulation();						// Visual Debugger Update
 
+	//////////////////////////////////////////////////////////////////////////
+	// Shapes																//
+	//////////////////////////////////////////////////////////////////////////
+	void createPhatomShape();						// Phantom Shapes for Switches
+
 public:
 	HavokCore(bool vdbEnabled);
 	~HavokCore(void);

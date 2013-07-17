@@ -66,7 +66,7 @@ void Object_Base::createSphereObject(hkpWorld* world)
 	// Set The Object's Properties
 	bodyInfo.m_shape = sphereShape;
 	bodyInfo.m_position.set(position.x, position.y, position.z, 0.0f);
-	bodyInfo.m_motionType = hkpMotion::MOTION_CHARACTER;
+	bodyInfo.m_motionType = hkpMotion::MOTION_DYNAMIC;
 	bodyInfo.m_friction = 1.0f;
 	bodyInfo.m_restitution = 0.2f;
 
@@ -99,7 +99,7 @@ void Object_Base::createBoxObject(hkpWorld* world)
 	// Set The Object's Properties
 	bodyInfo.m_shape = boxShape;
 	bodyInfo.m_position.set(position.x, position.y, position.z, 0.0f);
-	bodyInfo.m_motionType = hkpMotion::MOTION_CHARACTER;
+	bodyInfo.m_motionType = hkpMotion::MOTION_DYNAMIC;
 
 	// Calculate Mass Properties
 	hkMassProperties massProperties;
@@ -131,7 +131,7 @@ void Object_Base::createCapsuleObject(hkpWorld* world)
 	// Set The Object's Properties
 	bodyInfo.m_shape = capsuleShape;
 	bodyInfo.m_position.set(position.x, position.y, position.z, 0.0f);
-	bodyInfo.m_motionType = hkpMotion::MOTION_CHARACTER;
+	bodyInfo.m_motionType = hkpMotion::MOTION_DYNAMIC;
 
 	// Calculate Mass Properties
 	hkMassProperties massProperties;

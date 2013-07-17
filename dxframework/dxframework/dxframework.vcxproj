@@ -84,6 +84,7 @@
     <ClCompile Include="CameraObj.cpp" />
     <ClCompile Include="DirectXFramework.cpp" />
     <ClCompile Include="HavokCore.cpp" />
+    <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="Object_Base.cpp" />
     <ClCompile Include="Vertex.cpp" />
@@ -93,6 +94,7 @@
     <ClInclude Include="CameraObj.h" />
     <ClInclude Include="DirectXFramework.h" />
     <ClInclude Include="HavokCore.h" />
+    <ClInclude Include="InputManager.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="Object_Base.h" />
     <ClInclude Include="Vertex.h" />

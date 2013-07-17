@@ -1,17 +1,3 @@
-//////////////////////////////////////////////////////////////////////////
-// Name:	DirectXFramework.h
-// Date:	April 2nd, 2010
-// Author:	Kyle Lauing [klauing@devry.edu] or [kylelauing@gmail.com]
-// Purpose: This file is used to create a very simple framework for using
-//			DirectX 9 for the GSP 381 course for DeVry University.
-// Disclaimer:	
-//			Copyright © 2010 by DeVry Educational Development Corporation.
-//			All rights reserved.  No part of this work may be reproduced 
-//			or used in any form or by any means – graphic, electronic, or 
-//			mechanical, including photocopying, recording, Web distribution 
-//			or information storage and retrieval systems – without the 
-//			prior consent of DeVry Educational Development Corporation.
-//////////////////////////////////////////////////////////////////////////
 #pragma once
 
 //////////////////////////////////////////////////////////////////////////
@@ -25,6 +11,7 @@
 #pragma comment(lib, "d3dx9.lib")
 
 #include "HavokCore.h"
+#include "InputManager.h"
 #include "Object_Base.h"
 #include "CameraObj.h"
 
@@ -61,7 +48,7 @@ class CDirectXFramework
 	//////////////////////////////////////////////////////////////////////////
 	// Input Manager														//
 	//////////////////////////////////////////////////////////////////////////
-	//InputManager*				m_pDInput;
+	InputManager*				m_pDInput;
 
 
 	//////////////////////////////////////////////////////////////////////////
@@ -217,6 +204,4 @@ public:
 	void createGroundBox(hkpWorld* world);
 
 	void playerUpdate(float dt);
-
-	void cameraUpdate(float dt);
 };
