@@ -173,6 +173,10 @@ void CDirectXFramework::Init(HWND& hWnd, HINSTANCE& hInst, bool bWindowed)
 		D3DX_DEFAULT, D3DCOLOR_XRGB(255, 0, 255), 
 		&m_imageInfo, 0, &m_pTexture[1]);
 
+	
+	//HUD INIT
+	hud.Init(m_pD3DDevice);
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Create Font COM Object																				 //
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -244,6 +248,9 @@ void CDirectXFramework::Update(float dt)
 {
 	havok->stepSimulation(dt);
 	Player->Update(dt);
+
+	//hud update
+	//hud.Update(dt);
 }
 
 void CDirectXFramework::Render(float dt)
@@ -331,11 +338,18 @@ void CDirectXFramework::Render(float dt)
 	//alpha blending available D3DXSPRITE_ALPHABLEND. 
 	m_pD3DSprite->Begin(D3DXSPRITE_ALPHABLEND);
 
+	//hud overlay render
+
 	// Scaling scaleMat
 	// Rotation on Z axis, value in radians, converting from degrees rotMat
 	// Translation transMat
 	// Multiply scale and rotation, store in scale
 	// Multiply scale and translation, store in world worldMat
+	D3DXMATRIX ident;
+	D3DXMatrixIdentity(&ident);
+	m_pD3DSprite->SetTransform(&ident);
+
+	hud.Render(m_pD3DDevice, m_pD3DFont, m_pD3DSprite, m_imageInfo);
 
 	// Set Transform
 
@@ -351,12 +365,13 @@ void CDirectXFramework::Render(float dt)
 	// Set Transform for the object m_pD3DSprite
 	m_pD3DSprite->SetTransform(&worldMat);
 
-
+	
 
 	// Draw the texture with the sprite object
 	m_pD3DSprite->Draw(m_pTexture[1], 0, &D3DXVECTOR3(m_imageInfo.Width * 0.5f, 
 		m_imageInfo.Height * 0.5f, 0.0f), 0,
 		D3DCOLOR_ARGB(255, 255, 255, 255));
+
 
 
 	// End drawing 2D sprites
@@ -381,14 +396,17 @@ void CDirectXFramework::Render(float dt)
                   DT_TOP | DT_LEFT | DT_NOCLIP, 
                   D3DCOLOR_ARGB(255, 255, 255, 255));
 
+	
 
 
 	// EndScene, and Present the back buffer to the display buffer
 	m_pD3DDevice->EndScene();
+
 	m_pD3DDevice->Present(NULL, NULL, NULL, NULL);
 
 
 	//*************************************************************************
+
 
 }
 
@@ -411,6 +429,8 @@ void CDirectXFramework::Shutdown()
 
 	// 3DObject
 	SAFE_RELEASE(m_pD3DObject)
+
+	hud.Shutdown();
 	//*************************************************************************
 
 }
