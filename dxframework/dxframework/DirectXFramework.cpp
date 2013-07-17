@@ -177,6 +177,8 @@ void CDirectXFramework::Init(HWND& hWnd, HINSTANCE& hInst, bool bWindowed)
 	//HUD INIT
 	hud.Init(m_pD3DDevice);
 
+	camera.createCamera(1000.0f, 1, 1.33f, D3DXToRadian(65.0f));
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Create Font COM Object																				 //
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -251,6 +253,7 @@ void CDirectXFramework::Update(float dt)
 
 	//hud update
 	hud.Update(dt);
+
 }
 
 void CDirectXFramework::Render(float dt)

@@ -27,6 +27,7 @@
 #include "HavokCore.h"
 #include "Object_Base.h"
 #include "HUD.h"
+#include "CameraObj.h"
 
 // Macro to release COM objects fast and safely
 #define SAFE_RELEASE(x) if(x){x->Release(); x = 0;}
@@ -196,6 +197,7 @@ class CDirectXFramework
 	//////////////////////////////////////////////////////////////////////////
 	HUD								hud;
 	
+	CameraObj						camera;
 
 public:
 	//////////////////////////////////////////////////////////////////////////
