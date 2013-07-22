@@ -18,6 +18,7 @@ Object_Base::~Object_Base(void)
 void Object_Base::Update(float deltaTime)
 {
 	convertPosition(&bodyInfo.m_position, &position);
+
 }
 
 void Object_Base::convertPosition(hkVector4* phyPosition, D3DXVECTOR4* m_Position)

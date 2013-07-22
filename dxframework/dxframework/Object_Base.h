@@ -27,6 +27,9 @@ public:
 	int					health;
 	bool				isAlive;
 
+	// Physics
+	float				velocity;
+
 	// Mesh
 	Mesh*				objectMesh;
 	

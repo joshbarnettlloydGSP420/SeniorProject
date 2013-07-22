@@ -205,7 +205,7 @@ void CDirectXFramework::Init(HWND& hWnd, HINSTANCE& hInst, bool bWindowed)
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	// Input Manager Init
-	m_pDInput->init(hInst, m_hWnd);
+	m_pDInput = new DirectInput(hWnd, hInst);
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Create Havok Object																					 //
@@ -232,14 +232,11 @@ void CDirectXFramework::Update(float dt)
 
 	camera->updateCamera(Player->rotation, Player->position);
 
-	m_pDInput->getInput();
+	m_pDInput->poll();
 
-	if(m_pDInput->keyPress(DIK_UP))
-	{
-		Player->bodyInfo.m_position.set(Player->position.x + (1.0f * dt), 
-										Player->position.y,
-										Player->position.z,
-										0.0f);
+	if(m_pDInput->keyDown(DIK_UP))
+	{	
+		
 	}
 }
 
