@@ -17,20 +17,16 @@ Object_Base::~Object_Base(void)
 
 void Object_Base::Update(float deltaTime)
 {
-	convertPosition(&bodyInfo.m_position, &position);
+	convertPosition();
 
 }
 
-void Object_Base::convertPosition(hkVector4* phyPosition, D3DXVECTOR4* m_Position)
+void Object_Base::convertPosition()
 {
-	D3DXVECTOR4 temp = D3DXVECTOR4(0, 0, 0, 0);
-
-	temp.x = (float)phyPosition->getComponent(0);
-	temp.y = (float)phyPosition->getComponent(1);
-	temp.z = (float)phyPosition->getComponent(2);
-	temp.w = (float)phyPosition->getComponent(3);
-
-	*m_Position = temp;
+	position.x = (float)bodyInfo.m_position.getComponent(0);
+	position.y = (float)bodyInfo.m_position.getComponent(1);
+	position.z = (float)bodyInfo.m_position.getComponent(2);
+	position.w = (float)bodyInfo.m_position.getComponent(3);
 }
 
 // This is a switch that will auto create an Havok Object based on its shape
@@ -150,4 +146,35 @@ void Object_Base::createCapsuleObject(hkpWorld* world)
 
 	// Add Rigid Body to the World
 	world->addEntity(rigidBody);
+}
+
+void Object_Base::stateMachineInit()
+{
+	manager = new hkpCharacterStateManager();
+
+	// On the Ground
+	state = new hkpCharacterStateOnGround();
+	manager->registerState(state, HK_CHARACTER_ON_GROUND);
+	state->removeReference();
+
+	// In the Air
+	state = new hkpCharacterStateInAir();
+	manager->registerState(state, HK_CHARACTER_IN_AIR);
+	state->removeReference();
+
+	// Jumping
+	state = new hkpCharacterStateJumping();
+	manager->registerState(state, HK_CHARACTER_JUMPING);
+	state->removeReference();
+
+	// Climbing
+	state = new hkpCharacterStateClimbing();
+	manager->registerState(state, HK_CHARACTER_CLIMBING);
+	state->removeReference();
+
+	context = new hkpCharacterContext(manager, HK_CHARACTER_ON_GROUND);
+	manager->removeReference();
+
+	
+
 }

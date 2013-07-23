@@ -18,26 +18,37 @@ private:
 	void createSphereObject(hkpWorld* world);
 	void createBoxObject(hkpWorld* world);
 	void createCapsuleObject(hkpWorld* world);
+	void stateMachineInit();
 
 public:
 	// Variables
-	D3DXVECTOR4			position;
-	D3DXVECTOR3			rotation;
-	D3DXVECTOR3			scale;
-	int					health;
-	bool				isAlive;
+	D3DXVECTOR4					position;
+	D3DXVECTOR3					rotation;
+	D3DXVECTOR3					scale;
+	int							health;
+	bool						isAlive;
 
 	// Physics
-	float				velocity;
+	float						velocity;
 
 	// Mesh
-	Mesh*				objectMesh;
+	Mesh*						objectMesh;
 	
 	// Havok
-	short				shape;
-	hkpRigidBodyCinfo	bodyInfo;
-	hkReal				mass;	
-	hkVector4			shapeSize;
+
+	// Rigid Body
+	short						shape;
+	hkpRigidBodyCinfo			bodyInfo;
+	hkReal						mass;	
+	hkVector4					shapeSize;
+	hkpCharacterInput			input;
+
+	// State Machine
+	hkpCharacterState*			state;
+	hkpCharacterStateManager*	manager;
+	hkpCharacterContext*		context;
+
+	// 
 
 	// Constructor, Destructor, and Methods
 	Object_Base(void);
@@ -45,7 +56,7 @@ public:
 
 	void Update(float deltaTime);
 
-	void convertPosition(hkVector4* phyPosition, D3DXVECTOR4* m_Position);
+	void convertPosition();
 
 	void createHavokObject(hkpWorld* world);
 };
