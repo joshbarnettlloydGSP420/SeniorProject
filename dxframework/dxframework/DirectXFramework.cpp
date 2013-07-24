@@ -236,13 +236,7 @@ void CDirectXFramework::Update(float dt)
 
 	if(m_pDInput->keyDown(DIK_W))
 	{	
-		havok->getWorld()->lock();
-		Player->bodyInfo.m_position.set(Player->position.x + 10.0,
-										Player->position.y,
-										Player->position.z,
-										0.0f);
-		havok->getWorld()->unlock();
-
+		Player->velLR = 10.0f;
 	}
 }
 

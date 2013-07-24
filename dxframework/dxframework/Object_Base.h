@@ -12,6 +12,7 @@ enum HavokShape
 	CAPSULE		=	3		// Havok Capsule
 };
 
+
 class Object_Base
 {
 private:
@@ -29,7 +30,8 @@ public:
 	bool						isAlive;
 
 	// Physics
-	float						velocity;
+	float						velUD;
+	float						velLR;
 
 	// Mesh
 	Mesh*						objectMesh;
@@ -38,10 +40,13 @@ public:
 
 	// Rigid Body
 	short						shape;
-	hkpRigidBodyCinfo			bodyInfo;
+	hkpCharacterRigidBody*		objectBody;
+	hkpCharacterRigidBodyCinfo*	bodyInfo;
 	hkReal						mass;	
 	hkVector4					shapeSize;
 	hkpCharacterInput			input;
+	
+	// Movement
 
 	// State Machine
 	hkpCharacterState*			state;
@@ -57,6 +62,8 @@ public:
 	void Update(float deltaTime);
 
 	void convertPosition();
+
+	hkVector4 velocityCalc(float dt);
 
 	void createHavokObject(hkpWorld* world);
 };

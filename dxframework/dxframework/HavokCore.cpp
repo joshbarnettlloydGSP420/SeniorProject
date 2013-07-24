@@ -17,6 +17,7 @@
 
 #include <Common/Base/Config/hkProductFeatures.cxx>
 
+
 static void HK_CALL errorReport(const char* msg, void* userArgGivenToInit)
 {
 	printf("%s", msg);

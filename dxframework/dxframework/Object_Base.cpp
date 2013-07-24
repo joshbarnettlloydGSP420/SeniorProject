@@ -8,6 +8,9 @@ Object_Base::Object_Base(void)
 	scale = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
 	mass = 5.0f;
 	shape = BOX;
+
+	velUD = 0.0f;
+	velLR = 0.0f;
 }
 
 
@@ -18,6 +21,8 @@ Object_Base::~Object_Base(void)
 void Object_Base::Update(float deltaTime)
 {
 	convertPosition();
+	
+	objectBody->getRigidBody()->setLinearVelocity(velocityCalc(deltaTime));
 
 }
 
@@ -29,6 +34,16 @@ void Object_Base::convertPosition()
 	position.w = (float)bodyInfo.m_position.getComponent(3);
 }
 
+// Changes the velocity in Havok based on velocityUD and velocityLR
+hkVector4 Object_Base::velocityCalc(float dt)
+{
+	hkVector4 tempVel;
+
+	tempVel.set(velLR, velUD, velUD, dt);
+
+	return tempVel;
+}
+
 // This is a switch that will auto create an Havok Object based on its shape
 void Object_Base::createHavokObject(hkpWorld* world)
 {
@@ -37,17 +52,22 @@ void Object_Base::createHavokObject(hkpWorld* world)
 	{
 		case SPHERE:
 			createSphereObject(world);
+			stateMachineInit();
 			break;
 
 		case BOX:
 			createBoxObject(world);
+			stateMachineInit();
 			break;
 
 		case CAPSULE:
 			createCapsuleObject(world);
+			stateMachineInit();
 			break;
 
 		case NONE:
+			createBoxObject(world);
+			stateMachineInit();
 			break;
 	}
 }
@@ -67,6 +87,7 @@ void Object_Base::createSphereObject(hkpWorld* world)
 	bodyInfo.m_friction = 1.0f;
 	bodyInfo.m_restitution = 0.2f;
 
+
 	// Calculate Mass Properties
 	hkMassProperties massProperties;
 
@@ -76,13 +97,13 @@ void Object_Base::createSphereObject(hkpWorld* world)
 	bodyInfo.setMassProperties(massProperties);
 
 	// Create Rigid Body
-	hkpRigidBody* rigidBody = new hkpRigidBody(bodyInfo);
+	objectBody = new hkpRigidBody(bodyInfo);
 
 	// No longer need the reference on the shape, as the rigidbody owns it now
 	sphereShape->removeReference();
 
 	// Add Rigid Body to the World
-	world->addEntity(rigidBody);
+	world->addEntity(objectBody->getRigidBody());
 }
 
 void Object_Base::createBoxObject(hkpWorld* world)
@@ -96,23 +117,22 @@ void Object_Base::createBoxObject(hkpWorld* world)
 	// Set The Object's Properties
 	bodyInfo.m_shape = boxShape;
 	bodyInfo.m_position.set(position.x, position.y, position.z, 0.0f);
-	bodyInfo.m_motionType = hkpMotion::MOTION_DYNAMIC;
 
 	// Calculate Mass Properties
 	hkMassProperties massProperties;
 	hkpInertiaTensorComputer::computeShapeVolumeMassProperties(boxShape, mass, massProperties);
 
 	// Set Mass Properties
-	bodyInfo.setMassProperties(massProperties);
+	bodyInfo.m_mass(100.0f);
 
 	// Create Rigid Body
-	hkpRigidBody* rigidBody = new hkpRigidBody(bodyInfo);
+	objectBody = new hkpCharacterRigidBody(&bodyInfo);
 
 	// No longer need the reference on the shape, as the rigidbody owns it now
 	boxShape->removeReference();
 
 	// Add Rigid Body to the World
-	world->addEntity(rigidBody);
+	world->addEntity(objectBody->getRigidBody());
 }
 
 void Object_Base::createCapsuleObject(hkpWorld* world)
@@ -139,13 +159,13 @@ void Object_Base::createCapsuleObject(hkpWorld* world)
 	bodyInfo.setMassProperties(massProperties);
 
 	// Create Rigid Body
-	hkpRigidBody* rigidBody = new hkpRigidBody(bodyInfo);
+	objectBody = new hkpRigidBody(bodyInfo);
 
 	// No longer need the reference on the shape, as the rigidbody owns it now
 	capsuleShape->removeReference();
 
 	// Add Rigid Body to the World
-	world->addEntity(rigidBody);
+	world->addEntity(objectBody->getRigidBody());
 }
 
 void Object_Base::stateMachineInit()
@@ -175,6 +195,7 @@ void Object_Base::stateMachineInit()
 	context = new hkpCharacterContext(manager, HK_CHARACTER_ON_GROUND);
 	manager->removeReference();
 
-	
+	// Set the character type
+	context->setCharacterType(hkpCharacterContext::HK_CHARACTER_RIGIDBODY);
 
 }
