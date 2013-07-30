@@ -21,17 +21,15 @@ Object_Base::~Object_Base(void)
 void Object_Base::Update(float deltaTime)
 {
 	convertPosition();
-	
-	objectBody->getRigidBody()->setLinearVelocity(velocityCalc(deltaTime));
-
+	objectBody->setLinearVelocity(velocityCalc(deltaTime), deltaTime);
 }
 
 void Object_Base::convertPosition()
 {
-	position.x = (float)bodyInfo.m_position.getComponent(0);
-	position.y = (float)bodyInfo.m_position.getComponent(1);
-	position.z = (float)bodyInfo.m_position.getComponent(2);
-	position.w = (float)bodyInfo.m_position.getComponent(3);
+	position.x = (float)objectBody->getPosition().getComponent(0);
+	position.y = (float)objectBody->getPosition().getComponent(1);
+	position.z = (float)objectBody->getPosition().getComponent(2);
+	position.w = (float)objectBody->getPosition().getComponent(3);
 }
 
 // Changes the velocity in Havok based on velocityUD and velocityLR
@@ -39,7 +37,7 @@ hkVector4 Object_Base::velocityCalc(float dt)
 {
 	hkVector4 tempVel;
 
-	tempVel.set(velLR, velUD, velUD, dt);
+	tempVel.set(velLR, 0.0f, velUD, dt);
 
 	return tempVel;
 }
@@ -74,6 +72,9 @@ void Object_Base::createHavokObject(hkpWorld* world)
 
 void Object_Base::createSphereObject(hkpWorld* world)
 {
+	// Create a temp body info
+	hkpCharacterRigidBodyCinfo	bodyInfo;
+
 	// Sphere Parameters
 	hkReal radius = (scale.x + scale.z) / 2;
 
@@ -83,9 +84,7 @@ void Object_Base::createSphereObject(hkpWorld* world)
 	// Set The Object's Properties
 	bodyInfo.m_shape = sphereShape;
 	bodyInfo.m_position.set(position.x, position.y, position.z, 0.0f);
-	bodyInfo.m_motionType = hkpMotion::MOTION_DYNAMIC;
 	bodyInfo.m_friction = 1.0f;
-	bodyInfo.m_restitution = 0.2f;
 
 
 	// Calculate Mass Properties
@@ -94,10 +93,9 @@ void Object_Base::createSphereObject(hkpWorld* world)
 	hkpInertiaTensorComputer::computeShapeVolumeMassProperties(sphereShape, mass, massProperties);
 	
 	// Set Mass Properties
-	bodyInfo.setMassProperties(massProperties);
 
 	// Create Rigid Body
-	objectBody = new hkpRigidBody(bodyInfo);
+	objectBody = new hkpCharacterRigidBody(bodyInfo);
 
 	// No longer need the reference on the shape, as the rigidbody owns it now
 	sphereShape->removeReference();
@@ -108,6 +106,9 @@ void Object_Base::createSphereObject(hkpWorld* world)
 
 void Object_Base::createBoxObject(hkpWorld* world)
 {
+	// Create a temp body info
+	hkpCharacterRigidBodyCinfo	bodyInfo;
+
 	// Box Parameters
 	hkVector4 halfExtents(scale.x, scale.y, scale.z);
 
@@ -123,10 +124,10 @@ void Object_Base::createBoxObject(hkpWorld* world)
 	hkpInertiaTensorComputer::computeShapeVolumeMassProperties(boxShape, mass, massProperties);
 
 	// Set Mass Properties
-	bodyInfo.m_mass(100.0f);
+	bodyInfo.m_mass = 100.0f;
 
 	// Create Rigid Body
-	objectBody = new hkpCharacterRigidBody(&bodyInfo);
+	objectBody = new hkpCharacterRigidBody(bodyInfo);
 
 	// No longer need the reference on the shape, as the rigidbody owns it now
 	boxShape->removeReference();
@@ -137,6 +138,9 @@ void Object_Base::createBoxObject(hkpWorld* world)
 
 void Object_Base::createCapsuleObject(hkpWorld* world)
 {
+	// Create a temp body info
+	hkpCharacterRigidBodyCinfo	bodyInfo;
+
 	// Capsule Parameters
 	hkVector4	vertexA(position.x, position.y + (scale.y / 2), position.z, 0);	// Top
 	hkVector4	vertexB(position.x, position.y - (scale.y / 2), position.z, 0);	// Bottom
@@ -148,18 +152,15 @@ void Object_Base::createCapsuleObject(hkpWorld* world)
 	// Set The Object's Properties
 	bodyInfo.m_shape = capsuleShape;
 	bodyInfo.m_position.set(position.x, position.y, position.z, 0.0f);
-	bodyInfo.m_motionType = hkpMotion::MOTION_DYNAMIC;
+
 
 	// Calculate Mass Properties
 	hkMassProperties massProperties;
 
 	hkpInertiaTensorComputer::computeShapeVolumeMassProperties(capsuleShape, mass, massProperties);
 	
-	// Set Mass Properties
-	bodyInfo.setMassProperties(massProperties);
-
 	// Create Rigid Body
-	objectBody = new hkpRigidBody(bodyInfo);
+	objectBody = new hkpCharacterRigidBody(bodyInfo);
 
 	// No longer need the reference on the shape, as the rigidbody owns it now
 	capsuleShape->removeReference();
@@ -198,4 +199,35 @@ void Object_Base::stateMachineInit()
 	// Set the character type
 	context->setCharacterType(hkpCharacterContext::HK_CHARACTER_RIGIDBODY);
 
+}
+
+void Object_Base::charaterInputOutput()
+{
+	hkpCharacterInput input;
+	hkpCharacterOutput output;
+
+	input.m_inputLR = velLR;
+	input.m_inputUD = velUD;
+
+	input.m_wantJump = wantJump;
+	input.m_atLadder = false;
+	wantJump = false;
+	
+	input.m_up = hkVector4(0, 1, 0);
+	input.m_forward.set(0, 0, 1);
+	
+	hkStepInfo stepInfo;
+	stepInfo.m_deltaTime = SIMULATION_STEP_TIME;
+	stepInfo.m_invDeltaTime = 1.0f / SIMULATION_STEP_TIME;
+
+	input.m_stepInfo = stepInfo;
+	input.m_characterGravity.set(0, -16, 0);
+	input.m_velocity = objectBody->getRigidBody()->getLinearVelocity();
+	input.m_position = objectBody->getRigidBody()->getPosition();
+
+	objectBody->checkSupport(stepInfo, input.m_surfaceInfo);
+
+	context->update(input, output);
+
+	objectBody->setLinearVelocity(output.m_velocity, SIMULATION_STEP_TIME);
 }

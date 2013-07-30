@@ -12,6 +12,7 @@ enum HavokShape
 	CAPSULE		=	3		// Havok Capsule
 };
 
+float SIMULATION_STEP_TIME = 1.0f / 60.0f;
 
 class Object_Base
 {
@@ -28,6 +29,7 @@ public:
 	D3DXVECTOR3					scale;
 	int							health;
 	bool						isAlive;
+	bool						wantJump;
 
 	// Physics
 	float						velUD;
@@ -41,7 +43,6 @@ public:
 	// Rigid Body
 	short						shape;
 	hkpCharacterRigidBody*		objectBody;
-	hkpCharacterRigidBodyCinfo*	bodyInfo;
 	hkReal						mass;	
 	hkVector4					shapeSize;
 	hkpCharacterInput			input;
@@ -66,5 +67,7 @@ public:
 	hkVector4 velocityCalc(float dt);
 
 	void createHavokObject(hkpWorld* world);
+
+	void charaterInputOutput();
 };
 
