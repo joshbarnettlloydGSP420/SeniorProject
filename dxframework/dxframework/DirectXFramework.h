@@ -20,13 +20,13 @@
 #include <d3d9.h>
 #include <d3dx9.h>
 
-// test comment
 #pragma comment(lib, "winmm.lib")
 #pragma comment(lib, "d3d9.lib")
 #pragma comment(lib, "d3dx9.lib")
 
 #include "HavokCore.h"
 #include "Object_Base.h"
+#include "HUD.h"
 
 // Macro to release COM objects fast and safely
 #define SAFE_RELEASE(x) if(x){x->Release(); x = 0;}
@@ -191,6 +191,11 @@ class CDirectXFramework
 	//////////////////////////////////////////////////////////////////////////
 	Object_Base*					Player;
 
+	//////////////////////////////////////////////////////////////////////////
+	// HUD																	//
+	//////////////////////////////////////////////////////////////////////////
+	HUD								hud;
+	
 
 public:
 	//////////////////////////////////////////////////////////////////////////
