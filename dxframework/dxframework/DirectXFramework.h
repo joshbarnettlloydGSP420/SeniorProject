@@ -203,5 +203,5 @@ public:
 
 	void createGroundBox(hkpWorld* world);
 
-	void playerUpdate(float dt);
+	void playerControls(float dt);
 };

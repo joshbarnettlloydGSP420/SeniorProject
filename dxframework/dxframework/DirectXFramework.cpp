@@ -228,16 +228,14 @@ void CDirectXFramework::Update(float dt)
 {
 	
 	havok->stepSimulation(dt);
+
+	havok->getWorld()->lock();
 	Player->Update(dt);
+	havok->getWorld()->unlock();
 
 	camera->updateCamera(Player->rotation, Player->position);
 
-	m_pDInput->poll();
-
-	if(m_pDInput->keyDown(DIK_W))
-	{	
-		Player->velLR = 10.0f;
-	}
+	playerControls(dt);
 }
 
 void CDirectXFramework::Render(float dt)
@@ -492,7 +490,36 @@ void CDirectXFramework::createGroundBox(hkpWorld* world)
 
 }
 
-void CDirectXFramework::playerUpdate(float dt)
+void CDirectXFramework::playerControls(float dt)
 {
-	// Need to sync it
+	m_pDInput->poll();
+
+	// Moving Forward and Backward
+	if(m_pDInput->keyDown(DIK_W))
+	{	
+		Player->velUD = 10.0f;
+	}
+	else if(m_pDInput->keyDown(DIK_S))
+	{	
+		Player->velUD = -10.0f;
+	}
+	else if(!m_pDInput->keyDown(DIK_W) && !m_pDInput->keyDown(DIK_S))
+	{
+		Player->velUD = 0.0f;
+	}
+
+	// Moving Right and Left
+	if(m_pDInput->keyDown(DIK_D))
+	{	
+		Player->velLR = 10.0f;
+	}
+	else if(m_pDInput->keyDown(DIK_A))
+	{	
+		Player->velLR = -10.0f;
+	}
+	else if(!m_pDInput->keyDown(DIK_D) && !m_pDInput->keyDown(DIK_A))
+	{
+		Player->velLR = 0.0f;
+	}
+
 }

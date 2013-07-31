@@ -87,6 +87,7 @@
     <ClCompile Include="HavokCore.cpp" />
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="Object_Base.cpp" />
+    <ClCompile Include="Object_Player.cpp" />
     <ClCompile Include="Vertex.cpp" />
     <ClCompile Include="winMain.cpp" />
   </ItemGroup>
@@ -97,6 +98,7 @@
     <ClInclude Include="HavokCore.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="Object_Base.h" />
+    <ClInclude Include="Object_Player.h" />
     <ClInclude Include="Vertex.h" />
   </ItemGroup>
   <ItemGroup>

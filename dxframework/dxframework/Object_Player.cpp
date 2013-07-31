@@ -1,7 +1,12 @@
-#include "Object_Base.h"
+#include "Object_Player.h"
 
 
-Object_Base::Object_Base(void)
+Object_Player::Object_Player(void)
+{
+#include "Object_Player.h"
+
+
+Object_Player::Object_Player(void)
 {
 	objectMesh = new Mesh();
 	position = D3DXVECTOR4(0.0f, 0.0f, 0.0f, 0.0f);
@@ -14,11 +19,11 @@ Object_Base::Object_Base(void)
 }
 
 
-Object_Base::~Object_Base(void)
+Object_Player::~Object_Player(void)
 {
 }
 
-void Object_Base::Update(float deltaTime)
+void Object_Player::Update(float deltaTime)
 {
 	convertPosition();
 	characterInputOutput();
@@ -28,7 +33,7 @@ void Object_Base::Update(float deltaTime)
 	}
 }
 
-void Object_Base::convertPosition()
+void Object_Player::convertPosition()
 {
 	position.x = (float)objectBody->getPosition().getComponent(0);
 	position.y = (float)objectBody->getPosition().getComponent(1);
@@ -37,7 +42,7 @@ void Object_Base::convertPosition()
 }
 
 // Changes the velocity in Havok based on velocityUD and velocityLR
-hkVector4 Object_Base::velocityCalc(float dt)
+hkVector4 Object_Player::velocityCalc(float dt)
 {
 	hkVector4 tempVel;
 
@@ -47,7 +52,7 @@ hkVector4 Object_Base::velocityCalc(float dt)
 }
 
 // This is a switch that will auto create an Havok Object based on its shape
-void Object_Base::createHavokObject(hkpWorld* world)
+void Object_Player::createHavokObject(hkpWorld* world)
 {
 	// Create Object Based on Shape
 	switch(shape)
@@ -74,7 +79,7 @@ void Object_Base::createHavokObject(hkpWorld* world)
 	}
 }
 
-void Object_Base::createSphereObject(hkpWorld* world)
+void Object_Player::createSphereObject(hkpWorld* world)
 {
 	// Create a temp body info
 	hkpCharacterRigidBodyCinfo	bodyInfo;
@@ -108,7 +113,7 @@ void Object_Base::createSphereObject(hkpWorld* world)
 	world->addEntity(objectBody->getRigidBody());
 }
 
-void Object_Base::createBoxObject(hkpWorld* world)
+void Object_Player::createBoxObject(hkpWorld* world)
 {
 	// Create a temp body info
 	hkpCharacterRigidBodyCinfo	bodyInfo;
@@ -140,7 +145,7 @@ void Object_Base::createBoxObject(hkpWorld* world)
 	world->addEntity(objectBody->getRigidBody());
 }
 
-void Object_Base::createCapsuleObject(hkpWorld* world)
+void Object_Player::createCapsuleObject(hkpWorld* world)
 {
 	// Create a temp body info
 	hkpCharacterRigidBodyCinfo	bodyInfo;
@@ -157,6 +162,7 @@ void Object_Base::createCapsuleObject(hkpWorld* world)
 	bodyInfo.m_shape = capsuleShape;
 	bodyInfo.m_position.set(position.x, position.y, position.z, 0.0f);
 
+
 	// Calculate Mass Properties
 	hkMassProperties massProperties;
 
@@ -172,7 +178,7 @@ void Object_Base::createCapsuleObject(hkpWorld* world)
 	world->addEntity(objectBody->getRigidBody());
 }
 
-void Object_Base::stateMachineInit()
+void Object_Player::stateMachineInit()
 {
 	manager = new hkpCharacterStateManager();
 
@@ -204,7 +210,7 @@ void Object_Base::stateMachineInit()
 
 }
 
-void Object_Base::characterInputOutput()
+void Object_Player::characterInputOutput()
 {
 	hkpCharacterInput input;
 	hkpCharacterOutput output;
@@ -216,6 +222,15 @@ void Object_Base::characterInputOutput()
 	input.m_atLadder = false;
 	wantJump = false;
 	
+	if(input.m_wantJump == true && jumpTimer < 3.0f && input.)
+	{
+		input.m_characterGravity.set(0, 16, 0);
+	}
+	else
+	{
+		input.m_characterGravity.set(0, -16, 0);
+	}
+	
 	input.m_up = hkVector4(0, 1, 0);
 	input.m_forward.set(0, 0, 1);
 	
@@ -224,7 +239,6 @@ void Object_Base::characterInputOutput()
 	stepInfo.m_invDeltaTime = 1.0f / (1.0f / 60.0f);
 
 	input.m_stepInfo = stepInfo;
-	input.m_characterGravity.set(0, -16, 0);
 	input.m_velocity = objectBody->getRigidBody()->getLinearVelocity();
 	input.m_position = objectBody->getRigidBody()->getPosition();
 
@@ -233,4 +247,9 @@ void Object_Base::characterInputOutput()
 	context->update(input, output);
 
 	objectBody->setLinearVelocity(output.m_velocity, 1.0f / 60.0f);
+}}
+
+
+Object_Player::~Object_Player(void)
+{
 }

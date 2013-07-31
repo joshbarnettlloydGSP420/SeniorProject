@@ -6,16 +6,15 @@
 // Enum for deciding what Shape the Object is in Havok
 enum HavokShape
 {
-	NONE		=	0,		// Havok Box (By Default)
+	NONE		=	0,		// Hav
 	SPHERE		=	1,		// Havok Sphere
 	BOX			=	2,		// Havok Box
-	CAPSULE		=	3,		// Havok Capsule
-	PHANTOM		=	4		// Havok Phantom
+	CAPSULE		=	3		// Havok Capsule
 };
 
 
 
-class Object_Base
+class Object_Player
 {
 private:
 	void createSphereObject(hkpWorld* world);
@@ -59,8 +58,8 @@ public:
 	// 
 
 	// Constructor, Destructor, and Methods
-	Object_Base(void);
-	~Object_Base(void);
+	Object_Player(void);
+	~Object_Player(void);
 
 	void Update(float deltaTime);
 
