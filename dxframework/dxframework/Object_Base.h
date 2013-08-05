@@ -21,7 +21,7 @@ private:
 	void createSphereObject(hkpWorld* world);
 	void createBoxObject(hkpWorld* world);
 	void createCapsuleObject(hkpWorld* world);
-	void stateMachineInit();
+	//void stateMachineInit();
 
 public:
 	// Variables
@@ -44,7 +44,7 @@ public:
 
 	// Rigid Body
 	short						shape;
-	hkpCharacterRigidBody*		objectBody;
+	hkpRigidBodyCinfo			bodyInfo;
 	hkReal						mass;	
 	hkVector4					shapeSize;
 	hkpCharacterInput			input;
@@ -55,8 +55,6 @@ public:
 	hkpCharacterState*			state;
 	hkpCharacterStateManager*	manager;
 	hkpCharacterContext*		context;
-
-	// 
 
 	// Constructor, Destructor, and Methods
 	Object_Base(void);
@@ -70,6 +68,6 @@ public:
 
 	void createHavokObject(hkpWorld* world);
 
-	void characterInputOutput();
+	//void characterInputOutput();
 };
 

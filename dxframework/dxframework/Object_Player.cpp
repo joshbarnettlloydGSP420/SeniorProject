@@ -1,18 +1,12 @@
 #include "Object_Player.h"
 
-
-Object_Player::Object_Player(void)
-{
-#include "Object_Player.h"
-
-
 Object_Player::Object_Player(void)
 {
 	objectMesh = new Mesh();
 	position = D3DXVECTOR4(0.0f, 0.0f, 0.0f, 0.0f);
 	scale = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
 	mass = 5.0f;
-	shape = BOX;
+	shape = PLAYERBOX;
 
 	velUD = 0.0f;
 	velLR = 0.0f;
@@ -21,6 +15,7 @@ Object_Player::Object_Player(void)
 
 Object_Player::~Object_Player(void)
 {
+
 }
 
 void Object_Player::Update(float deltaTime)
@@ -57,22 +52,22 @@ void Object_Player::createHavokObject(hkpWorld* world)
 	// Create Object Based on Shape
 	switch(shape)
 	{
-		case SPHERE:
+		case PLAYERSPHERE:
 			createSphereObject(world);
 			stateMachineInit();
 			break;
 
-		case BOX:
+		case PLAYERBOX:
 			createBoxObject(world);
 			stateMachineInit();
 			break;
 
-		case CAPSULE:
+		case PLAYERCAPSULE:
 			createCapsuleObject(world);
 			stateMachineInit();
 			break;
 
-		case NONE:
+		case PLAYERNONE:
 			createBoxObject(world);
 			stateMachineInit();
 			break;
@@ -222,15 +217,6 @@ void Object_Player::characterInputOutput()
 	input.m_atLadder = false;
 	wantJump = false;
 	
-	if(input.m_wantJump == true && jumpTimer < 3.0f && input.)
-	{
-		input.m_characterGravity.set(0, 16, 0);
-	}
-	else
-	{
-		input.m_characterGravity.set(0, -16, 0);
-	}
-	
 	input.m_up = hkVector4(0, 1, 0);
 	input.m_forward.set(0, 0, 1);
 	
@@ -239,6 +225,7 @@ void Object_Player::characterInputOutput()
 	stepInfo.m_invDeltaTime = 1.0f / (1.0f / 60.0f);
 
 	input.m_stepInfo = stepInfo;
+	input.m_characterGravity.set(0, -16, 0);
 	input.m_velocity = objectBody->getRigidBody()->getLinearVelocity();
 	input.m_position = objectBody->getRigidBody()->getPosition();
 
@@ -247,9 +234,4 @@ void Object_Player::characterInputOutput()
 	context->update(input, output);
 
 	objectBody->setLinearVelocity(output.m_velocity, 1.0f / 60.0f);
-}}
-
-
-Object_Player::~Object_Player(void)
-{
 }

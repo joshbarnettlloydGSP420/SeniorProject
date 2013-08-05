@@ -4,12 +4,12 @@
 #include "HavokCore.h"
 
 // Enum for deciding what Shape the Object is in Havok
-enum HavokShape
+enum HavokPlayerShape
 {
-	NONE		=	0,		// Hav
-	SPHERE		=	1,		// Havok Sphere
-	BOX			=	2,		// Havok Box
-	CAPSULE		=	3		// Havok Capsule
+	PLAYERNONE			=	0,		// Hav
+	PLAYERSPHERE		=	1,		// Havok Sphere
+	PLAYERBOX			=	2,		// Havok Box
+	PLAYERCAPSULE		=	3		// Havok Capsule
 };
 
 
