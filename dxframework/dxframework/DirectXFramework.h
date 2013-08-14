@@ -17,6 +17,7 @@
 #include "CameraObj.h"
 
 
+
 // Macro to release COM objects fast and safely
 #define SAFE_RELEASE(x) if(x){x->Release(); x = 0;}
 
@@ -186,12 +187,15 @@ class CDirectXFramework
 	//////////////////////////////////////////////////////////////////////////
 	Object_Player*					Player;
 
+	Object_Base*					Mansion;
+
 
 public:
 
 	CDirectXFramework(void);
 	~CDirectXFramework(void);
 
+	HWND getMainWnd();
 
 	void Init(HWND& hWnd, HINSTANCE& hInst, bool bWindowed);
 
@@ -204,6 +208,8 @@ public:
 	void loadMesh(LPCSTR fileName, Mesh** meshObject);
 
 	void createGroundBox(hkpWorld* world);
+
+	void UpdateCamera(float dt);
 
 	void playerControls(float dt);
 };

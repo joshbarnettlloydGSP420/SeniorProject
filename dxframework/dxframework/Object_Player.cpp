@@ -5,11 +5,14 @@ Object_Player::Object_Player(void)
 	objectMesh = new Mesh();
 	position = D3DXVECTOR4(0.0f, 0.0f, 0.0f, 0.0f);
 	scale = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
+	rotation = D3DXVECTOR3(0.0f, 0.15f, 0.0f);
 	mass = 5.0f;
 	shape = PLAYERBOX;
 
 	velUD = 0.0f;
 	velLR = 0.0f;
+
+	wantJump = false;
 }
 
 
@@ -22,6 +25,7 @@ void Object_Player::Update(float deltaTime)
 {
 	convertPosition();
 	characterInputOutput();
+
 	if(jumpTimer < 3.2f)
 	{
 		jumpTimer += deltaTime;
@@ -90,10 +94,8 @@ void Object_Player::createSphereObject(hkpWorld* world)
 	bodyInfo.m_position.set(position.x, position.y, position.z, 0.0f);
 	bodyInfo.m_friction = 1.0f;
 
-
 	// Calculate Mass Properties
 	hkMassProperties massProperties;
-
 	hkpInertiaTensorComputer::computeShapeVolumeMassProperties(sphereShape, mass, massProperties);
 	
 	// Set Mass Properties
@@ -215,17 +217,27 @@ void Object_Player::characterInputOutput()
 
 	input.m_wantJump = wantJump;
 	input.m_atLadder = false;
-	wantJump = false;
 	
 	input.m_up = hkVector4(0, 1, 0);
 	input.m_forward.set(0, 0, 1);
+
+	if(wantJump && jumpTimer < 3.2)
+	{
+		input.m_characterGravity.set(0, 16, 0);
+		input.m_wantJump = wantJump;
+	}
+	else
+	{
+		input.m_characterGravity.set(0, -16, 0);
+		input.m_wantJump = false;
+	}
 	
 	hkStepInfo stepInfo;
 	stepInfo.m_deltaTime = 1.0f / 60.0f;
 	stepInfo.m_invDeltaTime = 1.0f / (1.0f / 60.0f);
 
 	input.m_stepInfo = stepInfo;
-	input.m_characterGravity.set(0, -16, 0);
+	//input.m_characterGravity.set(0, -16, 0);
 	input.m_velocity = objectBody->getRigidBody()->getLinearVelocity();
 	input.m_position = objectBody->getRigidBody()->getPosition();
 

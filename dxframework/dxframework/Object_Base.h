@@ -68,6 +68,8 @@ public:
 
 	void createHavokObject(hkpWorld* world);
 
+	//AABB getHavokAABB();
+
 	//void characterInputOutput();
 };
 

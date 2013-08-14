@@ -11,6 +11,9 @@ Object_Base::Object_Base(void)
 
 	velUD = 0.0f;
 	velLR = 0.0f;
+	health = 100;
+
+	
 }
 
 
@@ -169,65 +172,23 @@ void Object_Base::createCapsuleObject(hkpWorld* world)
 
 }
 
-//void Object_Base::stateMachineInit()
+//AABB Object_Base::getHavokAABB()
 //{
-//	manager = new hkpCharacterStateManager();
+//	hkpRigidBody* rb = new hkpRigidBody(bodyInfo);
+//	hkAabb aabbOut;
+//	float extraRadius = 0.0f;
 //
-//	// On the Ground
-//	state = new hkpCharacterStateOnGround();
-//	manager->registerState(state, HK_CHARACTER_ON_GROUND);
-//	state->removeReference();
+//	AABB temp;
 //
-//	// In the Air
-//	state = new hkpCharacterStateInAir();
-//	manager->registerState(state, HK_CHARACTER_IN_AIR);
-//	state->removeReference();
+//	rb->getCollidable()->getShape()->getAabb(rb->getTransform(), extraRadius, aabbOut);
 //
-//	// Jumping
-//	state = new hkpCharacterStateJumping();
-//	manager->registerState(state, HK_CHARACTER_JUMPING);
-//	state->removeReference();
+//	temp.maxPt.x = aabbOut.m_max.getComponent(0);
+//	temp.maxPt.y = aabbOut.m_max.getComponent(1);
+//	temp.maxPt.z = aabbOut.m_max.getComponent(2);
 //
-//	// Climbing
-//	state = new hkpCharacterStateClimbing();
-//	manager->registerState(state, HK_CHARACTER_CLIMBING);
-//	state->removeReference();
+//	temp.minPt.x = aabbOut.m_min.getComponent(0);
+//	temp.minPt.y = aabbOut.m_min.getComponent(1);
+//	temp.minPt.z = aabbOut.m_min.getComponent(2);
 //
-//	context = new hkpCharacterContext(manager, HK_CHARACTER_ON_GROUND);
-//	manager->removeReference();
-//
-//	// Set the character type
-//	context->setCharacterType(hkpCharacterContext::HK_CHARACTER_RIGIDBODY);
-//
-//}
-
-//void Object_Base::characterInputOutput()
-//{
-//	hkpCharacterInput input;
-//	hkpCharacterOutput output;
-//
-//	input.m_inputLR = velLR;
-//	input.m_inputUD = velUD;
-//
-//	input.m_wantJump = wantJump;
-//	input.m_atLadder = false;
-//	wantJump = false;
-//	
-//	input.m_up = hkVector4(0, 1, 0);
-//	input.m_forward.set(0, 0, 1);
-//	
-//	hkStepInfo stepInfo;
-//	stepInfo.m_deltaTime = 1.0f / 60.0f;
-//	stepInfo.m_invDeltaTime = 1.0f / (1.0f / 60.0f);
-//
-//	input.m_stepInfo = stepInfo;
-//	input.m_characterGravity.set(0, -16, 0);
-//	input.m_velocity = objectBody->getRigidBody()->getLinearVelocity();
-//	input.m_position = objectBody->getRigidBody()->getPosition();
-//
-//	objectBody->checkSupport(stepInfo, input.m_surfaceInfo);
-//
-//	context->update(input, output);
-//
-//	objectBody->setLinearVelocity(output.m_velocity, 1.0f / 60.0f);
+//	return temp;
 //}

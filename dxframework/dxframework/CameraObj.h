@@ -2,6 +2,7 @@
 
 #include <d3dx9.h>
 
+
 class CameraObj
 {
 public:
@@ -19,6 +20,7 @@ public:
 	void followPoint();
 	void buildView();
 	void buildFrustum();
+	//bool isVisible(const AABB& Box)const; 
 
 	// Frustum Planes for Culling
 	D3DXPLANE Frustum[6];
@@ -27,9 +29,12 @@ public:
 	D3DXVECTOR3		eyePos;
 	D3DXVECTOR3		lookAt;
 	D3DXVECTOR3		upVec;
+	D3DXVECTOR3		right;
 
 	D3DXMATRIX		viewMat;
 	D3DXMATRIX		projMat;
 	D3DXMATRIX		viewProjMat;
+
+	
 };
 
