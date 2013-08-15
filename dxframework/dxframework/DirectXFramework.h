@@ -27,6 +27,7 @@
 #include "HavokCore.h"
 #include "Object_Base.h"
 
+
 // Macro to release COM objects fast and safely
 #define SAFE_RELEASE(x) if(x){x->Release(); x = 0;}
 
