@@ -74,8 +74,8 @@ void GameStateManager::Update( float dt )
 					delete mainMenu;
 
 					// create a new game
-					directXFramework = new CDirectXFramework();
-					directXFramework->Init(*hwnd,*hInst,bWindowed);
+					/*hud = new HUD;
+					hud->Init( m_pD3DDevice);*/
 
 					activeGameState = GAME;
 					break;
@@ -122,7 +122,7 @@ void GameStateManager::Update( float dt )
 	case GAME:
 		{
 			// Game's update function
-			directXFramework->Update( dt );
+			//hud->Update( dt );
 
 			if ( input->keyDown( DIK_P))
 			{
@@ -154,12 +154,12 @@ void GameStateManager::Update( float dt )
 			case 2:	// Restart the game
 				{
 					// delete game and pause menu
-					delete directXFramework;
+					//delete hud;
 					delete pauseMenu;
 
 					// create a new game
-					directXFramework = new CDirectXFramework();
-					directXFramework->Init(*hwnd,*hInst,bWindowed);
+					/*hud = new HUD();
+					hud->Init( m_pD3DDevice);*/
 
 					activeGameState = GAME;
 
@@ -168,7 +168,7 @@ void GameStateManager::Update( float dt )
 			case 3: // Quit to the main menu
 				{
 					// delete game and pause menu
-					delete directXFramework;
+					//delete hud;
 					delete pauseMenu;
 
 					// initialize a new main menu
@@ -213,7 +213,7 @@ void GameStateManager::Render()
 	case GAME:
 		{
 			// Render the game
-			directXFramework->Render(*dt);
+			//hud->Render();
 			break;
 		}
 		///////////////////////////////////////////////////////////////////////
