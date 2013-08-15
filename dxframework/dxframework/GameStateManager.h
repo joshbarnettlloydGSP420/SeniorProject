@@ -5,6 +5,7 @@
 #include "MenuMain.h"
 #include "OptionsMenu.h"
 #include "PauseMenu.h"
+#include "DirectXFramework.h"
 //#include "Timer.h"
 
 
@@ -31,16 +32,19 @@ class GameStateManager
 private:
 	// Needed Variables
 	IDirect3DDevice9*		m_pD3DDevice;
-	HWND*					hwnd;
+	 HWND*					hwnd;
 	D3DPRESENT_PARAMETERS*	D3Dpp;
-
+	HWND*					hWnd;
+	bool*					bWindowed;
+	float*					dt;
+	HINSTANCE*				hInst;
 	// Create variables to classes
 	InputManager*			input;
 	MenuMain*				mainMenu;
 	OptionsMenu*			optionsMenu;
 	PauseMenu*				pauseMenu;
 	//Game*					game;
-	
+	CDirectXFramework*		directXFramework;
 	// Create a GAME_STATE variable
 	GAME_STATE	activeGameState;
 
