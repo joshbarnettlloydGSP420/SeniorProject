@@ -121,5 +121,8 @@
     <None Include="House.X">
       <Filter>Resource Files\Models</Filter>
     </None>
+    <None Include="TestShader.txt">
+      <Filter>Resource Files\Shaders</Filter>
+    </None>
   </ItemGroup>
 </Project>

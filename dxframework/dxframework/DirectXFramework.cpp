@@ -142,7 +142,7 @@ void CDirectXFramework::Init(HWND& hWnd, HINSTANCE& hInst, bool bWindowed)
 						&upVec);											// Up Vector
 
 	// Apply the view matrix in the scene
-	m_pD3DDevice->SetTransform(D3DTS_VIEW, &viewMat);
+	//m_pD3DDevice->SetTransform(D3DTS_VIEW, &viewMat);
 
 	// Initialize perspective projection matrix, this creates view frustum
 	D3DXMatrixPerspectiveFovLH(&projMat,									// Return Projection Matrix
@@ -153,7 +153,7 @@ void CDirectXFramework::Init(HWND& hWnd, HINSTANCE& hInst, bool bWindowed)
 
 
 	// Apply the projection matrix in the scene
-	m_pD3DDevice->SetTransform(D3DTS_PROJECTION, &projMat);
+	//m_pD3DDevice->SetTransform(D3DTS_PROJECTION, &projMat);
 
 	m_pD3DDevice->SetRenderState(D3DRS_ZENABLE, D3DZB_TRUE);
 
@@ -206,7 +206,8 @@ void CDirectXFramework::Init(HWND& hWnd, HINSTANCE& hInst, bool bWindowed)
 	// Toon Effects Shader
 	ID3DXBuffer* ErrorMessage = 0;
 	D3DXCreateEffectFromFile(m_pD3DDevice,
-							"ToonColored.fx",
+							//"ToonColored.fx",
+							"TestShader.txt",
 							0,
 							0,
 							D3DXSHADER_DEBUG,
@@ -221,7 +222,8 @@ void CDirectXFramework::Init(HWND& hWnd, HINSTANCE& hInst, bool bWindowed)
 		MessageBox(0, (LPCSTR)error, "Shader Error", MB_OK );
 	}
 
-	hTech[0] = fx[0]->GetTechniqueByName("ToonColored");
+	//hTech[0] = fx[0]->GetTechniqueByName("ToonColored");
+	hTech[0] = fx[0]->GetTechniqueByName("tech0");
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -362,9 +364,9 @@ void CDirectXFramework::Render(float dt)
 		fx[0]->BeginPass(i);
 
 		// Mesh Matrix
-		D3DXMatrixScaling(&scaleMat, 1.0f, 1.0f, 1.0f);
+		D3DXMatrixScaling(&scaleMat, 0.025f, 0.025f, 0.025f);
 		D3DXMatrixRotationYawPitchRoll(&rotMat, 0.0f, 0.0f, 0.0f);
-		D3DXMatrixTranslation(&transMat, Mansion->position.x, Mansion->position.y - 10.0f, Mansion->position.z);
+		D3DXMatrixTranslation(&transMat, Mansion->position.x, Mansion->position.y - 7.5f, Mansion->position.z);
 		D3DXMatrixMultiply(&scaleMat, &scaleMat, &rotMat);
 		D3DXMatrixMultiply(&worldMat, &scaleMat, &transMat);
 		//D3DXMatrixMultiply(&worldMat, &scaleMat, &transMat);
@@ -587,8 +589,8 @@ void CDirectXFramework::UpdateCamera(float dt)
 {
 	
 	// Initialize View Matrix
-	eyePos								= D3DXVECTOR3(Player->position.x, Player->position.y, Player->position.z);	// Camera Position
-	lookAt								= eyePos + D3DXVECTOR3(Player->position.x, Player->position.y, Player->position.z);	// Position camera is viewing
+	eyePos								= D3DXVECTOR3( 0, 0, -5 ) + D3DXVECTOR3(Player->position.x, Player->position.y, Player->position.z);	// Camera Position
+	lookAt								= /*eyePos + */D3DXVECTOR3(Player->position.x, Player->position.y, Player->position.z);	// Position camera is viewing
 	upVec								= D3DXVECTOR3(0.0f, 1.0f, 0.0f);	// Rotational orientation
 
 	// Easily calculate the view matrix with 3 intuitive vectors
@@ -598,7 +600,7 @@ void CDirectXFramework::UpdateCamera(float dt)
 						&upVec);											// Up Vector
 
 	// Apply the view matrix in the scene
-	m_pD3DDevice->SetTransform(D3DTS_VIEW, &viewMat);
+	//m_pD3DDevice->SetTransform(D3DTS_VIEW, &viewMat);
 
 	// Initialize perspective projection matrix, this creates view frustum
 	D3DXMatrixPerspectiveFovLH(&projMat,									// Return Projection Matrix
@@ -609,7 +611,7 @@ void CDirectXFramework::UpdateCamera(float dt)
 
 
 	// Apply the projection matrix in the scene
-	m_pD3DDevice->SetTransform(D3DTS_PROJECTION, &projMat);
+	//m_pD3DDevice->SetTransform(D3DTS_PROJECTION, &projMat);
 
 	m_pD3DDevice->SetRenderState(D3DRS_ZENABLE, D3DZB_TRUE);
 }

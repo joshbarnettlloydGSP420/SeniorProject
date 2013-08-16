@@ -114,6 +114,7 @@
     <None Include="Metal_Texture.jpg" />
     <None Include="Pack.dds" />
     <None Include="Parallax.fx" />
+    <None Include="TestShader.txt" />
     <None Include="ToonColored.fx" />
     <None Include="Weapons.dds" />
   </ItemGroup>
