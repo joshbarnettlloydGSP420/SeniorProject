@@ -26,6 +26,8 @@ void GameStateManager::Init( HWND* wndHandle,  D3DPRESENT_PARAMETERS* D3dpp, HIN
 	mainMenu = new MenuMain();
 	mainMenu->Init( input, m_pD3DDevice );
 
+	hud->Init(m_pD3DDevice);
+
 	// Set the active game state to the Main Menu
 	activeGameState = MAIN_MENU;
 }
