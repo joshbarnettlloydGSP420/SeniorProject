@@ -35,22 +35,22 @@ void HUD::Init( IDirect3DDevice9* m_pD3DDevice )
 {
 	hudOn = true;
 
-	D3DXCreateTextureFromFileExA(m_pD3DDevice, "healthHUD.png", 800, 600, 0, 0,
+	D3DXCreateTextureFromFileExA(m_pD3DDevice, "healthHUD.PNG", 800, 600, 0, 0,
 		D3DFMT_UNKNOWN, D3DPOOL_MANAGED, D3DX_DEFAULT, 
 		D3DX_DEFAULT, D3DCOLOR_XRGB(255, 0, 255), 
 		0, 0, &hudTexture);
 	
-	D3DXCreateTextureFromFileExA(m_pD3DDevice, "LifeBar.png", 256, 32, 0, 0,
+	D3DXCreateTextureFromFileExA(m_pD3DDevice, "LifeBar.PNG", 256, 32, 0, 0,
 		D3DFMT_UNKNOWN, D3DPOOL_MANAGED, D3DX_DEFAULT, 
 		D3DX_DEFAULT, D3DCOLOR_XRGB(255, 0, 255), 
 		0, 0, &healthTexture);
 
-	D3DXCreateTextureFromFileExA(m_pD3DDevice, "ShieldBar.png", 256, 32, 0, 0,
+	D3DXCreateTextureFromFileExA(m_pD3DDevice, "ShieldBar.PNG", 256, 32, 0, 0,
 		D3DFMT_UNKNOWN, D3DPOOL_MANAGED, D3DX_DEFAULT, 
 		D3DX_DEFAULT, D3DCOLOR_XRGB(255, 0, 255), 
 		0, 0, &shieldTexture);
 
-	D3DXCreateTextureFromFileExA(m_pD3DDevice, "blackBar.png", 256, 32, 0, 0,
+	D3DXCreateTextureFromFileExA(m_pD3DDevice, "blackBar.pPNGng", 256, 32, 0, 0,
 		D3DFMT_UNKNOWN, D3DPOOL_MANAGED, D3DX_DEFAULT, 
 		D3DX_DEFAULT, D3DCOLOR_XRGB(255, 0, 255), 
 		0, 0, &blackBarTexture);
