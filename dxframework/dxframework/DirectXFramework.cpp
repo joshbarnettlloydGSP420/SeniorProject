@@ -237,6 +237,7 @@ void CDirectXFramework::Init(HWND& hWnd, HINSTANCE& hInst, bool bWindowed)
 	createGroundBox(havok->getWorld());	
 	
 	havok->getWorld()->unlock();
+	gamestate.Init(&m_hWnd,&D3Dpp,hInst,m_pD3DDevice);
 
 }
 
@@ -244,6 +245,7 @@ void CDirectXFramework::Update(float dt)
 {
 	havok->stepSimulation(dt);
 	Player->Update(dt);
+	gamestate.Update(dt);
 }
 
 void CDirectXFramework::Render(float dt)
@@ -381,7 +383,7 @@ void CDirectXFramework::Render(float dt)
                   DT_TOP | DT_LEFT | DT_NOCLIP, 
                   D3DCOLOR_ARGB(255, 255, 255, 255));
 
-
+	gamestate.Render();
 
 	// EndScene, and Present the back buffer to the display buffer
 	m_pD3DDevice->EndScene();

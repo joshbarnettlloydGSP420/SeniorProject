@@ -5,8 +5,9 @@
 #include "MenuMain.h"
 #include "OptionsMenu.h"
 #include "PauseMenu.h"
-#include "DirectXFramework.h"
-//#include "Timer.h"
+#include "HUD.h"
+
+
 
 
 enum GAME_STATE
@@ -38,13 +39,17 @@ private:
 	bool*					bWindowed;
 	float*					dt;
 	HINSTANCE*				hInst;
+	ID3DXSprite*			m_pD3DSprite;
+
+
 	// Create variables to classes
 	InputManager*			input;
 	MenuMain*				mainMenu;
 	OptionsMenu*			optionsMenu;
 	PauseMenu*				pauseMenu;
+	HUD*					hud;
 	//Game*					game;
-	CDirectXFramework*		directXFramework;
+
 	// Create a GAME_STATE variable
 	GAME_STATE	activeGameState;
 

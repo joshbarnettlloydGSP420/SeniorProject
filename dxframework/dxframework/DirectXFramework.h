@@ -26,6 +26,7 @@
 
 #include "HavokCore.h"
 #include "Object_Base.h"
+#include "GameStateManager.h"
 
 
 // Macro to release COM objects fast and safely
@@ -48,7 +49,8 @@ class CDirectXFramework
 	IDirect3D9*					m_pD3DObject;	// Direct3D 9 Object
 	IDirect3DDevice9*			m_pD3DDevice;	// Direct3D 9 Device
 	D3DCAPS9					m_D3DCaps;		// Device Capabilities
-
+	D3DPRESENT_PARAMETERS		D3Dpp;
+	HINSTANCE					hInst;
 	//////////////////////////////////////////////////////////////////////////
 	// Screen Variables														//
 	//////////////////////////////////////////////////////////////////////////
@@ -186,10 +188,12 @@ class CDirectXFramework
 	hkStopwatch						stopWatch;
 	hkReal							lastTime;
 
+
 	//////////////////////////////////////////////////////////////////////////
 	// Objects																//
 	//////////////////////////////////////////////////////////////////////////
 	Object_Base*					Player;
+	GameStateManager				gamestate;
 
 
 public:
