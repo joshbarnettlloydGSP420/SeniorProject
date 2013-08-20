@@ -3,10 +3,9 @@
 
 HUD::HUD(void)
 {
-
 	//player hud variables
-	maxHealth = 100.0f;
-	currentHealth = 100.0f;
+	maxHealth = 100;
+	currentHealth = 100;
 	
 	maxShield = 100;
 	currentShield = 100;
@@ -24,47 +23,12 @@ HUD::HUD(void)
 	//hud pos
 	hudLocation = D3DXVECTOR3(0,0,0);
 
-}
-
-
-HUD::~HUD(void)
-{
-}
-
-void HUD::Init( IDirect3DDevice9* m_pD3DDevice )
-{
-	hudOn = true;
-
-	D3DXCreateTextureFromFileExA(m_pD3DDevice, "healthHUD.PNG", 800, 600, 0, 0,
-		D3DFMT_UNKNOWN, D3DPOOL_MANAGED, D3DX_DEFAULT, 
-		D3DX_DEFAULT, D3DCOLOR_XRGB(255, 0, 255), 
-		0, 0, &hudTexture);
-	
-	D3DXCreateTextureFromFileExA(m_pD3DDevice, "LifeBar.PNG", 256, 32, 0, 0,
-		D3DFMT_UNKNOWN, D3DPOOL_MANAGED, D3DX_DEFAULT, 
-		D3DX_DEFAULT, D3DCOLOR_XRGB(255, 0, 255), 
-		0, 0, &healthTexture);
-
-	D3DXCreateTextureFromFileExA(m_pD3DDevice, "ShieldBar.PNG", 256, 32, 0, 0,
-		D3DFMT_UNKNOWN, D3DPOOL_MANAGED, D3DX_DEFAULT, 
-		D3DX_DEFAULT, D3DCOLOR_XRGB(255, 0, 255), 
-		0, 0, &shieldTexture);
-
-	D3DXCreateTextureFromFileExA(m_pD3DDevice, "blackBar.pPNGng", 256, 32, 0, 0,
-		D3DFMT_UNKNOWN, D3DPOOL_MANAGED, D3DX_DEFAULT, 
-		D3DX_DEFAULT, D3DCOLOR_XRGB(255, 0, 255), 
-		0, 0, &blackBarTexture);
-	//D3DXCreateTextureFromFile(m_pD3DDevice, "healthHUD.png", &hudTexture);
-
-
-
 	//rects to reference position
 	SetRect(&scoreRect, 0, 0, 800, 600);
 	SetRect(&highScoreRect, 0, 0, 800, 600);
 	SetRect(&timeRect, 0, 0, 800, 600);
 	SetRect(&livesRect, 0, 0, 800, 600);
 	SetRect(&levelRect, 0, 0, 800, 600);
-
 
 	//hud
 	SetRect(&hudSheetRect, 218, 192, 505, 280);
@@ -74,36 +38,47 @@ void HUD::Init( IDirect3DDevice9* m_pD3DDevice )
 	SetRect(&healthSheetRect, 32, 2, 242, 29);
 	healthPosition.position.x = hudLocation.x + 37;
 	healthPosition.position.y = hudLocation.y + 12;
+	healthPosition.position.z = 0.0f;
 
 	//shield
 	SetRect(&shieldSheetRect, 32, 2, 242, 29);
 	shieldPosition.position.x = hudLocation.x + 37;
 	shieldPosition.position.y = hudLocation.y + 40;
+	shieldPosition.position.z = 0.0f;
 	
-	//black bar background stuff
-	//behind health
-	SetRect(&blackBar1SheetRect, 32, 2, 242, 29);
-	blackBar1Position.position.x = hudLocation.x + 37;
-	blackBar1Position.position.y = hudLocation.y + 12;
-
-	//behind shield
-	SetRect(&blackBar2SheetRect, 32, 2, 242, 29);
-	blackBar2Position.position.x = hudLocation.x + 37;
-	blackBar2Position.position.y = hudLocation.y + 40;
-
 	//var for manip size of bars
 	widthHealth = healthSheetRect.right;
 	widthShield = shieldSheetRect.right;
 }
 
 
+HUD::~HUD(void)
+{
+}
+
+
+void HUD::Init(IDirect3DDevice9* device)
+{
+	D3DXCreateTextureFromFileExA(device, "healthHUD.png", 800, 600, 0, 0,
+		D3DFMT_UNKNOWN, D3DPOOL_MANAGED, D3DX_DEFAULT, 
+		D3DX_DEFAULT, D3DCOLOR_XRGB(255, 0, 255), 
+		0, 0, &hudTexture);
+	
+	D3DXCreateTextureFromFileExA(device, "LifeBar.png", 256, 32, 0, 0,
+		D3DFMT_UNKNOWN, D3DPOOL_MANAGED, D3DX_DEFAULT, 
+		D3DX_DEFAULT, D3DCOLOR_XRGB(255, 0, 255), 
+		0, 0, &healthTexture);
+
+	D3DXCreateTextureFromFileExA(device, "ShieldBar.png", 256, 32, 0, 0,
+		D3DFMT_UNKNOWN, D3DPOOL_MANAGED, D3DX_DEFAULT, 
+		D3DX_DEFAULT, D3DCOLOR_XRGB(255, 0, 255), 
+		0, 0, &shieldTexture);
+	//D3DXCreateTextureFromFile(device, "healthHUD.png", &hudTexture);
+
+}
 
 void HUD::Update(float dt)
 {
-
-	//example of getting hit
-	if(currentHealth >= 50)
-		currentHealth -= .2f*(dt*.02);
 }
 
 void HUD::Render(IDirect3DDevice9* device, ID3DXSprite* sprite)
@@ -132,30 +107,22 @@ void HUD::Render(IDirect3DDevice9* device, ID3DXSprite* sprite)
 		shieldSheetRect.right = remainingShield;
 		/**********************************************************************************************************/
 
-	
-		
-	sprite->Draw(blackBarTexture, &blackBar1SheetRect, &D3DXVECTOR3(0,0,0), &blackBar1Position.position, D3DCOLOR_ARGB(255, 255, 255, 255));
-	sprite->Draw(blackBarTexture, &blackBar2SheetRect, &D3DXVECTOR3(0,0,0), &blackBar2Position.position, D3DCOLOR_ARGB(255, 255, 255, 255));
-
+	//SetRect(&scoreRect, 0, 0, 800, 600);
+	//sprintf_s(hudPrint, "Score: %d", (int)score);
+	//font->DrawTextA(0, hudPrint, -1, &scoreRect, 
+	//	DT_LEFT | DT_TOP | DT_NOCLIP,
+	//	D3DCOLOR_ARGB(255, 255, 255, 255));
+	//	
 	sprite->Draw(healthTexture, &healthSheetRect, &D3DXVECTOR3(0,0,0), &healthPosition.position, D3DCOLOR_ARGB(255, 255, 255, 255));
 	sprite->Draw(shieldTexture, &shieldSheetRect, &D3DXVECTOR3(0,0,0), &shieldPosition.position, D3DCOLOR_ARGB(255, 255, 255, 255));	
 	sprite->Draw(hudTexture, &hudSheetRect, &D3DXVECTOR3(0,0,0), &hudPosition.position, D3DCOLOR_ARGB(255, 255, 255, 255));
 		
 	}
-
-	
-
-	
 }
-
-
 
 void HUD::Shutdown()
 {
-
 	SAFE_RELEASE(hudTexture)
 	SAFE_RELEASE(healthTexture)
 	SAFE_RELEASE(shieldTexture)
-	SAFE_RELEASE(blackBarTexture)
-	
 }

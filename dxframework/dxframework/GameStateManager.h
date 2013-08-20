@@ -9,7 +9,6 @@
 
 
 
-
 enum GAME_STATE
 {
 	QUIT			= 0,
@@ -39,7 +38,6 @@ private:
 	bool*					bWindowed;
 	float*					dt;
 	HINSTANCE*				hInst;
-	ID3DXSprite*			m_pD3DSprite;
 
 
 	// Create variables to classes
@@ -59,7 +57,7 @@ public:
 
 	void Init(HWND* wndHandle,  D3DPRESENT_PARAMETERS* D3dpp, HINSTANCE hInst, IDirect3DDevice9* device);
 	void Update( float dt);
-	void Render();
+	void Render(ID3DXSprite* sprite);
 
 	void onResetDevice();
 	void onLostDevice();

@@ -255,7 +255,7 @@ void CDirectXFramework::Render(float dt)
 		return;
 	//*************************************************************************
 
-	m_pD3DDevice->Clear(0,NULL,D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER,D3DCOLOR_XRGB(0,125,255),1.0f,0);
+	m_pD3DDevice->Clear(0,NULL,D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER,D3DCOLOR_XRGB(0,0,0),1.0f,0);
 	//////////////////////////////////////////////////////////////////////////
 	// All draw calls between swap chain's functions, and pre-render and post- 
 	// render functions (Clear and Present, BeginScene and EndScene)
@@ -333,6 +333,11 @@ void CDirectXFramework::Render(float dt)
 	//alpha blending available D3DXSPRITE_ALPHABLEND. 
 	m_pD3DSprite->Begin(D3DXSPRITE_ALPHABLEND);
 
+	D3DXMATRIX reset;
+	D3DXMatrixIdentity(&reset);
+	m_pD3DSprite->SetTransform(&reset);
+	gamestate.Render(m_pD3DSprite);
+
 	// Scaling scaleMat
 	// Rotation on Z axis, value in radians, converting from degrees rotMat
 	// Translation transMat
@@ -355,10 +360,10 @@ void CDirectXFramework::Render(float dt)
 
 
 
-	// Draw the texture with the sprite object
-	m_pD3DSprite->Draw(m_pTexture[1], 0, &D3DXVECTOR3(m_imageInfo.Width * 0.5f, 
-		m_imageInfo.Height * 0.5f, 0.0f), 0,
-		D3DCOLOR_ARGB(255, 255, 255, 255));
+	//// Draw the texture with the sprite object
+	//m_pD3DSprite->Draw(m_pTexture[1], 0, &D3DXVECTOR3(m_imageInfo.Width * 0.5f, 
+	//	m_imageInfo.Height * 0.5f, 0.0f), 0,
+	//	D3DCOLOR_ARGB(255, 255, 255, 255));
 
 
 	// End drawing 2D sprites
@@ -377,13 +382,11 @@ void CDirectXFramework::Render(float dt)
 	// Draw Text, using DT_TOP, DT_RIGHT for placement in the top right of the
 	// screen.  DT_NOCLIP can improve speed of text rendering, but allows text
 	// to be drawn outside of the rect specified to draw text in.
-	char message[256];
+	/*char message[13];
 	sprintf( message,"Team Madness" );
 	m_pD3DFont->DrawText(0, message, -1, &rect, 
                   DT_TOP | DT_LEFT | DT_NOCLIP, 
-                  D3DCOLOR_ARGB(255, 255, 255, 255));
-
-	gamestate.Render();
+                  D3DCOLOR_ARGB(255, 255, 255, 255));*/
 
 	// EndScene, and Present the back buffer to the display buffer
 	m_pD3DDevice->EndScene();

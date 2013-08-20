@@ -16,8 +16,6 @@ void GameStateManager::Init( HWND* wndHandle,  D3DPRESENT_PARAMETERS* D3dpp, HIN
 	hwnd = wndHandle;
 	D3Dpp = D3dpp;
 
-
-
 	// Create a new input manager
 	input = new InputManager();
 	input->init(hInst, *wndHandle);
@@ -26,6 +24,7 @@ void GameStateManager::Init( HWND* wndHandle,  D3DPRESENT_PARAMETERS* D3dpp, HIN
 	mainMenu = new MenuMain();
 	mainMenu->Init( input, m_pD3DDevice );
 
+	hud = new HUD();
 	hud->Init(m_pD3DDevice);
 
 	// Set the active game state to the Main Menu
@@ -186,7 +185,7 @@ void GameStateManager::Update( float dt )
 	}
 }
 
-void GameStateManager::Render()
+void GameStateManager::Render(ID3DXSprite* sprite)
 {
 	// If the device was not created successfully, return
 	if(!m_pD3DDevice)
@@ -196,10 +195,14 @@ void GameStateManager::Render()
 	// All draw calls between swap chain's functions, and pre-render and post- 
 	// render functions (Clear and Present, BeginScene and EndScene)
 	//////////////////////////////////////////////////////////////////////////
-	m_pD3DDevice->Clear(0, 0, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER | D3DCLEAR_STENCIL, D3DXCOLOR(0.0f, 0.0f, 0.0f, 255.0f), 1.0f, 0);
+
+	/// Don't need to clear the buffer twice, just once
+	/// you are already clearing the buffer in the framework
+
+	//m_pD3DDevice->Clear(0, 0, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER | D3DCLEAR_STENCIL, D3DXCOLOR(0.0f, 0.0f, 0.0f, 255.0f), 1.0f, 0);
 
 	// Clear the back buffer, call BeginScene()
-	m_pD3DDevice->BeginScene();
+	//m_pD3DDevice->BeginScene();
 
 	switch ( activeGameState )
 	{
@@ -214,7 +217,7 @@ void GameStateManager::Render()
 	case GAME:
 		{
 			// Render the game
-			hud->Render(m_pD3DDevice,m_pD3DSprite);
+			hud->Render(m_pD3DDevice,sprite);
 			break;
 		}
 		///////////////////////////////////////////////////////////////////////
@@ -234,8 +237,8 @@ void GameStateManager::Render()
 	}
 
 	// EndScene, and Present the back buffer to the display buffer
-	m_pD3DDevice->EndScene();
-	m_pD3DDevice->Present(0, 0, 0, 0);
+	//m_pD3DDevice->EndScene();
+	//m_pD3DDevice->Present(0, 0, 0, 0);
 }
 
 void GameStateManager::onResetDevice()
