@@ -46,6 +46,12 @@
     <Filter Include="Header Files\Game">
       <UniqueIdentifier>{336724ef-f818-4566-93a5-2dd5d0dc35fe}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Audio / FMOD">
+      <UniqueIdentifier>{c84cf7ab-d9ef-4073-8d96-fc3c87c3ce6c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Audio / FMOD">
+      <UniqueIdentifier>{aaeadf16-5df0-47ad-8a4f-ba310e77b6d1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="winMain.cpp">
@@ -96,6 +102,15 @@
     <ClCompile Include="DirectXFramework.cpp">
       <Filter>Source Files\Game</Filter>
     </ClCompile>
+    <ClCompile Include="AudioManager.cpp">
+      <Filter>Source Files\Audio / FMOD</Filter>
+    </ClCompile>
+    <ClCompile Include="SoundEffect.cpp">
+      <Filter>Source Files\Audio / FMOD</Filter>
+    </ClCompile>
+    <ClCompile Include="SoundLoader.cpp">
+      <Filter>Source Files\Audio / FMOD</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h">
@@ -142,6 +157,36 @@
     </ClInclude>
     <ClInclude Include="DirectXFramework.h">
       <Filter>Header Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="AudioManager.h">
+      <Filter>Header Files\Audio / FMOD</Filter>
+    </ClInclude>
+    <ClInclude Include="fmod.h">
+      <Filter>Header Files\Audio / FMOD</Filter>
+    </ClInclude>
+    <ClInclude Include="fmod.hpp">
+      <Filter>Header Files\Audio / FMOD</Filter>
+    </ClInclude>
+    <ClInclude Include="fmod_codec.h">
+      <Filter>Header Files\Audio / FMOD</Filter>
+    </ClInclude>
+    <ClInclude Include="fmod_dsp.h">
+      <Filter>Header Files\Audio / FMOD</Filter>
+    </ClInclude>
+    <ClInclude Include="fmod_errors.h">
+      <Filter>Header Files\Audio / FMOD</Filter>
+    </ClInclude>
+    <ClInclude Include="fmod_memoryinfo.h">
+      <Filter>Header Files\Audio / FMOD</Filter>
+    </ClInclude>
+    <ClInclude Include="fmod_output.h">
+      <Filter>Header Files\Audio / FMOD</Filter>
+    </ClInclude>
+    <ClInclude Include="SoundEffect.h">
+      <Filter>Header Files\Audio / FMOD</Filter>
+    </ClInclude>
+    <ClInclude Include="SoundLoader.h">
+      <Filter>Header Files\Audio / FMOD</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -190,5 +235,16 @@
     <None Include="TestShader.txt">
       <Filter>Resource Files\Shaders</Filter>
     </None>
+    <None Include="fmodex.dll">
+      <Filter>Header Files\Audio / FMOD</Filter>
+    </None>
+    <None Include="fmodexL.dll">
+      <Filter>Header Files\Audio / FMOD</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="fmodex_vc.lib">
+      <Filter>Header Files\Audio / FMOD</Filter>
+    </Library>
   </ItemGroup>
 </Project>

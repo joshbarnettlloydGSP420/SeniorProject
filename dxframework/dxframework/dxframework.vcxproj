@@ -81,6 +81,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AudioManager.cpp" />
     <ClCompile Include="BaseMenu.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="CameraObj.cpp" />
@@ -96,14 +97,24 @@
     <ClCompile Include="Object_Player.cpp" />
     <ClCompile Include="OptionsMenu.cpp" />
     <ClCompile Include="PauseMenu.cpp" />
+    <ClCompile Include="SoundEffect.cpp" />
+    <ClCompile Include="SoundLoader.cpp" />
     <ClCompile Include="winMain.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AudioManager.h" />
     <ClInclude Include="BaseMenu.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="CameraObj.h" />
     <ClInclude Include="DirectInput.h" />
     <ClInclude Include="DirectXFramework.h" />
+    <ClInclude Include="fmod.h" />
+    <ClInclude Include="fmod.hpp" />
+    <ClInclude Include="fmod_codec.h" />
+    <ClInclude Include="fmod_dsp.h" />
+    <ClInclude Include="fmod_errors.h" />
+    <ClInclude Include="fmod_memoryinfo.h" />
+    <ClInclude Include="fmod_output.h" />
     <ClInclude Include="GameStateManager.h" />
     <ClInclude Include="HavokCore.h" />
     <ClInclude Include="HUD.h" />
@@ -114,6 +125,8 @@
     <ClInclude Include="Object_Player.h" />
     <ClInclude Include="OptionsMenu.h" />
     <ClInclude Include="PauseMenu.h" />
+    <ClInclude Include="SoundEffect.h" />
+    <ClInclude Include="SoundLoader.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Armor.dds" />
@@ -121,6 +134,8 @@
     <None Include="defaulteffect.fx" />
     <None Include="Dwarf.x" />
     <None Include="DwarfHead.dds" />
+    <None Include="fmodex.dll" />
+    <None Include="fmodexL.dll" />
     <None Include="GirRobot.X" />
     <None Include="Headgear.dds" />
     <None Include="Helmet.dds" />
@@ -131,6 +146,9 @@
     <None Include="TestShader.txt" />
     <None Include="ToonColored.fx" />
     <None Include="Weapons.dds" />
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="fmodex_vc.lib" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
