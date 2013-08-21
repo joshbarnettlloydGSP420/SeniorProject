@@ -30,9 +30,9 @@ void PauseMenu::Update()
 			pauseState = p_MAIN_MENU;
 		}
 	}
-	else if ( myInput->keyPress( DIK_P ))
+	if ( myInput->keyPress( DIK_P ))
 	{
-		menuItemSelected == 1;
+		pauseState = p_RESUME_GAME;
 	}
 }
 
@@ -44,7 +44,7 @@ void PauseMenu::Render()
 
 	m_pD3DFont->DrawTextA(0,menuPrint,-1,&m_rect, DT_CENTER | DT_NOCLIP,option);
 
-	sprintf(menuPrint,"Resume Game [P]");
+	sprintf(menuPrint,"Resume Game ");
 	SetRect(&m_rect,120,330,600,500);
 	if(menuItemSelected == 1)
 		option = D3DCOLOR_ARGB(255,255,0,255);

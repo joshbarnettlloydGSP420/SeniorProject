@@ -33,6 +33,7 @@ void GameStateManager::Init( HWND* wndHandle,  D3DPRESENT_PARAMETERS* D3dpp, HIN
 
 void GameStateManager::Update( float dt )
 {
+	input->getInput();
 	switch ( activeGameState )
 	{
 		///////////////////////////////////////////////////////////////////////
@@ -124,7 +125,7 @@ void GameStateManager::Update( float dt )
 			// Game's update function
 			hud->Update( dt );
 
-			if ( input->keyDown( DIK_P))
+			if (input->keyPress(DIK_P))
 			{
 				// create a pause menu
 				pauseMenu = new PauseMenu();

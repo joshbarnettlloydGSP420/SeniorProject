@@ -40,13 +40,13 @@ void MenuMain::Render()
 
 	// Print Main Menu at the top of the screen
 	sprintf(menuPrint,"MAIN MENU");
-	SetRect(&m_rect,120,130,600,500);  
+	SetRect(&m_rect,120,10,600,500);  
 	option = D3DCOLOR_ARGB(255,150,0,240);
 
 	m_pD3DFont->DrawTextA(0,menuPrint,-1,&m_rect, DT_CENTER | DT_NOCLIP,option);
 
 	sprintf(menuPrint,"Game Start");
-	SetRect(&m_rect,120,330,600,500);
+	SetRect(&m_rect,120,210,600,500);
 	if(menuItemSelected == 1)
 		option = D3DCOLOR_ARGB(255,255,0,255);
 	else
@@ -54,7 +54,7 @@ void MenuMain::Render()
 	m_pD3DFont->DrawTextA(0,menuPrint,-1,&m_rect, DT_CENTER | DT_NOCLIP,option);
 
 	sprintf(menuPrint,"Options Menu");
-	SetRect(&m_rect,120,530,600,500);
+	SetRect(&m_rect,120,410,600,500);
 	if(menuItemSelected == 2)
 		option = D3DCOLOR_ARGB(255,255,0,255);
 	else
@@ -62,7 +62,7 @@ void MenuMain::Render()
 	m_pD3DFont->DrawTextA(0,menuPrint,-1,&m_rect, DT_CENTER | DT_NOCLIP,option);
 
 	sprintf(menuPrint,"Quit");
-	SetRect(&m_rect,120,730,600,500);
+	SetRect(&m_rect,120,550,600,500);
 	if(menuItemSelected == 3)
 		option = D3DCOLOR_ARGB(255,255,0,255);
 	else
