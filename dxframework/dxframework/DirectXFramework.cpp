@@ -198,6 +198,7 @@ void CDirectXFramework::Init(HWND& hWnd, HINSTANCE& hInst, bool bWindowed)
 	Mansion = new Object_Base();
 	Mansion->position = D3DXVECTOR4(0.0f, 5.0f, 10.0f, 0.0f);
 	Mansion->shape = BOX;
+	Mansion->weight = UNMOVABLE;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Load Shader Effects																					 //
@@ -280,6 +281,8 @@ void CDirectXFramework::Update(float dt)
 
 	UpdateCamera(dt);
 	playerControls(dt);
+
+	
 }
 
 void CDirectXFramework::Render(float dt)

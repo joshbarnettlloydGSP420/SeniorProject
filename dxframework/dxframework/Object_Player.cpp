@@ -38,6 +38,8 @@ void Object_Player::convertPosition()
 	position.y = (float)objectBody->getPosition().getComponent(1);
 	position.z = (float)objectBody->getPosition().getComponent(2);
 	position.w = (float)objectBody->getPosition().getComponent(3);
+
+	
 }
 
 // Changes the velocity in Havok based on velocityUD and velocityLR

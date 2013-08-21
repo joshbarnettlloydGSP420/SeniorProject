@@ -15,10 +15,9 @@
 #include <Common/Base/Memory/Allocator/Malloc/hkMallocAllocator.h>								// ...the amount of memory...
 #include <Common/Base/Thread/Job/ThreadPool/Cpu/hkCpuJobThreadPool.h>							// ...Havok will use.
 
-
 #include <Physics/Dynamics/World/hkpWorld.h>													// The Havok World
 #include <Physics/Collide/Dispatch/hkpAgentRegisterUtil.h>										// Havok Registration Utility 
-
+#include <Physics/Dynamics/Collide/ContactListener/hkpContactListener.h>
 
 // Visual Debugger Includes
 #include <Common/Visualize/hkVisualDebugger.h>													// Visual Debugger Tool
@@ -28,7 +27,7 @@
 #include <Physics/Collide/Shape/Convex/Sphere/hkpSphereShape.h>									// Sphere Shape
 #include <Physics/Collide/Shape/Convex/Box/hkpBoxShape.h>										// Box Shape
 #include <Physics/Collide/Shape/Convex/Capsule/hkpCapsuleShape.h>								// Capsule Shapes
-//#include <Physics/Collide/
+#include <Physics/Collide/Shape/Misc/PhantomCallback/hkpPhantomCallbackShape.h>
 #include <Physics/Dynamics/Entity/hkpRigidBody.h>												// Generic Rigid Body
 #include <Physics/Utilities/Dynamics/Inertia/hkpInertiaTensorComputer.h>						// Inertia Physics
 

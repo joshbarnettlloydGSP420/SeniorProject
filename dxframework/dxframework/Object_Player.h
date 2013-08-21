@@ -70,5 +70,7 @@ public:
 	void createHavokObject(hkpWorld* world);
 
 	void characterInputOutput();
+
+	void gunShot();
 };
 

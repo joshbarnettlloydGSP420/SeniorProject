@@ -6,14 +6,16 @@ Object_Base::Object_Base(void)
 	objectMesh = new Mesh();
 	position = D3DXVECTOR4(0.0f, 0.0f, 0.0f, 0.0f);
 	scale = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
+
 	mass = 5.0f;
+
 	shape = BOX;
 
 	velUD = 0.0f;
 	velLR = 0.0f;
 	health = 100;
 
-	
+	weight = UNMOVABLE;
 }
 
 
@@ -29,10 +31,12 @@ void Object_Base::Update(float deltaTime)
 
 void Object_Base::convertPosition()
 {
-	position.x = (float)bodyInfo.m_position.getComponent(0);
-	position.y = (float)bodyInfo.m_position.getComponent(1);
-	position.z = (float)bodyInfo.m_position.getComponent(2);
-	position.w = (float)bodyInfo.m_position.getComponent(3);
+	position.x = (float)rigidBody->getPosition().getComponent(0);
+	position.y = (float)rigidBody->getPosition().getComponent(1);
+	position.z = (float)rigidBody->getPosition().getComponent(2);
+	position.w = (float)rigidBody->getPosition().getComponent(3);
+
+	//rotation.x = (float)rigidBody->getRotation().getComponent(0);
 }
 
 //// Changes the velocity in Havok based on velocityUD and velocityLR
@@ -75,6 +79,11 @@ void Object_Base::createHavokObject(hkpWorld* world)
 
 void Object_Base::createSphereObject(hkpWorld* world)
 {
+	if(weight == LIGHT)
+	mass = 5.0f;
+	else if(weight == HEAVY)
+	mass = 20.0f;
+
 	// Sphere Parameters
 	hkReal radius = (scale.x + scale.z) / 2;
 
@@ -84,7 +93,12 @@ void Object_Base::createSphereObject(hkpWorld* world)
 	// Set The Object's Properties
 	bodyInfo.m_shape = sphereShape;
 	bodyInfo.m_position.set(position.x, position.y, position.z, 0.0f);
+
+	if(weight == LIGHT || weight == HEAVY)
 	bodyInfo.m_motionType = hkpMotion::MOTION_DYNAMIC;
+	else if(weight == UNMOVABLE)
+	bodyInfo.m_motionType = hkpMotion::MOTION_FIXED;
+
 	bodyInfo.m_friction = 1.0f;
 	bodyInfo.m_restitution = 0.2f;
 
@@ -97,7 +111,7 @@ void Object_Base::createSphereObject(hkpWorld* world)
 	bodyInfo.setMassProperties(massProperties);
 
 	// Create Rigid Body
-	hkpRigidBody* rigidBody = new hkpRigidBody(bodyInfo);
+	rigidBody = new hkpRigidBody(bodyInfo);
 
 	// No longer need the reference on the shape, as the rigidbody owns it now
 	sphereShape->removeReference();
@@ -109,6 +123,11 @@ void Object_Base::createSphereObject(hkpWorld* world)
 
 void Object_Base::createBoxObject(hkpWorld* world)
 {
+	if(weight == LIGHT)
+	mass = 5.0f;
+	else if(weight == HEAVY)
+	mass = 20.0f;
+
 	// Box Parameters
 	hkVector4 halfExtents(scale.x, scale.y, scale.z);
 
@@ -118,7 +137,11 @@ void Object_Base::createBoxObject(hkpWorld* world)
 	// Set The Object's Properties
 	bodyInfo.m_shape = boxShape;
 	bodyInfo.m_position.set(position.x, position.y, position.z, 0.0f);
+
+	if(weight == LIGHT || weight == HEAVY)
 	bodyInfo.m_motionType = hkpMotion::MOTION_DYNAMIC;
+	else if(weight == UNMOVABLE)
+	bodyInfo.m_motionType = hkpMotion::MOTION_FIXED;
 
 	// Calculate Mass Properties
 	hkMassProperties massProperties;
@@ -128,7 +151,7 @@ void Object_Base::createBoxObject(hkpWorld* world)
 	bodyInfo.setMassProperties(massProperties);
 
 	// Create Rigid Body
-	hkpRigidBody* rigidBody = new hkpRigidBody(bodyInfo);
+	rigidBody = new hkpRigidBody(bodyInfo);
 
 	// No longer need the reference on the shape, as the rigidbody owns it now
 	boxShape->removeReference();
@@ -140,6 +163,12 @@ void Object_Base::createBoxObject(hkpWorld* world)
 
 void Object_Base::createCapsuleObject(hkpWorld* world)
 {
+
+	if(weight == LIGHT)
+	mass = 5.0f;
+	else if(weight == HEAVY)
+	mass = 20.0f;
+
 	// Capsule Parameters
 	hkVector4	vertexA(position.x, position.y + (scale.y / 2), position.z, 0);	// Top
 	hkVector4	vertexB(position.x, position.y - (scale.y / 2), position.z, 0);	// Bottom
@@ -151,7 +180,12 @@ void Object_Base::createCapsuleObject(hkpWorld* world)
 	// Set The Object's Properties
 	bodyInfo.m_shape = capsuleShape;
 	bodyInfo.m_position.set(position.x, position.y, position.z, 0.0f);
+
+	if(weight == LIGHT || weight == HEAVY)
 	bodyInfo.m_motionType = hkpMotion::MOTION_DYNAMIC;
+	else if(weight == UNMOVABLE)
+	bodyInfo.m_motionType = hkpMotion::MOTION_FIXED;
+
 
 	// Calculate Mass Properties
 	hkMassProperties massProperties;
@@ -162,7 +196,7 @@ void Object_Base::createCapsuleObject(hkpWorld* world)
 	bodyInfo.setMassProperties(massProperties);
 
 	// Create Rigid Body
-	hkpRigidBody* rigidBody = new hkpRigidBody(bodyInfo);
+	rigidBody = new hkpRigidBody(bodyInfo);
 
 	// No longer need the reference on the shape, as the rigidbody owns it now
 	capsuleShape->removeReference();

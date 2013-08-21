@@ -13,6 +13,13 @@ enum HavokShape
 	PHANTOM		=	4		// Havok Phantom
 };
 
+enum Moveable
+{
+	UNMOVABLE	=	0,
+	LIGHT		=	1,
+	HEAVY		=	2
+};
+
 
 
 class Object_Base
@@ -44,10 +51,12 @@ public:
 
 	// Rigid Body
 	short						shape;
+	hkpRigidBody*				rigidBody;
 	hkpRigidBodyCinfo			bodyInfo;
 	hkReal						mass;	
 	hkVector4					shapeSize;
 	hkpCharacterInput			input;
+	int							weight;
 	
 	// Movement
 
