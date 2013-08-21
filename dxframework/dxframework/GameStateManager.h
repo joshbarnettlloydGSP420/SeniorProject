@@ -1,7 +1,7 @@
 #pragma once
 
 #include <Windows.h>
-#include "InputManager.h"
+#include "DirectInput.h"
 #include "MenuMain.h"
 #include "OptionsMenu.h"
 #include "PauseMenu.h"
@@ -41,7 +41,7 @@ private:
 
 
 	// Create variables to classes
-	InputManager*			input;
+	DirectInput*			input;
 	MenuMain*				mainMenu;
 	OptionsMenu*			optionsMenu;
 	PauseMenu*				pauseMenu;

@@ -17,8 +17,7 @@ void GameStateManager::Init( HWND* wndHandle,  D3DPRESENT_PARAMETERS* D3dpp, HIN
 	D3Dpp = D3dpp;
 
 	// Create a new input manager
-	input = new InputManager();
-	input->init(hInst, *wndHandle);
+	input = new DirectInput(*wndHandle, hInst);
 
 	// Create a new menu
 	mainMenu = new MenuMain();
@@ -33,7 +32,7 @@ void GameStateManager::Init( HWND* wndHandle,  D3DPRESENT_PARAMETERS* D3dpp, HIN
 
 void GameStateManager::Update( float dt )
 {
-	input->getInput();
+	input->poll();
 	switch ( activeGameState )
 	{
 		///////////////////////////////////////////////////////////////////////
@@ -125,7 +124,7 @@ void GameStateManager::Update( float dt )
 			// Game's update function
 			hud->Update( dt );
 
-			if (input->keyPress(DIK_P))
+			if (input->keyDown(DIK_P))
 			{
 				// create a pause menu
 				pauseMenu = new PauseMenu();

@@ -12,7 +12,7 @@ BaseMenu::~BaseMenu(void)
 
 }
 
-bool BaseMenu::Init(InputManager* input, IDirect3DDevice9*	m_pD3DDevice)
+bool BaseMenu::Init(DirectInput* input, IDirect3DDevice9*	m_pD3DDevice)
 {
 	// Local pointer to the input manager
 	myInput = input;
@@ -44,13 +44,13 @@ bool BaseMenu::Init(InputManager* input, IDirect3DDevice9*	m_pD3DDevice)
 
 void BaseMenu::Update()
 {
-	myInput->getInput();
+	myInput->poll();
 
-	if (myInput->keyPress( DIK_UP))
+	if (myInput->keyDown( DIK_UP))
 	{
 		menuItemSelected--;
 	}
-	else if ( myInput->keyPress( DIK_DOWN))
+	else if ( myInput->keyDown( DIK_DOWN))
 	{
 		menuItemSelected++;
 	}
@@ -60,7 +60,7 @@ void BaseMenu::Update()
 	if ( menuItemSelected > 3)
 		menuItemSelected = 1;
 
-	if (myInput->keyPress( DIK_ESCAPE))
+	if (myInput->keyDown( DIK_ESCAPE))
 	{
 		PostQuitMessage(0);
 	}

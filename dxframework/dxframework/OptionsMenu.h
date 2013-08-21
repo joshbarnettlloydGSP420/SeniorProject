@@ -38,7 +38,7 @@ public:
 	OptionsMenu(void);
 	~OptionsMenu(void);
 
-	bool Init(InputManager* input, IDirect3DDevice9* m_pD3DDevice, HWND* wndHandle, D3DPRESENT_PARAMETERS* D3dpp);
+	bool Init(DirectInput* input, IDirect3DDevice9* m_pD3DDevice, HWND* wndHandle, D3DPRESENT_PARAMETERS* D3dpp);
 	void Update(void);
 	void Render();
 

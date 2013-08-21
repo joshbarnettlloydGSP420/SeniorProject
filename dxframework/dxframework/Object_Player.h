@@ -4,31 +4,23 @@
 #include "HavokCore.h"
 
 // Enum for deciding what Shape the Object is in Havok
-enum HavokShape
+enum HavokPlayerShape
 {
-	NONE		=	0,		// Havok Box (By Default)
-	SPHERE		=	1,		// Havok Sphere
-	BOX			=	2,		// Havok Box
-	CAPSULE		=	3,		// Havok Capsule
-	PHANTOM		=	4		// Havok Phantom
-};
-
-enum Moveable
-{
-	UNMOVABLE	=	0,
-	LIGHT		=	1,
-	HEAVY		=	2
+	PLAYERNONE			=	0,		// Hav
+	PLAYERSPHERE		=	1,		// Havok Sphere
+	PLAYERBOX			=	2,		// Havok Box
+	PLAYERCAPSULE		=	3		// Havok Capsule
 };
 
 
 
-class Object_Base
+class Object_Player
 {
 private:
 	void createSphereObject(hkpWorld* world);
 	void createBoxObject(hkpWorld* world);
 	void createCapsuleObject(hkpWorld* world);
-	//void stateMachineInit();
+	void stateMachineInit();
 
 public:
 	// Variables
@@ -51,12 +43,11 @@ public:
 
 	// Rigid Body
 	short						shape;
-	hkpRigidBody*				rigidBody;
-	hkpRigidBodyCinfo			bodyInfo;
+	hkpCharacterRigidBody*		objectBody;
+	hkpCharacterRigidBodyCinfo	bodyInfo;
 	hkReal						mass;	
 	hkVector4					shapeSize;
 	hkpCharacterInput			input;
-	int							weight;
 	
 	// Movement
 
@@ -65,9 +56,11 @@ public:
 	hkpCharacterStateManager*	manager;
 	hkpCharacterContext*		context;
 
+	// 
+
 	// Constructor, Destructor, and Methods
-	Object_Base(void);
-	~Object_Base(void);
+	Object_Player(void);
+	~Object_Player(void);
 
 	void Update(float deltaTime);
 
@@ -77,8 +70,8 @@ public:
 
 	void createHavokObject(hkpWorld* world);
 
-	//AABB getHavokAABB();
+	void characterInputOutput();
 
-	//void characterInputOutput();
+	void gunShot();
 };
 
