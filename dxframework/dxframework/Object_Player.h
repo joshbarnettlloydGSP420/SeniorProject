@@ -44,6 +44,7 @@ public:
 	// Rigid Body
 	short						shape;
 	hkpCharacterRigidBody*		objectBody;
+	hkpCharacterRigidBodyCinfo	bodyInfo;
 	hkReal						mass;	
 	hkVector4					shapeSize;
 	hkpCharacterInput			input;

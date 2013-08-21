@@ -81,25 +81,39 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="BaseMenu.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="CameraObj.cpp" />
     <ClCompile Include="DirectInput.cpp" />
     <ClCompile Include="DirectXFramework.cpp" />
+    <ClCompile Include="GameStateManager.cpp" />
     <ClCompile Include="HavokCore.cpp" />
+    <ClCompile Include="HUD.cpp" />
+    <ClCompile Include="Item.cpp" />
+    <ClCompile Include="MenuMain.cpp" />
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="Object_Base.cpp" />
     <ClCompile Include="Object_Player.cpp" />
+    <ClCompile Include="OptionsMenu.cpp" />
+    <ClCompile Include="PauseMenu.cpp" />
     <ClCompile Include="winMain.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BaseMenu.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="CameraObj.h" />
     <ClInclude Include="DirectInput.h" />
     <ClInclude Include="DirectXFramework.h" />
+    <ClInclude Include="GameStateManager.h" />
     <ClInclude Include="HavokCore.h" />
+    <ClInclude Include="HUD.h" />
+    <ClInclude Include="Item.h" />
+    <ClInclude Include="MenuMain.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="Object_Base.h" />
     <ClInclude Include="Object_Player.h" />
+    <ClInclude Include="OptionsMenu.h" />
+    <ClInclude Include="PauseMenu.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Armor.dds" />

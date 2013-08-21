@@ -82,9 +82,6 @@ void Object_Player::createHavokObject(hkpWorld* world)
 
 void Object_Player::createSphereObject(hkpWorld* world)
 {
-	// Create a temp body info
-	hkpCharacterRigidBodyCinfo	bodyInfo;
-
 	// Sphere Parameters
 	hkReal radius = (scale.x + scale.z) / 2;
 
@@ -114,8 +111,6 @@ void Object_Player::createSphereObject(hkpWorld* world)
 
 void Object_Player::createBoxObject(hkpWorld* world)
 {
-	// Create a temp body info
-	hkpCharacterRigidBodyCinfo	bodyInfo;
 
 	// Box Parameters
 	hkVector4 halfExtents(scale.x, scale.y, scale.z);
@@ -146,8 +141,6 @@ void Object_Player::createBoxObject(hkpWorld* world)
 
 void Object_Player::createCapsuleObject(hkpWorld* world)
 {
-	// Create a temp body info
-	hkpCharacterRigidBodyCinfo	bodyInfo;
 
 	// Capsule Parameters
 	hkVector4	vertexA(position.x, position.y + (scale.y / 2), position.z, 0);	// Top

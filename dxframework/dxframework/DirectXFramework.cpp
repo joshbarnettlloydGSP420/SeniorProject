@@ -256,9 +256,11 @@ void CDirectXFramework::Init(HWND& hWnd, HINSTANCE& hInst, bool bWindowed)
 	Mansion->createHavokObject(havok->getWorld());
 
 	createGroundBox(havok->getWorld());	
+
 	
 	havok->getWorld()->unlock();
-
+	
+	
 }
 
 HWND CDirectXFramework::getMainWnd()
@@ -274,6 +276,7 @@ void CDirectXFramework::Update(float dt)
 	havok->getWorld()->lock();
 	Player->Update(dt);
 	Mansion->Update(dt);
+	Player->bodyInfo.m_collisionFilterInfo;
 	havok->getWorld()->unlock();
 
 	D3DXVECTOR3 tempPos = D3DXVECTOR3(Mansion->position.x, Mansion->position.y, Mansion->position.z);

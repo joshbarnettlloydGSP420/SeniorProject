@@ -119,6 +119,7 @@ void Object_Base::createSphereObject(hkpWorld* world)
 	// Add Rigid Body to the World
 	world->addEntity(rigidBody);
 
+	
 }
 
 void Object_Base::createBoxObject(hkpWorld* world)
