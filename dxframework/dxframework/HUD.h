@@ -69,7 +69,7 @@ public:
 
 	void Update(float dt);
 
-	void Render(IDirect3DDevice9* device, ID3DXFont* font, ID3DXSprite* sprite, D3DXIMAGE_INFO imageInfo);
+	void Render(IDirect3DDevice9* device, ID3DXSprite* sprite);
 
 	void Shutdown();
 

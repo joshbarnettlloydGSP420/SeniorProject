@@ -5,10 +5,10 @@ HUD::HUD(void)
 {
 	//player hud variables
 	maxHealth = 100;
-	currentHealth = 55;
+	currentHealth = 100;
 	
 	maxShield = 100;
-	currentShield = 55;
+	currentShield = 100;
 	
 	//
 	bullets = 50;
@@ -38,11 +38,13 @@ HUD::HUD(void)
 	SetRect(&healthSheetRect, 32, 2, 242, 29);
 	healthPosition.position.x = hudLocation.x + 37;
 	healthPosition.position.y = hudLocation.y + 12;
+	healthPosition.position.z = 0.0f;
 
 	//shield
 	SetRect(&shieldSheetRect, 32, 2, 242, 29);
 	shieldPosition.position.x = hudLocation.x + 37;
 	shieldPosition.position.y = hudLocation.y + 40;
+	shieldPosition.position.z = 0.0f;
 	
 	//var for manip size of bars
 	widthHealth = healthSheetRect.right;
@@ -79,7 +81,7 @@ void HUD::Update(float dt)
 {
 }
 
-void HUD::Render(IDirect3DDevice9* device, ID3DXFont* font, ID3DXSprite* sprite, D3DXIMAGE_INFO imageInfo)
+void HUD::Render(IDirect3DDevice9* device, ID3DXSprite* sprite)
 {
 
 	if(hudOn)
