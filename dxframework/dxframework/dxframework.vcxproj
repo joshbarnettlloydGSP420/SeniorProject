@@ -125,9 +125,11 @@
     <None Include="Headgear.dds" />
     <None Include="Helmet.dds" />
     <None Include="House.X" />
+    <None Include="lab5.fx" />
     <None Include="Metal_Texture.jpg" />
     <None Include="Pack.dds" />
     <None Include="Parallax.fx" />
+    <None Include="plastic.fx" />
     <None Include="TestShader.txt" />
     <None Include="ToonColored.fx" />
     <None Include="Weapons.dds" />

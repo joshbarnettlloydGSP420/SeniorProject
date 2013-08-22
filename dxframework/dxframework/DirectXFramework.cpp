@@ -208,7 +208,7 @@ void CDirectXFramework::Init(HWND& hWnd, HINSTANCE& hInst, bool bWindowed)
 	ID3DXBuffer* ErrorMessage = 0;
 	D3DXCreateEffectFromFile(m_pD3DDevice,
 							//"ToonColored.fx",
-							"TestShader.txt",
+							"plastic.fx",
 							0,
 							0,
 							D3DXSHADER_DEBUG,

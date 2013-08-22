@@ -190,5 +190,11 @@
     <None Include="TestShader.txt">
       <Filter>Resource Files\Shaders</Filter>
     </None>
+    <None Include="plastic.fx">
+      <Filter>Resource Files\Shaders</Filter>
+    </None>
+    <None Include="lab5.fx">
+      <Filter>Resource Files\Shaders</Filter>
+    </None>
   </ItemGroup>
 </Project>
