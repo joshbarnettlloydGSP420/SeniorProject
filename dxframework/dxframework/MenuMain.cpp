@@ -14,7 +14,7 @@ void MenuMain::Update()
 {
 	BaseMenu::Update();
 
-	if ( myInput->keyDown( DIK_RETURN))
+	if (myInput->keyDown( DIK_RETURN))
 	{
 		if ( menuItemSelected == 1)
 		{

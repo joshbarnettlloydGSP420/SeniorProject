@@ -4,18 +4,6 @@
 
 class InputManager
 {
-private:
-
-	LPDIRECTINPUT8        dInput;			// the direct input object
-	LPDIRECTINPUTDEVICE8  mouseDevice;		// the direct input device for the mouse
-	LPDIRECTINPUTDEVICE8 keyboardDevice;	// the direct input device for the keyboard
-
-	DIMOUSESTATE mouseState;			// The current state of the mouse device
-	
-	UCHAR keyState[256];				//state of the keys
-	UCHAR keyPressState[256];			//used for the keyPressed function
-
-
 public:
 	InputManager(void);
 	~InputManager(void);
@@ -31,4 +19,17 @@ public:
 	bool keyDown(DWORD key);
 	bool keyUp(DWORD key);
 	bool keyPress(DWORD key);
+
+private:
+
+	LPDIRECTINPUT8        dInput;			// the direct input object
+	LPDIRECTINPUTDEVICE8  mouseDevice;		// the direct input device for the mouse
+	LPDIRECTINPUTDEVICE8 keyboardDevice;	// the direct input device for the keyboard
+
+	DIMOUSESTATE mouseState;			// The current state of the mouse device
+
+	
+	UCHAR keyState[256];				//state of the keys
+	UCHAR keyPressState[256];			//used for the keyPressed function
+
 };

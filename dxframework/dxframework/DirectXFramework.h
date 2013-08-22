@@ -11,11 +11,11 @@
 #pragma comment(lib, "d3dx9.lib")
 
 #include "HavokCore.h"
-#include "DirectInput.h"
+#include "InputManager.h"
 #include "Object_Base.h"
 #include "Object_Player.h"
 #include "CameraObj.h"
-
+#include "GameStateManager.h"
 
 
 // Macro to release COM objects fast and safely
@@ -38,6 +38,7 @@ class CDirectXFramework
 	IDirect3D9*					m_pD3DObject;	// Direct3D 9 Object
 	IDirect3DDevice9*			m_pD3DDevice;	// Direct3D 9 Device
 	D3DCAPS9					m_D3DCaps;		// Device Capabilities
+	
 
 	//////////////////////////////////////////////////////////////////////////
 	// Screen Variables														//
@@ -51,7 +52,7 @@ class CDirectXFramework
 	//////////////////////////////////////////////////////////////////////////
 	// Input Manager														//
 	//////////////////////////////////////////////////////////////////////////
-	DirectInput*				m_pDInput;
+	InputManager*				m_pDInput;
 
 
 	//////////////////////////////////////////////////////////////////////////
@@ -160,6 +161,7 @@ class CDirectXFramework
 	D3DXMATRIX						viewMat;
 	D3DXMATRIX						projMat;
 	D3DXMATRIX						invTransMat;
+	D3DXMATRIX						identity;
 
 	//////////////////////////////////////////////////////////////////////////
 	// Font Variables														//
@@ -182,11 +184,12 @@ class CDirectXFramework
 	hkStopwatch						stopWatch;
 	hkReal							lastTime;
 
+
 	//////////////////////////////////////////////////////////////////////////
 	// Objects																//
 	//////////////////////////////////////////////////////////////////////////
 	Object_Player*					Player;
-
+	GameStateManager*				gameState;
 	Object_Base*					Mansion;
 
 

@@ -15,7 +15,7 @@ void PauseMenu::Update()
 {
 	BaseMenu::Update();
 
-	if ( myInput->keyDown( DIK_RETURN))
+	if ( myInput->keyPress( DIK_RETURN))
 	{
 		if ( menuItemSelected == 1)
 		{
@@ -30,7 +30,7 @@ void PauseMenu::Update()
 			pauseState = p_MAIN_MENU;
 		}
 	}
-	if ( myInput->keyDown( DIK_P ))
+	if ( myInput->keyPress( DIK_P ))
 	{
 		pauseState = p_RESUME_GAME;
 	}

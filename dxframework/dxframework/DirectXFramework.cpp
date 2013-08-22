@@ -240,7 +240,8 @@ void CDirectXFramework::Init(HWND& hWnd, HINSTANCE& hInst, bool bWindowed)
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	// Input Manager Init
-	m_pDInput = new DirectInput(hWnd, hInst);
+	m_pDInput = new InputManager();
+	m_pDInput->init(hInst,hWnd);
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Create Havok Object																					 //
@@ -248,6 +249,7 @@ void CDirectXFramework::Init(HWND& hWnd, HINSTANCE& hInst, bool bWindowed)
 
 	// Havok
 	havok = new HavokCore(true);
+	gameState = new GameStateManager();
 
 	// Locking is necessary to make sure no two threads are trying to change the world at the same time
 	havok->getWorld()->lock();
@@ -259,7 +261,7 @@ void CDirectXFramework::Init(HWND& hWnd, HINSTANCE& hInst, bool bWindowed)
 
 	
 	havok->getWorld()->unlock();
-	
+	gameState->Init(&hWnd,&D3Dpp,hInst,m_pD3DDevice);
 	
 }
 
@@ -270,7 +272,9 @@ HWND CDirectXFramework::getMainWnd()
 
 void CDirectXFramework::Update(float dt)
 {
-	
+
+	if(gameState->activeGameState == GAME)
+	{
 	havok->stepSimulation(dt);
 
 	havok->getWorld()->lock();
@@ -278,12 +282,15 @@ void CDirectXFramework::Update(float dt)
 	Mansion->Update(dt);
 	Player->bodyInfo.m_collisionFilterInfo;
 	havok->getWorld()->unlock();
+	
 
 	D3DXVECTOR3 tempPos = D3DXVECTOR3(Mansion->position.x, Mansion->position.y, Mansion->position.z);
 	//camera->updateCamera(Player->rotation, Player->position);
 
 	UpdateCamera(dt);
 	playerControls(dt);
+	}
+	gameState->Update(dt);
 
 	
 }
@@ -295,7 +302,7 @@ void CDirectXFramework::Render(float dt)
 		return;
 	//*************************************************************************
 
-	m_pD3DDevice->Clear(0,NULL,D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER,D3DCOLOR_XRGB(0,125,255),1.0f,0);
+	m_pD3DDevice->Clear(0,NULL,D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER,D3DCOLOR_XRGB(0,0,0),1.0f,0);
 	//////////////////////////////////////////////////////////////////////////
 	// All draw calls between swap chain's functions, and pre-render and post- 
 	// render functions (Clear and Present, BeginScene and EndScene)
@@ -312,6 +319,8 @@ void CDirectXFramework::Render(float dt)
 	D3DXMatrixIdentity(&worldMat);
 	D3DXMatrixIdentity(&transMat);
 
+	if(gameState->activeGameState == GAME)
+	{
 	m_pD3DDevice->SetStreamSource(0, mesh_vb, 0, sizeof(Vertex));
 	m_pD3DDevice->SetIndices(mesh_ib);
 	m_pD3DDevice->SetVertexDeclaration(d3dVertexDecl);
@@ -441,7 +450,7 @@ void CDirectXFramework::Render(float dt)
 	D3DXMatrixIdentity(&worldMat);
 	D3DXMatrixScaling(&scaleMat, 1.0f, 1.0f, 0.0f);
 	D3DXMatrixRotationZ(&rotMat, D3DXToRadian(0.0f));
-	D3DXMatrixTranslation(&transMat, 100.0f, 300.0f, 0.0f);
+	D3DXMatrixTranslation(&transMat, 0.0f, 0.0f, 0.0f);
 	D3DXMatrixMultiply(&scaleMat, &scaleMat, &rotMat);
 	D3DXMatrixMultiply(&worldMat, &scaleMat, &transMat);
 	// Set Transform for the object m_pD3DSprite
@@ -450,10 +459,12 @@ void CDirectXFramework::Render(float dt)
 
 
 	// Draw the texture with the sprite object
-	m_pD3DSprite->Draw(m_pTexture[1], 0, &D3DXVECTOR3(m_imageInfo.Width * 0.5f, 
+	/*m_pD3DSprite->Draw(m_pTexture[1], 0, &D3DXVECTOR3(m_imageInfo.Width * 0.5f, 
 		m_imageInfo.Height * 0.5f, 0.0f), 0,
-		D3DCOLOR_ARGB(255, 255, 255, 255));
-
+		D3DCOLOR_ARGB(255, 255, 255, 255));*/
+	}
+	D3DXMatrixIdentity(&identity);
+	gameState->Render(m_pD3DSprite);
 
 	// End drawing 2D sprites
 	m_pD3DSprite->End();
@@ -471,17 +482,21 @@ void CDirectXFramework::Render(float dt)
 	// Draw Text, using DT_TOP, DT_RIGHT for placement in the top right of the
 	// screen.  DT_NOCLIP can improve speed of text rendering, but allows text
 	// to be drawn outside of the rect specified to draw text in.
-	char debugMessage[256];
+	/*char debugMessage[256];
 	sprintf( debugMessage, "X: %f\nY: %f\nZ: %f", 
-		eyePos.x, eyePos.y, eyePos.z );
+		eyePos.x, eyePos.y, eyePos.z );*/
 
-	char message[256];
+	/*char message[256];
 	sprintf( message,"Team Madness" );
 	m_pD3DFont->DrawText(0, debugMessage, -1, &rect, 
                   DT_TOP | DT_LEFT | DT_NOCLIP, 
-                  D3DCOLOR_ARGB(255, 255, 255, 255));
+                  D3DCOLOR_ARGB(255, 255, 255, 255));*/
+	
+	
+	
 
-
+	
+	
 
 	// EndScene, and Present the back buffer to the display buffer
 	m_pD3DDevice->EndScene();
@@ -624,7 +639,7 @@ void CDirectXFramework::UpdateCamera(float dt)
 
 void CDirectXFramework::playerControls(float dt)
 {
-	m_pDInput->poll();
+	m_pDInput->getInput();
 
 	// Moving Forward and Backward
 	if(m_pDInput->keyDown(DIK_W))

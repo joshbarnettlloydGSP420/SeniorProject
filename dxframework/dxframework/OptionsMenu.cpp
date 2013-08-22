@@ -10,7 +10,7 @@ OptionsMenu::~OptionsMenu(void)
 {
 }
 
-bool OptionsMenu::Init( DirectInput* input, IDirect3DDevice9* m_pD3DDevice, HWND* wndHandle, D3DPRESENT_PARAMETERS* D3dpp)
+bool OptionsMenu::Init(InputManager* input, IDirect3DDevice9* m_pD3DDevice, HWND* wndHandle, D3DPRESENT_PARAMETERS* D3dpp)
 {
 	BaseMenu::Init( input, m_pD3DDevice );
 	hwnd = wndHandle;
