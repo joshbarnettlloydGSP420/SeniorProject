@@ -2,6 +2,8 @@
 
 #include "Mesh.h"
 #include "HavokCore.h"
+#include "PSystem.h"
+//#include "Gun.h"
 
 // Enum for deciding what Shape the Object is in Havok
 enum HavokPlayerShape
@@ -44,7 +46,6 @@ public:
 	// Rigid Body
 	short						shape;
 	hkpCharacterRigidBody*		objectBody;
-	hkpCharacterRigidBodyCinfo	bodyInfo;
 	hkReal						mass;	
 	hkVector4					shapeSize;
 	hkpCharacterInput			input;
@@ -56,10 +57,11 @@ public:
 	hkpCharacterStateManager*	manager;
 	hkpCharacterContext*		context;
 
-	// 
+	// bullet
+	PSystem*					mPSys;
 
 	// Constructor, Destructor, and Methods
-	Object_Player(void);
+	Object_Player();
 	~Object_Player(void);
 
 	void Update(float deltaTime);

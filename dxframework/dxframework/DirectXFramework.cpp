@@ -1,13 +1,14 @@
 #include "DirectXFramework.h"
 
+//CDirectXFramework* gd3dApp   = 0;
+IDirect3DDevice9* m_pD3DDevice = 0;
+//CameraObj* gCamera = 0;
 
 CDirectXFramework::CDirectXFramework(void)
 {
 	// Init or NULL objects before use to avoid any undefined behavior
 	m_bVsync		= false;
-	m_pD3DObject	= 0;
-	m_pD3DDevice	= 0;
-
+	m_pD3DObject	= 0; // *handle* naming it gd3dApp for the sake of not having to change more stuff
 }
 
 CDirectXFramework::~CDirectXFramework(void)
@@ -130,6 +131,8 @@ void CDirectXFramework::Init(HWND& hWnd, HINSTANCE& hInst, bool bWindowed)
 // Creating Camera																						 //
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+	gCamera = new CameraObj();
+	gCamera->createCamera(1000.0f, 1.0f, 1.3333f, ((float)screenWidth / (float)screenHeight));
 	// Initialize View Matrix
 	eyePos								= D3DXVECTOR3(0.0f, 1.0f, -2.0f);	// Camera Position
 	lookAt								= eyePos + D3DXVECTOR3(0.0f, 0.0f, 1.0f);	// Position camera is viewing
@@ -208,7 +211,7 @@ void CDirectXFramework::Init(HWND& hWnd, HINSTANCE& hInst, bool bWindowed)
 	ID3DXBuffer* ErrorMessage = 0;
 	D3DXCreateEffectFromFile(m_pD3DDevice,
 							//"ToonColored.fx",
-							"plastic.fx",
+							"TestShader.txt",
 							0,
 							0,
 							D3DXSHADER_DEBUG,
@@ -249,7 +252,8 @@ void CDirectXFramework::Init(HWND& hWnd, HINSTANCE& hInst, bool bWindowed)
 
 	// Havok
 	havok = new HavokCore(true);
-	gameState = new GameStateManager();
+
+	
 
 	// Locking is necessary to make sure no two threads are trying to change the world at the same time
 	havok->getWorld()->lock();
@@ -258,11 +262,16 @@ void CDirectXFramework::Init(HWND& hWnd, HINSTANCE& hInst, bool bWindowed)
 	Mansion->createHavokObject(havok->getWorld());
 
 	createGroundBox(havok->getWorld());	
-
 	
 	havok->getWorld()->unlock();
+
+	/// YOU FORGOT TO INIT YOU'RE VERTEX DECLARATIONS...
+	/// you digital dummy :)
+	InitAllVertexDeclarations();
+
+	//Gamestate
+	gameState = new GameStateManager();
 	gameState->Init(&hWnd,&D3Dpp,hInst,m_pD3DDevice);
-	
 }
 
 HWND CDirectXFramework::getMainWnd()
@@ -272,7 +281,6 @@ HWND CDirectXFramework::getMainWnd()
 
 void CDirectXFramework::Update(float dt)
 {
-
 	if(gameState->activeGameState == GAME)
 	{
 	havok->stepSimulation(dt);
@@ -280,9 +288,7 @@ void CDirectXFramework::Update(float dt)
 	havok->getWorld()->lock();
 	Player->Update(dt);
 	Mansion->Update(dt);
-	Player->bodyInfo.m_collisionFilterInfo;
 	havok->getWorld()->unlock();
-	
 
 	D3DXVECTOR3 tempPos = D3DXVECTOR3(Mansion->position.x, Mansion->position.y, Mansion->position.z);
 	//camera->updateCamera(Player->rotation, Player->position);
@@ -291,8 +297,6 @@ void CDirectXFramework::Update(float dt)
 	playerControls(dt);
 	}
 	gameState->Update(dt);
-
-	
 }
 
 void CDirectXFramework::Render(float dt)
@@ -302,7 +306,7 @@ void CDirectXFramework::Render(float dt)
 		return;
 	//*************************************************************************
 
-	m_pD3DDevice->Clear(0,NULL,D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER,D3DCOLOR_XRGB(0,0,0),1.0f,0);
+	m_pD3DDevice->Clear(0,NULL,D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER,D3DCOLOR_XRGB(0,125,255),1.0f,0);
 	//////////////////////////////////////////////////////////////////////////
 	// All draw calls between swap chain's functions, and pre-render and post- 
 	// render functions (Clear and Present, BeginScene and EndScene)
@@ -313,12 +317,12 @@ void CDirectXFramework::Render(float dt)
 	//////////////////////////////////////////////////////////////////////////
 	// Draw 3D Objects (for future labs - not used in Week #1)
 	//////////////////////////////////////////////////////////////////////////
+	Player->mPSys->draw(m_hWnd);
 
 	D3DXMatrixIdentity(&rotMat);
 	D3DXMatrixIdentity(&scaleMat);
 	D3DXMatrixIdentity(&worldMat);
 	D3DXMatrixIdentity(&transMat);
-
 	if(gameState->activeGameState == GAME)
 	{
 	m_pD3DDevice->SetStreamSource(0, mesh_vb, 0, sizeof(Vertex));
@@ -459,13 +463,11 @@ void CDirectXFramework::Render(float dt)
 
 
 	// Draw the texture with the sprite object
-	/*m_pD3DSprite->Draw(m_pTexture[1], 0, &D3DXVECTOR3(m_imageInfo.Width * 0.5f, 
-		m_imageInfo.Height * 0.5f, 0.0f), 0,
-		D3DCOLOR_ARGB(255, 255, 255, 255));*/
-	}
-	D3DXMatrixIdentity(&identity);
-	gameState->Render(m_pD3DSprite);
-
+	//m_pD3DSprite->Draw(m_pTexture[1], 0, &D3DXVECTOR3(m_imageInfo.Width * 0.5f, 
+	//	m_imageInfo.Height * 0.5f, 0.0f), 0,
+	//	D3DCOLOR_ARGB(255, 255, 255, 255));
+}
+gameState->Render(m_pD3DSprite);
 	// End drawing 2D sprites
 	m_pD3DSprite->End();
 
@@ -491,12 +493,8 @@ void CDirectXFramework::Render(float dt)
 	m_pD3DFont->DrawText(0, debugMessage, -1, &rect, 
                   DT_TOP | DT_LEFT | DT_NOCLIP, 
                   D3DCOLOR_ARGB(255, 255, 255, 255));*/
-	
-	
-	
 
-	
-	
+
 
 	// EndScene, and Present the back buffer to the display buffer
 	m_pD3DDevice->EndScene();
@@ -511,6 +509,12 @@ void CDirectXFramework::Shutdown()
 {
 	//*************************************************************************
 	// Release COM objects in the opposite order they were created in
+
+	if(gCamera)
+	{
+		delete gCamera;
+		gCamera = 0;
+	}
 
 	// Texture
 	//SAFE_RELEASE(m_pTexture)
@@ -640,6 +644,22 @@ void CDirectXFramework::UpdateCamera(float dt)
 void CDirectXFramework::playerControls(float dt)
 {
 	m_pDInput->getInput();
+
+	//OMFG@W0RKINGP3WP3W
+	static float delay = 0.0f;
+	/*if( gDInput->keyDown(DIK_SPACE) && delay <= 0.0f)|
+	{												   |
+		delay = 0.3f;								   |
+		Player->mPSys->addParticle();				   | this is the same as the one below, only using spacebar to shoot
+	}												   |
+	delay -= dt;									   |*/	
+
+	if( m_pDInput->isButtonDown(0) && delay <= 0.0f)
+	{
+		delay = 0.3f;
+		Player->mPSys->addParticle();
+	}
+	delay -= dt;
 
 	// Moving Forward and Backward
 	if(m_pDInput->keyDown(DIK_W))

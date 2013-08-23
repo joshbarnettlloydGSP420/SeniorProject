@@ -15,6 +15,8 @@
 #include "Object_Base.h"
 #include "Object_Player.h"
 #include "CameraObj.h"
+#include "d3dUtil.h"
+#include "Vertex.h"
 #include "GameStateManager.h"
 
 
@@ -23,6 +25,7 @@
 
 
 // Enums
+//IDirect3DDevice9*			m_pD3DDevice;	// Direct3D 9 Device
 
 class CDirectXFramework
 {
@@ -36,9 +39,8 @@ class CDirectXFramework
 	// Direct3D Variables													//
 	//////////////////////////////////////////////////////////////////////////
 	IDirect3D9*					m_pD3DObject;	// Direct3D 9 Object
-	IDirect3DDevice9*			m_pD3DDevice;	// Direct3D 9 Device
+	//IDirect3DDevice9*			m_pD3DDevice;	// Direct3D 9 Device
 	D3DCAPS9					m_D3DCaps;		// Device Capabilities
-	
 
 	//////////////////////////////////////////////////////////////////////////
 	// Screen Variables														//
@@ -53,12 +55,16 @@ class CDirectXFramework
 	// Input Manager														//
 	//////////////////////////////////////////////////////////////////////////
 	InputManager*				m_pDInput;
+	//////////////////////////////////////////////////////////////////////////
+	// Gamestate Manager													//
+	//////////////////////////////////////////////////////////////////////////
+	GameStateManager*				gameState;
 
 
 	//////////////////////////////////////////////////////////////////////////
 	// Camera																//
 	//////////////////////////////////////////////////////////////////////////
-	CameraObj*						camera;
+	//CameraObj*					camera;
 
 	//////////////////////////////////////////////////////////////////////////
 	// Structs																//
@@ -161,7 +167,6 @@ class CDirectXFramework
 	D3DXMATRIX						viewMat;
 	D3DXMATRIX						projMat;
 	D3DXMATRIX						invTransMat;
-	D3DXMATRIX						identity;
 
 	//////////////////////////////////////////////////////////////////////////
 	// Font Variables														//
@@ -184,13 +189,11 @@ class CDirectXFramework
 	hkStopwatch						stopWatch;
 	hkReal							lastTime;
 
-
 	//////////////////////////////////////////////////////////////////////////
 	// Objects																//
 	//////////////////////////////////////////////////////////////////////////
-	Object_Player*					Player;
-	GameStateManager*				gameState;
 	Object_Base*					Mansion;
+	Object_Player*					Player;
 
 
 public:
@@ -216,3 +219,6 @@ public:
 
 	void playerControls(float dt);
 };
+
+extern CDirectXFramework gd3dApp;
+//extern IDirect3DDevice9* m_pD3DDevice;
