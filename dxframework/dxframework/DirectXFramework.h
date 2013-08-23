@@ -191,7 +191,6 @@ class CDirectXFramework
 	// Objects																//
 	//////////////////////////////////////////////////////////////////////////
 	Object_Player*					Player;
-
 	Object_Base*					Mansion;
 
 

@@ -12,8 +12,6 @@ enum HavokPlayerShape
 	PLAYERCAPSULE		=	3		// Havok Capsule
 };
 
-
-
 class Object_Player
 {
 private:
@@ -23,6 +21,10 @@ private:
 	void stateMachineInit();
 
 public:
+
+	//////////////////////////////////////////////////////////////////////////
+	// Base																	//
+	//////////////////////////////////////////////////////////////////////////
 	// Variables
 	D3DXVECTOR4					position;
 	D3DXVECTOR3					rotation;
@@ -39,8 +41,9 @@ public:
 	// Mesh
 	Mesh*						objectMesh;
 	
-	// Havok
-
+	//////////////////////////////////////////////////////////////////////////
+	// Havok																//
+	//////////////////////////////////////////////////////////////////////////
 	// Rigid Body
 	short						shape;
 	hkpCharacterRigidBody*		objectBody;
@@ -48,8 +51,6 @@ public:
 	hkReal						mass;	
 	hkVector4					shapeSize;
 	hkpCharacterInput			input;
-	
-	// Movement
 
 	// State Machine
 	hkpCharacterState*			state;
@@ -58,7 +59,9 @@ public:
 
 	// 
 
-	// Constructor, Destructor, and Methods
+	//////////////////////////////////////////////////////////////////////////
+	// Constructor, Destructor, and Methods									//
+	//////////////////////////////////////////////////////////////////////////
 	Object_Player(void);
 	~Object_Player(void);
 
@@ -73,5 +76,7 @@ public:
 	void characterInputOutput();
 
 	void gunShot();
+
+	bool collisionCheck(hkpRigidBody* rigidBody);
 };
 

@@ -39,7 +39,6 @@ void Object_Player::convertPosition()
 	position.z = (float)objectBody->getPosition().getComponent(2);
 	position.w = (float)objectBody->getPosition().getComponent(3);
 
-	
 }
 
 // Changes the velocity in Havok based on velocityUD and velocityLR
@@ -241,4 +240,20 @@ void Object_Player::characterInputOutput()
 	context->update(input, output);
 
 	objectBody->setLinearVelocity(output.m_velocity, 1.0f / 60.0f);
+}
+
+bool Object_Player::collisionCheck(hkpRigidBody* rigidBody)
+{
+	hkAabb aabbBase;
+	hkAabb aabbOut;
+
+	rigidBody->getCollidable()->getShape()->getAabb(rigidBody->getTransform(), 0.4f, aabbOut);
+	objectBody->getRigidBody()->getCollidable()->getShape()->getAabb(objectBody->getRigidBody()->getTransform(), 0.4f, aabbBase);
+
+	if(aabbBase.overlaps(aabbOut))
+	{
+		return true;
+	}
+
+	return false;
 }

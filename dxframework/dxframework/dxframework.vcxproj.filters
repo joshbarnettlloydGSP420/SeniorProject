@@ -57,9 +57,6 @@
     <ClCompile Include="winMain.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Camera.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="BaseMenu.cpp">
       <Filter>Source Files\Menu</Filter>
     </ClCompile>
@@ -113,9 +110,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Camera.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="BaseMenu.h">
       <Filter>Header Files\Menu</Filter>
     </ClInclude>
@@ -187,6 +181,9 @@
     </ClInclude>
     <ClInclude Include="SoundLoader.h">
       <Filter>Header Files\Audio / FMOD</Filter>
+    </ClInclude>
+    <ClInclude Include="Utilities.h">
+      <Filter>Header Files\Devices</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

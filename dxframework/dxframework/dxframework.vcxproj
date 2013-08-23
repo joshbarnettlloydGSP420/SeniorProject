@@ -83,7 +83,6 @@
   <ItemGroup>
     <ClCompile Include="AudioManager.cpp" />
     <ClCompile Include="BaseMenu.cpp" />
-    <ClCompile Include="Camera.cpp" />
     <ClCompile Include="CameraObj.cpp" />
     <ClCompile Include="DirectInput.cpp" />
     <ClCompile Include="DirectXFramework.cpp" />
@@ -104,7 +103,6 @@
   <ItemGroup>
     <ClInclude Include="AudioManager.h" />
     <ClInclude Include="BaseMenu.h" />
-    <ClInclude Include="Camera.h" />
     <ClInclude Include="CameraObj.h" />
     <ClInclude Include="DirectInput.h" />
     <ClInclude Include="DirectXFramework.h" />
@@ -127,6 +125,7 @@
     <ClInclude Include="PauseMenu.h" />
     <ClInclude Include="SoundEffect.h" />
     <ClInclude Include="SoundLoader.h" />
+    <ClInclude Include="Utilities.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Armor.dds" />

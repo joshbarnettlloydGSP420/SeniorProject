@@ -246,7 +246,7 @@ void CDirectXFramework::Init(HWND& hWnd, HINSTANCE& hInst, bool bWindowed)
 // Gamestate Manager																					 //
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 	stateManager = new GameStateManager();
-	stateManager->Init(&hWnd, &D3Dpp, hInst, );
+	stateManager->Init(&hWnd, &D3Dpp, hInst, m_pD3DDevice);
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Create Havok Object																					 //
@@ -282,7 +282,13 @@ void CDirectXFramework::Update(float dt)
 	havok->getWorld()->lock();
 	Player->Update(dt);
 	Mansion->Update(dt);
-	Player->bodyInfo.m_collisionFilterInfo;
+
+	if(Player->collisionCheck(Mansion->rigidBody))
+	{
+		Player->health -= 5;
+	}
+
+
 	havok->getWorld()->unlock();
 
 	D3DXVECTOR3 tempPos = D3DXVECTOR3(Mansion->position.x, Mansion->position.y, Mansion->position.z);
