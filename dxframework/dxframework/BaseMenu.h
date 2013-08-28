@@ -8,7 +8,7 @@
 #include <windows.h>
 #include <iostream>
 #include <dshow.h>
-#include "DirectInput.h"
+#include "InputManager.h"
 
 #pragma comment(lib, "Strmiids.lib")
 #pragma comment(lib, "d3d9.lib")
@@ -54,13 +54,13 @@ protected:
 	int buttonSound;
 	int menuItemSelected;		// Hold the menu selection			
 
-	DirectInput* myInput;
+	InputManager* myInput;
 
 public:
 	BaseMenu(void);
 	virtual ~BaseMenu(void);
 
-	bool Init(DirectInput* input, IDirect3DDevice9* m_pD3DDevice);
+	bool Init(InputManager* input, IDirect3DDevice9* m_pD3DDevice);
 	void Update();
 	void Render();
 

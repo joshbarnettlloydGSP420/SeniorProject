@@ -2,6 +2,8 @@
 
 #include "Mesh.h"
 #include "HavokCore.h"
+#include "PSystem.h"
+//#include "Gun.h"
 
 // Enum for deciding what Shape the Object is in Havok
 enum HavokPlayerShape
@@ -12,6 +14,8 @@ enum HavokPlayerShape
 	PLAYERCAPSULE		=	3		// Havok Capsule
 };
 
+
+
 class Object_Player
 {
 private:
@@ -21,10 +25,6 @@ private:
 	void stateMachineInit();
 
 public:
-
-	//////////////////////////////////////////////////////////////////////////
-	// Base																	//
-	//////////////////////////////////////////////////////////////////////////
 	// Variables
 	D3DXVECTOR4					position;
 	D3DXVECTOR3					rotation;
@@ -41,28 +41,27 @@ public:
 	// Mesh
 	Mesh*						objectMesh;
 	
-	//////////////////////////////////////////////////////////////////////////
-	// Havok																//
-	//////////////////////////////////////////////////////////////////////////
+	// Havok
+
 	// Rigid Body
 	short						shape;
 	hkpCharacterRigidBody*		objectBody;
-	hkpCharacterRigidBodyCinfo	bodyInfo;
 	hkReal						mass;	
 	hkVector4					shapeSize;
 	hkpCharacterInput			input;
+	
+	// Movement
 
 	// State Machine
 	hkpCharacterState*			state;
 	hkpCharacterStateManager*	manager;
 	hkpCharacterContext*		context;
 
-	// 
+	// bullet
+	PSystem*					mPSys;
 
-	//////////////////////////////////////////////////////////////////////////
-	// Constructor, Destructor, and Methods									//
-	//////////////////////////////////////////////////////////////////////////
-	Object_Player(void);
+	// Constructor, Destructor, and Methods
+	Object_Player();
 	~Object_Player(void);
 
 	void Update(float deltaTime);

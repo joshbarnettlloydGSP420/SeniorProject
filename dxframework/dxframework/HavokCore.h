@@ -18,8 +18,6 @@
 #include <Physics/Dynamics/World/hkpWorld.h>													// The Havok World
 #include <Physics/Collide/Dispatch/hkpAgentRegisterUtil.h>										// Havok Registration Utility 
 #include <Physics/Dynamics/Collide/ContactListener/hkpContactListener.h>
-#include <Physics/Collide/Query/Multithreaded/CollisionQuery/hkpCollisionQueryJobs.h>
-
 
 // Visual Debugger Includes
 #include <Common/Visualize/hkVisualDebugger.h>													// Visual Debugger Tool
@@ -29,7 +27,7 @@
 #include <Physics/Collide/Shape/Convex/Sphere/hkpSphereShape.h>									// Sphere Shape
 #include <Physics/Collide/Shape/Convex/Box/hkpBoxShape.h>										// Box Shape
 #include <Physics/Collide/Shape/Convex/Capsule/hkpCapsuleShape.h>								// Capsule Shapes
-#include <Physics/Dynamics/Phantom/hkpAabbPhantom.h>
+#include <Physics/Collide/Shape/Misc/PhantomCallback/hkpPhantomCallbackShape.h>
 #include <Physics/Dynamics/Entity/hkpRigidBody.h>												// Generic Rigid Body
 #include <Physics/Utilities/Dynamics/Inertia/hkpInertiaTensorComputer.h>						// Inertia Physics
 
@@ -58,7 +56,6 @@ private:
 
 	hkpWorld*			_pWorld;					// Physics World
 	hkpWorldCinfo		_pWorldInfo;				// Info about global simulation parameters
-
 
 	//hkgDisplayHandler*	_Display;
 
@@ -95,9 +92,6 @@ public:
 	void stepSimulation(float dt);					// This Combinds the Physics and Visual Debugger Update Methods into One Update
 
 	hkpWorld* getWorld() { return _pWorld; }		// Returns the World
-
-	hkpContactListener* _listener;
-	hkpCdBodyPairCollector* _pairCollector;
 };
 
 #endif

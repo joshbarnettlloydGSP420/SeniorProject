@@ -1,5 +1,6 @@
 #include "CameraObj.h"
 
+CameraObj* gCamera = 0;
 
 CameraObj::CameraObj(void)
 {
@@ -21,7 +22,9 @@ CameraObj::~CameraObj(void)
 
 void CameraObj::createCamera(float farPlane, float nearPlane, float aspect, float FOV)
 {
-	D3DXMatrixPerspectiveFovLH(&projMat, FOV, aspect, nearPlane, farPlane);
+	D3DXMATRIX temp;
+	D3DXMatrixPerspectiveFovLH(&temp, FOV, aspect, nearPlane, farPlane);
+	projMat = temp;
 	//D3DXMatrixLookAtLH( &viewMat, &eyePos, &D3DXVECTOR3(0,0,0), &upVec );
 	buildFrustum();
 	viewProjMat = viewMat * projMat;
@@ -72,6 +75,21 @@ void CameraObj::setLook(D3DXVECTOR3 lookingAt, D3DXVECTOR3& position, D3DXVECTOR
 	buildFrustum();
 
 	viewProjMat = viewMat * projMat;
+}
+
+const D3DXMATRIX& CameraObj::viewProj() const
+{
+	return viewProjMat;
+}
+
+D3DXVECTOR3& CameraObj::pos()
+{
+	return eyePos;
+}
+
+const D3DXVECTOR3& CameraObj::look() const
+{
+	return lookAt;
 }
 
 void CameraObj::setPosition(D3DXVECTOR3 eyePosition)
@@ -144,30 +162,30 @@ void CameraObj::buildFrustum()
 		D3DXPlaneNormalize( &Frustum[i], &Frustum[i]);
 }
 
-//bool CameraObj::isVisible(const AABB& Box)const
-//{
-//	D3DXVECTOR3 P;
-//	D3DXVECTOR3 Q;
-//
-//	for(int i = 0; i < 6; ++i)
-//	{
-//		for(int j = 0; j < 3; ++j)
-//		{
-//			if(Frustum[i][j] >= 0.0f)
-//			{
-//				P[j] = Box.minPt[j];
-//				Q[j] = Box.maxPt[j];
-//			}
-//			else
-//			{
-//				P[j] = Box.maxPt[j];
-//				Q[j] = Box.minPt[j];
-//			}
-//		}
-//
-//		if(D3DXPlaneDotCoord(&Frustum[i], &Q) < 0.0f)
-//			return false;
-//	}
-//
-//	return true;
-//}
+bool CameraObj::isVisible(const AABB& Box)const
+{
+	D3DXVECTOR3 P;
+	D3DXVECTOR3 Q;
+
+	for(int i = 0; i < 6; ++i)
+	{
+		for(int j = 0; j < 3; ++j)
+		{
+			if(Frustum[i][j] >= 0.0f)
+			{
+				P[j] = Box.minPt[j];
+				Q[j] = Box.maxPt[j];
+			}
+			else
+			{
+				P[j] = Box.maxPt[j];
+				Q[j] = Box.minPt[j];
+			}
+		}
+
+		if(D3DXPlaneDotCoord(&Frustum[i], &Q) < 0.0f)
+			return false;
+	}
+
+	return true;
+}

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <d3dx9.h>
+#include "d3dUtil.h"
 
 
 class CameraObj
@@ -20,6 +21,14 @@ public:
 	void followPoint();
 	void buildView();
 	void buildFrustum();
+
+	//stuff added for bullet class 
+	const D3DXMATRIX& viewProj() const;
+	bool isVisible(const AABB& box)const;
+	const D3DXVECTOR3& look() const;
+
+	D3DXVECTOR3& pos();
+
 	//bool isVisible(const AABB& Box)const; 
 
 	// Frustum Planes for Culling

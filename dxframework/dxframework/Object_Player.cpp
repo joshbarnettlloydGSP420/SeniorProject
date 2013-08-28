@@ -1,6 +1,7 @@
 #include "Object_Player.h"
+#include "Gun.h"
 
-Object_Player::Object_Player(void)
+Object_Player::Object_Player()
 {
 	objectMesh = new Mesh();
 	position = D3DXVECTOR4(0.0f, 0.0f, 0.0f, 0.0f);
@@ -13,6 +14,22 @@ Object_Player::Object_Player(void)
 	velLR = 0.0f;
 
 	wantJump = false;
+	
+	// Initialize the particle system.
+	D3DXMATRIX psysWorld;
+	D3DXMatrixIdentity(&psysWorld);
+
+
+	//bullets/gun
+	AABB psysBox;
+	psysBox.maxPt = D3DXVECTOR3(INFINITY, INFINITY, INFINITY);
+	psysBox.minPt = D3DXVECTOR3(-INFINITY, -INFINITY, -INFINITY);
+	
+	// Accelerate due to gravity.  However, since the bullets travel at 
+	// such a high velocity, the effect of gravity of not really observed.
+	mPSys = new Gun("gun.fx", "GunTech", "bolt2.dds", D3DXVECTOR3(0, -9.8f, 0), psysBox, 100, -1.0f);
+	mPSys->setWorldMtx(psysWorld);              
+
 }
 
 
@@ -25,6 +42,9 @@ void Object_Player::Update(float deltaTime)
 {
 	convertPosition();
 	characterInputOutput();
+
+	//gun update
+	mPSys->update(deltaTime);
 
 	if(jumpTimer < 3.2f)
 	{
@@ -39,6 +59,7 @@ void Object_Player::convertPosition()
 	position.z = (float)objectBody->getPosition().getComponent(2);
 	position.w = (float)objectBody->getPosition().getComponent(3);
 
+	
 }
 
 // Changes the velocity in Havok based on velocityUD and velocityLR
@@ -81,6 +102,9 @@ void Object_Player::createHavokObject(hkpWorld* world)
 
 void Object_Player::createSphereObject(hkpWorld* world)
 {
+	// Create a temp body info
+	hkpCharacterRigidBodyCinfo	bodyInfo;
+
 	// Sphere Parameters
 	hkReal radius = (scale.x + scale.z) / 2;
 
@@ -110,6 +134,8 @@ void Object_Player::createSphereObject(hkpWorld* world)
 
 void Object_Player::createBoxObject(hkpWorld* world)
 {
+	// Create a temp body info
+	hkpCharacterRigidBodyCinfo	bodyInfo;
 
 	// Box Parameters
 	hkVector4 halfExtents(scale.x, scale.y, scale.z);
@@ -140,6 +166,8 @@ void Object_Player::createBoxObject(hkpWorld* world)
 
 void Object_Player::createCapsuleObject(hkpWorld* world)
 {
+	// Create a temp body info
+	hkpCharacterRigidBodyCinfo	bodyInfo;
 
 	// Capsule Parameters
 	hkVector4	vertexA(position.x, position.y + (scale.y / 2), position.z, 0);	// Top
@@ -249,6 +277,7 @@ bool Object_Player::collisionCheck(hkpRigidBody* rigidBody)
 
 	rigidBody->getCollidable()->getShape()->getAabb(rigidBody->getTransform(), 0.4f, aabbOut);
 	objectBody->getRigidBody()->getCollidable()->getShape()->getAabb(objectBody->getRigidBody()->getTransform(), 0.4f, aabbBase);
+
 
 	if(aabbBase.overlaps(aabbOut))
 	{

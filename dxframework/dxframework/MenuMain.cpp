@@ -14,7 +14,7 @@ void MenuMain::Update()
 {
 	BaseMenu::Update();
 
-	if ( myInput->keyDown( DIK_RETURN))
+	if (myInput->keyDown( DIK_RETURN))
 	{
 		if ( menuItemSelected == 1)
 		{
@@ -48,25 +48,25 @@ void MenuMain::Render()
 	sprintf(menuPrint,"Game Start");
 	SetRect(&m_rect,120,210,600,500);
 	if(menuItemSelected == 1)
-		option = D3DCOLOR_ARGB(255,255,0,255);
+		option = D3DCOLOR_ARGB(255,255,0,0);
 	else
-		option = D3DCOLOR_ARGB(255,150,0,240);
+		option = D3DCOLOR_ARGB(255,0,0,255);
 	m_pD3DFont->DrawTextA(0,menuPrint,-1,&m_rect, DT_CENTER | DT_NOCLIP,option);
 
 	sprintf(menuPrint,"Options Menu");
 	SetRect(&m_rect,120,410,600,500);
 	if(menuItemSelected == 2)
-		option = D3DCOLOR_ARGB(255,255,0,255);
+		option = D3DCOLOR_ARGB(255,255,0,0);
 	else
-		option = D3DCOLOR_ARGB(255,150,0,240);
+		option = D3DCOLOR_ARGB(255,0,0,255);
 	m_pD3DFont->DrawTextA(0,menuPrint,-1,&m_rect, DT_CENTER | DT_NOCLIP,option);
 
 	sprintf(menuPrint,"Quit");
 	SetRect(&m_rect,120,550,600,500);
 	if(menuItemSelected == 3)
-		option = D3DCOLOR_ARGB(255,255,0,255);
+		option = D3DCOLOR_ARGB(255,255,0,0);
 	else
-		option = D3DCOLOR_ARGB(255,150,0,240);
+		option = D3DCOLOR_ARGB(255,0,0,255);
 	m_pD3DFont->DrawTextA(0,menuPrint,-1,&m_rect, DT_CENTER | DT_NOCLIP,option);
 
 	//m_pD3DSprite->End();
