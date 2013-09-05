@@ -75,9 +75,9 @@ void MenuMain::Render()
 	
 
 	// Print Main Menu at the top of the screen
-	sprintf(menuPrint,"MAIN MENU");
+	/*sprintf(menuPrint,"MAIN MENU");
 	SetRect(&m_rect,120,10,600,500);  
-	option = D3DCOLOR_ARGB(255,150,0,240);
+	option = D3DCOLOR_ARGB(255,150,0,240);*/
 
 	m_pD3DFont->DrawTextA(0,menuPrint,-1,&m_rect, DT_CENTER | DT_NOCLIP,option);
 

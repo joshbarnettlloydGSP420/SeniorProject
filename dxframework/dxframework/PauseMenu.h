@@ -19,10 +19,10 @@ private:
 public:
 	PauseMenu();
 	~PauseMenu(void);
-
+	void DrawBackground();
 	virtual void Render();
 	virtual void Update();
-
+	bool Init(InputManager* input, IDirect3DDevice9*	m_pD3DDevice);
 	// Accessors and Mutators
 	int GetState() { return pauseState; };
 };
