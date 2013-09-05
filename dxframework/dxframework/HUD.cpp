@@ -74,10 +74,7 @@ void HUD::Init(IDirect3DDevice9* device)
 		D3DX_DEFAULT, D3DCOLOR_XRGB(255, 0, 255), 
 		0, 0, &shieldTexture);
 	//D3DXCreateTextureFromFile(device, "healthHUD.png", &hudTexture);
-<<<<<<< HEAD
-=======
 	hudOn = true;
->>>>>>> origin/MartinezWorking
 
 }
 

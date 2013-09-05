@@ -17,23 +17,14 @@ void GameStateManager::Init( HWND* wndHandle,  D3DPRESENT_PARAMETERS* D3dpp, HIN
 	D3Dpp = D3dpp;
 
 	// Create a new input manager
-<<<<<<< HEAD
-	input = new DirectInput(*wndHandle, hInst);
-=======
 	input = new InputManager();
 	input->init(hInst, *hwnd);
->>>>>>> origin/MartinezWorking
 
 	// Create a new menu
 	mainMenu = new MenuMain();
 	mainMenu->Init( input, m_pD3DDevice );
 
-<<<<<<< HEAD
-	hud = new HUD();
-	hud->Init(m_pD3DDevice);
-=======
 	
->>>>>>> origin/MartinezWorking
 
 	// Set the active game state to the Main Menu
 	activeGameState = MAIN_MENU;
@@ -41,11 +32,7 @@ void GameStateManager::Init( HWND* wndHandle,  D3DPRESENT_PARAMETERS* D3dpp, HIN
 
 void GameStateManager::Update( float dt )
 {
-<<<<<<< HEAD
-	input->poll();
-=======
 	input->getInput();
->>>>>>> origin/MartinezWorking
 	switch ( activeGameState )
 	{
 		///////////////////////////////////////////////////////////////////////
@@ -87,11 +74,7 @@ void GameStateManager::Update( float dt )
 					delete mainMenu;
 
 					// create a new game
-<<<<<<< HEAD
-					hud = new HUD;
-=======
 					hud = new HUD();
->>>>>>> origin/MartinezWorking
 					hud->Init( m_pD3DDevice);
 
 					activeGameState = GAME;
@@ -141,11 +124,7 @@ void GameStateManager::Update( float dt )
 			// Game's update function
 			hud->Update( dt );
 
-<<<<<<< HEAD
-			if (input->keyDown(DIK_P))
-=======
 			if (input->keyPress(DIK_P))
->>>>>>> origin/MartinezWorking
 			{
 				// create a pause menu
 				pauseMenu = new PauseMenu();

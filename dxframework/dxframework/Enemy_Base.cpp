@@ -3,8 +3,6 @@
 
 Enemy_Base::Enemy_Base(void)
 {
-<<<<<<< HEAD
-=======
 	// defalut values
 	textureName = "RedGhostTexture.JPEG";
 	textureNumber = RedGhost;
@@ -46,24 +44,11 @@ Enemy_Base::Enemy_Base(short health, short attackPower, short defencePower, D3DX
 	velLR = 0.0f;
 
 	mass = 5.0f;
->>>>>>> origin/MartinezWorking
 }
 
 
 Enemy_Base::~Enemy_Base(void)
 {
-<<<<<<< HEAD
-}
-
-// Initialize all the variables for the enemies
-void Enemy_Base::Init(IDirect3DDevice9* m_pD3DDevice)
-{
-	device = m_pD3DDevice;
-
-	// Set the Initial position of the enemy if none is specified.
-	movement = new Enemy_Movement();
-	movement->setPosition( D3DXVECTOR4( 0, 0, 50, 0 ));
-=======
 	//delete movement;
 	//delete havokShape;
 }
@@ -95,7 +80,6 @@ void Enemy_Base::Init(IDirect3DDevice9* m_pD3DDevice, RenderObject* renderObject
 	// Set the Initial position of the enemy if none is specified.
 	movement = new Enemy_Movement();
 	movement->setPosition(position);
->>>>>>> origin/MartinezWorking
 	movement->setVelocity( D3DXVECTOR4( 0, 0, 0, 0 ));
 	movement->SetOrientation( 0.0f);
 	movement->SetRotation( 0.0f);
@@ -103,13 +87,6 @@ void Enemy_Base::Init(IDirect3DDevice9* m_pD3DDevice, RenderObject* renderObject
 
 	// Initial state of the enemy
 	State = Wander;
-<<<<<<< HEAD
-}
-
-// Update the enemy
-void Enemy_Base::Update( float dt )
-{
-=======
 
 	shape = 3;
 
@@ -125,65 +102,11 @@ void Enemy_Base::Update( float dt, D3DXVECTOR4 playerPosition )
 {
 	playerPos = playerPosition;
 
->>>>>>> origin/MartinezWorking
 	if ( health <= 0)
 	{
 		isDead = true;
 	}
 
-<<<<<<< HEAD
-	UpdateState( State );
-	movement->GetNewOrientation();
-	movement->Update(dt);
-}
-
-// Change the state of the enemy based on current actions in the game
-void Enemy_Base::UpdateState(StateType CurrentState)
-{
-	switch( CurrentState )
-	{
-	// Wander around the room
-	case Wander:
-		{
-			//wander.GetSteering( movement);
-			// TODO: if player is in range then seek
-			// ChangeState( Seek );
-			break;
-		}
-	// Seek out the player
-	case Seek:
-		{
-			//seek.GetSteering( movement, D3DXVECTOR4( 0, 0, 100, 0) );
-			// TODO: if in range of player then attack
-			// ChangeState( Attack );
-			// if player is out of range then wander
-			// ChangeState( Wander );
-			break;
-		}
-	// Run away from the player
-	case Flee:
-		{
-			// flee.GetSteering( movement);
-			// if out of range of player then wander
-			// ChangeState( Wander );
-			break;
-		}
-	// Attack the player
-	case Attack:
-		{
-			// TODO: if health is low then flee
-			// ChangeState( Flee );
-			// if player attacks then guard
-			// ChangeState ( Guard );
-			break;
-		}
-	// Guard against player's attack
-	case Guard:
-		{
-			// TODO: if health is low then flee
-			// ChangeState( Flee );
-			// if player is not attacking then attack
-=======
 	UpdateState( State, dt );
 	movement->GetNewOrientation();
 	movement->Update(dt);
@@ -256,19 +179,12 @@ void Enemy_Base::UpdateState(StateType CurrentState, float dt)
 				ChangeState( Flee );
 			}
 			// TODO: if player is not attacking then attack
->>>>>>> origin/MartinezWorking
 			// ChangeState ( Attack );
 			break;
 		}
 	};
 }
 
-<<<<<<< HEAD
-void Enemy_Base::Render()
-{
-	model->setPosition( movement->GetPosition());
-	model->render( device );
-=======
 void Enemy_Base::Render(HWND hwnd, D3DXMATRIX veiwMat, D3DXMATRIX projMat)
 {
 	//enemyGun->mPSys->draw(hwnd);
@@ -431,5 +347,4 @@ void Enemy_Base::havokMovement()
 	context->update(input, output);
 
 	objectBody->setLinearVelocity(output.m_velocity, 1.0f / 60.0f);
->>>>>>> origin/MartinezWorking
 }

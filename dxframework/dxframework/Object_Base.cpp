@@ -119,10 +119,6 @@ void Object_Base::createSphereObject(hkpWorld* world)
 	// Add Rigid Body to the World
 	world->addEntity(rigidBody);
 
-<<<<<<< HEAD
-	
-=======
->>>>>>> origin/MartinezWorking
 }
 
 void Object_Base::createBoxObject(hkpWorld* world)

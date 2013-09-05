@@ -11,14 +11,6 @@
 #pragma comment(lib, "d3dx9.lib")
 
 #include "HavokCore.h"
-<<<<<<< HEAD
-#include "DirectInput.h"
-#include "Object_Base.h"
-#include "Object_Player.h"
-#include "CameraObj.h"
-
-
-=======
 #include "InputManager.h"
 #include "Object_Base.h"
 #include "Object_Player.h"
@@ -32,7 +24,6 @@
 #include "Enemy_YellowGhost.h"
 #include "Enemy_GreenGhost.h"
 #include "Enemy_RedGhost.h"
->>>>>>> origin/MartinezWorking
 
 // Macro to release COM objects fast and safely
 #define SAFE_RELEASE(x) if(x){x->Release(); x = 0;}
@@ -68,25 +59,17 @@ class CDirectXFramework
 	//////////////////////////////////////////////////////////////////////////
 	// Input Manager														//
 	//////////////////////////////////////////////////////////////////////////
-<<<<<<< HEAD
-	DirectInput*				m_pDInput;
-=======
 	InputManager*				m_pDInput;
 	//////////////////////////////////////////////////////////////////////////
 	// Gamestate Manager													//
 	//////////////////////////////////////////////////////////////////////////
 	GameStateManager*				gameState;
->>>>>>> origin/MartinezWorking
 
 
 	//////////////////////////////////////////////////////////////////////////
 	// Camera																//
 	//////////////////////////////////////////////////////////////////////////
-<<<<<<< HEAD
-	CameraObj*						camera;
-=======
 	//CameraObj*					camera;
->>>>>>> origin/MartinezWorking
 
 	//////////////////////////////////////////////////////////////////////////
 	// Structs																//
@@ -219,13 +202,6 @@ class CDirectXFramework
 	//////////////////////////////////////////////////////////////////////////
 	// Objects																//
 	//////////////////////////////////////////////////////////////////////////
-<<<<<<< HEAD
-	Object_Player*					Player;
-
-	Object_Base*					Mansion;
-
-
-=======
 	Object_Base*					Mansion;
 	Object_Player*					Player;
 
@@ -238,7 +214,6 @@ class CDirectXFramework
 	Enemy_Base*				greenGhost;
 
 
->>>>>>> origin/MartinezWorking
 public:
 
 	CDirectXFramework(void);
@@ -260,11 +235,6 @@ public:
 
 	void UpdateCamera(float dt);
 
-<<<<<<< HEAD
-	void UpdateCamera(float dt);
-
-=======
->>>>>>> origin/MartinezWorking
 	void playerControls(float dt);
 };
 

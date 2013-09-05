@@ -1,11 +1,6 @@
 #pragma once
 
 #include "Enemy_Movement.h"
-<<<<<<< HEAD
-#include "Model.h"
-#include "Enemy_Wander.h"
-#include "Enemy_Seek.h"
-=======
 #include "RenderObject.h"
 #include "Enemy_Wander.h"
 #include "Enemy_Flee.h"
@@ -14,16 +9,10 @@
 #include "HavokCore.h"
 #include "Mesh.h"
 #include "PSystem.h"
->>>>>>> origin/MartinezWorking
 
 // The states that the enemy can be in
 enum StateType{Wander, Seek, Flee, Attack, Guard};
 
-<<<<<<< HEAD
-class Enemy_Base
-{
-protected:
-=======
 enum GhostColor{ RedGhost, BlueGhost, GreenGhost, YellowGhost };
 
 class Enemy_Base
@@ -44,19 +33,11 @@ protected:
 
 	hkAabb				boundingBox;
 
->>>>>>> origin/MartinezWorking
 	// changes based on specific enemy
 	bool				isDead;
 	short				health;
 	short				attackPower;
 	short				defencePower;
-<<<<<<< HEAD
-	
-	// Rendering Variables
-	Model*				model;
-	IDirect3DDevice9*	device;
-
-=======
 	D3DXVECTOR4			attackRange;
 	D3DXVECTOR4			wanderRange;
 	
@@ -71,32 +52,16 @@ protected:
 	LPCSTR				meshName;
 	Mesh*				objectMesh;
 
->>>>>>> origin/MartinezWorking
 	// Movement variables
 	Enemy_Movement*		movement;
 	Enemy_Wander		wander;
 	Enemy_Seek			seek;
-<<<<<<< HEAD
-=======
 	Enemy_Flee			flee;
 	Enemy_Attack		attack;
->>>>>>> origin/MartinezWorking
 
 	// current state of the enemy
 	StateType			State;
 
-<<<<<<< HEAD
-public:
-	Enemy_Base(void);
-	~Enemy_Base(void);
-
-	void Init(IDirect3DDevice9* m_pD3DDevice);
-	void Update( float dt );
-	void UpdateState( StateType CurrentState );
-	void Render();
-	void CollisionDetection();
-
-=======
 	// position of the player
 	D3DXVECTOR4			playerPos;
 
@@ -134,17 +99,10 @@ public:
 
 	//void CreateHavokObject(hkpWorld* world);
 
->>>>>>> origin/MartinezWorking
 	// Accessors and mutators
 	D3DXVECTOR4 GetPosition();
 	void		SetPosition( D3DXVECTOR4 newPosition );
 	short		GetAttackDamage();
-<<<<<<< HEAD
-	void		SetHealth( short newHealth ) {health = newHealth};
-	bool		GetIsDead(){ return isDead; };
-	short		GetDefencePower();
-	void		ChangeState( StateType NewState) { State = NewState; };
-=======
 	void		SetHealth( short newHealth ) {health = newHealth; };
 	bool		GetIsDead(){ return isDead; };
 	short		GetDefencePower();
@@ -154,6 +112,5 @@ public:
 	void createHavokObject(hkpWorld* world);
 	void characterInputOutput();
 	void havokMovement();
->>>>>>> origin/MartinezWorking
 };
 

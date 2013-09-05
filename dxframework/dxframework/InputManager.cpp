@@ -53,11 +53,7 @@ bool InputManager::init(HINSTANCE hInst, HWND wndHandle)
 	if FAILED(mouseDevice->SetDataFormat(&c_dfDIMouse))
 		return FALSE; 
 
-<<<<<<< HEAD
-    if FAILED(mouseDevice->SetCooperativeLevel(wndHandle, DISCL_FOREGROUND | DISCL_EXCLUSIVE))
-=======
     if FAILED(mouseDevice->SetCooperativeLevel(wndHandle, DISCL_FOREGROUND | DISCL_NONEXCLUSIVE))
->>>>>>> origin/MartinezWorking
         return FALSE; 
 		
     //if FAILED(mouseDevice->Acquire())
