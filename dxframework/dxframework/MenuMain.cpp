@@ -3,14 +3,13 @@
 MenuMain::MenuMain()
 {
 	menuState = m_MAIN_MENU;
-
+	
 }
 
 MenuMain::~MenuMain()
 {
 
 }
-
 
 void MenuMain::Update()
 {
@@ -35,11 +34,12 @@ void MenuMain::Update()
 
 void MenuMain::Render()
 {
+	
 	// Call the base menu's render method to initialize some variables
 	BaseMenu::Render();
 	
 	DrawBackGround();
-
+	
 
 	// Print Main Menu at the top of the screen
 	sprintf(menuPrint,"MAIN MENU");

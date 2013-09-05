@@ -20,6 +20,7 @@ public:
 	MenuMain();
 	~MenuMain();
 	void DrawBackGround();
+	
 	virtual void Render();
 	virtual void Update();
 

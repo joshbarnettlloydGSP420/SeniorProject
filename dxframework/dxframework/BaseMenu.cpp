@@ -70,16 +70,7 @@ void BaseMenu::Update()
 
 void BaseMenu::Render()
 {
-	//D3DXMATRIX identity;
-	//D3DXMatrixIdentity(&identity);
-	//m_pD3DSprite->SetTransform(&identity);
-
-	//// matrices to reset the view
-	//D3DXMATRIX transMat, rotMat, scaleMat, worldMat;
-	//D3DXMatrixIdentity(&transMat);
-	//D3DXMatrixIdentity(&scaleMat);
-	//D3DXMatrixIdentity(&rotMat);
-	//D3DXMatrixIdentity(&worldMat);
+	
 }
 
 void BaseMenu::onLostDevice()
