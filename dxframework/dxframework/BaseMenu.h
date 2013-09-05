@@ -45,7 +45,7 @@ protected:
 	D3DXIMAGE_INFO		m_imageInfo;		// File details of a texture
 	RECT				m_rect;				// RECT for the menu background
 	LPCSTR				backgroundFileName;	// name of file for background
-
+	D3DXVECTOR3			backGroundPos;		// position  for background sprite
 	////////////////////////////////////////////////////////////////////////
 	// Istance of gameState
 	////////////////////////////////////////////////////////////////////////

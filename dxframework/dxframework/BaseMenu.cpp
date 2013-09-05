@@ -32,13 +32,15 @@ bool BaseMenu::Init(InputManager* input, IDirect3DDevice9*	m_pD3DDevice)
 	menuItemSelected = 1;
 
 	// if no image is chosen this will be the default for the background
-	backgroundFileName = "mainMenuBackground.png";
+	backgroundFileName = "haunted_house.jpg";
 
 	// Create the background texture
 	D3DXCreateTextureFromFileEx(m_pD3DDevice, backgroundFileName ,0,0,0,0,D3DFMT_UNKNOWN, D3DPOOL_MANAGED, D3DX_DEFAULT, 
 		D3DX_DEFAULT, D3DCOLOR_XRGB(255, 0, 255), 
 		&m_imageInfo, 0, &backgroundTexture);
 
+	// set back ground position
+	backGroundPos = D3DXVECTOR3(0,0,0);
 	return true;
 }
 
