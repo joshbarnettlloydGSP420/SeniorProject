@@ -32,8 +32,8 @@ void CDirectXFramework::Init(HWND& hWnd, HINSTANCE& hInst, bool bWindowed)
 	// Find the width and height of window using hWnd and GetWindowRect()
 	RECT windowSizeRect;
 	GetWindowRect(hWnd, &windowSizeRect);
-	screenWidth = windowSizeRect.right - windowSizeRect.left;
-	screenHeight = windowSizeRect.bottom - windowSizeRect.top;
+	screenWidth = GetSystemMetrics(SM_CXSCREEN);
+	screenHeight = GetSystemMetrics(SM_CYSCREEN);
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Presentation paramters for creating the D3D9 device													 //
@@ -43,7 +43,7 @@ void CDirectXFramework::Init(HWND& hWnd, HINSTANCE& hInst, bool bWindowed)
 	ZeroMemory(&D3Dpp, sizeof(D3Dpp));						// NULL the structure's memory
 
 	D3Dpp.hDeviceWindow					= hWnd;																		// Handle to the focus window
-	D3Dpp.Windowed						= bWindowed;																// Windowed or Full-screen boolean
+	D3Dpp.Windowed						= false;																// Windowed or Full-screen boolean
 	D3Dpp.AutoDepthStencilFormat		= D3DFMT_D24S8;																// Format of depth/stencil buffer, 24 bit depth, 8 bit stencil
 	D3Dpp.EnableAutoDepthStencil		= TRUE;																		// Enables Z-Buffer (Depth Buffer)
 	D3Dpp.BackBufferCount				= 1;																		// Change if need of > 1 is required at a later date
@@ -56,7 +56,9 @@ void CDirectXFramework::Init(HWND& hWnd, HINSTANCE& hInst, bool bWindowed)
 	D3Dpp.FullScreen_RefreshRateInHz	= bWindowed ? 0 : D3DPRESENT_RATE_DEFAULT;									// Full-screen refresh rate, use adapter modes or default
 	D3Dpp.MultiSampleQuality			= 0;																		// MSAA currently off, check documentation for support.
 	D3Dpp.MultiSampleType				= D3DMULTISAMPLE_NONE;														// MSAA currently off, check documentation for support.
-
+	SetWindowLongPtr(m_hWnd, GWL_STYLE, WS_POPUP);																	// more friendly full style winmdow
+	SetWindowPos(m_hWnd, HWND_TOP, 0, 0,
+			screenWidth, screenHeight, SWP_NOZORDER | SWP_SHOWWINDOW);
 	// Check device capabilities
 	DWORD deviceBehaviorFlags = 0;
 	m_pD3DObject->GetDeviceCaps(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, &m_D3DCaps);
