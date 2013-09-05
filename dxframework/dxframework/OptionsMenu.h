@@ -38,7 +38,11 @@ public:
 	OptionsMenu(void);
 	~OptionsMenu(void);
 
+<<<<<<< HEAD
 	bool Init(DirectInput* input, IDirect3DDevice9* m_pD3DDevice, HWND* wndHandle, D3DPRESENT_PARAMETERS* D3dpp);
+=======
+	bool Init(InputManager* input, IDirect3DDevice9* m_pD3DDevice, HWND* wndHandle, D3DPRESENT_PARAMETERS* D3dpp);
+>>>>>>> origin/MartinezWorking
 	void Update(void);
 	void Render();
 

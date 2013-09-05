@@ -1,6 +1,12 @@
 #include "Object_Player.h"
+<<<<<<< HEAD
 
 Object_Player::Object_Player(void)
+=======
+#include "Gun.h"
+
+Object_Player::Object_Player()
+>>>>>>> origin/MartinezWorking
 {
 	objectMesh = new Mesh();
 	position = D3DXVECTOR4(0.0f, 0.0f, 0.0f, 0.0f);
@@ -13,6 +19,25 @@ Object_Player::Object_Player(void)
 	velLR = 0.0f;
 
 	wantJump = false;
+<<<<<<< HEAD
+=======
+	
+	// Initialize the particle system.
+	D3DXMATRIX psysWorld;
+	D3DXMatrixIdentity(&psysWorld);
+
+
+	//bullets/gun
+	AABB psysBox;
+	psysBox.maxPt = D3DXVECTOR3(INFINITY, INFINITY, INFINITY);
+	psysBox.minPt = D3DXVECTOR3(-INFINITY, -INFINITY, -INFINITY);
+	
+	// Accelerate due to gravity.  However, since the bullets travel at 
+	// such a high velocity, the effect of gravity of not really observed.
+	mPSys = new Gun("gun.fx", "GunTech", "bolt2.dds", D3DXVECTOR3(0, -9.8f, 0), psysBox, 100, -1.0f);
+	mPSys->setWorldMtx(psysWorld);              
+
+>>>>>>> origin/MartinezWorking
 }
 
 
@@ -26,6 +51,12 @@ void Object_Player::Update(float deltaTime)
 	convertPosition();
 	characterInputOutput();
 
+<<<<<<< HEAD
+=======
+	//gun update
+	mPSys->update(deltaTime);
+
+>>>>>>> origin/MartinezWorking
 	if(jumpTimer < 3.2f)
 	{
 		jumpTimer += deltaTime;
@@ -82,6 +113,12 @@ void Object_Player::createHavokObject(hkpWorld* world)
 
 void Object_Player::createSphereObject(hkpWorld* world)
 {
+<<<<<<< HEAD
+=======
+	// Create a temp body info
+	hkpCharacterRigidBodyCinfo	bodyInfo;
+
+>>>>>>> origin/MartinezWorking
 	// Sphere Parameters
 	hkReal radius = (scale.x + scale.z) / 2;
 
@@ -111,6 +148,11 @@ void Object_Player::createSphereObject(hkpWorld* world)
 
 void Object_Player::createBoxObject(hkpWorld* world)
 {
+<<<<<<< HEAD
+=======
+	// Create a temp body info
+	hkpCharacterRigidBodyCinfo	bodyInfo;
+>>>>>>> origin/MartinezWorking
 
 	// Box Parameters
 	hkVector4 halfExtents(scale.x, scale.y, scale.z);
@@ -141,6 +183,11 @@ void Object_Player::createBoxObject(hkpWorld* world)
 
 void Object_Player::createCapsuleObject(hkpWorld* world)
 {
+<<<<<<< HEAD
+=======
+	// Create a temp body info
+	hkpCharacterRigidBodyCinfo	bodyInfo;
+>>>>>>> origin/MartinezWorking
 
 	// Capsule Parameters
 	hkVector4	vertexA(position.x, position.y + (scale.y / 2), position.z, 0);	// Top
@@ -242,3 +289,23 @@ void Object_Player::characterInputOutput()
 
 	objectBody->setLinearVelocity(output.m_velocity, 1.0f / 60.0f);
 }
+<<<<<<< HEAD
+=======
+
+bool Object_Player::collisionCheck(hkpRigidBody* rigidBody)
+{
+	hkAabb aabbBase;
+	hkAabb aabbOut;
+
+	rigidBody->getCollidable()->getShape()->getAabb(rigidBody->getTransform(), 0.4f, aabbOut);
+	objectBody->getRigidBody()->getCollidable()->getShape()->getAabb(objectBody->getRigidBody()->getTransform(), 0.4f, aabbBase);
+
+
+	if(aabbBase.overlaps(aabbOut))
+	{
+		return true;
+	}
+
+	return false;
+}
+>>>>>>> origin/MartinezWorking

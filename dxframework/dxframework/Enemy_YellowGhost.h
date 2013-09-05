@@ -6,6 +6,10 @@ public:
 	Enemy_YellowGhost(void);
 	~Enemy_YellowGhost(void);
 
+<<<<<<< HEAD
 	void Init( IDirect3DDevice9* m_pD3DDevice);
+=======
+	void Init( IDirect3DDevice9* m_pD3DDevice, RenderObject* m_pRender);
+>>>>>>> origin/MartinezWorking
 };
 

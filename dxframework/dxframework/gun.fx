@@ -1,6 +1,9 @@
+<<<<<<< HEAD
 //=============================================================================
 // gun.fx by Frank Luna (C) 2004 All Rights Reserved.
 //=============================================================================
+=======
+>>>>>>> origin/MartinezWorking
 
 uniform extern float4x4 gWVP;
 uniform extern texture  gTex;

@@ -1,6 +1,10 @@
 #pragma once
 
 #include <d3dx9.h>
+<<<<<<< HEAD
+=======
+#include "d3dUtil.h"
+>>>>>>> origin/MartinezWorking
 
 
 class CameraObj
@@ -20,6 +24,17 @@ public:
 	void followPoint();
 	void buildView();
 	void buildFrustum();
+<<<<<<< HEAD
+=======
+
+	//stuff added for bullet class 
+	const D3DXMATRIX& viewProj() const;
+	bool isVisible(const AABB& box)const;
+	const D3DXVECTOR3& look() const;
+
+	D3DXVECTOR3& pos();
+
+>>>>>>> origin/MartinezWorking
 	//bool isVisible(const AABB& Box)const; 
 
 	// Frustum Planes for Culling

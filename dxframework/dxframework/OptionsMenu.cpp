@@ -10,7 +10,11 @@ OptionsMenu::~OptionsMenu(void)
 {
 }
 
+<<<<<<< HEAD
 bool OptionsMenu::Init( DirectInput* input, IDirect3DDevice9* m_pD3DDevice, HWND* wndHandle, D3DPRESENT_PARAMETERS* D3dpp)
+=======
+bool OptionsMenu::Init(InputManager* input, IDirect3DDevice9* m_pD3DDevice, HWND* wndHandle, D3DPRESENT_PARAMETERS* D3dpp)
+>>>>>>> origin/MartinezWorking
 {
 	BaseMenu::Init( input, m_pD3DDevice );
 	hwnd = wndHandle;
@@ -22,6 +26,7 @@ void OptionsMenu::Update()
 {
 	BaseMenu::Update();
 
+<<<<<<< HEAD
 	if ( myInput->keyDown(DIK_RETURN))
 	{
 		/*if ( menuItemSelected == 1)
@@ -30,6 +35,17 @@ void OptionsMenu::Update()
 		}
 		else*/ if ( menuItemSelected == 1)
 		{
+=======
+	if ( menuItemSelected < 1)
+		menuItemSelected = 2;
+	if ( menuItemSelected > 2)
+		menuItemSelected = 1;
+
+	if ( myInput->keyDown(DIK_RETURN))
+	{
+			if ( menuItemSelected == 1)
+			{
+>>>>>>> origin/MartinezWorking
 			optionsState = o_CREDITS;
 			InitVideo(L"Temp.wmv");
 			videoControl->Run();
@@ -42,7 +58,11 @@ void OptionsMenu::Update()
 				optionsState = o_OPTIONS_MENU;
 				DestroyVideo();
 			}
+<<<<<<< HEAD
 		}
+=======
+			}
+>>>>>>> origin/MartinezWorking
 		else if ( menuItemSelected == 2)
 		{
 			optionsState = o_QUIT_TO_MAIN;
@@ -64,6 +84,7 @@ void OptionsMenu::Render()
 
 	m_pD3DFont->DrawTextA(0,menuPrint,-1,&m_rect, DT_CENTER | DT_NOCLIP,option);
 
+<<<<<<< HEAD
 	/*sprintf(menuPrint,"Fullscreen");
 	SetRect(&m_rect,120,330,600,500);
 	if(menuItemSelected == 1)
@@ -78,14 +99,29 @@ void OptionsMenu::Render()
 		option = D3DCOLOR_ARGB(255,255,0,255);
 	else
 		option = D3DCOLOR_ARGB(255,150,0,240);
+=======
+	
+	sprintf(menuPrint,"Credits");
+	SetRect(&m_rect,120,330,600,500);
+	if(menuItemSelected == 1)
+		option = D3DCOLOR_ARGB(255,255,0,0);
+	else
+		option = D3DCOLOR_ARGB(255,0,0,255);
+>>>>>>> origin/MartinezWorking
 	m_pD3DFont->DrawTextA(0,menuPrint,-1,&m_rect, DT_CENTER | DT_NOCLIP,option);
 
 	sprintf(menuPrint,"Exit to Main Menu");
 	SetRect(&m_rect,120,530,600,500);
 	if(menuItemSelected == 2)
+<<<<<<< HEAD
 		option = D3DCOLOR_ARGB(255,255,0,255);
 	else
 		option = D3DCOLOR_ARGB(255,150,0,240);
+=======
+		option = D3DCOLOR_ARGB(255,255,0,0);
+	else
+		option = D3DCOLOR_ARGB(255,0,0,255);
+>>>>>>> origin/MartinezWorking
 	m_pD3DFont->DrawTextA(0,menuPrint,-1,&m_rect, DT_CENTER | DT_NOCLIP,option);
 
 	m_pD3DSprite->End();

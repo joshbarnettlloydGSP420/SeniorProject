@@ -11,18 +11,35 @@
 #pragma comment(lib, "d3dx9.lib")
 
 #include "HavokCore.h"
+<<<<<<< HEAD
 #include "DirectInput.h"
 #include "Object_Base.h"
 #include "Object_Player.h"
 #include "CameraObj.h"
 
 
+=======
+#include "InputManager.h"
+#include "Object_Base.h"
+#include "Object_Player.h"
+#include "CameraObj.h"
+#include "d3dUtil.h"
+#include "Vertex.h"
+#include "GameStateManager.h"
+#include "RenderObject.h"
+#include "Enemy_Base.h"
+#include "Enemy_BlueGhost.h"
+#include "Enemy_YellowGhost.h"
+#include "Enemy_GreenGhost.h"
+#include "Enemy_RedGhost.h"
+>>>>>>> origin/MartinezWorking
 
 // Macro to release COM objects fast and safely
 #define SAFE_RELEASE(x) if(x){x->Release(); x = 0;}
 
 
 // Enums
+enum GhostTextures{ Red, Yellow, Green, Blue };
 
 class CDirectXFramework
 {
@@ -36,7 +53,7 @@ class CDirectXFramework
 	// Direct3D Variables													//
 	//////////////////////////////////////////////////////////////////////////
 	IDirect3D9*					m_pD3DObject;	// Direct3D 9 Object
-	IDirect3DDevice9*			m_pD3DDevice;	// Direct3D 9 Device
+	//IDirect3DDevice9*			m_pD3DDevice;	// Direct3D 9 Device
 	D3DCAPS9					m_D3DCaps;		// Device Capabilities
 
 	//////////////////////////////////////////////////////////////////////////
@@ -51,13 +68,25 @@ class CDirectXFramework
 	//////////////////////////////////////////////////////////////////////////
 	// Input Manager														//
 	//////////////////////////////////////////////////////////////////////////
+<<<<<<< HEAD
 	DirectInput*				m_pDInput;
+=======
+	InputManager*				m_pDInput;
+	//////////////////////////////////////////////////////////////////////////
+	// Gamestate Manager													//
+	//////////////////////////////////////////////////////////////////////////
+	GameStateManager*				gameState;
+>>>>>>> origin/MartinezWorking
 
 
 	//////////////////////////////////////////////////////////////////////////
 	// Camera																//
 	//////////////////////////////////////////////////////////////////////////
+<<<<<<< HEAD
 	CameraObj*						camera;
+=======
+	//CameraObj*					camera;
+>>>>>>> origin/MartinezWorking
 
 	//////////////////////////////////////////////////////////////////////////
 	// Structs																//
@@ -151,6 +180,11 @@ class CDirectXFramework
 	ID3DXEffect*					fx[10];
 
 	//////////////////////////////////////////////////////////////////////////
+	// Render Objects														//
+	//////////////////////////////////////////////////////////////////////////
+	RenderObject*					render;
+
+	//////////////////////////////////////////////////////////////////////////
 	// Matricies															//
 	//////////////////////////////////////////////////////////////////////////
 	D3DXMATRIX						transMat;
@@ -185,11 +219,26 @@ class CDirectXFramework
 	//////////////////////////////////////////////////////////////////////////
 	// Objects																//
 	//////////////////////////////////////////////////////////////////////////
+<<<<<<< HEAD
 	Object_Player*					Player;
 
 	Object_Base*					Mansion;
 
 
+=======
+	Object_Base*					Mansion;
+	Object_Player*					Player;
+
+	//////////////////////////////////////////////////////////////////////////
+	// Enemies																//
+	//////////////////////////////////////////////////////////////////////////
+	Enemy_Base*				redGhost;
+	Enemy_Base*				blueGhost;
+	Enemy_Base*				yellowGhost;
+	Enemy_Base*				greenGhost;
+
+
+>>>>>>> origin/MartinezWorking
 public:
 
 	CDirectXFramework(void);
@@ -207,9 +256,17 @@ public:
 
 	void loadMesh(LPCSTR fileName, Mesh** meshObject);
 
-	void createGroundBox(hkpWorld* world);
+	void createGroundBox(hkpWorld* world, float scaleX, float scaleY, float scaleZ, float posX, float posY, float posZ);
 
 	void UpdateCamera(float dt);
 
+<<<<<<< HEAD
+	void UpdateCamera(float dt);
+
+=======
+>>>>>>> origin/MartinezWorking
 	void playerControls(float dt);
 };
+
+extern CDirectXFramework gd3dApp;
+//extern IDirect3DDevice9* m_pD3DDevice;

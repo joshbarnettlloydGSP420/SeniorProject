@@ -1,13 +1,14 @@
 #include "DirectXFramework.h"
 
+//CDirectXFramework* gd3dApp   = 0;
+IDirect3DDevice9* m_pD3DDevice = 0;
+//CameraObj* gCamera = 0;
 
 CDirectXFramework::CDirectXFramework(void)
 {
 	// Init or NULL objects before use to avoid any undefined behavior
 	m_bVsync		= false;
-	m_pD3DObject	= 0;
-	m_pD3DDevice	= 0;
-
+	m_pD3DObject	= 0; // *handle* naming it gd3dApp for the sake of not having to change more stuff
 }
 
 CDirectXFramework::~CDirectXFramework(void)
@@ -96,6 +97,31 @@ void CDirectXFramework::Init(HWND& hWnd, HINSTANCE& hInst, bool bWindowed)
 	m_pD3DDevice->CreateVertexDeclaration( elems, &d3dVertexDecl );
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Render																						 //
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+	render = new RenderObject();
+	render->Init( m_pD3DDevice, m_pD3DSprite);
+	//render->CreateVertexElement();
+	render->SetVertexDecl( d3dVertexDecl);
+	render->MaterialSettings();
+	render->LoadShaderEffects( "TestShader.txt", 0);
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Creating Enemies																						 //
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+	redGhost = new Enemy_Base(100, 50, 15, D3DXVECTOR4( 45, 2.5,5, 0.0), "RedGhostTexture.jpg", 0);
+	redGhost->Init( m_pD3DDevice, render);
+
+	blueGhost = new Enemy_Base(100, 35, 10, D3DXVECTOR4( -5, 2.5,30, 0.0), "BlueGhostTexture.jpg", 0);
+	blueGhost->Init( m_pD3DDevice, render);
+
+	yellowGhost = new Enemy_Base(100, 20, 5, D3DXVECTOR4( -35, 2.5,5, 0.0), "YellowGhostTexture.jpg", 0);
+	yellowGhost->Init( m_pD3DDevice, render);
+
+	greenGhost = new Enemy_Base(100, 20, 20, D3DXVECTOR4( 10, 2.5,-10, 0.0), "GreenGhostTexture.jpg", 0);
+	greenGhost->Init( m_pD3DDevice, render);
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Creating Light																						 //
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -130,6 +156,8 @@ void CDirectXFramework::Init(HWND& hWnd, HINSTANCE& hInst, bool bWindowed)
 // Creating Camera																						 //
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+	gCamera = new CameraObj();
+	gCamera->createCamera(1000.0f, 1.0f, 1.3333f, ((float)screenWidth / (float)screenHeight));
 	// Initialize View Matrix
 	eyePos								= D3DXVECTOR3(0.0f, 1.0f, -2.0f);	// Camera Position
 	lookAt								= eyePos + D3DXVECTOR3(0.0f, 0.0f, 1.0f);	// Position camera is viewing
@@ -233,6 +261,7 @@ void CDirectXFramework::Init(HWND& hWnd, HINSTANCE& hInst, bool bWindowed)
 
 	// Load Test Mesh
 	loadMesh("Dwarf.X", &Player->objectMesh);
+<<<<<<< HEAD
 	loadMesh("House.X", &Mansion->objectMesh);
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -241,6 +270,17 @@ void CDirectXFramework::Init(HWND& hWnd, HINSTANCE& hInst, bool bWindowed)
 
 	// Input Manager Init
 	m_pDInput = new DirectInput(hWnd, hInst);
+=======
+	loadMesh("RoomWithWalls.X", &Mansion->objectMesh);
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Create 3D Mesh From X																				 //
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	// Input Manager Init
+	m_pDInput = new InputManager();
+	m_pDInput->init(hInst,hWnd);
+>>>>>>> origin/MartinezWorking
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Create Havok Object																					 //
@@ -255,7 +295,23 @@ void CDirectXFramework::Init(HWND& hWnd, HINSTANCE& hInst, bool bWindowed)
 	Player->createHavokObject(havok->getWorld());
 	Mansion->createHavokObject(havok->getWorld());
 
+<<<<<<< HEAD
 	createGroundBox(havok->getWorld());	
+=======
+	// Mansion
+	createGroundBox(havok->getWorld(), 85.0f, 2.0f, 50.0f, 0.0f, 0.0f, 10.0f);	// Floor
+	createGroundBox(havok->getWorld(), 100.0f, 20.0f, 2.0f, 0.0f, 0.0f, -40.0f);	// Front
+	createGroundBox(havok->getWorld(), 100.0f, 20.0f, 2.0f, 0.0f, 0.0f, 57.0f);	// Back
+	createGroundBox(havok->getWorld(), 2.0f, 20.0f, 50.0f, 85.0f, 0.0f, 10.0f); // Right
+	createGroundBox(havok->getWorld(), 2.0f, 20.0f, 50.0f, -80.0f, 0.0f, 10.0f);// Left
+	createGroundBox(havok->getWorld(), 25.0f, 20.0f, 1.0f, 5.0f, 0.0f, 12.0f);	// middle
+
+	// enemies
+	redGhost->createHavokObject( havok->getWorld());
+	blueGhost->createHavokObject( havok->getWorld());
+	yellowGhost->createHavokObject( havok->getWorld());
+	greenGhost->createHavokObject( havok->getWorld());
+>>>>>>> origin/MartinezWorking
 
 	
 	havok->getWorld()->unlock();
@@ -263,6 +319,18 @@ void CDirectXFramework::Init(HWND& hWnd, HINSTANCE& hInst, bool bWindowed)
 	
 }
 
+<<<<<<< HEAD
+=======
+	/// YOU FORGOT TO INIT YOU'RE VERTEX DECLARATIONS...
+	/// you digital dummy :)
+	InitAllVertexDeclarations();
+
+	//Gamestate
+	gameState = new GameStateManager();
+	gameState->Init(&hWnd,&D3Dpp,hInst,m_pD3DDevice);
+}
+
+>>>>>>> origin/MartinezWorking
 HWND CDirectXFramework::getMainWnd()
 {
 	return m_hWnd;
@@ -270,12 +338,18 @@ HWND CDirectXFramework::getMainWnd()
 
 void CDirectXFramework::Update(float dt)
 {
+<<<<<<< HEAD
 	
+=======
+	if(gameState->activeGameState == GAME)
+	{
+>>>>>>> origin/MartinezWorking
 	havok->stepSimulation(dt);
 
 	havok->getWorld()->lock();
 	Player->Update(dt);
 	Mansion->Update(dt);
+<<<<<<< HEAD
 	Player->bodyInfo.m_collisionFilterInfo;
 	havok->getWorld()->unlock();
 
@@ -286,6 +360,25 @@ void CDirectXFramework::Update(float dt)
 	playerControls(dt);
 
 	
+=======
+
+	// enemies update
+	yellowGhost->Update( dt, Player->position);
+	if ( yellowGhost->GetIsDead() == true)
+		greenGhost->Update( dt, Player->position);
+	if ( greenGhost->GetIsDead() == true)
+		blueGhost->Update( dt, Player->position);
+	if ( blueGhost->GetIsDead() == true)
+		redGhost->Update( dt, Player->position);
+
+	havok->getWorld()->unlock();
+
+
+	UpdateCamera(dt);
+	playerControls(dt);
+	}
+	gameState->Update(dt);
+>>>>>>> origin/MartinezWorking
 }
 
 void CDirectXFramework::Render(float dt)
@@ -312,6 +405,8 @@ void CDirectXFramework::Render(float dt)
 	D3DXMatrixIdentity(&worldMat);
 	D3DXMatrixIdentity(&transMat);
 
+if(gameState->activeGameState == GAME)
+{
 	m_pD3DDevice->SetStreamSource(0, mesh_vb, 0, sizeof(Vertex));
 	m_pD3DDevice->SetIndices(mesh_ib);
 	m_pD3DDevice->SetVertexDeclaration(d3dVertexDecl);
@@ -370,9 +465,15 @@ void CDirectXFramework::Render(float dt)
 		fx[0]->BeginPass(i);
 
 		// Mesh Matrix
+<<<<<<< HEAD
 		D3DXMatrixScaling(&scaleMat, 0.025f, 0.025f, 0.025f);
 		D3DXMatrixRotationYawPitchRoll(&rotMat, 0.0f, 0.0f, 0.0f);
 		D3DXMatrixTranslation(&transMat, Mansion->position.x, Mansion->position.y - 7.5f, Mansion->position.z);
+=======
+		D3DXMatrixScaling(&scaleMat, 1.0f, 1.0f, 1.0f);
+		D3DXMatrixRotationYawPitchRoll(&rotMat, 0.0f, 0.0f, 0.0f);
+		D3DXMatrixTranslation(&transMat, Mansion->position.x, Mansion->position.y - 8.0f, Mansion->position.z);
+>>>>>>> origin/MartinezWorking
 		D3DXMatrixMultiply(&scaleMat, &scaleMat, &rotMat);
 		D3DXMatrixMultiply(&worldMat, &scaleMat, &transMat);
 		//D3DXMatrixMultiply(&worldMat, &scaleMat, &transMat);
@@ -406,6 +507,19 @@ void CDirectXFramework::Render(float dt)
 		fx[0]->EndPass();
 	}
 	fx[0]->End();
+<<<<<<< HEAD
+=======
+
+	yellowGhost->Render( m_hWnd, viewMat, projMat);
+	//if ( yellowGhost->GetIsDead() == true)
+		greenGhost->Render( m_hWnd, viewMat, projMat);
+	//if ( greenGhost->GetIsDead() == true)
+		blueGhost->Render( m_hWnd, viewMat, projMat);
+	//if ( blueGhost->GetIsDead() == true)
+		redGhost->Render(m_hWnd, viewMat, projMat);
+
+
+>>>>>>> origin/MartinezWorking
 	//////////////////////////////////////////////////////////////////////////
 	// Draw 2D sprites
 	//////////////////////////////////////////////////////////////////////////
@@ -441,7 +555,7 @@ void CDirectXFramework::Render(float dt)
 	D3DXMatrixIdentity(&worldMat);
 	D3DXMatrixScaling(&scaleMat, 1.0f, 1.0f, 0.0f);
 	D3DXMatrixRotationZ(&rotMat, D3DXToRadian(0.0f));
-	D3DXMatrixTranslation(&transMat, 100.0f, 300.0f, 0.0f);
+	D3DXMatrixTranslation(&transMat, 0.0f, 0.0f, 0.0f);
 	D3DXMatrixMultiply(&scaleMat, &scaleMat, &rotMat);
 	D3DXMatrixMultiply(&worldMat, &scaleMat, &transMat);
 	// Set Transform for the object m_pD3DSprite
@@ -450,11 +564,12 @@ void CDirectXFramework::Render(float dt)
 
 
 	// Draw the texture with the sprite object
-	m_pD3DSprite->Draw(m_pTexture[1], 0, &D3DXVECTOR3(m_imageInfo.Width * 0.5f, 
-		m_imageInfo.Height * 0.5f, 0.0f), 0,
-		D3DCOLOR_ARGB(255, 255, 255, 255));
+	//m_pD3DSprite->Draw(m_pTexture[1], 0, &D3DXVECTOR3(m_imageInfo.Width * 0.5f, 
+	//	m_imageInfo.Height * 0.5f, 0.0f), 0,
+	//	D3DCOLOR_ARGB(255, 255, 255, 255));
+}
 
-
+gameState->Render(m_pD3DSprite);
 	// End drawing 2D sprites
 	m_pD3DSprite->End();
 
@@ -471,15 +586,23 @@ void CDirectXFramework::Render(float dt)
 	// Draw Text, using DT_TOP, DT_RIGHT for placement in the top right of the
 	// screen.  DT_NOCLIP can improve speed of text rendering, but allows text
 	// to be drawn outside of the rect specified to draw text in.
+<<<<<<< HEAD
 	char debugMessage[256];
 	sprintf( debugMessage, "X: %f\nY: %f\nZ: %f", 
 		eyePos.x, eyePos.y, eyePos.z );
 
 	char message[256];
+=======
+	/*char debugMessage[256];
+	sprintf( debugMessage, "X: %f\nY: %f\nZ: %f", 
+		eyePos.x, eyePos.y, eyePos.z );*/
+
+	/*char message[256];
+>>>>>>> origin/MartinezWorking
 	sprintf( message,"Team Madness" );
 	m_pD3DFont->DrawText(0, debugMessage, -1, &rect, 
                   DT_TOP | DT_LEFT | DT_NOCLIP, 
-                  D3DCOLOR_ARGB(255, 255, 255, 255));
+                  D3DCOLOR_ARGB(255, 255, 255, 255));*/
 
 
 
@@ -496,6 +619,12 @@ void CDirectXFramework::Shutdown()
 {
 	//*************************************************************************
 	// Release COM objects in the opposite order they were created in
+
+	if(gCamera)
+	{
+		delete gCamera;
+		gCamera = 0;
+	}
 
 	// Texture
 	//SAFE_RELEASE(m_pTexture)
@@ -567,16 +696,20 @@ void CDirectXFramework::loadMesh(LPCSTR fileName, Mesh** meshObject)
 	*meshObject = temp;
 }
 
-void CDirectXFramework::createGroundBox(hkpWorld* world)
+void CDirectXFramework::createGroundBox(hkpWorld* world, float scaleX, float scaleY, float scaleZ, float posX, float posY, float posZ)
 {
 	// Create a ground area
+<<<<<<< HEAD
 	hkVector4 halfExtents(40.0f, 2.0f, 60.0f);
+=======
+	hkVector4 halfExtents(scaleX, scaleY, scaleZ);
+>>>>>>> origin/MartinezWorking
 	hkpBoxShape* boxShape = new hkpBoxShape(halfExtents);
 
 	// Set its properties
 	hkpRigidBodyCinfo ci;
 	ci.m_shape = boxShape;
-	ci.m_position = hkVector4(0.0f, 0.0f, 0.0f);
+	ci.m_position = hkVector4(posX, posY, posZ);
 	ci.m_motionType = hkpMotion::MOTION_FIXED;
 	ci.m_friction = 1.0f;
 
@@ -592,6 +725,7 @@ void CDirectXFramework::createGroundBox(hkpWorld* world)
 }
 
 void CDirectXFramework::UpdateCamera(float dt)
+<<<<<<< HEAD
 {
 	
 	// Initialize View Matrix
@@ -625,6 +759,57 @@ void CDirectXFramework::UpdateCamera(float dt)
 void CDirectXFramework::playerControls(float dt)
 {
 	m_pDInput->poll();
+=======
+{
+	
+	// Initialize View Matrix
+	eyePos								= D3DXVECTOR3( 0.0f, 2.5f, -5.0f ) + D3DXVECTOR3(Player->position.x, Player->position.y, Player->position.z);	// Camera Position
+	lookAt								= /*eyePos + */D3DXVECTOR3(Player->position.x, Player->position.y, Player->position.z);	// Position camera is viewing
+	upVec								= D3DXVECTOR3(0.0f, 1.0f, 0.0f);	// Rotational orientation
+
+	// Easily calculate the view matrix with 3 intuitive vectors
+	D3DXMatrixLookAtLH(&viewMat,											// Returned viewMat
+						&eyePos,											// Eye Position
+						&lookAt,											// LookAt Position
+						&upVec);											// Up Vector
+
+	// Apply the view matrix in the scene
+	//m_pD3DDevice->SetTransform(D3DTS_VIEW, &viewMat);
+
+	// Initialize perspective projection matrix, this creates view frustum
+	D3DXMatrixPerspectiveFovLH(&projMat,									// Return Projection Matrix
+								D3DXToRadian(65.0f),						// Field of View
+								(float)screenWidth / (float)screenHeight,	// Aspect Ratio
+								1.0f,										// Near Plane
+								1000.0f);
+
+
+	// Apply the projection matrix in the scene
+	//m_pD3DDevice->SetTransform(D3DTS_PROJECTION, &projMat);
+
+	m_pD3DDevice->SetRenderState(D3DRS_ZENABLE, D3DZB_TRUE);
+}
+
+void CDirectXFramework::playerControls(float dt)
+{
+	m_pDInput->getInput();
+
+	//OMFG@W0RKINGP3WP3W
+	static float delay = 0.0f;
+	/*if( gDInput->keyDown(DIK_SPACE) && delay <= 0.0f)|
+	{												   |
+		delay = 0.3f;								   |
+		Player->mPSys->addParticle();				   | this is the same as the one below, only using spacebar to shoot
+	}												   |
+	delay -= dt;									   |*/	
+
+	if( m_pDInput->isButtonDown(0) && delay <= 0.0f)
+	{
+		delay = 0.3f;
+		Player->mPSys->addParticle();
+	}
+	delay -= dt;
+>>>>>>> origin/MartinezWorking
 
 	// Moving Forward and Backward
 	if(m_pDInput->keyDown(DIK_W))

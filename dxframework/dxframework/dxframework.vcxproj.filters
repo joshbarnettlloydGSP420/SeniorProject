@@ -22,6 +22,7 @@
     <Filter Include="Resource Files\Texture">
       <UniqueIdentifier>{74bb480f-e81f-46fa-924a-e13e80ce0a21}</UniqueIdentifier>
     </Filter>
+<<<<<<< HEAD
     <Filter Include="Header Files\Menu">
       <UniqueIdentifier>{501d4751-1773-41e2-b3f9-30677a710817}</UniqueIdentifier>
     </Filter>
@@ -45,12 +46,50 @@
     </Filter>
     <Filter Include="Header Files\Game">
       <UniqueIdentifier>{336724ef-f818-4566-93a5-2dd5d0dc35fe}</UniqueIdentifier>
+=======
+    <Filter Include="Header Files\Audio / FMOD">
+      <UniqueIdentifier>{8eb0b009-0168-414d-a4e9-61456b80240c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Objects">
+      <UniqueIdentifier>{97f5a217-b0de-42be-af24-2b49b32aa17b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Objects\Enemy">
+      <UniqueIdentifier>{4b7125b4-1eac-4f51-afef-0e266c390fbc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Game">
+      <UniqueIdentifier>{8375c040-ba93-477f-b4d2-93ec4bbf1f92}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Menu">
+      <UniqueIdentifier>{c57b88ff-0d35-434c-9cf9-8b7c2de8a1d6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Game">
+      <UniqueIdentifier>{2f02b645-42bc-4562-a0c8-fed92e681bb1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Audio / FMOD">
+      <UniqueIdentifier>{6543567d-0fc2-43de-a225-2f93cc250e91}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Menu">
+      <UniqueIdentifier>{afcb37eb-7b23-4622-843c-d1d76f206c41}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Objects">
+      <UniqueIdentifier>{9c175aff-ff4b-44d0-b45f-9b0203902a1e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Objects\Enemy">
+      <UniqueIdentifier>{0d42c15a-47ab-47ca-b5cb-807e327bb353}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Devices">
+      <UniqueIdentifier>{a2b5c8bd-e41f-4b53-bcbf-90f8543488bd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Devices">
+      <UniqueIdentifier>{e07fdf1f-22ef-4582-be9a-76402131e0d7}</UniqueIdentifier>
+>>>>>>> origin/MartinezWorking
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="winMain.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+<<<<<<< HEAD
     <ClCompile Include="Camera.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -74,10 +113,78 @@
     </ClCompile>
     <ClCompile Include="Object_Player.cpp">
       <Filter>Source Files\Objects</Filter>
+=======
+    <ClCompile Include="Enemy_Attack.cpp">
+      <Filter>Source Files\Objects\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy_YellowGhost.cpp">
+      <Filter>Source Files\Objects\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy_Base.cpp">
+      <Filter>Source Files\Objects\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy_BlueGhost.cpp">
+      <Filter>Source Files\Objects\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy_Flee.cpp">
+      <Filter>Source Files\Objects\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy_GreenGhost.cpp">
+      <Filter>Source Files\Objects\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy_Movement.cpp">
+      <Filter>Source Files\Objects\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy_RedGhost.cpp">
+      <Filter>Source Files\Objects\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy_Seek.cpp">
+      <Filter>Source Files\Objects\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy_Wander.cpp">
+      <Filter>Source Files\Objects\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Object_Player.cpp">
+      <Filter>Source Files\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="Object_Base.cpp">
+      <Filter>Source Files\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="BaseMenu.cpp">
+      <Filter>Source Files\Menu</Filter>
+    </ClCompile>
+    <ClCompile Include="OptionsMenu.cpp">
+      <Filter>Source Files\Menu</Filter>
+    </ClCompile>
+    <ClCompile Include="PauseMenu.cpp">
+      <Filter>Source Files\Menu</Filter>
+    </ClCompile>
+    <ClCompile Include="MenuMain.cpp">
+      <Filter>Source Files\Menu</Filter>
+    </ClCompile>
+    <ClCompile Include="DirectXFramework.cpp">
+      <Filter>Source Files\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="GameStateManager.cpp">
+      <Filter>Source Files\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="HUD.cpp">
+      <Filter>Source Files\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Mesh.cpp">
+      <Filter>Source Files\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="HavokCore.cpp">
+      <Filter>Source Files\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="d3dUtil.cpp">
+      <Filter>Source Files\Devices</Filter>
+>>>>>>> origin/MartinezWorking
     </ClCompile>
     <ClCompile Include="CameraObj.cpp">
       <Filter>Source Files\Devices</Filter>
     </ClCompile>
+<<<<<<< HEAD
     <ClCompile Include="DirectInput.cpp">
       <Filter>Source Files\Devices</Filter>
     </ClCompile>
@@ -94,10 +201,32 @@
       <Filter>Source Files\Game</Filter>
     </ClCompile>
     <ClCompile Include="DirectXFramework.cpp">
+=======
+    <ClCompile Include="Camera.cpp">
+      <Filter>Source Files\Devices</Filter>
+    </ClCompile>
+    <ClCompile Include="InputManager.cpp">
+      <Filter>Source Files\Devices</Filter>
+    </ClCompile>
+    <ClCompile Include="Gun.cpp">
+      <Filter>Source Files\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="Item.cpp">
+      <Filter>Source Files\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="PSystem.cpp">
+      <Filter>Source Files\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderObject.cpp">
+      <Filter>Source Files\Devices</Filter>
+    </ClCompile>
+    <ClCompile Include="Vertex.cpp">
+>>>>>>> origin/MartinezWorking
       <Filter>Source Files\Game</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+<<<<<<< HEAD
     <ClInclude Include="Camera.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -121,10 +250,87 @@
     </ClInclude>
     <ClInclude Include="Item.h">
       <Filter>Header Files\Objects</Filter>
+=======
+    <ClInclude Include="Enemy_Attack.h">
+      <Filter>Header Files\Objects\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy_YellowGhost.h">
+      <Filter>Header Files\Objects\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy_Base.h">
+      <Filter>Header Files\Objects\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy_BlueGhost.h">
+      <Filter>Header Files\Objects\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy_Flee.h">
+      <Filter>Header Files\Objects\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy_GreenGhost.h">
+      <Filter>Header Files\Objects\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy_Movement.h">
+      <Filter>Header Files\Objects\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy_RedGhost.h">
+      <Filter>Header Files\Objects\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy_Seek.h">
+      <Filter>Header Files\Objects\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy_Wander.h">
+      <Filter>Header Files\Objects\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Object_Base.h">
+      <Filter>Header Files\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Object_Player.h">
+      <Filter>Header Files\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Item.h">
+      <Filter>Header Files\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="MenuMain.h">
+      <Filter>Header Files\Menu</Filter>
+    </ClInclude>
+    <ClInclude Include="OptionsMenu.h">
+      <Filter>Header Files\Menu</Filter>
+    </ClInclude>
+    <ClInclude Include="PauseMenu.h">
+      <Filter>Header Files\Menu</Filter>
+    </ClInclude>
+    <ClInclude Include="BaseMenu.h">
+      <Filter>Header Files\Menu</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectXFramework.h">
+      <Filter>Header Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="GameStateManager.h">
+      <Filter>Header Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="HUD.h">
+      <Filter>Header Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Mesh.h">
+      <Filter>Header Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="HavokCore.h">
+      <Filter>Header Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Gun.h">
+      <Filter>Header Files\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="PSystem.h">
+      <Filter>Header Files\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>Header Files\Devices</Filter>
+>>>>>>> origin/MartinezWorking
     </ClInclude>
     <ClInclude Include="CameraObj.h">
       <Filter>Header Files\Devices</Filter>
     </ClInclude>
+<<<<<<< HEAD
     <ClInclude Include="DirectInput.h">
       <Filter>Header Files\Devices</Filter>
     </ClInclude>
@@ -141,6 +347,18 @@
       <Filter>Header Files\Game</Filter>
     </ClInclude>
     <ClInclude Include="DirectXFramework.h">
+=======
+    <ClInclude Include="d3dUtil.h">
+      <Filter>Header Files\Devices</Filter>
+    </ClInclude>
+    <ClInclude Include="InputManager.h">
+      <Filter>Header Files\Devices</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderObject.h">
+      <Filter>Header Files\Devices</Filter>
+    </ClInclude>
+    <ClInclude Include="Vertex.h">
+>>>>>>> origin/MartinezWorking
       <Filter>Header Files\Game</Filter>
     </ClInclude>
   </ItemGroup>
@@ -190,5 +408,26 @@
     <None Include="TestShader.txt">
       <Filter>Resource Files\Shaders</Filter>
     </None>
+<<<<<<< HEAD
+=======
+    <None Include="..\..\..\Gun\Gun\bolt2.xcf">
+      <Filter>Resource Files\Texture</Filter>
+    </None>
+    <None Include="..\..\..\Gun\Gun\blend_hm1.dds">
+      <Filter>Resource Files\Texture</Filter>
+    </None>
+    <None Include="..\..\..\Gun\Gun\bolt.dds">
+      <Filter>Resource Files\Texture</Filter>
+    </None>
+    <None Include="..\..\..\Gun\Gun\bolt.xcf">
+      <Filter>Resource Files\Texture</Filter>
+    </None>
+    <None Include="..\..\..\Gun\Gun\bolt2.dds">
+      <Filter>Resource Files\Texture</Filter>
+    </None>
+    <None Include="..\..\..\Gun\Gun\gun.fx">
+      <Filter>Resource Files\Shaders</Filter>
+    </None>
+>>>>>>> origin/MartinezWorking
   </ItemGroup>
 </Project>

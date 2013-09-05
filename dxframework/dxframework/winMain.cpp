@@ -19,7 +19,7 @@ bool				g_bWindowed;	// Boolean for windowed or full-screen
 
 //*************************************************************************
 // This is where you declare the instance of your DirectXFramework Class
-CDirectXFramework dXF;
+CDirectXFramework gd3dApp;
 //*************************************************************************
 
 // Entry point for the game or application.
@@ -77,7 +77,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 
 	//*************************************************************************
 	// Initialize DirectX/Game here (call the Init method of your framwork)
-	dXF.Init(g_hWnd, g_hInstance, g_bWindowed);
+	gd3dApp.Init(g_hWnd, g_hInstance, g_bWindowed);
 
 	//*************************************************************************
 
@@ -105,8 +105,8 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 
 		//*************************************************************************
 		// This is where you call your DirectXFramework/Game render/update calls
-		dXF.Render(dt);
-		dXF.Update(dt);
+		gd3dApp.Render(dt);
+		gd3dApp.Update(dt);
 
 		prevTimeStamp = currTimeStamp;
 
@@ -115,7 +115,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 
 	//*************************************************************************
 	//Shutdown DirectXFramework/Game here
-	dXF.Shutdown();
+	gd3dApp.Shutdown();
 
 	//*************************************************************************
 
