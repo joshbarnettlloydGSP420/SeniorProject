@@ -155,9 +155,11 @@
     <None Include="..\..\..\Gun\Gun\gun.fx" />
     <None Include="Armor.dds" />
     <None Include="Body.dds" />
+    <None Include="BordersManor1.bmp" />
     <None Include="defaulteffect.fx" />
     <None Include="Dwarf.x" />
     <None Include="DwarfHead.dds" />
+    <None Include="FloorManor1.bmp" />
     <None Include="GirRobot.X" />
     <None Include="Headgear.dds" />
     <None Include="Helmet.dds" />
@@ -165,9 +167,15 @@
     <None Include="Metal_Texture.jpg" />
     <None Include="Pack.dds" />
     <None Include="Parallax.fx" />
+    <None Include="PillarsManor1.bmp" />
+    <None Include="RoofManor1.bmp" />
+    <None Include="SpookyManor.X" />
     <None Include="TestShader.txt" />
     <None Include="ToonColored.fx" />
+    <None Include="WallsManor1.bmp" />
     <None Include="Weapons.dds" />
+    <None Include="WindowsManor1.bmp" />
+    <None Include="WindowsManor2.bmp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

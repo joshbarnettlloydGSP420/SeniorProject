@@ -261,7 +261,7 @@ void CDirectXFramework::Init(HWND& hWnd, HINSTANCE& hInst, bool bWindowed)
 
 	// Load Test Mesh
 	loadMesh("Dwarf.X", &Player->objectMesh);
-	loadMesh("RoomWithWalls.X", &Mansion->objectMesh);
+	loadMesh("SpookyManor.X", &Mansion->objectMesh);
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Create 3D Mesh From X																				 //

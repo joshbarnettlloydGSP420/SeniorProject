@@ -58,6 +58,9 @@
     <Filter Include="Header Files\Devices">
       <UniqueIdentifier>{e07fdf1f-22ef-4582-be9a-76402131e0d7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resource Files\Texture\Mansion">
+      <UniqueIdentifier>{bafed89b-52ad-4bbb-8bfc-1820300bd705}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="winMain.cpp">
@@ -309,6 +312,30 @@
     </None>
     <None Include="..\..\..\Gun\Gun\gun.fx">
       <Filter>Resource Files\Shaders</Filter>
+    </None>
+    <None Include="WindowsManor2.bmp">
+      <Filter>Resource Files\Texture</Filter>
+    </None>
+    <None Include="BordersManor1.bmp">
+      <Filter>Resource Files\Texture</Filter>
+    </None>
+    <None Include="FloorManor1.bmp">
+      <Filter>Resource Files\Texture</Filter>
+    </None>
+    <None Include="PillarsManor1.bmp">
+      <Filter>Resource Files\Texture</Filter>
+    </None>
+    <None Include="RoofManor1.bmp">
+      <Filter>Resource Files\Texture</Filter>
+    </None>
+    <None Include="WallsManor1.bmp">
+      <Filter>Resource Files\Texture</Filter>
+    </None>
+    <None Include="WindowsManor1.bmp">
+      <Filter>Resource Files\Texture</Filter>
+    </None>
+    <None Include="SpookyManor.X">
+      <Filter>Resource Files\Models</Filter>
     </None>
   </ItemGroup>
 </Project>
