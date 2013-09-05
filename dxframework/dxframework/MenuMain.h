@@ -20,7 +20,8 @@ public:
 	MenuMain();
 	~MenuMain();
 	void DrawBackGround();
-	
+
+	bool Init(InputManager* input, IDirect3DDevice9*	m_pD3DDevice);
 	virtual void Render();
 	virtual void Update();
 

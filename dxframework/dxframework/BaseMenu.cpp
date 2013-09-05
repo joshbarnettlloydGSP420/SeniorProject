@@ -32,7 +32,7 @@ bool BaseMenu::Init(InputManager* input, IDirect3DDevice9*	m_pD3DDevice)
 	menuItemSelected = 1;
 
 	// if no image is chosen this will be the default for the background
-	backgroundFileName = "haunted_house.jpg";
+	backgroundFileName = "mainMenuBackground.png";
 
 	// Create the background texture
 	D3DXCreateTextureFromFileEx(m_pD3DDevice, backgroundFileName ,0,0,0,0,D3DFMT_UNKNOWN, D3DPOOL_MANAGED, D3DX_DEFAULT, 

@@ -11,6 +11,39 @@ MenuMain::~MenuMain()
 
 }
 
+
+bool MenuMain::Init(InputManager* input, IDirect3DDevice9*	m_pD3DDevice)
+{
+	// Local pointer to the input manager
+	myInput = input;
+	this->m_pD3DDevice = m_pD3DDevice;
+
+	// create the SPRITE object
+	D3DXCreateSprite(m_pD3DDevice, &m_pD3DSprite);
+
+	// create a FONT object
+	AddFontResourceEx("SanitariumBB.otf", FR_PRIVATE, 0);
+	D3DXCreateFont(m_pD3DDevice, 30, 0, FW_BOLD, 0, false, 
+		DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, DEFAULT_QUALITY,
+		DEFAULT_PITCH | FF_DONTCARE, TEXT("SanitariumBB"), 
+		&m_pD3DFont);
+
+	// set the initial selected item
+	menuItemSelected = 1;
+
+	// if no image is chosen this will be the default for the background
+	backgroundFileName = "haunted_house.jpg";
+
+	// Create the background texture
+	D3DXCreateTextureFromFileEx(m_pD3DDevice, backgroundFileName ,0,0,0,0,D3DFMT_UNKNOWN, D3DPOOL_MANAGED, D3DX_DEFAULT, 
+		D3DX_DEFAULT, D3DCOLOR_XRGB(255, 0, 255), 
+		&m_imageInfo, 0, &backgroundTexture);
+
+	// set back ground position
+	backGroundPos = D3DXVECTOR3(0,0,0);
+	return true;
+}
+
 void MenuMain::Update()
 {
 	BaseMenu::Update();

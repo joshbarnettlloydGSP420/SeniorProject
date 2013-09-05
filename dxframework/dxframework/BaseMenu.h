@@ -60,7 +60,7 @@ public:
 	BaseMenu(void);
 	virtual ~BaseMenu(void);
 
-	bool Init(InputManager* input, IDirect3DDevice9* m_pD3DDevice);
+	virtual bool Init(InputManager* input, IDirect3DDevice9* m_pD3DDevice);
 	void Update();
 	void Render();
 
