@@ -50,6 +50,7 @@ void OptionsMenu::Update()
 
 	if ( menuItemSelected < 1)
 		menuItemSelected = 2;
+
 	if ( menuItemSelected > 2)
 		menuItemSelected = 1;
 
