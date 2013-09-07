@@ -164,7 +164,7 @@ void OptionsMenu::DrawBackground()
 	D3DXMatrixIdentity(&identity);
 	m_pD3DSprite->SetTransform(&identity);
 	D3DXMATRIX texScaling;
-	D3DXMatrixScaling(&texScaling, 1.0f, 1.00f, 0.0f);
+	D3DXMatrixScaling(&texScaling, 1.f, 1.00f, 0.0f);
 	m_pD3DDevice->SetTransform(D3DTS_TEXTURE0, &texScaling);
 
 	D3DXMATRIX T, S;
