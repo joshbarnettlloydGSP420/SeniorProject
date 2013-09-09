@@ -475,6 +475,7 @@ void CDirectXFramework::Render(float dt)
 	//	m_imageInfo.Height * 0.5f, 0.0f), 0,
 	//	D3DCOLOR_ARGB(255, 255, 255, 255));
 }
+
 gameState->Render(m_pD3DSprite);
 	// End drawing 2D sprites
 	m_pD3DSprite->End();
