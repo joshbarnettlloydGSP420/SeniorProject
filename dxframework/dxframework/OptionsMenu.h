@@ -20,18 +20,9 @@ private:
 
 	} optionsState;
 
-	////////////////////////////////////////////////////////////////////////
-	// DirectShow COM Object Creation
-	////////////////////////////////////////////////////////////////////////
-	IGraphBuilder			*videoGraph;
-	IMediaControl			*videoControl;
-	IMediaEvent				*videoEvent;
-	IVideoWindow			*videoWindow;
-	//HRESULT                *isVideoDone;
-	long evCode;
-	LONG_PTR eventParam1, eventParam2;
+	
 
-	HWND*					hwnd;
+	//HWND*					hwnd;
 
 
 public:

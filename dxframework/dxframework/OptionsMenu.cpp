@@ -59,24 +59,28 @@ void OptionsMenu::Update()
 			if ( menuItemSelected == 1)
 			{
 			optionsState = o_CREDITS;
-			InitVideo(L"Temp.wmv");
+			InitVideo(L"SplashScreenMovie.wmv");
 			videoControl->Run();
 
-			videoEvent->GetEvent(&evCode, &eventParam1, &eventParam2, 0);
-
-			// wait for the video to finish, or wait until the user hits Enter/Return Key
-			if(myInput->keyDown( DIK_SPACE) || (evCode == EC_COMPLETE) ) 
-			{
-				optionsState = o_OPTIONS_MENU;
-				DestroyVideo();
-			}
+			//videoEvent->GetEvent(&evCode, &eventParam1, &eventParam2, 0);
 			}
 		else if ( menuItemSelected == 2)
 		{
 			optionsState = o_QUIT_TO_MAIN;
 		}
 	}
-}
+	if(optionsState == 2)
+	
+	videoEvent->GetEvent(&evCode, &eventParam1, &eventParam2, 0);
+
+		// // wait for the video to finish, or wait until the user hits Enter/Return Key
+	if((myInput->keyDown(DIK_Q)  || (evCode == EC_COMPLETE))) 
+		{
+			optionsState = o_OPTIONS_MENU;
+			DestroyVideo();
+		}
+	
+	}
 
 void OptionsMenu::Render()
 {
@@ -108,6 +112,7 @@ void OptionsMenu::Render()
 	else
 		option = D3DCOLOR_ARGB(255,0,0,255);
 	m_pD3DFont->DrawTextA(0,menuPrint,-1,&m_rect, DT_CENTER | DT_NOCLIP,option);
+
 
 	m_pD3DSprite->End();
 }

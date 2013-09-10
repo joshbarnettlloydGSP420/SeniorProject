@@ -67,6 +67,7 @@ void MenuMain::Update()
 
 void MenuMain::Render()
 {
+	
 	m_pD3DSprite->Begin(D3DXSPRITE_ALPHABLEND);
 	// Call the base menu's render method to initialize some variables
 	BaseMenu::Render();
@@ -115,17 +116,17 @@ void MenuMain::DrawBackGround()
 	D3DXMatrixIdentity(&identity);
 	m_pD3DSprite->SetTransform(&identity);
 	D3DXMATRIX texScaling;
-	D3DXMatrixScaling(&texScaling, 1.58f, 1.70f, 0.0f);
+	D3DXMatrixScaling(&texScaling, 1.58f, 3.78f, 0.0f);
 	m_pD3DDevice->SetTransform(D3DTS_TEXTURE0, &texScaling);
 
 	D3DXMATRIX T, S;
-	D3DXMatrixTranslation(&T, - backGroundPos.x, - backGroundPos.y, - backGroundPos.z);
+	D3DXMatrixTranslation(&T,  backGroundPos.x,  backGroundPos.y,  backGroundPos.z);
 	D3DXMatrixScaling(&S, 1.0f, 1.0f, 0.0f);
 	m_pD3DSprite->SetTransform(&(S*T));
 
 	// Draw the background sprite.
 	m_pD3DSprite->Draw(backgroundTexture, 0, 0, 0, D3DCOLOR_XRGB(255, 255, 255));
 	m_pD3DSprite->Flush();
-	D3DXMatrixScaling(&texScaling, 1.0f, -1.0f, 1.0f);
+	D3DXMatrixScaling(&texScaling, 1.0f, 1.0f, 1.0f);
 	m_pD3DDevice->SetTransform(D3DTS_TEXTURE0, &texScaling);
 }

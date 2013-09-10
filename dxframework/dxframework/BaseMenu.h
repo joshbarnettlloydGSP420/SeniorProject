@@ -46,6 +46,18 @@ protected:
 	RECT				m_rect;				// RECT for the menu background
 	LPCSTR				backgroundFileName;	// name of file for background
 	D3DXVECTOR3			backGroundPos;		// position  for background sprite
+	
+	////////////////////////////////////////////////////////////////////////
+	// DirectShow COM Object Creation
+	////////////////////////////////////////////////////////////////////////
+	IGraphBuilder			*videoGraph;
+	IMediaControl			*videoControl;
+	IMediaEvent				*videoEvent;
+	IVideoWindow			*videoWindow;
+	//HRESULT                *isVideoDone;
+	long evCode;
+	LONG_PTR eventParam1, eventParam2;
+	HWND*					hwnd;
 	////////////////////////////////////////////////////////////////////////
 	// Istance of gameState
 	////////////////////////////////////////////////////////////////////////
