@@ -88,6 +88,13 @@ void OptionsMenu::Render()
 	BaseMenu::Render();
 
 	m_pD3DSprite->Begin(D3DXSPRITE_ALPHABLEND);
+		if(optionsState == 2)
+		// // wait for the video to finish, or wait until the user hits Enter/Return Key
+	if((myInput->keyDown(DIK_Q)  || (evCode == EC_COMPLETE))) 
+		{
+			optionsState = o_OPTIONS_MENU;
+			
+		}
 	DrawBackground();
 	// Print Main Menu at the top of the screen
 	sprintf(menuPrint,"OPTIONS MENU");
