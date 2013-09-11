@@ -41,6 +41,7 @@ bool OptionsMenu::Init(InputManager* input, IDirect3DDevice9* m_pD3DDevice, HWND
 
 	// set back ground position
 	backGroundPos = D3DXVECTOR3(0,0,0);
+
 	return true;
 }
 
@@ -50,37 +51,38 @@ void OptionsMenu::Update()
 
 	if ( menuItemSelected < 1)
 		menuItemSelected = 2;
-
 	if ( menuItemSelected > 2)
 		menuItemSelected = 1;
 
 	if ( myInput->keyDown(DIK_RETURN))
 	{
-			if ( menuItemSelected == 1)
-			{
+		if ( menuItemSelected == 1)
+		{
 			optionsState = o_CREDITS;
 			InitVideo(L"SplashScreenMovie.wmv");
 			videoControl->Run();
 
-			//videoEvent->GetEvent(&evCode, &eventParam1, &eventParam2, 0);
+			videoEvent->GetEvent(&evCode, &eventParam1, &eventParam2, 0);
+
+			// wait for the video to finish, or wait until the user hits Enter/Return Key
+			if(myInput->keyDown( DIK_SPACE) || (evCode == EC_COMPLETE) )
+			{
+				optionsState = o_OPTIONS_MENU;
+				DestroyVideo();
 			}
+		}
 		else if ( menuItemSelected == 2)
 		{
 			optionsState = o_QUIT_TO_MAIN;
 		}
 	}
-	if(optionsState == 2)
-	
-	videoEvent->GetEvent(&evCode, &eventParam1, &eventParam2, 0);
+}
 
-		// // wait for the video to finish, or wait until the user hits Enter/Return Key
-	if((myInput->keyDown(DIK_Q)  || (evCode == EC_COMPLETE))) 
-		{
-			optionsState = o_OPTIONS_MENU;
-			DestroyVideo();
-		}
 	
-	}
+	
+	
+	
+	
 
 void OptionsMenu::Render()
 {
