@@ -15,8 +15,8 @@ private:
 	{
 		o_OPTIONS_MENU		= 0,
 		o_QUIT_TO_MAIN		= 1,
-		o_FULLSCREEN		= 2,
-		o_CREDITS			= 3,
+		/*o_FULLSCREEN		= 2,*/
+		o_CREDITS			= 2,
 
 	} optionsState;
 

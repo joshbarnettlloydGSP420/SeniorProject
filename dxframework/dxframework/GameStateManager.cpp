@@ -16,14 +16,15 @@ void GameStateManager::Init( HWND* wndHandle,  D3DPRESENT_PARAMETERS* D3dpp, HIN
 	hwnd = wndHandle;
 	D3Dpp = D3dpp;
 
-
 	// Create a new input manager
 	input = new InputManager();
-	input->init(hInst, *wndHandle);
+	input->init(hInst, *hwnd);
 
 	// Create a new menu
 	mainMenu = new MenuMain();
 	mainMenu->Init( input, m_pD3DDevice );
+
+	
 
 	// Set the active game state to the Main Menu
 	activeGameState = MAIN_MENU;
@@ -31,6 +32,7 @@ void GameStateManager::Init( HWND* wndHandle,  D3DPRESENT_PARAMETERS* D3dpp, HIN
 
 void GameStateManager::Update( float dt )
 {
+	input->getInput();
 	switch ( activeGameState )
 	{
 		///////////////////////////////////////////////////////////////////////
@@ -72,8 +74,8 @@ void GameStateManager::Update( float dt )
 					delete mainMenu;
 
 					// create a new game
-					game = new Game();
-					game->Init( input, m_pD3DDevice, hwnd);
+					hud = new HUD();
+					hud->Init( m_pD3DDevice);
 
 					activeGameState = GAME;
 					break;
@@ -120,9 +122,9 @@ void GameStateManager::Update( float dt )
 	case GAME:
 		{
 			// Game's update function
-			game->Update( dt );
+			hud->Update( dt );
 
-			if ( input->keyDown( DIK_P))
+			if (input->keyPress(DIK_P))
 			{
 				// create a pause menu
 				pauseMenu = new PauseMenu();
@@ -152,12 +154,12 @@ void GameStateManager::Update( float dt )
 			case 2:	// Restart the game
 				{
 					// delete game and pause menu
-					delete game;
+					delete hud;
 					delete pauseMenu;
 
 					// create a new game
-					game = new Game();
-					game->Init( input, m_pD3DDevice, hwnd);
+					hud = new HUD();
+					hud->Init( m_pD3DDevice);
 
 					activeGameState = GAME;
 
@@ -166,7 +168,7 @@ void GameStateManager::Update( float dt )
 			case 3: // Quit to the main menu
 				{
 					// delete game and pause menu
-					delete game;
+					delete hud;
 					delete pauseMenu;
 
 					// initialize a new main menu
@@ -183,7 +185,7 @@ void GameStateManager::Update( float dt )
 	}
 }
 
-void GameStateManager::Render()
+void GameStateManager::Render(ID3DXSprite* sprite)
 {
 	// If the device was not created successfully, return
 	if(!m_pD3DDevice)
@@ -193,10 +195,14 @@ void GameStateManager::Render()
 	// All draw calls between swap chain's functions, and pre-render and post- 
 	// render functions (Clear and Present, BeginScene and EndScene)
 	//////////////////////////////////////////////////////////////////////////
-	m_pD3DDevice->Clear(0, 0, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER | D3DCLEAR_STENCIL, D3DXCOLOR(0.0f, 0.0f, 0.0f, 255.0f), 1.0f, 0);
+
+	/// Don't need to clear the buffer twice, just once
+	/// you are already clearing the buffer in the framework
+
+	//m_pD3DDevice->Clear(0, 0, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER | D3DCLEAR_STENCIL, D3DXCOLOR(0.0f, 0.0f, 0.0f, 255.0f), 1.0f, 0);
 
 	// Clear the back buffer, call BeginScene()
-	m_pD3DDevice->BeginScene();
+	//m_pD3DDevice->BeginScene();
 
 	switch ( activeGameState )
 	{
@@ -211,7 +217,7 @@ void GameStateManager::Render()
 	case GAME:
 		{
 			// Render the game
-			game->Render();
+			hud->Render(m_pD3DDevice,sprite);
 			break;
 		}
 		///////////////////////////////////////////////////////////////////////
@@ -231,8 +237,8 @@ void GameStateManager::Render()
 	}
 
 	// EndScene, and Present the back buffer to the display buffer
-	m_pD3DDevice->EndScene();
-	m_pD3DDevice->Present(0, 0, 0, 0);
+	//m_pD3DDevice->EndScene();
+	//m_pD3DDevice->Present(0, 0, 0, 0);
 }
 
 void GameStateManager::onResetDevice()

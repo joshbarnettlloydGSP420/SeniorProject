@@ -78,6 +78,8 @@ VertexToPixel CelVertexShader(AppToVertex input)
     float4 worldPosition = mul(input.Position, World);
     float4 viewPosition = mul(worldPosition, View);
     output.Position = mul(viewPosition, Projection);
+
+	output.Position = mul( input.Position, World );
  
     // Transform the normal
     output.Normal = normalize(mul(input.Normal, WorldInverseTranspose));
@@ -93,7 +95,7 @@ VertexToPixel CelVertexShader(AppToVertex input)
 // one of four colors.
 float4 CelPixelShader(VertexToPixel input) : COLOR0
 {
-
+	//return float4( 1, 1, 1, 1 );
     // Calculate diffuse light amount
     float intensity = dot(normalize(DiffuseLightDirection), input.Normal);
     if(intensity < 0)
@@ -160,12 +162,12 @@ technique ToonColored
     // The first pass will go through and draw the back-facing triangles with the outline shader,
     // which will draw a slightly larger version of the model with the outline color.  Later, the
     // model will get drawn normally, and draw over the top most of this, leaving only an outline.
-    pass Pass1
+    /*pass Pass1
     {
         VertexShader = compile vs_2_0 OutlineVertexShader();
         PixelShader = compile ps_2_0 OutlinePixelShader();
         CullMode = CW;
-    }
+    }*/
  
     // The second pass will draw the model like normal, but with the cel pixel shader, which will
     // color the model with certain colors, giving us the cel/toon effect that we are looking for.

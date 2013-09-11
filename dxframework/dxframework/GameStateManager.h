@@ -5,8 +5,9 @@
 #include "MenuMain.h"
 #include "OptionsMenu.h"
 #include "PauseMenu.h"
-#include "Timer.h"
-#include "Game.h"
+#include "HUD.h"
+
+
 
 enum GAME_STATE
 {
@@ -31,26 +32,34 @@ class GameStateManager
 private:
 	// Needed Variables
 	IDirect3DDevice9*		m_pD3DDevice;
-	HWND*					hwnd;
+	 HWND*					hwnd;
 	D3DPRESENT_PARAMETERS*	D3Dpp;
+	HWND*					hWnd;
+	bool*					bWindowed;
+	float*					dt;
+	HINSTANCE*				hInst;
+
 
 	// Create variables to classes
 	InputManager*			input;
 	MenuMain*				mainMenu;
 	OptionsMenu*			optionsMenu;
 	PauseMenu*				pauseMenu;
-	Game*					game;
+	HUD*					hud;
+	//Game*					game;
+
 	
+
+public:
 	// Create a GAME_STATE variable
 	GAME_STATE	activeGameState;
 
-public:
 	GameStateManager(void);
 	~GameStateManager(void);
 
 	void Init(HWND* wndHandle,  D3DPRESENT_PARAMETERS* D3dpp, HINSTANCE hInst, IDirect3DDevice9* device);
 	void Update( float dt);
-	void Render();
+	void Render(ID3DXSprite* sprite);
 
 	void onResetDevice();
 	void onLostDevice();

@@ -3,52 +3,71 @@
 
 Enemy_Movement::Enemy_Movement(void)
 {
-	orientation = 0.0f;
-	velocity = D3DXVECTOR4(0, 0, 0, 0);
-	rotation = 0.0f;
-}
-
-Enemy_Movement::Enemy_Movement(D3DXVECTOR4 position, D3DXVECTOR4 velocity, float orientation, float rotation)
-{
-	this->position = position;
-	this->velocity = velocity;
-	this->orientation = orientation;
-	this->rotation = rotation;
+	rotation = angular = orientation = 0.0f;
+	position = linear = velocity = D3DXVECTOR4(0, 0, 0, 0);
 }
 
 Enemy_Movement::~Enemy_Movement(void)
 {
 }
 
-void Enemy_Movement::Update()
+void Enemy_Movement::Update( float dt)
 {
 	// update position and orientation
-	position += velocity;
-	orientation += rotation;
+	position += velocity * dt;
+	orientation += rotation * dt;
+
+	// and the velocity and rotation
+	velocity += linear * dt;
+	orientation += angular * dt;
+
+	// check for speeding and clip
+	if ( (sqrt((velocity.z * velocity.z) + (velocity.x * velocity.x))) > MAX_SPEED )
+	{
+		NormalizeVelocity();
+		velocity.x *= MAX_SPEED;
+		velocity.z *= MAX_SPEED;
+	}
 }
 
-float Enemy_Movement::GetNewOrientation( float currentOrientation, D3DXVECTOR4 velocity)
+void Enemy_Movement::GetNewOrientation()
 {
-	float length = sqrt((velocity.x * velocity.x) + (velocity.y * velocity.y));
+	float length = sqrt((velocity.x * velocity.x) + (velocity.z * velocity.z));
 	if ( length > 0)
-		return (float) atan2(velocity.x, -velocity.y);
-	else
-		return currentOrientation;
+		orientation = (float) atan2(-velocity.x, velocity.z);
 }
 
-float Enemy_Movement::GetOrientation(){	return orientation; }
-D3DXVECTOR4 Enemy_Movement::GetOrientationAsVector() {	return D3DXVECTOR4((float) sin(orientation), -(float) cos(orientation), 0, 0);}
-void Enemy_Movement::SetOrientation(float newOrientation) { orientation = newOrientation ;}
-D3DXVECTOR4 Enemy_Movement::GetPosition() { return position;}
-void Enemy_Movement::setPosition( D3DXVECTOR4 newPosition) { position = newPosition; }
-void Enemy_Movement::setVelocity(D3DXVECTOR4 newVelocity) {velocity = newVelocity; }
-D3DXVECTOR4 Enemy_Movement::GetVelocity(){ return velocity; }
-float Enemy_Movement::GetVelocityLength() {return (float) sqrt((velocity.x * velocity.x) + (velocity.y * velocity.y));}
 void Enemy_Movement::NormalizeVelocity()
 {
-	float length = sqrt((velocity.x * velocity.x) + (velocity.y * velocity.y));
+	float length = sqrt((velocity.x * velocity.x) + (velocity.z * velocity.z));
 	velocity.x /= length;
-	velocity.y /= length;
+	velocity.z /= length;
 }
+void Enemy_Movement::NormalizeLinear()
+{
+	float length = sqrt((linear.x * linear.x) + (linear.z * linear.z) );
+	linear.x /= length;
+	linear.z /= length;
+}
+/// Accessors and Mutators
+float Enemy_Movement::GetOrientation(){	return orientation; }
+D3DXVECTOR4 Enemy_Movement::GetOrientationAsVector() {	return D3DXVECTOR4((float) sin(orientation), 0, (float) cos(orientation), 0);}
+
+void Enemy_Movement::SetOrientation(float newOrientation) { orientation = newOrientation ;}
+D3DXVECTOR4 Enemy_Movement::GetPosition() { return position;}
+
+void Enemy_Movement::setPosition( D3DXVECTOR4 newPosition) { position = newPosition; }
+
+void Enemy_Movement::setVelocity(D3DXVECTOR4 newVelocity) {velocity = newVelocity; }
+D3DXVECTOR4 Enemy_Movement::GetVelocity(){ return velocity; }
+
+float Enemy_Movement::GetVelocityLength() {return (float) sqrt((velocity.x * velocity.x) + (velocity.z * velocity.z));}
+D3DXVECTOR4 Enemy_Movement::GetLinear(){ return linear; };
+
+void Enemy_Movement::SetLinear( D3DXVECTOR4 newLinear ){ linear = newLinear; };
+
 float Enemy_Movement::GetRotation(){ return rotation;}
+
 void Enemy_Movement::SetRotation( float newRotation) { rotation = newRotation; }
+
+void Enemy_Movement::SetAngular( float newAngular ) { angular = newAngular; };

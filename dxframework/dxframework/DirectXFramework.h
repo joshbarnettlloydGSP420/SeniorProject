@@ -1,7 +1,5 @@
 #pragma once
 
-#include "GameStateManager.h"
-
 //////////////////////////////////////////////////////////////////////////
 // DirectX 9 headers and library files								    //
 //////////////////////////////////////////////////////////////////////////
@@ -11,27 +9,28 @@
 #pragma comment(lib, "winmm.lib")
 #pragma comment(lib, "d3d9.lib")
 #pragma comment(lib, "d3dx9.lib")
-<<<<<<< HEAD
 
 #include "HavokCore.h"
+#include "InputManager.h"
 #include "Object_Base.h"
-<<<<<<< HEAD
-#include "HUD.h"
-=======
->>>>>>> origin/MartinezWorking
+#include "Object_Player.h"
 #include "CameraObj.h"
-=======
-#pragma comment(lib, "dinput8.lib")
->>>>>>> origin/HeatherWorking
+#include "d3dUtil.h"
+#include "Vertex.h"
+#include "GameStateManager.h"
+#include "RenderObject.h"
+#include "Enemy_Base.h"
 
 // Macro to release COM objects fast and safely
 #define SAFE_RELEASE(x) if(x){x->Release(); x = 0;}
 
+
+// Enums
+enum GhostTextures{ Red, Yellow, Green, Blue };
+
+
 class CDirectXFramework
 {
-private:
-
-	GameStateManager			gSM;
 	//////////////////////////////////////////////////////////////////////////
 	// Application Variables												//
 	//////////////////////////////////////////////////////////////////////////
@@ -42,9 +41,8 @@ private:
 	// Direct3D Variables													//
 	//////////////////////////////////////////////////////////////////////////
 	IDirect3D9*					m_pD3DObject;	// Direct3D 9 Object
-	IDirect3DDevice9*			m_pD3DDevice;	// Direct3D 9 Device
+	//IDirect3DDevice9*			m_pD3DDevice;	// Direct3D 9 Device
 	D3DCAPS9					m_D3DCaps;		// Device Capabilities
-	D3DPRESENT_PARAMETERS		D3Dpp;
 
 	//////////////////////////////////////////////////////////////////////////
 	// Screen Variables														//
@@ -55,17 +53,20 @@ private:
 	int							screenWidth;
 	int							screenHeight;
 
-<<<<<<< HEAD
 	//////////////////////////////////////////////////////////////////////////
 	// Input Manager														//
 	//////////////////////////////////////////////////////////////////////////
-	//InputManager*				m_pDInput;
+	InputManager*				m_pDInput;
+	//////////////////////////////////////////////////////////////////////////
+	// Gamestate Manager													//
+	//////////////////////////////////////////////////////////////////////////
+	GameStateManager*				gameState;
 
 
 	//////////////////////////////////////////////////////////////////////////
 	// Camera																//
 	//////////////////////////////////////////////////////////////////////////
-	CameraObj*						camera;
+	//CameraObj*					camera;
 
 	//////////////////////////////////////////////////////////////////////////
 	// Structs																//
@@ -159,6 +160,11 @@ private:
 	ID3DXEffect*					fx[10];
 
 	//////////////////////////////////////////////////////////////////////////
+	// Render Objects														//
+	//////////////////////////////////////////////////////////////////////////
+	RenderObject*					render;
+
+	//////////////////////////////////////////////////////////////////////////
 	// Matricies															//
 	//////////////////////////////////////////////////////////////////////////
 	D3DXMATRIX						transMat;
@@ -193,55 +199,40 @@ private:
 	//////////////////////////////////////////////////////////////////////////
 	// Objects																//
 	//////////////////////////////////////////////////////////////////////////
-	Object_Base*					Player;
+	Object_Base*					Mansion;
+	Object_Player*					Player;
 
-=======
-public:
->>>>>>> origin/HeatherWorking
 	//////////////////////////////////////////////////////////////////////////
-	// HUD																	//
+	// Enemies																//
 	//////////////////////////////////////////////////////////////////////////
-	HUD								hud;
-	
-	CameraObj						camera;
+	Enemy_Base*						redGhost;
+
 
 public:
+
+	gunType type;
 
 	CDirectXFramework(void);
 	~CDirectXFramework(void);
 
+	HWND getMainWnd();
 
 	void Init(HWND& hWnd, HINSTANCE& hInst, bool bWindowed);
 
 	void Update(float dt);
 
-<<<<<<< HEAD
 	void Render(float dt);
-=======
-	//////////////////////////////////////////////////////////////////////////
-	// Name:		Render
-	// Parameters:	float elapsedTime - Time that has elapsed since the last
-	//					render call.
-	// Return:		void
-	// Description: Runs every frame, use dt to limit functionality called to
-	//				a certain amount of elapsed time that has passed.  Render
-	//				calls all draw call to render objects to the screen.
-	//////////////////////////////////////////////////////////////////////////
-	void Render();
->>>>>>> origin/HeatherWorking
 
 	void Shutdown();
 
-	bool isDeviceLost();
-	virtual void onLostDevice() {};
-	virtual void onResetDevice() {};
-	virtual bool checkDeviceCaps() { return true; };
+	void loadMesh(LPCSTR fileName, Mesh** meshObject);
 
-<<<<<<< HEAD
-	void playerUpdate(float dt);
+	void createGroundBox(hkpWorld* world);
 
-	void cameraUpdate(float dt);
-=======
-	void enableFullScreenMode( bool enable);
->>>>>>> origin/HeatherWorking
+	void UpdateCamera(float dt);
+
+	void playerControls(float dt);
 };
+
+extern CDirectXFramework gd3dApp;
+//extern IDirect3DDevice9* m_pD3DDevice;

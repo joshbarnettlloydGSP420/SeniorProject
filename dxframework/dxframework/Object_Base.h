@@ -6,11 +6,21 @@
 // Enum for deciding what Shape the Object is in Havok
 enum HavokShape
 {
-	NONE		=	0,		// Hav
+	NONE		=	0,		// Havok Box (By Default)
 	SPHERE		=	1,		// Havok Sphere
 	BOX			=	2,		// Havok Box
-	CAPSULE		=	3		// Havok Capsule
+	CAPSULE		=	3,		// Havok Capsule
+	PHANTOM		=	4		// Havok Phantom
 };
+
+enum Moveable
+{
+	UNMOVABLE	=	0,
+	LIGHT		=	1,
+	HEAVY		=	2
+};
+
+
 
 class Object_Base
 {
@@ -18,38 +28,57 @@ private:
 	void createSphereObject(hkpWorld* world);
 	void createBoxObject(hkpWorld* world);
 	void createCapsuleObject(hkpWorld* world);
-
-	// Variables
-	D3DXVECTOR4			position;
-	D3DXVECTOR3			rotation;
-	D3DXVECTOR3			scale;
-	int					health;
-	bool				isAlive;
-
-	// Mesh
-	//Mesh*				objectMesh;
-	
-	// Havok
-	short				shape;
-	hkpRigidBodyCinfo	bodyInfo;
-	hkReal				mass;	
-	hkVector4			shapeSize;
+	//void stateMachineInit();
 
 public:
+	// Variables
+	D3DXVECTOR4					position;
+	D3DXVECTOR3					rotation;
+	D3DXVECTOR3					scale;
+	int							health;
+	bool						isAlive;
+	bool						wantJump;
+
+	// Physics
+	float						velUD;
+	float						velLR;
+	float						jumpTimer;
+
+	// Mesh
+	Mesh*						objectMesh;
+	
+	// Havok
+
+	// Rigid Body
+	short						shape;
+	hkpRigidBody*				rigidBody;
+	hkpRigidBodyCinfo			bodyInfo;
+	hkReal						mass;	
+	hkVector4					shapeSize;
+	hkpCharacterInput			input;
+	int							weight;
+	
+	// Movement
+
+	// State Machine
+	hkpCharacterState*			state;
+	hkpCharacterStateManager*	manager;
+	hkpCharacterContext*		context;
+
 	// Constructor, Destructor, and Methods
 	Object_Base(void);
 	~Object_Base(void);
 
-	void Init();
-	void Render();
-
 	void Update(float deltaTime);
 
-	void convertPosition(hkVector4* phyPosition, D3DXVECTOR4* m_Position);
+	void convertPosition();
+
+	hkVector4 velocityCalc(float dt);
 
 	void createHavokObject(hkpWorld* world);
 
-	void setPosition( D3DXVECTOR4 newPosition ) { position = newPosition; };
-	void setShape( short newShape ) { shape = newShape; };
+	//AABB getHavokAABB();
+
+	//void characterInputOutput();
 };
 

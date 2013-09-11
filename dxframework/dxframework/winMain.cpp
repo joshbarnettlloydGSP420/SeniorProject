@@ -1,18 +1,3 @@
-//////////////////////////////////////////////////////////////////////////
-// Name:	WinMain.h
-// Date:	April 2nd, 2010
-// Author:	Kyle Lauing [klauing@devry.edu] or [kylelauing@gmail.com]
-// Purpose: This file is used to create a simple window application for
-//			use with the DirectXFramework developed for the GSP 381 course
-//			for DeVry University.
-// Disclaimer:	
-//			Copyright © 2010 by DeVry Educational Development Corporation.
-//			All rights reserved.  No part of this work may be reproduced 
-//			or used in any form or by any means – graphic, electronic, or 
-//			mechanical, including photocopying, recording, Web distribution 
-//			or information storage and retrieval systems – without the 
-//			prior consent of DeVry Educational Development Corporation.
-//////////////////////////////////////////////////////////////////////////
 #include <iostream>
 
 #include <windows.h>
@@ -34,7 +19,7 @@ bool				g_bWindowed;	// Boolean for windowed or full-screen
 
 //*************************************************************************
 // This is where you declare the instance of your DirectXFramework Class
-CDirectXFramework dXF;
+CDirectXFramework gd3dApp;
 //*************************************************************************
 
 // Entry point for the game or application.
@@ -92,7 +77,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 
 	//*************************************************************************
 	// Initialize DirectX/Game here (call the Init method of your framwork)
-	dXF.Init(g_hWnd, g_hInstance, g_bWindowed);
+	gd3dApp.Init(g_hWnd, g_hInstance, g_bWindowed);
 
 	//*************************************************************************
 
@@ -120,20 +105,17 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 
 		//*************************************************************************
 		// This is where you call your DirectXFramework/Game render/update calls
-		dXF.Update(dt);
-<<<<<<< HEAD
+		gd3dApp.Render(dt);
+		gd3dApp.Update(dt);
 
 		prevTimeStamp = currTimeStamp;
 
 		//*************************************************************************
-=======
-		dXF.Render();
->>>>>>> origin/HeatherWorking
 	}
 
 	//*************************************************************************
 	//Shutdown DirectXFramework/Game here
-	dXF.Shutdown();
+	gd3dApp.Shutdown();
 
 	//*************************************************************************
 

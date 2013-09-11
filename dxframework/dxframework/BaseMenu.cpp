@@ -22,10 +22,10 @@ bool BaseMenu::Init(InputManager* input, IDirect3DDevice9*	m_pD3DDevice)
 	D3DXCreateSprite(m_pD3DDevice, &m_pD3DSprite);
 
 	// create a FONT object
-	AddFontResourceEx("Delicious-Roman.otf", FR_PRIVATE, 0);
+	AddFontResourceEx("SanitariumBB.otf", FR_PRIVATE, 0);
 	D3DXCreateFont(m_pD3DDevice, 30, 0, FW_BOLD, 0, false, 
 		DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, DEFAULT_QUALITY,
-		DEFAULT_PITCH | FF_DONTCARE, TEXT("Delicious-Roman"), 
+		DEFAULT_PITCH | FF_DONTCARE, TEXT("SanitariumBB"), 
 		&m_pD3DFont);
 
 	// set the initial selected item

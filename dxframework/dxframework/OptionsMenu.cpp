@@ -10,7 +10,7 @@ OptionsMenu::~OptionsMenu(void)
 {
 }
 
-bool OptionsMenu::Init( InputManager* input, IDirect3DDevice9* m_pD3DDevice, HWND* wndHandle, D3DPRESENT_PARAMETERS* D3dpp)
+bool OptionsMenu::Init(InputManager* input, IDirect3DDevice9* m_pD3DDevice, HWND* wndHandle, D3DPRESENT_PARAMETERS* D3dpp)
 {
 	BaseMenu::Init( input, m_pD3DDevice );
 	hwnd = wndHandle;
@@ -22,14 +22,15 @@ void OptionsMenu::Update()
 {
 	BaseMenu::Update();
 
-	if ( myInput->keyPress(DIK_RETURN))
+	if ( menuItemSelected < 1)
+		menuItemSelected = 2;
+	if ( menuItemSelected > 2)
+		menuItemSelected = 1;
+
+	if ( myInput->keyDown(DIK_RETURN))
 	{
-		if ( menuItemSelected == 1)
-		{		
-			optionsState = o_FULLSCREEN;
-		}
-		else if ( menuItemSelected == 2)
-		{
+			if ( menuItemSelected == 1)
+			{
 			optionsState = o_CREDITS;
 			InitVideo(L"Temp.wmv");
 			videoControl->Run();
@@ -37,13 +38,13 @@ void OptionsMenu::Update()
 			videoEvent->GetEvent(&evCode, &eventParam1, &eventParam2, 0);
 
 			// wait for the video to finish, or wait until the user hits Enter/Return Key
-			if(myInput->keyPress( DIK_SPACE) || (evCode == EC_COMPLETE) ) 
+			if(myInput->keyDown( DIK_SPACE) || (evCode == EC_COMPLETE) ) 
 			{
 				optionsState = o_OPTIONS_MENU;
 				DestroyVideo();
 			}
-		}
-		else if ( menuItemSelected == 3)
+			}
+		else if ( menuItemSelected == 2)
 		{
 			optionsState = o_QUIT_TO_MAIN;
 		}
@@ -64,28 +65,21 @@ void OptionsMenu::Render()
 
 	m_pD3DFont->DrawTextA(0,menuPrint,-1,&m_rect, DT_CENTER | DT_NOCLIP,option);
 
-	sprintf(menuPrint,"Fullscreen");
+	
+	sprintf(menuPrint,"Credits");
 	SetRect(&m_rect,120,330,600,500);
 	if(menuItemSelected == 1)
-		option = D3DCOLOR_ARGB(255,255,0,255);
+		option = D3DCOLOR_ARGB(255,255,0,0);
 	else
-		option = D3DCOLOR_ARGB(255,150,0,240);
-	m_pD3DFont->DrawTextA(0,menuPrint,-1,&m_rect, DT_CENTER | DT_NOCLIP,option);
-
-	sprintf(menuPrint,"Credits");
-	SetRect(&m_rect,120,530,600,500);
-	if(menuItemSelected == 2)
-		option = D3DCOLOR_ARGB(255,255,0,255);
-	else
-		option = D3DCOLOR_ARGB(255,150,0,240);
+		option = D3DCOLOR_ARGB(255,0,0,255);
 	m_pD3DFont->DrawTextA(0,menuPrint,-1,&m_rect, DT_CENTER | DT_NOCLIP,option);
 
 	sprintf(menuPrint,"Exit to Main Menu");
-	SetRect(&m_rect,120,730,600,500);
-	if(menuItemSelected == 3)
-		option = D3DCOLOR_ARGB(255,255,0,255);
+	SetRect(&m_rect,120,530,600,500);
+	if(menuItemSelected == 2)
+		option = D3DCOLOR_ARGB(255,255,0,0);
 	else
-		option = D3DCOLOR_ARGB(255,150,0,240);
+		option = D3DCOLOR_ARGB(255,0,0,255);
 	m_pD3DFont->DrawTextA(0,menuPrint,-1,&m_rect, DT_CENTER | DT_NOCLIP,option);
 
 	m_pD3DSprite->End();
