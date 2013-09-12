@@ -42,47 +42,78 @@ bool OptionsMenu::Init(InputManager* input, IDirect3DDevice9* m_pD3DDevice, HWND
 	// set back ground position
 	backGroundPos = D3DXVECTOR3(0,0,0);
 
+	videoInit = false;
+
 	return true;
 }
 
 void OptionsMenu::Update()
 {
-	BaseMenu::Update();
+	myInput->getInput();
+
+	if ( videoInit == false)
+	{
+		if (myInput->keyPress( DIK_UP))
+		{
+			menuItemSelected--;
+		}
+		else if ( myInput->keyPress( DIK_DOWN))
+		{
+			menuItemSelected++;
+		}
+	}
 
 	if ( menuItemSelected < 1)
 		menuItemSelected = 2;
 	if ( menuItemSelected > 2)
 		menuItemSelected = 1;
 
-	if ( myInput->keyDown(DIK_RETURN))
+	if (myInput->keyPress( DIK_ESCAPE))
+	{
+		PostQuitMessage(0);
+	}
+
+	if ( myInput->keyPress(DIK_RETURN))
 	{
 		if ( menuItemSelected == 1)
-		{
 			optionsState = o_CREDITS;
-			InitVideo(L"SplashScreenMovie.wmv");
-			videoControl->Run();
-
-			videoEvent->GetEvent(&evCode, &eventParam1, &eventParam2, 0);
-
-			// wait for the video to finish, or wait until the user hits Enter/Return Key
-			if(myInput->keyDown( DIK_SPACE) || (evCode == EC_COMPLETE) )
-			{
-				optionsState = o_OPTIONS_MENU;
-				DestroyVideo();
-			}
-		}
+		//menuItemSelected == 1;
 		else if ( menuItemSelected == 2)
 		{
 			optionsState = o_QUIT_TO_MAIN;
 		}
 	}
+
+	if ( optionsState == 2)
+	{
+		//optionsState = o_CREDITS;
+
+		InitVideo(L"SplashScreenMovie.wmv");
+		videoInit = true;
+		videoControl->Run();
+	}
+
+	if ( videoInit == true)
+	{
+		videoEvent->GetEvent(&evCode, &eventParam1, &eventParam2, 0);
+		// wait for the video to finish, or wait until the user hits Enter/Return Key
+		if(myInput->keyPress( DIK_SPACE) || (evCode == EC_COMPLETE) )
+		{
+			optionsState = o_OPTIONS_MENU;
+
+			DestroyVideo();
+
+			videoInit = false;
+		}
+	}
+
 }
 
-	
-	
-	
-	
-	
+
+
+
+
+
 
 void OptionsMenu::Render()
 {
@@ -90,40 +121,40 @@ void OptionsMenu::Render()
 	BaseMenu::Render();
 
 	m_pD3DSprite->Begin(D3DXSPRITE_ALPHABLEND);
-		if(optionsState == 2)
+	if(optionsState == 2)
 		// // wait for the video to finish, or wait until the user hits Enter/Return Key
-	if((myInput->keyDown(DIK_Q)  || (evCode == EC_COMPLETE))) 
+		if((myInput->keyDown(DIK_Q)  || (evCode == EC_COMPLETE))) 
 		{
 			optionsState = o_OPTIONS_MENU;
-			
+
 		}
-	DrawBackground();
-	// Print Main Menu at the top of the screen
-	sprintf(menuPrint,"OPTIONS MENU");
-	SetRect(&m_rect,120,130,600,500);  
-	option = D3DCOLOR_ARGB(255,150,0,240);
+		DrawBackground();
+		// Print Main Menu at the top of the screen
+		sprintf(menuPrint,"OPTIONS MENU");
+		SetRect(&m_rect,120,130,600,500);  
+		option = D3DCOLOR_ARGB(255,150,0,240);
 
-	m_pD3DFont->DrawTextA(0,menuPrint,-1,&m_rect, DT_CENTER | DT_NOCLIP,option);
-
-	
-	sprintf(menuPrint,"Credits");
-	SetRect(&m_rect,120,330,600,500);
-	if(menuItemSelected == 1)
-		option = D3DCOLOR_ARGB(255,255,0,0);
-	else
-		option = D3DCOLOR_ARGB(255,0,0,255);
-	m_pD3DFont->DrawTextA(0,menuPrint,-1,&m_rect, DT_CENTER | DT_NOCLIP,option);
-
-	sprintf(menuPrint,"Exit to Main Menu");
-	SetRect(&m_rect,120,530,600,500);
-	if(menuItemSelected == 2)
-		option = D3DCOLOR_ARGB(255,255,0,0);
-	else
-		option = D3DCOLOR_ARGB(255,0,0,255);
-	m_pD3DFont->DrawTextA(0,menuPrint,-1,&m_rect, DT_CENTER | DT_NOCLIP,option);
+		m_pD3DFont->DrawTextA(0,menuPrint,-1,&m_rect, DT_CENTER | DT_NOCLIP,option);
 
 
-	m_pD3DSprite->End();
+		sprintf(menuPrint,"Credits");
+		SetRect(&m_rect,120,330,600,500);
+		if(menuItemSelected == 1)
+			option = D3DCOLOR_ARGB(255,255,0,0);
+		else
+			option = D3DCOLOR_ARGB(255,0,0,255);
+		m_pD3DFont->DrawTextA(0,menuPrint,-1,&m_rect, DT_CENTER | DT_NOCLIP,option);
+
+		sprintf(menuPrint,"Exit to Main Menu");
+		SetRect(&m_rect,120,530,600,500);
+		if(menuItemSelected == 2)
+			option = D3DCOLOR_ARGB(255,255,0,0);
+		else
+			option = D3DCOLOR_ARGB(255,0,0,255);
+		m_pD3DFont->DrawTextA(0,menuPrint,-1,&m_rect, DT_CENTER | DT_NOCLIP,option);
+
+
+		m_pD3DSprite->End();
 }
 
 void OptionsMenu::InitVideo(LPCWSTR vidName)

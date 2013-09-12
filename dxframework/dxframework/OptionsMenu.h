@@ -20,6 +20,8 @@ private:
 
 	} optionsState;
 
+	bool videoInit;
+
 	
 
 	//HWND*					hwnd;
