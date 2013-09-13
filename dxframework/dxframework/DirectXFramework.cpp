@@ -261,7 +261,7 @@ void CDirectXFramework::Init(HWND& hWnd, HINSTANCE& hInst, bool bWindowed)
 
 	// Load Test Mesh
 	loadMesh("Dwarf.X", &Player->objectMesh);
-	loadMesh("SpookyManor.X", &Mansion->objectMesh);
+	loadMesh("RoomWithWalls.X", &Mansion->objectMesh);
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Create 3D Mesh From X																				 //
@@ -384,10 +384,10 @@ if(gameState->activeGameState == GAME)
 
 		// Mesh Matrix
 		D3DXMatrixScaling(&scaleMat, 1.0f, 1.0f, 1.0f);
-		D3DXMatrixRotationYawPitchRoll(&rotMat, 0.0f, 0.0f, 0.0f);
+		D3DXMatrixRotationYawPitchRoll(&rotMat, Player->rotation.x, Player->rotation.y, Player->rotation.z);
 		D3DXMatrixTranslation(&transMat, Player->position.x, Player->position.y, Player->position.z);
-		//D3DXMatrixMultiply(&scaleMat, &scaleMat, &rotMat);
-		//D3DXMatrixMultiply(&worldMat, &scaleMat, &transMat);
+		D3DXMatrixMultiply(&scaleMat, &scaleMat, &rotMat);
+		D3DXMatrixMultiply(&worldMat, &scaleMat, &transMat);
 		D3DXMatrixMultiply(&worldMat, &scaleMat, &transMat);
 
 		D3DXMatrixInverse(&invTransMat, 0, &worldMat);
@@ -667,11 +667,24 @@ void CDirectXFramework::createGroundBox(hkpWorld* world, float scaleX, float sca
 
 void CDirectXFramework::UpdateCamera(float dt)
 {
-	
+	D3DXVECTOR3 tempPos;
+	D3DXMATRIX	tempRot;
+	D3DXVECTOR3 tempChange;
+
+	D3DXMatrixIdentity(&tempRot);
+
+	D3DXMatrixRotationY(&tempRot, D3DXToRadian(Player->rotation.x));
+
+	tempPos = D3DXVECTOR3(0.0f, 0.0f, -1.0f);
+
+	D3DXVec3TransformCoord(&tempChange, &tempPos, &tempRot);
+
 	// Initialize View Matrix
-	eyePos								= D3DXVECTOR3( 0.0f, 2.5f, -5.0f ) + D3DXVECTOR3(Player->position.x, Player->position.y, Player->position.z);	// Camera Position
-	lookAt								= /*eyePos + */D3DXVECTOR3(Player->position.x, Player->position.y, Player->position.z);	// Position camera is viewing
-	upVec								= D3DXVECTOR3(0.0f, 1.0f, 0.0f);	// Rotational orientation
+	eyePos								= D3DXVECTOR3(0.0f, 0.0f, 0.0f ) + D3DXVECTOR3(Player->position.x, Player->position.y, Player->position.z);		// Camera Position
+	lookAt								= D3DXVECTOR3(Player->position.x, Player->position.y, Player->position.z) + tempChange;							// Position camera is viewing
+	upVec								= D3DXVECTOR3(0.0f, 1.0f, 0.0f);																				// Rotational orientation
+
+	
 
 	// Easily calculate the view matrix with 3 intuitive vectors
 	D3DXMatrixLookAtLH(&viewMat,											// Returned viewMat
@@ -753,4 +766,13 @@ void CDirectXFramework::playerControls(float dt)
 	{
 		Player->wantJump = false;
 	}
+
+	Player->rotation.x += m_pDInput->getMouseMovingX();
+	
+	if(Player->rotation.x >= 360.0f)
+		Player->rotation.x = 0.0f;
+	else if(Player->rotation.x <= 0.0f)
+		Player->rotation.x = 360.0f;
+	
+	
 }

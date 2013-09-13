@@ -169,6 +169,7 @@
     <None Include="Parallax.fx" />
     <None Include="PillarsManor1.bmp" />
     <None Include="RoofManor1.bmp" />
+    <None Include="RoomWithWalls.X" />
     <None Include="SpookyManor.X" />
     <None Include="TestShader.txt" />
     <None Include="ToonColored.fx" />

@@ -49,6 +49,7 @@ public:
 	hkReal						mass;	
 	hkVector4					shapeSize;
 	hkpCharacterInput			input;
+	hkQuaternion				hk_rotation;
 	
 	// Movement
 
