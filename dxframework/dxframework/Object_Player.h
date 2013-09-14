@@ -14,11 +14,14 @@ enum HavokPlayerShape
 	PLAYERCAPSULE		=	3		// Havok Capsule
 };
 
-
+enum gunType{green, red, blue};
 
 class Object_Player
 {
 private:
+	AABB psysBox;
+	D3DXMATRIX psysWorld;
+
 	void createSphereObject(hkpWorld* world);
 	void createBoxObject(hkpWorld* world);
 	void createCapsuleObject(hkpWorld* world);
@@ -49,6 +52,7 @@ public:
 	hkReal						mass;	
 	hkVector4					shapeSize;
 	hkpCharacterInput			input;
+	hkQuaternion				hk_rotation;
 	
 	// Movement
 
@@ -64,7 +68,7 @@ public:
 	Object_Player();
 	~Object_Player(void);
 
-	void Update(float deltaTime);
+	void Update(float deltaTime,D3DXVECTOR3 eyePos);
 
 	void convertPosition();
 
@@ -75,6 +79,8 @@ public:
 	void characterInputOutput();
 
 	void gunShot();
+
+	void changeGunType(gunType type);
 
 	bool collisionCheck(hkpRigidBody* rigidBody);
 };

@@ -17,21 +17,7 @@ enum GhostColor{ RedGhost, BlueGhost, GreenGhost, YellowGhost };
 
 class Enemy_Base
 {
-
-private:
-	// Object Creation
-	void createSphereObject(hkpWorld* world);
-	void createBoxObject(hkpWorld* world);
-	void createCapsuleObject(hkpWorld* world);
-	//void stateMachineInit();
-
 protected:
-
-	D3DXVECTOR4			position;
-	D3DXVECTOR3			rotation;
-	D3DXVECTOR3			scale;
-
-	hkAabb				boundingBox;
 
 	// changes based on specific enemy
 	bool				isDead;
@@ -45,11 +31,11 @@ protected:
 	RenderObject*		render;
 	IDirect3DDevice9*	device;
 
-	LPCSTR				textureName;
+	LPCWSTR				textureName;
 	GhostColor			textureNumber;
 
 	// Mesh
-	LPCSTR				meshName;
+	LPCWSTR				meshName;
 	Mesh*				objectMesh;
 
 	// Movement variables
@@ -59,6 +45,9 @@ protected:
 	Enemy_Flee			flee;
 	Enemy_Attack		attack;
 
+	D3DXVECTOR3			rotation;
+	D3DXVECTOR3			scale;
+
 	// current state of the enemy
 	StateType			State;
 
@@ -66,10 +55,7 @@ protected:
 	D3DXVECTOR4			playerPos;
 
 	// Havok
-	short						shape;
-	hkpCharacterRigidBody*		objectBody;
-	hkReal						mass;	
-	hkVector4					shapeSize;
+	hkpCharacterRigidBody*		rigidBody;
 	hkpCharacterInput			input;
 
 	// State Machine
@@ -88,7 +74,7 @@ protected:
 
 public:
 	Enemy_Base(void);
-	Enemy_Base( short health, short attackPower, short defencePower, D3DXVECTOR4 position, LPCSTR textureName, int textureNumber);
+	Enemy_Base( short health, short attackPower, short defencePower, D3DXVECTOR4 position);
 	~Enemy_Base(void);
 
 	void Init(IDirect3DDevice9* m_pD3DDevice, RenderObject* m_pRender);
@@ -97,11 +83,9 @@ public:
 	void Render(HWND hwnd, D3DXMATRIX veiwMat, D3DXMATRIX projMat);
 	void CollisionDetection();
 
-	//void CreateHavokObject(hkpWorld* world);
-
 	// Accessors and mutators
 	D3DXVECTOR4 GetPosition();
-	void		SetPosition( D3DXVECTOR4 newPosition );
+	void		SetPosition( D3DXVECTOR4 newPosition ){ movement->setPosition( newPosition); };
 	short		GetAttackDamage();
 	void		SetHealth( short newHealth ) {health = newHealth; };
 	bool		GetIsDead(){ return isDead; };
@@ -109,8 +93,8 @@ public:
 	void		ChangeState( StateType NewState) { State = NewState; };
 
 	// Havok
-	void createHavokObject(hkpWorld* world);
-	void characterInputOutput();
-	void havokMovement();
+	void CreateBodyObject(hkpWorld* world);
+	void EnemyInputOutput();
+	void HavokMovement();
 };
 

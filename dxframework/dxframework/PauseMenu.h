@@ -19,7 +19,8 @@ private:
 public:
 	PauseMenu();
 	~PauseMenu(void);
-
+	void DrawBackground();
+	bool Init(InputManager* input, IDirect3DDevice9*	m_pD3DDevice);
 	virtual void Render();
 	virtual void Update();
 

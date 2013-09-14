@@ -5,9 +5,9 @@
 #include <cassert>
 #include "DirectXFramework.h"
 
-PSystem::PSystem(const std::string& fxName, 
+PSystem::PSystem(const LPCWSTR fxName, 
 				 const std::string& techName,
-		         const std::string& texName, 
+		         const LPCWSTR texName, 
 			     const D3DXVECTOR3& accel,
 		         const AABB& box,
 				 int maxNumParticles,
@@ -31,14 +31,14 @@ PSystem::PSystem(const std::string& fxName,
 	D3DXMatrixIdentity(&mInvWorld);
 
 	// Create the texture.
-	HR(D3DXCreateTextureFromFile(m_pD3DDevice, texName.c_str(), &mTex));
+	HR(D3DXCreateTextureFromFile(m_pD3DDevice, texName, &mTex));
 
 	// Create the FX.
 	ID3DXBuffer* errors = 0;
-	D3DXCreateEffectFromFile(m_pD3DDevice, fxName.c_str(),
+	D3DXCreateEffectFromFile(m_pD3DDevice, fxName,
 		0, 0, D3DXSHADER_DEBUG, 0, &mFX, &errors);
 	if( errors )
-		MessageBox(0, (char*)errors->GetBufferPointer(), 0, 0);
+		MessageBoxW(0, (LPCWSTR)errors->GetBufferPointer(), 0, 0);
 
 
 
@@ -91,14 +91,13 @@ void PSystem::setWorldMtx(const D3DXMATRIX& world)
 	// system's local space.
 	D3DXMatrixInverse(&mInvWorld, 0, &mWorld);
 }
-
-void PSystem::addParticle()
+void PSystem::addParticle(D3DXVECTOR3 pos)
 {
 	if( mDeadParticles.size() > 0)
 	{
 		// Reinitialize a particle.
 		Particle* p = mDeadParticles.back();
-		initParticle(*p);
+		initParticle(*p, pos);
 
 		// No longer dead.
 		mDeadParticles.pop_back();
@@ -127,7 +126,8 @@ void PSystem::onResetDevice()
 	}
 }
 
-void PSystem::update(float dt)
+
+void PSystem::update(float dt, D3DXVECTOR3 eyePos)
 {
 	mTime += dt;
 
@@ -161,24 +161,24 @@ void PSystem::update(float dt)
 		timeAccum += dt;
 		while( timeAccum >= mTimePerParticle )
 		{
-			addParticle();
+			addParticle(eyePos);
 			timeAccum -= mTimePerParticle;
 		}
 	}
 }
 
-void PSystem::draw(HWND hWnd)
+void PSystem::draw(HWND hWnd, D3DXVECTOR3 eyePos, D3DXMATRIX viewProj)
 {
 	// Get camera position relative to world space system and make it 
 	// relative to the particle system's local system.
-	D3DXVECTOR3 eyePosW = gCamera->eyePos;
+	D3DXVECTOR3 eyePosW = eyePos;
 	D3DXVECTOR3 eyePosL;
 	D3DXVec3TransformCoord(&eyePosL, &eyePosW, &mInvWorld);
 
 	// Set FX parameters.
 	HR(mFX->SetValue(mhEyePosL, &eyePosL, sizeof(D3DXVECTOR3)));
 	HR(mFX->SetFloat(mhTime, mTime));
-	HR(mFX->SetMatrix(mhWVP, &(mWorld*gCamera->viewProj())));
+	HR(mFX->SetMatrix(mhWVP, &(mWorld*viewProj)));
 
 	// Point sprite sizes are given in pixels.  So if the viewport size 
 	// is changed, then more or less pixels become available, which alters

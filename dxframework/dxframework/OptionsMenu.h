@@ -19,19 +19,19 @@ private:
 		o_CREDITS			= 2,
 
 	} optionsState;
+	bool videoInit;
+	//////////////////////////////////////////////////////////////////////////
+	//// DirectShow COM Object Creation
+	//////////////////////////////////////////////////////////////////////////
+	//IGraphBuilder			*videoGraph;
+	//IMediaControl			*videoControl;
+	//IMediaEvent				*videoEvent;
+	//IVideoWindow			*videoWindow;
+	////HRESULT                *isVideoDone;
+	//long evCode;
+	//LONG_PTR eventParam1, eventParam2;
 
-	////////////////////////////////////////////////////////////////////////
-	// DirectShow COM Object Creation
-	////////////////////////////////////////////////////////////////////////
-	IGraphBuilder			*videoGraph;
-	IMediaControl			*videoControl;
-	IMediaEvent				*videoEvent;
-	IVideoWindow			*videoWindow;
-	//HRESULT                *isVideoDone;
-	long evCode;
-	LONG_PTR eventParam1, eventParam2;
-
-	HWND*					hwnd;
+	//HWND*					hwnd;
 
 
 public:
@@ -41,7 +41,7 @@ public:
 	bool Init(InputManager* input, IDirect3DDevice9* m_pD3DDevice, HWND* wndHandle, D3DPRESENT_PARAMETERS* D3dpp);
 	void Update(void);
 	void Render();
-
+	void DrawBackground();
 	void InitVideo(LPCWSTR vidName);
 	void DestroyVideo();
 	void OptionsMenu::EnableFullScreen(bool enable);

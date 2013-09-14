@@ -40,7 +40,7 @@ void RenderObject::CreateVertexElement()
 	//device->CreateVertexDeclaration( elems, &d3dVertexDecl );
 }
 
-void RenderObject::LoadTexture( LPCSTR fileName, int textureNum )
+void RenderObject::LoadTexture( LPCWSTR fileName, int textureNum )
 {
 	this->textureNum = textureNum;
 
@@ -53,7 +53,7 @@ void RenderObject::LoadTexture( LPCSTR fileName, int textureNum )
 		&m_imageInfo, 0, &m_pTexture[textureNum]);
 }
 
-void RenderObject::LoadShaderEffects(LPCSTR fileName, int fxNum )
+void RenderObject::LoadShaderEffects(LPCWSTR fileName, int fxNum )
 {
 	// Toon Effects Shader
 	ID3DXBuffer* ErrorMessage = 0;
@@ -71,7 +71,7 @@ void RenderObject::LoadShaderEffects(LPCSTR fileName, int fxNum )
 		char error[512];
 		ZeroMemory( error, 256 );
 		strcpy_s( error, (char*)ErrorMessage->GetBufferPointer() );
-		MessageBox(0, (LPCSTR)error, "Shader Error", MB_OK );
+		MessageBox(0, (LPCWSTR)error, L"Shader Error", MB_OK );
 	}
 
 	hTech[0] = fx[0]->GetTechniqueByName("tech0");
@@ -79,6 +79,8 @@ void RenderObject::LoadShaderEffects(LPCSTR fileName, int fxNum )
 
 void RenderObject::Render3DObject(D3DXVECTOR4 position, Mesh* objectMesh, D3DXMATRIX	viewMat, D3DXMATRIX projMat)
 {
+	// change rotation from float angle to (x, z) vector
+	D3DXVECTOR4 RotationAsVector = D3DXVECTOR4((float) sin(rotation), 0, (float) cos(rotation), 0);
 
 	//////////////////////////////////////////////////////////////////////////
 	// Draw 3D Objects
@@ -88,9 +90,7 @@ void RenderObject::Render3DObject(D3DXVECTOR4 position, Mesh* objectMesh, D3DXMA
 	D3DXMatrixIdentity(&worldMat);
 	D3DXMatrixIdentity(&transMat);
 
-	//device->SetStreamSource(0, mesh_vb, 0, sizeof(Vertex));
-	//device->SetIndices(mesh_ib);
-	//device->SetVertexDeclaration(d3dVertexDecl);
+	
 
 	fx[0]->SetTechnique(hTech[0]);
 
@@ -104,9 +104,9 @@ void RenderObject::Render3DObject(D3DXVECTOR4 position, Mesh* objectMesh, D3DXMA
 		// Mesh Matrix
 		D3DXMatrixScaling(&scaleMat, 0.15f, 0.15f, 0.15f);
 		D3DXMatrixRotationYawPitchRoll(&rotMat, 0.0f, 0.0f, 0.0f);
+		D3DXMatrixRotationYawPitchRoll(&rotMat, D3DXToRadian(rotation), 0, 0);
 		D3DXMatrixTranslation(&transMat, position.x, position.y, position.z);
-		//D3DXMatrixMultiply(&scaleMat, &scaleMat, &rotMat);
-		//D3DXMatrixMultiply(&worldMat, &scaleMat, &transMat);
+		D3DXMatrixMultiply(&scaleMat, &scaleMat, &rotMat);
 		D3DXMatrixMultiply(&worldMat, &scaleMat, &transMat);
 
 		D3DXMatrixInverse(&invTransMat, 0, &worldMat);
@@ -155,7 +155,7 @@ void RenderObject::Render2DSprite(int textureNum )
 			D3DCOLOR_ARGB(255, 255, 255, 255));
 }
 
-void RenderObject::LoadMesh(LPCSTR fileName, Mesh** meshObject)
+void RenderObject::LoadMesh(LPCWSTR fileName, Mesh** meshObject)
 {
 	// Create a Temp Mesh
 	Mesh* temp = new Mesh();

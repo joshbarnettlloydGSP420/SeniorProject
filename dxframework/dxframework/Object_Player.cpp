@@ -16,19 +16,20 @@ Object_Player::Object_Player()
 	wantJump = false;
 	
 	// Initialize the particle system.
-	D3DXMATRIX psysWorld;
+	
 	D3DXMatrixIdentity(&psysWorld);
 
 
 	//bullets/gun
-	AABB psysBox;
+	
 	psysBox.maxPt = D3DXVECTOR3(INFINITY, INFINITY, INFINITY);
 	psysBox.minPt = D3DXVECTOR3(-INFINITY, -INFINITY, -INFINITY);
 	
 	// Accelerate due to gravity.  However, since the bullets travel at 
 	// such a high velocity, the effect of gravity of not really observed.
-	mPSys = new Gun("gun.fx", "GunTech", "bolt2.dds", D3DXVECTOR3(0, -9.8f, 0), psysBox, 100, -1.0f);
-	mPSys->setWorldMtx(psysWorld);              
+	gunType type = green;
+	changeGunType(type);
+	mPSys->setWorldMtx(psysWorld);           
 
 }
 
@@ -38,13 +39,13 @@ Object_Player::~Object_Player(void)
 
 }
 
-void Object_Player::Update(float deltaTime)
+void Object_Player::Update(float deltaTime,D3DXVECTOR3 eyePos)
 {
 	convertPosition();
 	characterInputOutput();
 
 	//gun update
-	mPSys->update(deltaTime);
+	mPSys->update(deltaTime, eyePos);
 
 	if(jumpTimer < 3.2f)
 	{
@@ -54,11 +55,15 @@ void Object_Player::Update(float deltaTime)
 
 void Object_Player::convertPosition()
 {
+	D3DXVECTOR3 NormRot;
 	position.x = (float)objectBody->getPosition().getComponent(0);
 	position.y = (float)objectBody->getPosition().getComponent(1);
 	position.z = (float)objectBody->getPosition().getComponent(2);
 	position.w = (float)objectBody->getPosition().getComponent(3);
 
+	D3DXVec3Normalize(&NormRot, &rotation);
+
+	hk_rotation = hkQuaternion(NormRot.x, NormRot.y, NormRot.z, 0.0f);
 	
 }
 
@@ -180,7 +185,7 @@ void Object_Player::createCapsuleObject(hkpWorld* world)
 	// Set The Object's Properties
 	bodyInfo.m_shape = capsuleShape;
 	bodyInfo.m_position.set(position.x, position.y, position.z, 0.0f);
-
+	bodyInfo.m_maxSlope = HK_REAL_PI / 3.0f;
 
 	// Calculate Mass Properties
 	hkMassProperties massProperties;
@@ -241,7 +246,9 @@ void Object_Player::characterInputOutput()
 	input.m_atLadder = false;
 	
 	input.m_up = hkVector4(0, 1, 0);
-	input.m_forward.set(0, 0, 1);
+	input.m_forward.set(0.0f, 0.0f, D3DXToRadian(rotation.x));
+	input.m_forward.setRotatedDir(hk_rotation, input.m_forward);
+
 
 	if(wantJump && jumpTimer < 3.2)
 	{
@@ -285,4 +292,24 @@ bool Object_Player::collisionCheck(hkpRigidBody* rigidBody)
 	}
 
 	return false;
+}
+
+
+void Object_Player::changeGunType(gunType type)
+{
+	switch(type)
+	{
+		case green:
+		mPSys = new Gun(L"gun.fx", "GunTech", L"bolt2.dds", D3DXVECTOR3(0, 0, 0), psysBox, 100, -1.0f); //gravity changed
+		break;
+
+		case red:
+		mPSys = new Gun(L"gun.fx", "GunTech", L"bolt3.dds", D3DXVECTOR3(0, 0, 0), psysBox, 100, -1.0f); //gravity changed
+		break;
+
+		case blue:
+		mPSys = new Gun(L"gun.fx", "GunTech", L"bolt4blue.dds", D3DXVECTOR3(0, 0, 0), psysBox, 100, -1.0f); //gravity changedd
+		break;
+	}
+	mPSys->setWorldMtx(psysWorld);
 }
