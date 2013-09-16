@@ -4,6 +4,8 @@
 #define VC_EXTRALEAN
 
 #include "DirectXFramework.h"
+#include <random>
+#include <time.h>
 
 using namespace std;
 //////////////////////////////////////////////////////////////////////////
@@ -11,7 +13,7 @@ using namespace std;
 //////////////////////////////////////////////////////////////////////////
 #define SCREEN_WIDTH 800
 #define SCREEN_HEIGHT 600
-#define WINDOW_TITLE "Madness Engine"
+#define WINDOW_TITLE L"Ghost Hunter X"
 
 HWND				g_hWnd;			// Handle to the window
 HINSTANCE			g_hInstance;	// Handle to the application instance
@@ -65,11 +67,15 @@ void InitWindow(void)
 
 int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLine, int nCmdShow )
 {
+	// need to seed the randomizer, best perfomance in winMain
+	srand( time(NULL));
+
 	g_hInstance = hInstance;	// Store application handle
 	g_bWindowed = true;			// Windowed mode or full-screen
 
 	// Init the window
 	InitWindow();
+	AudioManager::GetInstance()->Initialize();
 
 	// Use this msg structure to catch window messages
 	MSG msg; 
@@ -116,6 +122,8 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	//*************************************************************************
 	//Shutdown DirectXFramework/Game here
 	gd3dApp.Shutdown();
+	AudioManager::GetInstance()->Shutdown();
+	AudioManager::DestroyInstance();
 
 	//*************************************************************************
 

@@ -73,6 +73,8 @@ private:
 	// Mesh
 	ID3DXMesh*						testMesh;
 
+	// movement variables
+	float						rotation;
 
 	//////////////////////////////////////////////////////////////////////////
 	// Shaders																//
@@ -110,9 +112,9 @@ public:
 	~RenderObject(void);
 
 	void Init(IDirect3DDevice9* device, ID3DXSprite* m_pD3DSprite );
-	void LoadTexture( LPCSTR fileName, int textureNum );
-	void LoadMesh( LPCSTR fileName, Mesh** meshObject);
-	void LoadShaderEffects(LPCSTR fileName, int fxNum );
+	void LoadTexture( LPCWSTR fileName, int textureNum );
+	void LoadMesh( LPCWSTR fileName, Mesh** meshObject);
+	void LoadShaderEffects(LPCWSTR fileName, int fxNum );
 	void Render3DObject(D3DXVECTOR4 position, Mesh* ObjectMesh, D3DXMATRIX	viewMat, D3DXMATRIX projMat);
 	void Render2DSprite(int textureNum);
 
@@ -126,19 +128,11 @@ public:
 		this->d3dVertexDecl = d3dVertexDecl;
 	};
 
-	/*
-	void SetProjMat( D3DXMATRIX projMat )
+	void SetRotation( float newRotation )
 	{
-		this->projMat = projMat;
+		rotation = newRotation;
 	};
-	void SetViewMat( D3DXMATRIX viewMat )
-	{
-		this->viewMat = viewMat;
-	};
-	void SetWorldMat( D3DXMATRIX worldMat )
-	{
-		this->worldMat = worldMat;
-	};*/
+
 
 };
 

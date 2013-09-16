@@ -14,41 +14,96 @@ bool OptionsMenu::Init(InputManager* input, IDirect3DDevice9* m_pD3DDevice, HWND
 {
 	BaseMenu::Init( input, m_pD3DDevice );
 	hwnd = wndHandle;
+	myInput = input;
+	this->m_pD3DDevice = m_pD3DDevice;
+	// create the SPRITE object
+	D3DXCreateSprite(m_pD3DDevice, &m_pD3DSprite);
 
+	// create a FONT object
+	AddFontResourceEx(L"SanitariumBB.otf", FR_PRIVATE, 0);
+	D3DXCreateFont(m_pD3DDevice, 30, 0, FW_BOLD, 0, false, 
+		DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, DEFAULT_QUALITY,
+		DEFAULT_PITCH | FF_DONTCARE, TEXT("SanitariumBB"), 
+		&m_pD3DFont);
+
+	// set the initial selected item
+	menuItemSelected = 1;
+
+	// if no image is chosen this will be the default for the background
+	backgroundFileName = L"options menu.jpg";
+
+	// Create the background texture
+	D3DXCreateTextureFromFileEx(m_pD3DDevice, backgroundFileName ,0,0,0,0,D3DFMT_UNKNOWN, D3DPOOL_MANAGED, D3DX_DEFAULT, 
+		D3DX_DEFAULT, D3DCOLOR_XRGB(255, 0, 255), 
+		&m_imageInfo, 0, &backgroundTexture);
+
+	// set back ground position
+	backGroundPos = D3DXVECTOR3(0,0,0);
+
+	videoInit = false;
 	return true;
 }
 
 void OptionsMenu::Update()
 {
-	BaseMenu::Update();
+	myInput->getInput();
+
+	if ( videoInit == false)
+	{
+		if (myInput->keyPress( DIK_UP))
+		{
+			menuItemSelected--;
+		}
+		else if ( myInput->keyPress( DIK_DOWN))
+		{
+			menuItemSelected++;
+		}
+	}
 
 	if ( menuItemSelected < 1)
 		menuItemSelected = 2;
 	if ( menuItemSelected > 2)
 		menuItemSelected = 1;
 
-	if ( myInput->keyDown(DIK_RETURN))
+	if (myInput->keyPress( DIK_ESCAPE))
 	{
-			if ( menuItemSelected == 1)
-			{
+		PostQuitMessage(0);
+	}
+
+	if ( myInput->keyPress(DIK_RETURN))
+	{
+		if ( menuItemSelected == 1)
 			optionsState = o_CREDITS;
-			InitVideo(L"Temp.wmv");
-			videoControl->Run();
-
-			videoEvent->GetEvent(&evCode, &eventParam1, &eventParam2, 0);
-
-			// wait for the video to finish, or wait until the user hits Enter/Return Key
-			if(myInput->keyDown( DIK_SPACE) || (evCode == EC_COMPLETE) ) 
-			{
-				optionsState = o_OPTIONS_MENU;
-				DestroyVideo();
-			}
-			}
+		//menuItemSelected == 1;
 		else if ( menuItemSelected == 2)
 		{
 			optionsState = o_QUIT_TO_MAIN;
 		}
 	}
+
+	if ( optionsState == 2)
+	{
+		//optionsState = o_CREDITS;
+
+		InitVideo(L"SplashScreenMovie.wmv");
+		videoInit = true;
+		videoControl->Run();
+	}
+
+	if ( videoInit == true)
+	{
+		videoEvent->GetEvent(&evCode, &eventParam1, &eventParam2, 0);
+		// wait for the video to finish, or wait until the user hits Enter/Return Key
+		if(myInput->keyPress( DIK_SPACE) || (evCode == EC_COMPLETE) )
+		{
+			optionsState = o_OPTIONS_MENU;
+
+			DestroyVideo();
+
+			videoInit = false;
+		}
+	}
+
 }
 
 void OptionsMenu::Render()
@@ -57,32 +112,40 @@ void OptionsMenu::Render()
 	BaseMenu::Render();
 
 	m_pD3DSprite->Begin(D3DXSPRITE_ALPHABLEND);
+	if(optionsState == 2)
+		// // wait for the video to finish, or wait until the user hits Enter/Return Key
+		if((myInput->keyDown(DIK_Q)  || (evCode == EC_COMPLETE))) 
+		{
+			optionsState = o_OPTIONS_MENU;
 
-	// Print Main Menu at the top of the screen
-	sprintf(menuPrint,"OPTIONS MENU");
-	SetRect(&m_rect,120,130,600,500);  
-	option = D3DCOLOR_ARGB(255,150,0,240);
+		}
+		DrawBackground();
+		// Print Main Menu at the top of the screen
+		sprintf(menuPrint,"OPTIONS MENU");
+		SetRect(&m_rect,120,130,600,500);  
+		option = D3DCOLOR_ARGB(255,150,0,240);
 
-	m_pD3DFont->DrawTextA(0,menuPrint,-1,&m_rect, DT_CENTER | DT_NOCLIP,option);
+		m_pD3DFont->DrawTextA(0,menuPrint,-1,&m_rect, DT_CENTER | DT_NOCLIP,option);
 
-	
-	sprintf(menuPrint,"Credits");
-	SetRect(&m_rect,120,330,600,500);
-	if(menuItemSelected == 1)
-		option = D3DCOLOR_ARGB(255,255,0,0);
-	else
-		option = D3DCOLOR_ARGB(255,0,0,255);
-	m_pD3DFont->DrawTextA(0,menuPrint,-1,&m_rect, DT_CENTER | DT_NOCLIP,option);
 
-	sprintf(menuPrint,"Exit to Main Menu");
-	SetRect(&m_rect,120,530,600,500);
-	if(menuItemSelected == 2)
-		option = D3DCOLOR_ARGB(255,255,0,0);
-	else
-		option = D3DCOLOR_ARGB(255,0,0,255);
-	m_pD3DFont->DrawTextA(0,menuPrint,-1,&m_rect, DT_CENTER | DT_NOCLIP,option);
+		sprintf(menuPrint,"Credits");
+		SetRect(&m_rect,120,330,600,500);
+		if(menuItemSelected == 1)
+			option = D3DCOLOR_ARGB(255,255,0,0);
+		else
+			option = D3DCOLOR_ARGB(255,0,0,255);
+		m_pD3DFont->DrawTextA(0,menuPrint,-1,&m_rect, DT_CENTER | DT_NOCLIP,option);
 
-	m_pD3DSprite->End();
+		sprintf(menuPrint,"Exit to Main Menu");
+		SetRect(&m_rect,120,530,600,500);
+		if(menuItemSelected == 2)
+			option = D3DCOLOR_ARGB(255,255,0,0);
+		else
+			option = D3DCOLOR_ARGB(255,0,0,255);
+		m_pD3DFont->DrawTextA(0,menuPrint,-1,&m_rect, DT_CENTER | DT_NOCLIP,option);
+
+
+		m_pD3DSprite->End();
 }
 
 void OptionsMenu::InitVideo(LPCWSTR vidName)
@@ -128,4 +191,27 @@ void OptionsMenu::DestroyVideo()
 	SAFE_RELEASE(videoControl);
 	SAFE_RELEASE(videoWindow);
 	SAFE_RELEASE(videoGraph);
+}
+
+
+void OptionsMenu::DrawBackground()
+{
+	m_pD3DSprite->Begin(D3DXSPRITE_ALPHABLEND);
+	D3DXMATRIX identity;
+	D3DXMatrixIdentity(&identity);
+	m_pD3DSprite->SetTransform(&identity);
+	D3DXMATRIX texScaling;
+	D3DXMatrixScaling(&texScaling, 1.f, 1.00f, 0.0f);
+	m_pD3DDevice->SetTransform(D3DTS_TEXTURE0, &texScaling);
+
+	D3DXMATRIX T, S;
+	D3DXMatrixTranslation(&T,  backGroundPos.x, - backGroundPos.y, - backGroundPos.z);
+	D3DXMatrixScaling(&S, 2.7f, 3.0f, 0.0f);
+	m_pD3DSprite->SetTransform(&(S*T));
+
+	// Draw the background sprite.
+	m_pD3DSprite->Draw(backgroundTexture, 0, 0, 0, D3DCOLOR_XRGB(255, 255, 255));
+	m_pD3DSprite->Flush();
+	D3DXMatrixScaling(&texScaling, 1.0f, 1.0f, 1.0f);
+	m_pD3DDevice->SetTransform(D3DTS_TEXTURE0, &texScaling);
 }

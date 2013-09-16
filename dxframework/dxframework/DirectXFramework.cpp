@@ -104,22 +104,25 @@ void CDirectXFramework::Init(HWND& hWnd, HINSTANCE& hInst, bool bWindowed)
 	//render->CreateVertexElement();
 	render->SetVertexDecl( d3dVertexDecl);
 	render->MaterialSettings();
-	render->LoadShaderEffects( "TestShader.txt", 0);
+	render->LoadShaderEffects( L"TestShader.txt", 0);
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Creating Enemies																						 //
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
-	redGhost = new Enemy_Base(100, 50, 15, D3DXVECTOR4( 45, 2.5,5, 0.0), "RedGhostTexture.jpg", 0);
+	/*redGhost = new Enemy_Base(100, 50, 15, D3DXVECTOR4( 45, 2.5,5, 0.0), L"RedGhostTexture.jpg", 0);
 	redGhost->Init( m_pD3DDevice, render);
 
-	blueGhost = new Enemy_Base(100, 35, 10, D3DXVECTOR4( -5, 2.5,30, 0.0), "BlueGhostTexture.jpg", 0);
+	blueGhost = new Enemy_Base(100, 35, 10, D3DXVECTOR4( -5, 2.5,30, 0.0), L"BlueGhostTexture.jpg", 0);
 	blueGhost->Init( m_pD3DDevice, render);
 
-	yellowGhost = new Enemy_Base(100, 20, 5, D3DXVECTOR4( -35, 2.5,5, 0.0), "YellowGhostTexture.jpg", 0);
+	yellowGhost = new Enemy_Base(100, 20, 5, D3DXVECTOR4( -35, 2.5,5, 0.0), L"YellowGhostTexture.jpg", 0);
 	yellowGhost->Init( m_pD3DDevice, render);
 
-	greenGhost = new Enemy_Base(100, 20, 20, D3DXVECTOR4( 10, 2.5,-10, 0.0), "GreenGhostTexture.jpg", 0);
-	greenGhost->Init( m_pD3DDevice, render);
+	greenGhost = new Enemy_Base(100, 20, 20, D3DXVECTOR4( 10, 2.5,-10, 0.0), L"GreenGhostTexture.jpg", 0);
+	greenGhost->Init( m_pD3DDevice, render);*/
+	baseGhost = new Enemy_Base(100, 50, 15, D3DXVECTOR4( 45, 2.5,5, 0.0));
+	baseGhost->Init( m_pD3DDevice, render);
+
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Creating Light																						 //
@@ -196,12 +199,12 @@ void CDirectXFramework::Init(HWND& hWnd, HINSTANCE& hInst, bool bWindowed)
 	D3DXCreateSprite(m_pD3DDevice, &m_pD3DSprite);
 
 	// create a TEXTURE object
-	D3DXCreateTextureFromFileEx(m_pD3DDevice, "Metal_Texture.jpg", 0, 0, 0, 0,
+	D3DXCreateTextureFromFileEx(m_pD3DDevice, L"Metal_Texture.jpg", 0, 0, 0, 0,
 		D3DFMT_UNKNOWN, D3DPOOL_MANAGED, D3DX_DEFAULT, 
 		D3DX_DEFAULT, D3DCOLOR_XRGB(255, 0, 255), 
 		&m_imageInfo, 0, &m_pTexture[0]);
 
-	D3DXCreateTextureFromFileEx(m_pD3DDevice, "test.tga", 0, 0, 0, 0,
+	D3DXCreateTextureFromFileEx(m_pD3DDevice, L"test.tga", 0, 0, 0, 0,
 		D3DFMT_UNKNOWN, D3DPOOL_MANAGED, D3DX_DEFAULT, 
 		D3DX_DEFAULT, D3DCOLOR_XRGB(255, 0, 255), 
 		&m_imageInfo, 0, &m_pTexture[1]);
@@ -220,7 +223,7 @@ void CDirectXFramework::Init(HWND& hWnd, HINSTANCE& hInst, bool bWindowed)
 // Object Inits																							 //
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 	Player = new Object_Player();
-	Player->position = D3DXVECTOR4(0.0f, 5.0f, 0.0f, 0.0f);
+	Player->position = D3DXVECTOR4(0.0f, 5.0f, -8.0f, 0.0f);
 	Player->shape = CAPSULE;
 
 	Mansion = new Object_Base();
@@ -236,7 +239,7 @@ void CDirectXFramework::Init(HWND& hWnd, HINSTANCE& hInst, bool bWindowed)
 	ID3DXBuffer* ErrorMessage = 0;
 	D3DXCreateEffectFromFile(m_pD3DDevice,
 							//"ToonColored.fx",
-							"TestShader.txt",
+							L"TestShader.txt",
 							0,
 							0,
 							D3DXSHADER_DEBUG,
@@ -248,7 +251,7 @@ void CDirectXFramework::Init(HWND& hWnd, HINSTANCE& hInst, bool bWindowed)
 		char error[512];
 		ZeroMemory( error, 256 );
 		strcpy_s( error, (char*)ErrorMessage->GetBufferPointer() );
-		MessageBox(0, (LPCSTR)error, "Shader Error", MB_OK );
+		MessageBox(0, (LPCWSTR)error, L"Shader Error", MB_OK );
 	}
 
 	//hTech[0] = fx[0]->GetTechniqueByName("ToonColored");
@@ -260,8 +263,8 @@ void CDirectXFramework::Init(HWND& hWnd, HINSTANCE& hInst, bool bWindowed)
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	// Load Test Mesh
-	loadMesh("Dwarf.X", &Player->objectMesh);
-	loadMesh("RoomWithWalls.X", &Mansion->objectMesh);
+	loadMesh(L"FlippedY.X", &Player->objectMesh);
+	loadMesh(L"RoomWithWalls.X", &Mansion->objectMesh);
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Create 3D Mesh From X																				 //
@@ -293,11 +296,11 @@ void CDirectXFramework::Init(HWND& hWnd, HINSTANCE& hInst, bool bWindowed)
 	createGroundBox(havok->getWorld(), 25.0f, 20.0f, 1.0f, 5.0f, 0.0f, 12.0f);	// middle
 
 	// enemies
-	redGhost->createHavokObject( havok->getWorld());
+	/*redGhost->createHavokObject( havok->getWorld());
 	blueGhost->createHavokObject( havok->getWorld());
 	yellowGhost->createHavokObject( havok->getWorld());
-	greenGhost->createHavokObject( havok->getWorld());
-
+	greenGhost->createHavokObject( havok->getWorld());*/
+	
 	
 	havok->getWorld()->unlock();
 
@@ -322,20 +325,22 @@ void CDirectXFramework::Update(float dt)
 	havok->stepSimulation(dt);
 
 	havok->getWorld()->lock();
-	Player->Update(dt);
+
+	Player->Update(dt, eyePos);
 	Mansion->Update(dt);
 
 	// enemies update
-	yellowGhost->Update( dt, Player->position);
+	/*yellowGhost->Update( dt, Player->position);
 	if ( yellowGhost->GetIsDead() == true)
 		greenGhost->Update( dt, Player->position);
 	if ( greenGhost->GetIsDead() == true)
 		blueGhost->Update( dt, Player->position);
 	if ( blueGhost->GetIsDead() == true)
-		redGhost->Update( dt, Player->position);
+		redGhost->Update( dt, Player->position);*/
+	baseGhost->Update( dt, Player->position);
 
 	havok->getWorld()->unlock();
-
+	
 
 	UpdateCamera(dt);
 	playerControls(dt);
@@ -361,6 +366,7 @@ void CDirectXFramework::Render(float dt)
 	//////////////////////////////////////////////////////////////////////////
 	// Draw 3D Objects (for future labs - not used in Week #1)
 	//////////////////////////////////////////////////////////////////////////
+	Player->mPSys->draw(m_hWnd, eyePos, viewMat * projMat); // bullet draw
 
 	D3DXMatrixIdentity(&rotMat);
 	D3DXMatrixIdentity(&scaleMat);
@@ -383,9 +389,9 @@ if(gameState->activeGameState == GAME)
 		fx[0]->BeginPass(i);
 
 		// Mesh Matrix
-		D3DXMatrixScaling(&scaleMat, 1.0f, 1.0f, 1.0f);
+		D3DXMatrixScaling(&scaleMat, 0.04f, 0.04f, 0.0f);
 		D3DXMatrixRotationYawPitchRoll(&rotMat, Player->rotation.x, Player->rotation.y, Player->rotation.z);
-		D3DXMatrixTranslation(&transMat, Player->position.x, Player->position.y, Player->position.z);
+		D3DXMatrixTranslation(&transMat, Player->position.x-.75, Player->position.y-1.6, Player->position.z); //x-1.55 is the value for gun to be directly in the center of the camera
 		D3DXMatrixMultiply(&scaleMat, &scaleMat, &rotMat);
 		D3DXMatrixMultiply(&worldMat, &scaleMat, &transMat);
 		D3DXMatrixMultiply(&worldMat, &scaleMat, &transMat);
@@ -464,14 +470,14 @@ if(gameState->activeGameState == GAME)
 	}
 	fx[0]->End();
 
-	yellowGhost->Render( m_hWnd, viewMat, projMat);
-	//if ( yellowGhost->GetIsDead() == true)
-		greenGhost->Render( m_hWnd, viewMat, projMat);
-	//if ( greenGhost->GetIsDead() == true)
-		blueGhost->Render( m_hWnd, viewMat, projMat);
-	//if ( blueGhost->GetIsDead() == true)
-		redGhost->Render(m_hWnd, viewMat, projMat);
-
+	//yellowGhost->Render( m_hWnd, viewMat, projMat);
+	////if ( yellowGhost->GetIsDead() == true)
+	//	greenGhost->Render( m_hWnd, viewMat, projMat);
+	////if ( greenGhost->GetIsDead() == true)
+	//	blueGhost->Render( m_hWnd, viewMat, projMat);
+	////if ( blueGhost->GetIsDead() == true)
+	//	redGhost->Render(m_hWnd, viewMat, projMat);
+	baseGhost->Render( m_hWnd, viewMat, projMat);
 
 	//////////////////////////////////////////////////////////////////////////
 	// Draw 2D sprites
@@ -589,7 +595,7 @@ void CDirectXFramework::Shutdown()
 
 }
 
-void CDirectXFramework::loadMesh(LPCSTR fileName, Mesh** meshObject)
+void CDirectXFramework::loadMesh(LPCWSTR fileName, Mesh** meshObject)
 {
 	// Create a Temp Mesh
 	Mesh* temp = new Mesh();
@@ -641,6 +647,7 @@ void CDirectXFramework::loadMesh(LPCSTR fileName, Mesh** meshObject)
 	*meshObject = temp;
 }
 
+
 void CDirectXFramework::createGroundBox(hkpWorld* world, float scaleX, float scaleY, float scaleZ, float posX, float posY, float posZ)
 {
 	// Create a ground area
@@ -678,13 +685,11 @@ void CDirectXFramework::UpdateCamera(float dt)
 	tempPos = D3DXVECTOR3(0.0f, 0.0f, -1.0f);
 
 	D3DXVec3TransformCoord(&tempChange, &tempPos, &tempRot);
-
 	// Initialize View Matrix
 	eyePos								= D3DXVECTOR3(0.0f, 0.0f, 0.0f ) + D3DXVECTOR3(Player->position.x, Player->position.y, Player->position.z);		// Camera Position
 	lookAt								= D3DXVECTOR3(Player->position.x, Player->position.y, Player->position.z) + tempChange;							// Position camera is viewing
 	upVec								= D3DXVECTOR3(0.0f, 1.0f, 0.0f);																				// Rotational orientation
 
-	
 
 	// Easily calculate the view matrix with 3 intuitive vectors
 	D3DXMatrixLookAtLH(&viewMat,											// Returned viewMat
@@ -725,10 +730,35 @@ void CDirectXFramework::playerControls(float dt)
 	if( m_pDInput->isButtonDown(0) && delay <= 0.0f)
 	{
 		delay = 0.3f;
-		Player->mPSys->addParticle();
+		Player->mPSys->addParticle(eyePos);
 	}
 	delay -= dt;
 
+	//switching from green to blue bullets
+	if( m_pDInput->keyPress(DIK_C) )
+	{
+		if(type == green)
+		type = blue;
+		else if(type == blue)
+			type = red;
+		else if(type == red)
+			type = green;
+
+		Player->changeGunType(type);
+	}
+
+	if( m_pDInput->keyPress(DIK_V) )
+	{
+		if(type == green)
+		type = red;
+		else if(type == blue)
+			type = green;
+		else if(type == red)
+			type = blue;
+
+		Player->changeGunType(type);
+	}
+	/************end of cycling stuff*/
 	// Moving Forward and Backward
 	if(m_pDInput->keyDown(DIK_W))
 	{	
@@ -773,6 +803,4 @@ void CDirectXFramework::playerControls(float dt)
 		Player->rotation.x = 0.0f;
 	else if(Player->rotation.x <= 0.0f)
 		Player->rotation.x = 360.0f;
-	
-	
 }

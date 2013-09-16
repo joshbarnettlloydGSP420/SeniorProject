@@ -11,9 +11,9 @@ class PSystem
 {
 public:
 	PSystem(
-		const std::string& fxName, 
+		const LPCWSTR fxName, 
 		const std::string& techName, 
-		const std::string& texName, 
+		const LPCWSTR texName, 
 		const D3DXVECTOR3& accel, 
 		const AABB& box,
 		int maxNumParticles,
@@ -27,14 +27,14 @@ public:
 	const AABB& getAABB()const;
 
 	void setWorldMtx(const D3DXMATRIX& world);
-	void addParticle();
+	void addParticle(D3DXVECTOR3 pos);
 
 	virtual void onLostDevice();
 	virtual void onResetDevice();
 
-	virtual void initParticle(Particle& out) = 0;
-	virtual void update(float dt);
-	virtual void draw(HWND hWnd);
+	virtual void initParticle(Particle& out,D3DXVECTOR3 pos) = 0;
+	virtual void update(float dt,D3DXVECTOR3 eyePos);
+	virtual void draw(HWND hWnd,D3DXVECTOR3 eyePos, D3DXMATRIX viewProj);
 
 protected:
 	// In practice, some sort of ID3DXEffect and IDirect3DTexture9 manager should

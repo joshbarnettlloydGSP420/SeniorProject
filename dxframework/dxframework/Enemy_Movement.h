@@ -2,8 +2,9 @@
 
 #include <d3d9.h>
 #include <d3dx9.h>
+#include <cmath>
 
-CONST float MAX_SPEED = 0.5f;
+CONST float MAX_SPEED = 5.0;
 
 class Enemy_Movement
 {
@@ -24,20 +25,27 @@ public:
 	void Update( float dt);
 	void GetNewOrientation();
 
+	// Accessors and mutators
 	float		GetOrientation();
 	D3DXVECTOR4 GetOrientationAsVector();
 	void		SetOrientation(float newOrientation);
+
 	D3DXVECTOR4 GetPosition();
 	void		setPosition( D3DXVECTOR4 newPosition);
+
 	void		setVelocity(D3DXVECTOR4 newVelocity);
 	D3DXVECTOR4 GetVelocity();
 	float		GetVelocityLength();
 	void		NormalizeVelocity();
+
 	float		GetRotation();
 	void		SetRotation( float newRotation);
+
 	D3DXVECTOR4 GetLinear();
 	void		SetLinear( D3DXVECTOR4 newLinear);
 	void		NormalizeLinear();
+
 	void		SetAngular( float newAngular );
+	float		GetAngular();
 };
 

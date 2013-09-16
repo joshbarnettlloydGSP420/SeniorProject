@@ -204,15 +204,16 @@ class CDirectXFramework
 	//////////////////////////////////////////////////////////////////////////
 	Object_Base*					Mansion;
 	Object_Player*					Player;
+	gunType							type;
 
 	//////////////////////////////////////////////////////////////////////////
 	// Enemies																//
 	//////////////////////////////////////////////////////////////////////////
-	Enemy_Base*				redGhost;
+	/*Enemy_Base*				redGhost;
 	Enemy_Base*				blueGhost;
 	Enemy_Base*				yellowGhost;
-	Enemy_Base*				greenGhost;
-
+	Enemy_Base*				greenGhost;*/
+	Enemy_Base*				baseGhost;
 
 public:
 
@@ -229,7 +230,7 @@ public:
 
 	void Shutdown();
 
-	void loadMesh(LPCSTR fileName, Mesh** meshObject);
+	void loadMesh(LPCWSTR fileName, Mesh** meshObject);
 
 	void createGroundBox(hkpWorld* world, float scaleX, float scaleY, float scaleZ, float posX, float posY, float posZ);
 

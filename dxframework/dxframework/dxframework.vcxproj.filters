@@ -58,9 +58,6 @@
     <Filter Include="Header Files\Devices">
       <UniqueIdentifier>{e07fdf1f-22ef-4582-be9a-76402131e0d7}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Resource Files\Texture\Mansion">
-      <UniqueIdentifier>{bafed89b-52ad-4bbb-8bfc-1820300bd705}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="winMain.cpp">
@@ -156,6 +153,21 @@
     <ClCompile Include="Vertex.cpp">
       <Filter>Source Files\Game</Filter>
     </ClCompile>
+    <ClCompile Include="AudioManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SoundEffect.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SoundLoader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy_Align.cpp">
+      <Filter>Source Files\Objects\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy_Face.cpp">
+      <Filter>Source Files\Objects\Enemy</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Enemy_Attack.h">
@@ -248,6 +260,24 @@
     <ClInclude Include="Vertex.h">
       <Filter>Header Files\Game</Filter>
     </ClInclude>
+    <ClInclude Include="AudioManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SoundEffect.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SoundLoader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Utilities.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy_Align.h">
+      <Filter>Header Files\Objects\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy_Face.h">
+      <Filter>Header Files\Objects\Enemy</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="GirRobot.X">
@@ -313,32 +343,23 @@
     <None Include="..\..\..\Gun\Gun\gun.fx">
       <Filter>Resource Files\Shaders</Filter>
     </None>
-    <None Include="WindowsManor2.bmp">
-      <Filter>Resource Files\Texture</Filter>
-    </None>
-    <None Include="BordersManor1.bmp">
-      <Filter>Resource Files\Texture</Filter>
-    </None>
-    <None Include="FloorManor1.bmp">
-      <Filter>Resource Files\Texture</Filter>
-    </None>
-    <None Include="PillarsManor1.bmp">
-      <Filter>Resource Files\Texture</Filter>
-    </None>
-    <None Include="RoofManor1.bmp">
-      <Filter>Resource Files\Texture</Filter>
-    </None>
-    <None Include="WallsManor1.bmp">
-      <Filter>Resource Files\Texture</Filter>
-    </None>
-    <None Include="WindowsManor1.bmp">
-      <Filter>Resource Files\Texture</Filter>
-    </None>
-    <None Include="SpookyManor.X">
+    <None Include="FlippedY.X">
       <Filter>Resource Files\Models</Filter>
     </None>
-    <None Include="RoomWithWalls.X">
+    <None Include="PlayerFlipped.X">
       <Filter>Resource Files\Models</Filter>
+    </None>
+    <None Include="bolt.dds">
+      <Filter>Resource Files\Texture</Filter>
+    </None>
+    <None Include="bolt2.dds">
+      <Filter>Resource Files\Texture</Filter>
+    </None>
+    <None Include="bolt3.dds">
+      <Filter>Resource Files\Texture</Filter>
+    </None>
+    <None Include="bolt4blue.dds">
+      <Filter>Resource Files\Texture</Filter>
     </None>
   </ItemGroup>
 </Project>

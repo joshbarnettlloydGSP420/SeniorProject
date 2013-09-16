@@ -19,7 +19,7 @@ void Enemy_Movement::Update( float dt)
 
 	// and the velocity and rotation
 	velocity += linear * dt;
-	orientation += angular * dt;
+	rotation += angular * dt;
 
 	// check for speeding and clip
 	if ( (sqrt((velocity.z * velocity.z) + (velocity.x * velocity.x))) > MAX_SPEED )
@@ -51,7 +51,8 @@ void Enemy_Movement::NormalizeLinear()
 }
 /// Accessors and Mutators
 float Enemy_Movement::GetOrientation(){	return orientation; }
-D3DXVECTOR4 Enemy_Movement::GetOrientationAsVector() {	return D3DXVECTOR4((float) sin(orientation), 0, (float) cos(orientation), 0);}
+D3DXVECTOR4 Enemy_Movement::GetOrientationAsVector() 
+{	return D3DXVECTOR4((float) -sin(orientation), 0, (float) cos(orientation), 0);}
 void Enemy_Movement::SetOrientation(float newOrientation) { orientation = newOrientation ;}
 D3DXVECTOR4 Enemy_Movement::GetPosition() { return position;}
 void Enemy_Movement::setPosition( D3DXVECTOR4 newPosition) { position = newPosition; }
@@ -63,3 +64,4 @@ void Enemy_Movement::SetLinear( D3DXVECTOR4 newLinear ){ linear = newLinear; };
 float Enemy_Movement::GetRotation(){ return rotation;}
 void Enemy_Movement::SetRotation( float newRotation) { rotation = newRotation; }
 void Enemy_Movement::SetAngular( float newAngular ) { angular = newAngular; };
+float Enemy_Movement::GetAngular() { return angular; };

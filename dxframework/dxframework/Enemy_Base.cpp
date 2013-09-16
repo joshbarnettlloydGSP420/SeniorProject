@@ -14,43 +14,30 @@ Enemy_Base::Enemy_Base(void)
 	attackRange = D3DXVECTOR4( 50, 50, 50, 0);
 	wanderRange = D3DXVECTOR4( 50, 50, 50, 0);
 
-	shape = 3;
-
 	velUD = 0.0f;
 	velLR = 0.0f;
 
-	mass = 5.0f;
-
-	position = D3DXVECTOR4(0.0f, 0.0f, 0.0f, 0.0f);
-	scale = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
-	rotation = D3DXVECTOR3(0.0f, 0.15f, 0.0f);
+	//scale = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
+	//rotation = D3DXVECTOR3(0.0f, 0.15f, 0.0f);
 }
 
-Enemy_Base::Enemy_Base(short health, short attackPower, short defencePower, D3DXVECTOR4 position, LPCSTR textureName, int textureNumer)
+Enemy_Base::Enemy_Base( short health, short attackPower, short defencePower, D3DXVECTOR4 position)
 {
 	this->health = health;
 	this->attackPower = attackPower;
 	this->defencePower = defencePower;
-	this->position = position;
 	this->textureName = textureName;
-	this->textureNumber = textureNumber;
 
-	scale = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
-	rotation = D3DXVECTOR3(0.0f, 0.15f, 0.0f);
-
-	shape = 3;
+	//scale = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
+	//rotation = D3DXVECTOR3(0.0f, 0.15f, 0.0f);
 
 	velUD = 0.0f;
 	velLR = 0.0f;
-
-	mass = 5.0f;
 }
 
 
 Enemy_Base::~Enemy_Base(void)
 {
-	//delete movement;
-	//delete havokShape;
 }
 
 // Initialize all the variables for the enemies
@@ -59,15 +46,13 @@ void Enemy_Base::Init(IDirect3DDevice9* m_pD3DDevice, RenderObject* renderObject
 	device = m_pD3DDevice;
 	render = renderObject;
 
-	scale = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
-	rotation  = D3DXVECTOR3(0.0f, 0.15f, 0.0f);
+	//scale = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
+	//rotation  = D3DXVECTOR3(0.0f, 0.55f, 0.0f);
 
 	velUD = 5.0f;
 	velLR = 5.0f;
 
-	mass = 5.0f;
-
-	//textureName = "RedGhostTexture.JPEG";
+	textureName = "RedGhostTexture.JPG";
 	textureNumber = RedGhost;
 	meshName = "RedGhost.X";
 	isDead = false;
@@ -79,16 +64,14 @@ void Enemy_Base::Init(IDirect3DDevice9* m_pD3DDevice, RenderObject* renderObject
 
 	// Set the Initial position of the enemy if none is specified.
 	movement = new Enemy_Movement();
-	movement->setPosition(position);
 	movement->setVelocity( D3DXVECTOR4( 0, 0, 0, 0 ));
 	movement->SetOrientation( 0.0f);
 	movement->SetRotation( 0.0f);
 	movement->SetLinear( D3DXVECTOR4(0, 0, 0, 0));
+	movement->SetAngular( 0.0f);
 
 	// Initial state of the enemy
 	State = Wander;
-
-	shape = 3;
 
 	// Create the texture
 	render->LoadTexture( textureName, textureNumber);
@@ -99,7 +82,7 @@ void Enemy_Base::Init(IDirect3DDevice9* m_pD3DDevice, RenderObject* renderObject
 
 // Update the enemy
 void Enemy_Base::Update( float dt, D3DXVECTOR4 playerPosition )
-{
+{ 
 	playerPos = playerPosition;
 
 	if ( health <= 0)
@@ -107,14 +90,12 @@ void Enemy_Base::Update( float dt, D3DXVECTOR4 playerPosition )
 		isDead = true;
 	}
 
-	UpdateState( State, dt );
+	wander.GetSteering( movement );
+	//wander.GetKinematicSteering( movement);
+	//UpdateState( State, dt );
 	movement->GetNewOrientation();
 	movement->Update(dt);
-
-	//havokMovement();
-
-	/*havokShape->position = movement->GetPosition();
-	havokShape->Update(dt);*/
+	//HavokMovement();
 }
 
 // Change the state of the enemy based on current actions in the game
@@ -127,8 +108,8 @@ void Enemy_Base::UpdateState(StateType CurrentState, float dt)
 		{
 			wander.GetSteering( movement);
 			// if player is in range then seek
-			if (playerPos - movement->GetPosition() < wanderRange )
-				ChangeState( Seek );
+			//if (playerPos - movement->GetPosition() < wanderRange )
+				//ChangeState( Seek );
 			break;
 		}
 		// Seek out the player
@@ -189,146 +170,58 @@ void Enemy_Base::Render(HWND hwnd, D3DXMATRIX veiwMat, D3DXMATRIX projMat)
 {
 	//enemyGun->mPSys->draw(hwnd);
 
-	render->Render3DObject( position, objectMesh, veiwMat, projMat);
+	// has to send in orientation to turn properly
+	render->SetRotation( movement->GetOrientation());
+	render->Render3DObject( movement->GetPosition(), objectMesh, veiwMat, projMat);
 }
 
 
-void Enemy_Base::createHavokObject(hkpWorld* world)
+void Enemy_Base::CreateBodyObject(hkpWorld* world)
 {
-	// Create Object Based on Shape
-	switch(shape)
-	{
-		case PLAYERSPHERE:
-			createSphereObject(world);
-			break;
+	//// Create a ridid body that can move dynamically about the scene.
+	//hkpCharacterRigidBodyCinfo	bodyInfo;
 
-		case PLAYERBOX:
-			createBoxObject(world);
-			break;
+	//// Capsule Parameters
+	//hkVector4	vertexA(scale.x, movement->GetPosition().y + (scale.y / 2), scale.z, 0);	// Top
+	//hkVector4	vertexB(scale.x, movement->GetPosition().y - (scale.y / 2), scale.z, 0);	// Bottom
+	//hkReal		radius	=	(scale.x + scale.z) / 2;						// Radius
 
-		case 3:
-			createCapsuleObject(world);
-			break;
+	//// Create Capsule Based on Parameters
+	//hkpCapsuleShape* capsuleShape = new hkpCapsuleShape(vertexA, vertexB, radius);
 
-		case PLAYERNONE:
-			createCapsuleObject(world);
-			break;
-	}
+	//// Set The Object's Properties
+	//bodyInfo.m_shape = capsuleShape;
+	//bodyInfo.m_position.set(movement->GetPosition().x, movement->GetPosition().y, movement->GetPosition().z, 0.0f);
+	//bodyInfo.m_mass = 5.0f;
+
+	//// Calculate Mass Properties
+	//hkMassProperties massProperties;
+
+	//hkpInertiaTensorComputer::computeShapeVolumeMassProperties(bodyInfo.m_shape, bodyInfo.m_mass, massProperties);
+	//
+	//// Create Rigid Body
+	//rigidBody = new hkpCharacterRigidBody(bodyInfo);
+
+	//// Add Rigid Body to the World
+	//world->addEntity(rigidBody->getRigidBody());
+
+	//// No longer need the reference on the shape, as the rigidbody owns it now
+	//capsuleShape->removeReference();
 }
 
-void Enemy_Base::createSphereObject(hkpWorld* world)
-{
-	// Create a temp body info
-	hkpCharacterRigidBodyCinfo	bodyInfo;
-
-	// Sphere Parameters
-	hkReal radius = (scale.x + scale.z) / 2;
-
-	// Create Sphere Based on Parameters
-	hkpSphereShape* sphereShape = new hkpSphereShape(radius);
-
-	// Set The Object's Properties
-	bodyInfo.m_shape = sphereShape;
-	bodyInfo.m_position.set(position.x, position.y, position.z, 0.0f);
-	bodyInfo.m_friction = 1.0f;
-
-	// Calculate Mass Properties
-	hkMassProperties massProperties;
-	hkpInertiaTensorComputer::computeShapeVolumeMassProperties(sphereShape, mass, massProperties);
-	
-	// Set Mass Properties
-
-	// Create Rigid Body
-	objectBody = new hkpCharacterRigidBody(bodyInfo);
-
-	// No longer need the reference on the shape, as the rigidbody owns it now
-	sphereShape->removeReference();
-
-	// Add Rigid Body to the World
-	world->addEntity(objectBody->getRigidBody());
-}
-
-void Enemy_Base::createBoxObject(hkpWorld* world)
-{
-	// Create a temp body info
-	hkpCharacterRigidBodyCinfo	bodyInfo;
-
-	// Box Parameters
-	hkVector4 halfExtents(scale.x, scale.y, scale.z);
-
-	// Create Box Based on Parameters
-	hkpBoxShape* boxShape = new hkpBoxShape(halfExtents);
-
-	// Set The Object's Properties
-	bodyInfo.m_shape = boxShape;
-	bodyInfo.m_position.set(position.x, position.y, position.z, 0.0f);
-
-	// Calculate Mass Properties
-	hkMassProperties massProperties;
-	hkpInertiaTensorComputer::computeShapeVolumeMassProperties(boxShape, mass, massProperties);
-
-	// Set Mass Properties
-	bodyInfo.m_mass = 100.0f;
-
-	// Create Rigid Body
-	objectBody = new hkpCharacterRigidBody(bodyInfo);
-
-	// No longer need the reference on the shape, as the rigidbody owns it now
-	boxShape->removeReference();
-
-	// Add Rigid Body to the World
-	world->addEntity(objectBody->getRigidBody());
-}
-
-void Enemy_Base::createCapsuleObject(hkpWorld* world)
-{
-	// Create a temp body info
-	hkpCharacterRigidBodyCinfo	bodyInfo;
-
-	// Capsule Parameters
-	hkVector4	vertexA(scale.x, position.y + (scale.y / 2), scale.z, 0);	// Top
-	hkVector4	vertexB(scale.x, position.y - (scale.y / 2), scale.z, 0);	// Bottom
-	hkReal		radius	=	(scale.x + scale.z) / 2;						// Radius
-
-	// Create Capsule Based on Parameters
-	hkpCapsuleShape* capsuleShape = new hkpCapsuleShape(vertexA, vertexB, radius);
-
-	// Set The Object's Properties
-	bodyInfo.m_shape = capsuleShape;
-	bodyInfo.m_position.set(position.x, position.y, position.z, 0.0f);
-
-
-	// Calculate Mass Properties
-	hkMassProperties massProperties;
-
-	hkpInertiaTensorComputer::computeShapeVolumeMassProperties(capsuleShape, mass, massProperties);
-	
-	// Create Rigid Body
-	objectBody = new hkpCharacterRigidBody(bodyInfo);
-
-	// No longer need the reference on the shape, as the rigidbody owns it now
-	capsuleShape->removeReference();
-
-	// Add Rigid Body to the World
-	world->addEntity(objectBody->getRigidBody());
-}
-
-void Enemy_Base::havokMovement()
+void Enemy_Base::HavokMovement()
 {
 	hkpCharacterOutput output;
 
-	if(movement->GetPosition().x < objectBody->getPosition().getComponent(0))
+	if(movement->GetPosition().x < rigidBody->getPosition().getComponent(0))
 	input.m_inputLR += velLR;
-	else if(movement->GetPosition().x > objectBody->getPosition().getComponent(0))
+	else if(movement->GetPosition().x > rigidBody->getPosition().getComponent(0))
 	input.m_inputLR -= velLR;
 
-	if(movement->GetPosition().z < objectBody->getPosition().getComponent(2))
+	if(movement->GetPosition().z < rigidBody->getPosition().getComponent(2))
 	input.m_inputUD += velUD;
-	else if(movement->GetPosition().z > objectBody->getPosition().getComponent(2))
+	else if(movement->GetPosition().z > rigidBody->getPosition().getComponent(2))
 	input.m_inputUD -= velUD;
-
-	input.m_wantJump = false;
-	input.m_atLadder = false;
 	
 	input.m_up = hkVector4(0, 1, 0);
 	input.m_forward.set(0, 0, 1);
@@ -339,12 +232,12 @@ void Enemy_Base::havokMovement()
 
 	input.m_stepInfo = stepInfo;
 	input.m_characterGravity.set(0, -16, 0);
-	input.m_velocity = objectBody->getRigidBody()->getLinearVelocity();
-	input.m_position = objectBody->getRigidBody()->getPosition();
+	input.m_velocity = rigidBody->getRigidBody()->getLinearVelocity();
+	input.m_position = rigidBody->getRigidBody()->getPosition();
 
-	objectBody->checkSupport(stepInfo, input.m_surfaceInfo);
+	rigidBody->checkSupport(stepInfo, input.m_surfaceInfo);
 
 	context->update(input, output);
 
-	objectBody->setLinearVelocity(output.m_velocity, 1.0f / 60.0f);
+	rigidBody->setLinearVelocity(output.m_velocity, 1.0f / 60.0f);
 }
