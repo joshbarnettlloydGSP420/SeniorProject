@@ -68,7 +68,7 @@ public:
 	Object_Player();
 	~Object_Player(void);
 
-	void Update(float deltaTime,D3DXVECTOR3 eyePos);
+	void Update(float deltaTime, D3DXVECTOR3 eyePos, D3DXVECTOR3 lookAt);
 
 	void convertPosition();
 
@@ -76,7 +76,7 @@ public:
 
 	void createHavokObject(hkpWorld* world);
 
-	void characterInputOutput();
+	void characterInputOutput(D3DXVECTOR3 lookAt);
 
 	void gunShot();
 

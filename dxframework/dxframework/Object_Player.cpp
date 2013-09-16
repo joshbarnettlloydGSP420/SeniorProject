@@ -39,10 +39,10 @@ Object_Player::~Object_Player(void)
 
 }
 
-void Object_Player::Update(float deltaTime,D3DXVECTOR3 eyePos)
+void Object_Player::Update(float deltaTime, D3DXVECTOR3 eyePos, D3DXVECTOR3 lookAt)
 {
 	convertPosition();
-	characterInputOutput();
+	characterInputOutput(lookAt);
 
 	//gun update
 	mPSys->update(deltaTime, eyePos);
@@ -234,7 +234,7 @@ void Object_Player::stateMachineInit()
 
 }
 
-void Object_Player::characterInputOutput()
+void Object_Player::characterInputOutput(D3DXVECTOR3 lookAt)
 {
 	hkpCharacterInput input;
 	hkpCharacterOutput output;

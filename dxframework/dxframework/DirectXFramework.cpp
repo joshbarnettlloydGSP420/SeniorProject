@@ -682,11 +682,11 @@ void CDirectXFramework::UpdateCamera(float dt)
 
 	D3DXMatrixRotationY(&tempRot, D3DXToRadian(Player->rotation.x));
 
-	tempPos = D3DXVECTOR3(0.0f, 0.0f, -1.0f);
+	tempPos = D3DXVECTOR3(0.0f, 0.5f, -1.0f);
 
 	D3DXVec3TransformCoord(&tempChange, &tempPos, &tempRot);
 	// Initialize View Matrix
-	eyePos								= D3DXVECTOR3(0.0f, 0.0f, 0.0f ) + D3DXVECTOR3(Player->position.x, Player->position.y, Player->position.z);		// Camera Position
+	eyePos								= D3DXVECTOR3(0.0f, 0.5f, 0.0f ) + D3DXVECTOR3(Player->position.x, Player->position.y, Player->position.z);		// Camera Position
 	lookAt								= D3DXVECTOR3(Player->position.x, Player->position.y, Player->position.z) + tempChange;							// Position camera is viewing
 	upVec								= D3DXVECTOR3(0.0f, 1.0f, 0.0f);																				// Rotational orientation
 

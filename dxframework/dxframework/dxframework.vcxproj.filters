@@ -153,20 +153,20 @@
     <ClCompile Include="Vertex.cpp">
       <Filter>Source Files\Game</Filter>
     </ClCompile>
-    <ClCompile Include="AudioManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="SoundEffect.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="SoundLoader.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Enemy_Align.cpp">
       <Filter>Source Files\Objects\Enemy</Filter>
     </ClCompile>
     <ClCompile Include="Enemy_Face.cpp">
       <Filter>Source Files\Objects\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="AudioManager.cpp">
+      <Filter>Source Files\Audio / FMOD</Filter>
+    </ClCompile>
+    <ClCompile Include="SoundEffect.cpp">
+      <Filter>Source Files\Audio / FMOD</Filter>
+    </ClCompile>
+    <ClCompile Include="SoundLoader.cpp">
+      <Filter>Source Files\Audio / FMOD</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -260,23 +260,23 @@
     <ClInclude Include="Vertex.h">
       <Filter>Header Files\Game</Filter>
     </ClInclude>
-    <ClInclude Include="AudioManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="SoundEffect.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="SoundLoader.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Utilities.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Enemy_Align.h">
       <Filter>Header Files\Objects\Enemy</Filter>
     </ClInclude>
     <ClInclude Include="Enemy_Face.h">
       <Filter>Header Files\Objects\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="AudioManager.h">
+      <Filter>Header Files\Audio / FMOD</Filter>
+    </ClInclude>
+    <ClInclude Include="SoundEffect.h">
+      <Filter>Header Files\Audio / FMOD</Filter>
+    </ClInclude>
+    <ClInclude Include="SoundLoader.h">
+      <Filter>Header Files\Audio / FMOD</Filter>
+    </ClInclude>
+    <ClInclude Include="Utilities.h">
+      <Filter>Header Files\Audio / FMOD</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
