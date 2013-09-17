@@ -40,12 +40,16 @@ bool OptionsMenu::Init(InputManager* input, IDirect3DDevice9* m_pD3DDevice, HWND
 	// set back ground position
 	backGroundPos = D3DXVECTOR3(0,0,0);
 
-	// sound menu beep
+	
 	// Load sound effects
-	MenuBeep = new SoundEffect();
-	MenuBeep = SoundLoader::GetInstance()->Load(false,false ,"MenuBeep2.mp3");
-	AudioManager::GetInstance()->PlayBGM(*MenuBeep);
+	MenuMusic = SoundLoader::GetInstance()->LoadBGM("MainMenuMusic.ogg");
+	AudioManager::GetInstance()->PlayBGM(*MenuMusic);
 	AudioManager::GetInstance()->SetBGMVolume(1.0f);
+
+	
+	MenuBeep = SoundLoader::GetInstance()->Load(false,false ,"MenuBeep2.mp3");
+	AudioManager::GetInstance()->PlaySFX(*MenuBeep);
+	AudioManager::GetInstance()->SetSFXVolume(1.0f);
 
 	videoInit = false;
 	return true;
@@ -53,6 +57,7 @@ bool OptionsMenu::Init(InputManager* input, IDirect3DDevice9* m_pD3DDevice, HWND
 
 void OptionsMenu::Update()
 {
+	
 	myInput->getInput();
 
 	if ( videoInit == false)
