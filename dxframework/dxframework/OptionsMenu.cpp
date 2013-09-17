@@ -48,7 +48,6 @@ bool OptionsMenu::Init(InputManager* input, IDirect3DDevice9* m_pD3DDevice, HWND
 
 	
 	MenuBeep = SoundLoader::GetInstance()->Load(false,false ,"MenuBeep2.mp3");
-	AudioManager::GetInstance()->PlaySFX(*MenuBeep);
 	AudioManager::GetInstance()->SetSFXVolume(1.0f);
 
 	videoInit = false;
