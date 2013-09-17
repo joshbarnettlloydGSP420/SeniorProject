@@ -40,6 +40,13 @@ bool PauseMenu::Init(InputManager* input, IDirect3DDevice9*	m_pD3DDevice)
 
 	// set back ground position
 	backGroundPos = D3DXVECTOR3(0,0,0);
+
+	// sound menu beep
+	// Load sound effects
+	MenuBeep = new SoundEffect();
+	MenuBeep = SoundLoader::GetInstance()->Load(false,false ,"MenuBeep2.mp3");
+	AudioManager::GetInstance()->PlayBGM(*MenuBeep);
+	AudioManager::GetInstance()->SetBGMVolume(1.0f);
 	return true;
 }
 void PauseMenu::Update()
@@ -59,6 +66,7 @@ void PauseMenu::Update()
 		else if ( menuItemSelected == 3)
 		{
 			pauseState = p_MAIN_MENU;
+			
 		}
 	}
 	if ( myInput->keyPress( DIK_P ))

@@ -40,6 +40,13 @@ bool OptionsMenu::Init(InputManager* input, IDirect3DDevice9* m_pD3DDevice, HWND
 	// set back ground position
 	backGroundPos = D3DXVECTOR3(0,0,0);
 
+	// sound menu beep
+	// Load sound effects
+	MenuBeep = new SoundEffect();
+	MenuBeep = SoundLoader::GetInstance()->Load(false,false ,"MenuBeep2.mp3");
+	AudioManager::GetInstance()->PlayBGM(*MenuBeep);
+	AudioManager::GetInstance()->SetBGMVolume(1.0f);
+
 	videoInit = false;
 	return true;
 }
@@ -52,10 +59,12 @@ void OptionsMenu::Update()
 	{
 		if (myInput->keyPress( DIK_UP))
 		{
+			AudioManager::GetInstance()->PlaySFX(*MenuBeep);
 			menuItemSelected--;
 		}
 		else if ( myInput->keyPress( DIK_DOWN))
 		{
+			AudioManager::GetInstance()->PlaySFX(*MenuBeep);
 			menuItemSelected++;
 		}
 	}

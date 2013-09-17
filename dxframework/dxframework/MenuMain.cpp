@@ -58,20 +58,23 @@ bool MenuMain::Init(InputManager* input, IDirect3DDevice9*	m_pD3DDevice)
 void MenuMain::Update()
 {
 	BaseMenu::Update();
-	//AudioManager::GetInstance()->PlaySFX(*MenuMusic);
+	
 	if (myInput->keyDown( DIK_RETURN))
 	{
 		if ( menuItemSelected == 1)
 		{
 			menuState = m_GAME;
+			AudioManager::DestroyInstance();
 		}
 		else if ( menuItemSelected == 2)
 		{
 			menuState = m_OPTIONS_MENU;
+			
 		}
 		else if ( menuItemSelected == 3)
 		{
 			menuState = m_QUIT;
+			
 		}
 	}
 }
