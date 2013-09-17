@@ -9,6 +9,9 @@
 #include <iostream>
 #include <dshow.h>
 #include "InputManager.h"
+#include "SoundEffect.h"
+#include "SoundLoader.h"
+#include "AudioManager.h"
 
 #pragma comment(lib, "Strmiids.lib")
 #pragma comment(lib, "d3d9.lib")
@@ -24,6 +27,12 @@
 class BaseMenu
 {
 protected:
+	////////////////////////////////////////////////////////////////////////
+	// Sound Variables
+	////////////////////////////////////////////////////////////////////////
+	SoundEffect* MenuBeep;
+	SoundEffect* MenuMusic;
+
 	////////////////////////////////////////////////////////////////////////
 	// D3D Variables
 	////////////////////////////////////////////////////////////////////////
@@ -44,7 +53,7 @@ protected:
 	IDirect3DTexture9*	backgroundTexture;	// Texture to use for background
 	D3DXIMAGE_INFO		m_imageInfo;		// File details of a texture
 	RECT				m_rect;				// RECT for the menu background
-	LPCSTR				backgroundFileName;	// name of file for background
+	LPCWSTR				backgroundFileName;	// name of file for background
 	D3DXVECTOR3			backGroundPos;		// position  for background sprite
 	
 	////////////////////////////////////////////////////////////////////////

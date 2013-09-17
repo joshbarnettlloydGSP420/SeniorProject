@@ -14,15 +14,13 @@ bool OptionsMenu::Init(InputManager* input, IDirect3DDevice9* m_pD3DDevice, HWND
 {
 	BaseMenu::Init( input, m_pD3DDevice );
 	hwnd = wndHandle;
-	// Local pointer to the input manager
 	myInput = input;
 	this->m_pD3DDevice = m_pD3DDevice;
-
 	// create the SPRITE object
 	D3DXCreateSprite(m_pD3DDevice, &m_pD3DSprite);
 
 	// create a FONT object
-	AddFontResourceEx("SanitariumBB.otf", FR_PRIVATE, 0);
+	AddFontResourceEx(L"SanitariumBB.otf", FR_PRIVATE, 0);
 	D3DXCreateFont(m_pD3DDevice, 30, 0, FW_BOLD, 0, false, 
 		DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, DEFAULT_QUALITY,
 		DEFAULT_PITCH | FF_DONTCARE, TEXT("SanitariumBB"), 
@@ -32,7 +30,7 @@ bool OptionsMenu::Init(InputManager* input, IDirect3DDevice9* m_pD3DDevice, HWND
 	menuItemSelected = 1;
 
 	// if no image is chosen this will be the default for the background
-	backgroundFileName = "options menu.jpg";
+	backgroundFileName = L"options menu.jpg";
 
 	// Create the background texture
 	D3DXCreateTextureFromFileEx(m_pD3DDevice, backgroundFileName ,0,0,0,0,D3DFMT_UNKNOWN, D3DPOOL_MANAGED, D3DX_DEFAULT, 
@@ -43,7 +41,6 @@ bool OptionsMenu::Init(InputManager* input, IDirect3DDevice9* m_pD3DDevice, HWND
 	backGroundPos = D3DXVECTOR3(0,0,0);
 
 	videoInit = false;
-
 	return true;
 }
 
@@ -108,12 +105,6 @@ void OptionsMenu::Update()
 	}
 
 }
-
-
-
-
-
-
 
 void OptionsMenu::Render()
 {
@@ -201,6 +192,7 @@ void OptionsMenu::DestroyVideo()
 	SAFE_RELEASE(videoWindow);
 	SAFE_RELEASE(videoGraph);
 }
+
 
 void OptionsMenu::DrawBackground()
 {

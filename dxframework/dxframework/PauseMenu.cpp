@@ -6,6 +6,11 @@ PauseMenu::PauseMenu(void)
 	pauseState = p_PAUSE_MENU;
 }
 
+
+PauseMenu::~PauseMenu(void)
+{
+}
+
 bool PauseMenu::Init(InputManager* input, IDirect3DDevice9*	m_pD3DDevice)
 {
 // Local pointer to the input manager
@@ -16,7 +21,7 @@ bool PauseMenu::Init(InputManager* input, IDirect3DDevice9*	m_pD3DDevice)
 	D3DXCreateSprite(m_pD3DDevice, &m_pD3DSprite);
 
 	// create a FONT object
-	AddFontResourceEx("SanitariumBB.otf", FR_PRIVATE, 0);
+	AddFontResourceEx(L"SanitariumBB.otf", FR_PRIVATE, 0);
 	D3DXCreateFont(m_pD3DDevice, 30, 0, FW_BOLD, 0, false, 
 		DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, DEFAULT_QUALITY,
 		DEFAULT_PITCH | FF_DONTCARE, TEXT("SanitariumBB"), 
@@ -26,7 +31,7 @@ bool PauseMenu::Init(InputManager* input, IDirect3DDevice9*	m_pD3DDevice)
 	menuItemSelected = 1;
 
 	// if no image is chosen this will be the default for the background
-	backgroundFileName = "pausemenu.jpg";
+	backgroundFileName = L"pausemenu.jpg";
 	
 	// Create the background texture
 	D3DXCreateTextureFromFileEx(m_pD3DDevice, backgroundFileName ,0,0,0,0,D3DFMT_UNKNOWN, D3DPOOL_MANAGED, D3DX_DEFAULT, 
@@ -37,10 +42,6 @@ bool PauseMenu::Init(InputManager* input, IDirect3DDevice9*	m_pD3DDevice)
 	backGroundPos = D3DXVECTOR3(0,0,0);
 	return true;
 }
-PauseMenu::~PauseMenu(void)
-{
-}
-
 void PauseMenu::Update()
 {
 	BaseMenu::Update();
@@ -68,11 +69,11 @@ void PauseMenu::Update()
 
 void PauseMenu::Render()
 {
-	DrawBackground();
 	/*sprintf(menuPrint,"PAUSE MENU");
 	SetRect(&m_rect,120,30,600,500);  
 	option = D3DCOLOR_ARGB(255,150,0,240);*/
 
+	DrawBackground();
 	m_pD3DFont->DrawTextA(0,menuPrint,-1,&m_rect, DT_CENTER | DT_NOCLIP,option);
 
 	sprintf(menuPrint,"Resume Game ");
@@ -99,6 +100,7 @@ void PauseMenu::Render()
 		option = D3DCOLOR_ARGB(255,0,0,255);
 	m_pD3DFont->DrawTextA(0,menuPrint,-1,&m_rect, DT_CENTER | DT_NOCLIP,option);
 }
+
 
 void PauseMenu::DrawBackground()
 {

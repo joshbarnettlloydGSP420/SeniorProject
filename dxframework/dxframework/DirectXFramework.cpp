@@ -35,7 +35,6 @@ void CDirectXFramework::Init(HWND& hWnd, HINSTANCE& hInst, bool bWindowed)
 	screenWidth = windowSizeRect.right - windowSizeRect.left;
 	screenHeight = windowSizeRect.bottom - windowSizeRect.top;
 
-
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Presentation paramters for creating the D3D9 device													 //
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -44,7 +43,7 @@ void CDirectXFramework::Init(HWND& hWnd, HINSTANCE& hInst, bool bWindowed)
 	ZeroMemory(&D3Dpp, sizeof(D3Dpp));						// NULL the structure's memory
 
 	D3Dpp.hDeviceWindow					= hWnd;																		// Handle to the focus window
-	D3Dpp.Windowed						= true;																// Windowed or Full-screen boolean
+	D3Dpp.Windowed						= bWindowed;																// Windowed or Full-screen boolean
 	D3Dpp.AutoDepthStencilFormat		= D3DFMT_D24S8;																// Format of depth/stencil buffer, 24 bit depth, 8 bit stencil
 	D3Dpp.EnableAutoDepthStencil		= TRUE;																		// Enables Z-Buffer (Depth Buffer)
 	D3Dpp.BackBufferCount				= 1;																		// Change if need of > 1 is required at a later date
@@ -57,7 +56,7 @@ void CDirectXFramework::Init(HWND& hWnd, HINSTANCE& hInst, bool bWindowed)
 	D3Dpp.FullScreen_RefreshRateInHz	= bWindowed ? 0 : D3DPRESENT_RATE_DEFAULT;									// Full-screen refresh rate, use adapter modes or default
 	D3Dpp.MultiSampleQuality			= 0;																		// MSAA currently off, check documentation for support.
 	D3Dpp.MultiSampleType				= D3DMULTISAMPLE_NONE;														// MSAA currently off, check documentation for support.
-	
+
 	// Check device capabilities
 	DWORD deviceBehaviorFlags = 0;
 	m_pD3DObject->GetDeviceCaps(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, &m_D3DCaps);
@@ -96,6 +95,34 @@ void CDirectXFramework::Init(HWND& hWnd, HINSTANCE& hInst, bool bWindowed)
 		D3DDECL_END()
 	};
 	m_pD3DDevice->CreateVertexDeclaration( elems, &d3dVertexDecl );
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Render																						 //
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+	render = new RenderObject();
+	render->Init( m_pD3DDevice, m_pD3DSprite);
+	//render->CreateVertexElement();
+	render->SetVertexDecl( d3dVertexDecl);
+	render->MaterialSettings();
+	render->LoadShaderEffects( L"TestShader.txt", 0);
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Creating Enemies																						 //
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+	/*redGhost = new Enemy_Base(100, 50, 15, D3DXVECTOR4( 45, 2.5,5, 0.0), L"RedGhostTexture.jpg", 0);
+	redGhost->Init( m_pD3DDevice, render);
+
+	blueGhost = new Enemy_Base(100, 35, 10, D3DXVECTOR4( -5, 2.5,30, 0.0), L"BlueGhostTexture.jpg", 0);
+	blueGhost->Init( m_pD3DDevice, render);
+
+	yellowGhost = new Enemy_Base(100, 20, 5, D3DXVECTOR4( -35, 2.5,5, 0.0), L"YellowGhostTexture.jpg", 0);
+	yellowGhost->Init( m_pD3DDevice, render);
+
+	greenGhost = new Enemy_Base(100, 20, 20, D3DXVECTOR4( 10, 2.5,-10, 0.0), L"GreenGhostTexture.jpg", 0);
+	greenGhost->Init( m_pD3DDevice, render);*/
+	baseGhost = new Enemy_Base(100, 50, 15, D3DXVECTOR4( 45, 2.5,5, 0.0));
+	baseGhost->Init( m_pD3DDevice, render);
+
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Creating Light																						 //
@@ -172,12 +199,12 @@ void CDirectXFramework::Init(HWND& hWnd, HINSTANCE& hInst, bool bWindowed)
 	D3DXCreateSprite(m_pD3DDevice, &m_pD3DSprite);
 
 	// create a TEXTURE object
-	D3DXCreateTextureFromFileEx(m_pD3DDevice, "Metal_Texture.jpg", 0, 0, 0, 0,
+	D3DXCreateTextureFromFileEx(m_pD3DDevice, L"Metal_Texture.jpg", 0, 0, 0, 0,
 		D3DFMT_UNKNOWN, D3DPOOL_MANAGED, D3DX_DEFAULT, 
 		D3DX_DEFAULT, D3DCOLOR_XRGB(255, 0, 255), 
 		&m_imageInfo, 0, &m_pTexture[0]);
 
-	D3DXCreateTextureFromFileEx(m_pD3DDevice, "test.tga", 0, 0, 0, 0,
+	D3DXCreateTextureFromFileEx(m_pD3DDevice, L"test.tga", 0, 0, 0, 0,
 		D3DFMT_UNKNOWN, D3DPOOL_MANAGED, D3DX_DEFAULT, 
 		D3DX_DEFAULT, D3DCOLOR_XRGB(255, 0, 255), 
 		&m_imageInfo, 0, &m_pTexture[1]);
@@ -196,19 +223,13 @@ void CDirectXFramework::Init(HWND& hWnd, HINSTANCE& hInst, bool bWindowed)
 // Object Inits																							 //
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 	Player = new Object_Player();
-	Player->position = D3DXVECTOR4(0.0f, 5.0f, 0.0f, 0.0f);
+	Player->position = D3DXVECTOR4(0.0f, 5.0f, -8.0f, 0.0f);
 	Player->shape = CAPSULE;
 
 	Mansion = new Object_Base();
 	Mansion->position = D3DXVECTOR4(0.0f, 5.0f, 10.0f, 0.0f);
 	Mansion->shape = BOX;
 	Mansion->weight = UNMOVABLE;
-
-///////////////////////////////////////////////////////////////////////////////////////////////////////////
-// Menu Inits																							 //
-///////////////////////////////////////////////////////////////////////////////////////////////////////////
-	
-
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Load Shader Effects																					 //
@@ -218,7 +239,7 @@ void CDirectXFramework::Init(HWND& hWnd, HINSTANCE& hInst, bool bWindowed)
 	ID3DXBuffer* ErrorMessage = 0;
 	D3DXCreateEffectFromFile(m_pD3DDevice,
 							//"ToonColored.fx",
-							"TestShader.txt",
+							L"TestShader.txt",
 							0,
 							0,
 							D3DXSHADER_DEBUG,
@@ -230,7 +251,7 @@ void CDirectXFramework::Init(HWND& hWnd, HINSTANCE& hInst, bool bWindowed)
 		char error[512];
 		ZeroMemory( error, 256 );
 		strcpy_s( error, (char*)ErrorMessage->GetBufferPointer() );
-		MessageBox(0, (LPCSTR)error, "Shader Error", MB_OK );
+		MessageBox(0, (LPCWSTR)error, L"Shader Error", MB_OK );
 	}
 
 	//hTech[0] = fx[0]->GetTechniqueByName("ToonColored");
@@ -242,8 +263,8 @@ void CDirectXFramework::Init(HWND& hWnd, HINSTANCE& hInst, bool bWindowed)
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	// Load Test Mesh
-	loadMesh("Dwarf.X", &Player->objectMesh);
-	loadMesh("House.X", &Mansion->objectMesh);
+	loadMesh(L"FlippedY.X", &Player->objectMesh);
+	loadMesh(L"RoomWithWalls.X", &Mansion->objectMesh);
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Create 3D Mesh From X																				 //
@@ -260,15 +281,26 @@ void CDirectXFramework::Init(HWND& hWnd, HINSTANCE& hInst, bool bWindowed)
 	// Havok
 	havok = new HavokCore(true);
 
-	
-
 	// Locking is necessary to make sure no two threads are trying to change the world at the same time
 	havok->getWorld()->lock();
 
 	Player->createHavokObject(havok->getWorld());
 	Mansion->createHavokObject(havok->getWorld());
 
-	createGroundBox(havok->getWorld());	
+	// Mansion
+	createGroundBox(havok->getWorld(), 85.0f, 2.0f, 50.0f, 0.0f, 0.0f, 10.0f);	// Floor
+	createGroundBox(havok->getWorld(), 100.0f, 20.0f, 2.0f, 0.0f, 0.0f, -40.0f);	// Front
+	createGroundBox(havok->getWorld(), 100.0f, 20.0f, 2.0f, 0.0f, 0.0f, 57.0f);	// Back
+	createGroundBox(havok->getWorld(), 2.0f, 20.0f, 50.0f, 85.0f, 0.0f, 10.0f); // Right
+	createGroundBox(havok->getWorld(), 2.0f, 20.0f, 50.0f, -80.0f, 0.0f, 10.0f);// Left
+	createGroundBox(havok->getWorld(), 25.0f, 20.0f, 1.0f, 5.0f, 0.0f, 12.0f);	// middle
+
+	// enemies
+	/*redGhost->createHavokObject( havok->getWorld());
+	blueGhost->createHavokObject( havok->getWorld());
+	yellowGhost->createHavokObject( havok->getWorld());
+	greenGhost->createHavokObject( havok->getWorld());*/
+	
 	
 	havok->getWorld()->unlock();
 
@@ -293,12 +325,22 @@ void CDirectXFramework::Update(float dt)
 	havok->stepSimulation(dt);
 
 	havok->getWorld()->lock();
-	Player->Update(dt);
-	Mansion->Update(dt);
-	havok->getWorld()->unlock();
 
-	D3DXVECTOR3 tempPos = D3DXVECTOR3(Mansion->position.x, Mansion->position.y, Mansion->position.z);
-	//camera->updateCamera(Player->rotation, Player->position);
+	Player->Update(dt, eyePos);
+	Mansion->Update(dt);
+
+	// enemies update
+	/*yellowGhost->Update( dt, Player->position);
+	if ( yellowGhost->GetIsDead() == true)
+		greenGhost->Update( dt, Player->position);
+	if ( greenGhost->GetIsDead() == true)
+		blueGhost->Update( dt, Player->position);
+	if ( blueGhost->GetIsDead() == true)
+		redGhost->Update( dt, Player->position);*/
+	baseGhost->Update( dt, Player->position);
+
+	havok->getWorld()->unlock();
+	
 
 	UpdateCamera(dt);
 	playerControls(dt);
@@ -324,14 +366,15 @@ void CDirectXFramework::Render(float dt)
 	//////////////////////////////////////////////////////////////////////////
 	// Draw 3D Objects (for future labs - not used in Week #1)
 	//////////////////////////////////////////////////////////////////////////
-	Player->mPSys->draw(m_hWnd);
+	Player->mPSys->draw(m_hWnd, eyePos, viewMat * projMat); // bullet draw
 
 	D3DXMatrixIdentity(&rotMat);
 	D3DXMatrixIdentity(&scaleMat);
 	D3DXMatrixIdentity(&worldMat);
 	D3DXMatrixIdentity(&transMat);
-	if(gameState->activeGameState == GAME)
-	{
+
+if(gameState->activeGameState == GAME)
+{
 	m_pD3DDevice->SetStreamSource(0, mesh_vb, 0, sizeof(Vertex));
 	m_pD3DDevice->SetIndices(mesh_ib);
 	m_pD3DDevice->SetVertexDeclaration(d3dVertexDecl);
@@ -346,11 +389,11 @@ void CDirectXFramework::Render(float dt)
 		fx[0]->BeginPass(i);
 
 		// Mesh Matrix
-		D3DXMatrixScaling(&scaleMat, 1.0f, 1.0f, 1.0f);
-		D3DXMatrixRotationYawPitchRoll(&rotMat, 0.0f, 0.0f, 0.0f);
-		D3DXMatrixTranslation(&transMat, Player->position.x, Player->position.y, Player->position.z);
-		//D3DXMatrixMultiply(&scaleMat, &scaleMat, &rotMat);
-		//D3DXMatrixMultiply(&worldMat, &scaleMat, &transMat);
+		D3DXMatrixScaling(&scaleMat, 0.04f, 0.04f, 0.0f);
+		D3DXMatrixRotationYawPitchRoll(&rotMat, Player->rotation.x, Player->rotation.y, Player->rotation.z);
+		D3DXMatrixTranslation(&transMat, Player->position.x-.75, Player->position.y-1.6, Player->position.z); //x-1.55 is the value for gun to be directly in the center of the camera
+		D3DXMatrixMultiply(&scaleMat, &scaleMat, &rotMat);
+		D3DXMatrixMultiply(&worldMat, &scaleMat, &transMat);
 		D3DXMatrixMultiply(&worldMat, &scaleMat, &transMat);
 
 		D3DXMatrixInverse(&invTransMat, 0, &worldMat);
@@ -390,9 +433,9 @@ void CDirectXFramework::Render(float dt)
 		fx[0]->BeginPass(i);
 
 		// Mesh Matrix
-		D3DXMatrixScaling(&scaleMat, 0.025f, 0.025f, 0.025f);
+		D3DXMatrixScaling(&scaleMat, 1.0f, 1.0f, 1.0f);
 		D3DXMatrixRotationYawPitchRoll(&rotMat, 0.0f, 0.0f, 0.0f);
-		D3DXMatrixTranslation(&transMat, Mansion->position.x, Mansion->position.y - 7.5f, Mansion->position.z);
+		D3DXMatrixTranslation(&transMat, Mansion->position.x, Mansion->position.y - 8.0f, Mansion->position.z);
 		D3DXMatrixMultiply(&scaleMat, &scaleMat, &rotMat);
 		D3DXMatrixMultiply(&worldMat, &scaleMat, &transMat);
 		//D3DXMatrixMultiply(&worldMat, &scaleMat, &transMat);
@@ -426,6 +469,16 @@ void CDirectXFramework::Render(float dt)
 		fx[0]->EndPass();
 	}
 	fx[0]->End();
+
+	//yellowGhost->Render( m_hWnd, viewMat, projMat);
+	////if ( yellowGhost->GetIsDead() == true)
+	//	greenGhost->Render( m_hWnd, viewMat, projMat);
+	////if ( greenGhost->GetIsDead() == true)
+	//	blueGhost->Render( m_hWnd, viewMat, projMat);
+	////if ( blueGhost->GetIsDead() == true)
+	//	redGhost->Render(m_hWnd, viewMat, projMat);
+	baseGhost->Render( m_hWnd, viewMat, projMat);
+
 	//////////////////////////////////////////////////////////////////////////
 	// Draw 2D sprites
 	//////////////////////////////////////////////////////////////////////////
@@ -473,7 +526,6 @@ void CDirectXFramework::Render(float dt)
 	//m_pD3DSprite->Draw(m_pTexture[1], 0, &D3DXVECTOR3(m_imageInfo.Width * 0.5f, 
 	//	m_imageInfo.Height * 0.5f, 0.0f), 0,
 	//	D3DCOLOR_ARGB(255, 255, 255, 255));
-
 }
 
 gameState->Render(m_pD3DSprite);
@@ -543,7 +595,7 @@ void CDirectXFramework::Shutdown()
 
 }
 
-void CDirectXFramework::loadMesh(LPCSTR fileName, Mesh** meshObject)
+void CDirectXFramework::loadMesh(LPCWSTR fileName, Mesh** meshObject)
 {
 	// Create a Temp Mesh
 	Mesh* temp = new Mesh();
@@ -595,16 +647,17 @@ void CDirectXFramework::loadMesh(LPCSTR fileName, Mesh** meshObject)
 	*meshObject = temp;
 }
 
-void CDirectXFramework::createGroundBox(hkpWorld* world)
+
+void CDirectXFramework::createGroundBox(hkpWorld* world, float scaleX, float scaleY, float scaleZ, float posX, float posY, float posZ)
 {
 	// Create a ground area
-	hkVector4 halfExtents(40.0f, 2.0f, 60.0f);
+	hkVector4 halfExtents(scaleX, scaleY, scaleZ);
 	hkpBoxShape* boxShape = new hkpBoxShape(halfExtents);
 
 	// Set its properties
 	hkpRigidBodyCinfo ci;
 	ci.m_shape = boxShape;
-	ci.m_position = hkVector4(0.0f, 0.0f, 0.0f);
+	ci.m_position = hkVector4(posX, posY, posZ);
 	ci.m_motionType = hkpMotion::MOTION_FIXED;
 	ci.m_friction = 1.0f;
 
@@ -621,11 +674,22 @@ void CDirectXFramework::createGroundBox(hkpWorld* world)
 
 void CDirectXFramework::UpdateCamera(float dt)
 {
-	
+	D3DXVECTOR3 tempPos;
+	D3DXMATRIX	tempRot;
+	D3DXVECTOR3 tempChange;
+
+	D3DXMatrixIdentity(&tempRot);
+
+	D3DXMatrixRotationY(&tempRot, D3DXToRadian(Player->rotation.x));
+
+	tempPos = D3DXVECTOR3(0.0f, 0.0f, -1.0f);
+
+	D3DXVec3TransformCoord(&tempChange, &tempPos, &tempRot);
 	// Initialize View Matrix
-	eyePos								= D3DXVECTOR3( 0, 0, -5 ) + D3DXVECTOR3(Player->position.x, Player->position.y, Player->position.z);	// Camera Position
-	lookAt								= /*eyePos + */D3DXVECTOR3(Player->position.x, Player->position.y, Player->position.z);	// Position camera is viewing
-	upVec								= D3DXVECTOR3(0.0f, 1.0f, 0.0f);	// Rotational orientation
+	eyePos								= D3DXVECTOR3(0.0f, 0.0f, 0.0f ) + D3DXVECTOR3(Player->position.x, Player->position.y, Player->position.z);		// Camera Position
+	lookAt								= D3DXVECTOR3(Player->position.x, Player->position.y, Player->position.z) + tempChange;							// Position camera is viewing
+	upVec								= D3DXVECTOR3(0.0f, 1.0f, 0.0f);																				// Rotational orientation
+
 
 	// Easily calculate the view matrix with 3 intuitive vectors
 	D3DXMatrixLookAtLH(&viewMat,											// Returned viewMat
@@ -666,10 +730,35 @@ void CDirectXFramework::playerControls(float dt)
 	if( m_pDInput->isButtonDown(0) && delay <= 0.0f)
 	{
 		delay = 0.3f;
-		Player->mPSys->addParticle();
+		Player->mPSys->addParticle(eyePos);
 	}
 	delay -= dt;
 
+	//switching from green to blue bullets
+	if( m_pDInput->keyPress(DIK_C) )
+	{
+		if(type == green)
+		type = blue;
+		else if(type == blue)
+			type = red;
+		else if(type == red)
+			type = green;
+
+		Player->changeGunType(type);
+	}
+
+	if( m_pDInput->keyPress(DIK_V) )
+	{
+		if(type == green)
+		type = red;
+		else if(type == blue)
+			type = green;
+		else if(type == red)
+			type = blue;
+
+		Player->changeGunType(type);
+	}
+	/************end of cycling stuff*/
 	// Moving Forward and Backward
 	if(m_pDInput->keyDown(DIK_W))
 	{	
@@ -707,4 +796,11 @@ void CDirectXFramework::playerControls(float dt)
 	{
 		Player->wantJump = false;
 	}
+
+	Player->rotation.x += m_pDInput->getMouseMovingX();
+	
+	if(Player->rotation.x >= 360.0f)
+		Player->rotation.x = 0.0f;
+	else if(Player->rotation.x <= 0.0f)
+		Player->rotation.x = 360.0f;
 }

@@ -3,7 +3,6 @@
 MenuMain::MenuMain()
 {
 	menuState = m_MAIN_MENU;
-	
 }
 
 MenuMain::~MenuMain()
@@ -22,7 +21,7 @@ bool MenuMain::Init(InputManager* input, IDirect3DDevice9*	m_pD3DDevice)
 	D3DXCreateSprite(m_pD3DDevice, &m_pD3DSprite);
 
 	// create a FONT object
-	AddFontResourceEx("SanitariumBB.otf", FR_PRIVATE, 0);
+	AddFontResourceEx(L"SanitariumBB.otf", FR_PRIVATE, 0);
 	D3DXCreateFont(m_pD3DDevice, 30, 0, FW_BOLD, 0, false, 
 		DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, DEFAULT_QUALITY,
 		DEFAULT_PITCH | FF_DONTCARE, TEXT("SanitariumBB"), 
@@ -32,7 +31,7 @@ bool MenuMain::Init(InputManager* input, IDirect3DDevice9*	m_pD3DDevice)
 	menuItemSelected = 1;
 
 	// if no image is chosen this will be the default for the background
-	backgroundFileName = "haunted_house.jpg";
+	backgroundFileName = L"haunted_house.jpg";
 
 	// Create the background texture
 	D3DXCreateTextureFromFileEx(m_pD3DDevice, backgroundFileName ,0,0,0,0,D3DFMT_UNKNOWN, D3DPOOL_MANAGED, D3DX_DEFAULT, 
@@ -67,19 +66,17 @@ void MenuMain::Update()
 
 void MenuMain::Render()
 {
-	
-	m_pD3DSprite->Begin(D3DXSPRITE_ALPHABLEND);
 	// Call the base menu's render method to initialize some variables
 	BaseMenu::Render();
-	
+
+	m_pD3DSprite->Begin(D3DXSPRITE_ALPHABLEND);
 	DrawBackGround();
-	
-
 	// Print Main Menu at the top of the screen
-	/*sprintf(menuPrint,"MAIN MENU");
+	sprintf(menuPrint,"Ghost Hunter X");
 	SetRect(&m_rect,120,10,600,500);  
-	option = D3DCOLOR_ARGB(255,150,0,240);*/
+	option = D3DCOLOR_ARGB(255,150,0,240);
 
+	
 	m_pD3DFont->DrawTextA(0,menuPrint,-1,&m_rect, DT_CENTER | DT_NOCLIP,option);
 
 	sprintf(menuPrint,"Game Start");
@@ -106,8 +103,9 @@ void MenuMain::Render()
 		option = D3DCOLOR_ARGB(255,0,0,255);
 	m_pD3DFont->DrawTextA(0,menuPrint,-1,&m_rect, DT_CENTER | DT_NOCLIP,option);
 
-	m_pD3DSprite->End();
+	//m_pD3DSprite->End();
 }
+
 
 void MenuMain::DrawBackGround()
 {
@@ -116,12 +114,12 @@ void MenuMain::DrawBackGround()
 	D3DXMatrixIdentity(&identity);
 	m_pD3DSprite->SetTransform(&identity);
 	D3DXMATRIX texScaling;
-	D3DXMatrixScaling(&texScaling, 1.58f, 3.78f, 0.0f);
+	D3DXMatrixScaling(&texScaling, 1.0f, 1.0f, 0.0f);
 	m_pD3DDevice->SetTransform(D3DTS_TEXTURE0, &texScaling);
 
 	D3DXMATRIX T, S;
 	D3DXMatrixTranslation(&T,  backGroundPos.x,  backGroundPos.y,  backGroundPos.z);
-	D3DXMatrixScaling(&S, 1.0f, 1.0f, 0.0f);
+	D3DXMatrixScaling(&S, 1.0f, 1.2f, 0.0f);
 	m_pD3DSprite->SetTransform(&(S*T));
 
 	// Draw the background sprite.

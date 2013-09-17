@@ -7,6 +7,11 @@
 #include "PauseMenu.h"
 #include "HUD.h"
 
+// include sound headers
+#include "SoundEffect.h"
+#include "SoundLoader.h"
+#include "AudioManager.h"
+
 
 
 enum GAME_STATE
@@ -48,6 +53,7 @@ private:
 	HUD*					hud;
 	//Game*					game;
 
+		
 	
 
 public:

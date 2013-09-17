@@ -23,9 +23,8 @@ void GameStateManager::Init( HWND* wndHandle,  D3DPRESENT_PARAMETERS* D3dpp, HIN
 	// Create a new menu
 	mainMenu = new MenuMain();
 	mainMenu->Init( input, m_pD3DDevice );
-	
-	
 
+	
 	// Set the active game state to the Main Menu
 	activeGameState = MAIN_MENU;
 }
@@ -46,8 +45,10 @@ void GameStateManager::Update( float dt )
 		///////////////////////////////////////////////////////////////////////
 	case MAIN_MENU:
 		{
+			
 			// Call the main menu and return menu selection
 			mainMenu->Update();
+			
 			switch ( mainMenu->GetState() )
 			{
 			case 1:	// Quit

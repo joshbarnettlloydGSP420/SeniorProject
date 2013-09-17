@@ -18,14 +18,19 @@
 #include "d3dUtil.h"
 #include "Vertex.h"
 #include "GameStateManager.h"
-
+#include "RenderObject.h"
+#include "Enemy_Base.h"
+#include "Enemy_BlueGhost.h"
+#include "Enemy_YellowGhost.h"
+#include "Enemy_GreenGhost.h"
+#include "Enemy_RedGhost.h"
 
 // Macro to release COM objects fast and safely
 #define SAFE_RELEASE(x) if(x){x->Release(); x = 0;}
 
 
 // Enums
-//IDirect3DDevice9*			m_pD3DDevice;	// Direct3D 9 Device
+enum GhostTextures{ Red, Yellow, Green, Blue };
 
 class CDirectXFramework
 {
@@ -158,6 +163,11 @@ class CDirectXFramework
 	ID3DXEffect*					fx[10];
 
 	//////////////////////////////////////////////////////////////////////////
+	// Render Objects														//
+	//////////////////////////////////////////////////////////////////////////
+	RenderObject*					render;
+
+	//////////////////////////////////////////////////////////////////////////
 	// Matricies															//
 	//////////////////////////////////////////////////////////////////////////
 	D3DXMATRIX						transMat;
@@ -194,7 +204,16 @@ class CDirectXFramework
 	//////////////////////////////////////////////////////////////////////////
 	Object_Base*					Mansion;
 	Object_Player*					Player;
+	gunType							type;
 
+	//////////////////////////////////////////////////////////////////////////
+	// Enemies																//
+	//////////////////////////////////////////////////////////////////////////
+	/*Enemy_Base*				redGhost;
+	Enemy_Base*				blueGhost;
+	Enemy_Base*				yellowGhost;
+	Enemy_Base*				greenGhost;*/
+	Enemy_Base*				baseGhost;
 
 public:
 
@@ -211,9 +230,9 @@ public:
 
 	void Shutdown();
 
-	void loadMesh(LPCSTR fileName, Mesh** meshObject);
+	void loadMesh(LPCWSTR fileName, Mesh** meshObject);
 
-	void createGroundBox(hkpWorld* world);
+	void createGroundBox(hkpWorld* world, float scaleX, float scaleY, float scaleZ, float posX, float posY, float posZ);
 
 	void UpdateCamera(float dt);
 
