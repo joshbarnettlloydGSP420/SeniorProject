@@ -43,7 +43,7 @@ bool PauseMenu::Init(InputManager* input, IDirect3DDevice9*	m_pD3DDevice)
 
 	// sound menu beep
 	// Load sound effects
-	MenuBeep = new SoundEffect();
+	//MenuBeep = new SoundEffect();
 	MenuBeep = SoundLoader::GetInstance()->Load(false,false ,"MenuBeep2.mp3");
 	AudioManager::GetInstance()->SetSFXVolume(1.0f);
 	return true;
