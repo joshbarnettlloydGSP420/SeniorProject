@@ -50,13 +50,15 @@ bool MenuMain::Init(InputManager* input, IDirect3DDevice9*	m_pD3DDevice)
 	// Load sound effects
 	MenuBeep = new SoundEffect();
 	MenuBeep = SoundLoader::GetInstance()->Load(false,false ,"MenuBeep2.mp3");
+	AudioManager::GetInstance()->PlayBGM(*MenuMusic);
+	AudioManager::GetInstance()->SetBGMVolume(1.0f);
 	return true;
 }
 
 void MenuMain::Update()
 {
 	BaseMenu::Update();
-	AudioManager::GetInstance()->PlaySFX(*MenuMusic);
+	//AudioManager::GetInstance()->PlaySFX(*MenuMusic);
 	if (myInput->keyDown( DIK_RETURN))
 	{
 		if ( menuItemSelected == 1)
