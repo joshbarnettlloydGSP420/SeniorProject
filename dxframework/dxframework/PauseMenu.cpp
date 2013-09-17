@@ -66,7 +66,7 @@ void PauseMenu::Update()
 		else if ( menuItemSelected == 3)
 		{
 			pauseState = p_MAIN_MENU;
-			GameBGM->Free();
+		
 			
 		}
 	}
