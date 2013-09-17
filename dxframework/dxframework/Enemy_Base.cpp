@@ -4,9 +4,9 @@
 Enemy_Base::Enemy_Base(void)
 {
 	// defalut values
-	textureName = "RedGhostTexture.JPEG";
+	textureName = L"RedGhostTexture.JPEG";
 	textureNumber = RedGhost;
-	meshName = "Dwarf.X";
+	meshName = L"Dwarf.X";
 	isDead = false;
 	health = 100;
 	attackPower = 50;
@@ -52,9 +52,9 @@ void Enemy_Base::Init(IDirect3DDevice9* m_pD3DDevice, RenderObject* renderObject
 	velUD = 5.0f;
 	velLR = 5.0f;
 
-	textureName = "RedGhostTexture.JPG";
+	textureName = L"RedGhostTexture.JPG";
 	textureNumber = RedGhost;
-	meshName = "RedGhost.X";
+	meshName = L"RedGhost.X";
 	isDead = false;
 	health = 100;
 	attackPower = 50;

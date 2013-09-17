@@ -40,13 +40,23 @@ bool MenuMain::Init(InputManager* input, IDirect3DDevice9*	m_pD3DDevice)
 
 	// set back ground position
 	backGroundPos = D3DXVECTOR3(0,0,0);
+
+		// Load bgm
+	MenuMusic = new SoundEffect();
+	MenuMusic = SoundLoader::GetInstance()->Load(false,true,"MainMenuMusic.ogg");
+	AudioManager::GetInstance()->PlayBGM(*MenuMusic);
+	AudioManager::GetInstance()->SetBGMVolume(0.0f);
+
+	// Load sound effects
+	MenuBeep = new SoundEffect();
+	MenuBeep = SoundLoader::GetInstance()->Load(false,false ,"MenuBeep2.mp3");
 	return true;
 }
 
 void MenuMain::Update()
 {
 	BaseMenu::Update();
-
+	AudioManager::GetInstance()->PlaySFX(*MenuMusic);
 	if (myInput->keyDown( DIK_RETURN))
 	{
 		if ( menuItemSelected == 1)

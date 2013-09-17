@@ -23,7 +23,7 @@ void Enemy_BlueGhost::Init(IDirect3DDevice9* m_pD3DDevice, RenderObject* m_pRend
 	movement->setPosition( D3DXVECTOR4(20, 1.0, 100, 0));
 
 	// Initialize the 3D model of the enemy.
-	textureName = "BlueGhostTexture.jpg";
+	textureName = L"BlueGhostTexture.jpg";
 	textureNumber = BlueGhost;
-	meshName = "BlueGhost.x";
+	meshName = L"BlueGhost.x";
 }
