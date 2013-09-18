@@ -46,7 +46,7 @@ bool BaseMenu::Init(InputManager* input, IDirect3DDevice9*	m_pD3DDevice)
 	MenuMusic = new SoundEffect();
 	MenuMusic = SoundLoader::GetInstance()->LoadBGM("MainMenuMusic.ogg");
 	AudioManager::GetInstance()->PlayBGM(*MenuMusic);
-	AudioManager::GetInstance()->SetBGMVolume(0.0f);
+	
 
 	// Load sound effects
 	MenuBeep = new SoundEffect();

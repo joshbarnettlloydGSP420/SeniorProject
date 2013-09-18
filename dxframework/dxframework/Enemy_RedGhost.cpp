@@ -22,7 +22,7 @@ void Enemy_RedGhost::Init(IDirect3DDevice9* m_pD3DDevice, RenderObject* m_pRende
 	movement->setPosition( D3DXVECTOR4(10, 1.0, 50, 0));
 
 	// Initialize the 3D model of the enemy.
-	textureName = "RedGhostTexture.jpg";
+	textureName = L"RedGhostTexture.jpg";
 	textureNumber = RedGhost;
-	meshName = "RedGhost.x";
+	meshName = L"RedGhost.x";
 }
