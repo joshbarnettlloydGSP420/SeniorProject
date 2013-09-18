@@ -40,6 +40,17 @@ bool MenuMain::Init(InputManager* input, IDirect3DDevice9*	m_pD3DDevice)
 
 	// set back ground position
 	backGroundPos = D3DXVECTOR3(0,0,0);
+
+	// Load bgm
+	MenuMusic = new SoundEffect();
+	MenuMusic = SoundLoader::GetInstance()->LoadBGM("DST-DarkFuture.mp3");
+	AudioManager::GetInstance()->PlayBGM(*MenuMusic);
+	
+
+	// Load sound effects
+	MenuBeep = new SoundEffect();
+	MenuBeep = SoundLoader::GetInstance()->Load(false, false, "MenuBeep2.mp3");
+
 	return true;
 }
 
