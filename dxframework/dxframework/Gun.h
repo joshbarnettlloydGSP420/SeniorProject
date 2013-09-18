@@ -30,19 +30,19 @@ public:
 		out.initialPos = pos;
 
 		// Set down a bit so it looks like player is carrying the gun.
-		out.initialPos.x += 0.8f;
+		out.initialPos.x += 0.8f;              
 		out.initialPos.y -= 0.7f;
 		out.initialPos.z += 3.0f;
 
 		// Fire in camera's look direction.
-		float speed = 6.0f;
+		float speed = 50.0f;
 		out.initialVelocity = speed*gCamera->look();
 
 
 		out.initialTime      = mTime;
 		out.lifeTime        = 4.0f;
 		out.initialColor    = WHITE;
-		out.initialSize     = 200.0f; //GetRandomFloat(10.0f, 11.0f);  **** use this if we want to have different size bullets for what ever reason
+		out.initialSize     = 10.0f; //GetRandomFloat(10.0f, 11.0f);  **** use this if we want to have different size bullets for what ever reason
 		out.mass            = 1.0f;
 	}
 

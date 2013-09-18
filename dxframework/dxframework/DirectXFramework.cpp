@@ -326,7 +326,7 @@ void CDirectXFramework::Update(float dt)
 
 	havok->getWorld()->lock();
 
-	Player->Update(dt, eyePos);
+	Player->Update(dt, eyePos, lookAt);
 	Mansion->Update(dt);
 
 	// enemies update
@@ -366,7 +366,6 @@ void CDirectXFramework::Render(float dt)
 	//////////////////////////////////////////////////////////////////////////
 	// Draw 3D Objects (for future labs - not used in Week #1)
 	//////////////////////////////////////////////////////////////////////////
-	Player->mPSys->draw(m_hWnd, eyePos, viewMat * projMat); // bullet draw
 
 	D3DXMatrixIdentity(&rotMat);
 	D3DXMatrixIdentity(&scaleMat);
@@ -390,11 +389,12 @@ if(gameState->activeGameState == GAME)
 
 		// Mesh Matrix
 		D3DXMatrixScaling(&scaleMat, 0.04f, 0.04f, 0.0f);
-		D3DXMatrixRotationYawPitchRoll(&rotMat, Player->rotation.x, Player->rotation.y, Player->rotation.z);
-		D3DXMatrixTranslation(&transMat, Player->position.x-.75, Player->position.y-1.6, Player->position.z); //x-1.55 is the value for gun to be directly in the center of the camera
+		//D3DXMatrixRotationYawPitchRoll(&rotMat, Player->rotation.x, Player->rotation.y, Player->rotation.z);
+		D3DXMatrixRotationYawPitchRoll(&rotMat, Player->rotation.x / (360 * dt * 100.0f), 0.0f, 0.0f);
+	    D3DXMatrixTranslation(&transMat, Player->position.x-1.55, Player->position.y-1.6, Player->position.z-5.0f); //x-1.55 is the value for gun to be directly in the center of the camera
 		D3DXMatrixMultiply(&scaleMat, &scaleMat, &rotMat);
 		D3DXMatrixMultiply(&worldMat, &scaleMat, &transMat);
-		D3DXMatrixMultiply(&worldMat, &scaleMat, &transMat);
+		//D3DXMatrixMultiply(&worldMat, &scaleMat, &transMat);
 
 		D3DXMatrixInverse(&invTransMat, 0, &worldMat);
 		D3DXMatrixTranspose(&invTransMat, &invTransMat);
@@ -478,6 +478,8 @@ if(gameState->activeGameState == GAME)
 	////if ( blueGhost->GetIsDead() == true)
 	//	redGhost->Render(m_hWnd, viewMat, projMat);
 	baseGhost->Render( m_hWnd, viewMat, projMat);
+
+	Player->mPSys->draw(m_hWnd, eyePos, viewMat * projMat); // bullet draw
 
 	//////////////////////////////////////////////////////////////////////////
 	// Draw 2D sprites
@@ -762,30 +764,48 @@ void CDirectXFramework::playerControls(float dt)
 	// Moving Forward and Backward
 	if(m_pDInput->keyDown(DIK_W))
 	{	
-		Player->velUD = -5.0f;
+		D3DXVECTOR3 direction; // where player is going to move
+		D3DXVec3Normalize(&direction, &(eyePos - lookAt));
+		Player->velUD = -5.0f * direction.z; // speed (how fast) * direction (which way)
+		Player->velLR = 5.0f * direction.x;
 	}
 	else if(m_pDInput->keyDown(DIK_S))
 	{	
-		Player->velUD = 5.0f;
-	}
-	else if(!m_pDInput->keyDown(DIK_W) && !m_pDInput->keyDown(DIK_S))
-	{
-		Player->velUD = 0.0f;
+		D3DXVECTOR3 direction;
+		D3DXVec3Normalize(&direction, &(eyePos - lookAt));
+		Player->velUD = 5.0f * direction.z;
+		Player->velLR = -5.0f * direction.x;
 	}
 
 	// Moving Right and Left
-	if(m_pDInput->keyDown(DIK_D))
-	{	
-		Player->velLR = 5.0f;
+	else if(m_pDInput->keyDown(DIK_D))
+	{
+		D3DXVECTOR3 direction;
+		D3DXVec3Cross(&direction, &(eyePos - lookAt), &upVec);
+		D3DXVec3Normalize(&direction, &direction);
+		Player->velLR = -5.0f * direction.x;
+		Player->velUD = 5.0f * direction.z;
+
 	}
 	else if(m_pDInput->keyDown(DIK_A))
 	{	
-		Player->velLR = -5.0f;
+		D3DXVECTOR3 direction;
+		D3DXVec3Cross(&direction, &(eyePos - lookAt), &upVec);
+		D3DXVec3Normalize(&direction, &direction);
+		Player->velLR = 5.0f * direction.x;
+		Player->velUD = -5.0f * direction.z;
 	}
-	else if(!m_pDInput->keyDown(DIK_D) && !m_pDInput->keyDown(DIK_A))
+
+	else if(!m_pDInput->keyDown(DIK_W) && !m_pDInput->keyDown(DIK_S) || 
+		(!m_pDInput->keyDown(DIK_D) && !m_pDInput->keyDown(DIK_A)))
 	{
+		Player->velUD = 0.0f;
 		Player->velLR = 0.0f;
 	}
+	/*else if(!m_pDInput->keyDown(DIK_D) && !m_pDInput->keyDown(DIK_A))
+	{
+		Player->velLR = 0.0f;
+	}*/
 
 	if(m_pDInput->keyDown(DIK_SPACE))
 	{
@@ -798,7 +818,9 @@ void CDirectXFramework::playerControls(float dt)
 	}
 
 	Player->rotation.x += m_pDInput->getMouseMovingX();
-	
+
+	Player->rotation.y += m_pDInput->getMouseMovingY();
+
 	if(Player->rotation.x >= 360.0f)
 		Player->rotation.x = 0.0f;
 	else if(Player->rotation.x <= 0.0f)
