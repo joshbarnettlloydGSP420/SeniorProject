@@ -23,10 +23,11 @@ void GameStateManager::Init( HWND* wndHandle,  D3DPRESENT_PARAMETERS* D3dpp, HIN
 	// Create a new menu
 	mainMenu = new MenuMain();
 	mainMenu->Init( input, m_pD3DDevice );
-
+	InitVideo(L"SplashScreenMovie.wmv");
 	
 	// Set the active game state to the Main Menu
-	activeGameState = MAIN_MENU;
+	activeGameState = INTRO;
+	
 }
 
 void GameStateManager::Update( float dt )
@@ -182,6 +183,23 @@ void GameStateManager::Update( float dt )
 			}
 			break;
 		}
+	case INTRO:
+		{
+			videoControl->Run();
+		videoEvent->GetEvent(&evCode, &eventParam1, &eventParam2,0);
+		if(input->keyPress(DIK_E) ||  (evCode == EC_COMPLETE))
+		{
+			activeGameState = MAIN_MENU;
+			videoControl->Stop();
+			videoWindow->put_Visible(OAFALSE);
+			videoWindow->put_Owner((OAHWND)hwnd);
+			SAFE_RELEASE(videoControl);
+			SAFE_RELEASE(videoEvent);
+			SAFE_RELEASE(videoGraph);
+		}
+		}
+		break;
+
 
 	}
 }
@@ -256,4 +274,40 @@ void GameStateManager::onLostDevice()
 		optionsMenu->onLostDevice();
 	else if ( mainMenu )
 		mainMenu->onLostDevice();
+}
+
+void GameStateManager::InitVideo(LPCWSTR vidName)
+{
+	CoInitialize(NULL); 
+
+	CoCreateInstance( CLSID_FilterGraph, NULL,
+		CLSCTX_INPROC_SERVER, IID_IGraphBuilder,
+		(void**)&videoGraph);
+
+	videoGraph->QueryInterface(IID_IMediaControl,
+		(void**)&videoControl);
+
+	videoGraph->QueryInterface(IID_IMediaEvent,
+		(void**)&videoEvent);
+
+	// building a filter graph for our video
+	videoGraph->RenderFile(vidName, NULL);
+
+	//video window
+	videoControl->QueryInterface(IID_IVideoWindow,
+		(void**)&videoWindow);
+
+	// setup the window
+	videoWindow->put_Owner((OAHWND)hwnd);
+
+	// Set the style
+	videoWindow->put_WindowStyle(WS_CHILD | WS_CLIPSIBLINGS | WS_VISIBLE);
+
+	// Obtain the size of the window
+	RECT WinRect;
+	GetClientRect(*hwnd, &WinRect);
+
+	// Set the video size to the size of the window
+	videoWindow->SetWindowPosition(WinRect.left, WinRect.top, 
+		WinRect.right, WinRect.bottom);
 }
