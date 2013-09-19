@@ -168,6 +168,9 @@
     <ClCompile Include="SoundLoader.cpp">
       <Filter>Source Files\Audio / FMOD</Filter>
     </ClCompile>
+    <ClCompile Include="EntityManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Enemy_Attack.h">
@@ -277,6 +280,9 @@
     </ClInclude>
     <ClInclude Include="Utilities.h">
       <Filter>Header Files\Audio / FMOD</Filter>
+    </ClInclude>
+    <ClInclude Include="EntityManager.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
