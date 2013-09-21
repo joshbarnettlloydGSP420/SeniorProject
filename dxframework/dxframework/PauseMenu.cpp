@@ -43,7 +43,10 @@ bool PauseMenu::Init(InputManager* input, IDirect3DDevice9*	m_pD3DDevice)
 
 	// sound menu beep
 	// Load sound effects
-	//MenuBeep = new SoundEffect();
+	MenuMusic = SoundLoader::GetInstance()->LoadBGM("DST-GhostHouse.mp3");
+	AudioManager::GetInstance()->PlayBGM(*MenuMusic);
+	AudioManager::GetInstance()->SetBGMVolume(1.0f);
+
 	MenuBeep = SoundLoader::GetInstance()->Load(false,false ,"MenuBeep2.mp3");
 	AudioManager::GetInstance()->SetSFXVolume(1.0f);
 	return true;
