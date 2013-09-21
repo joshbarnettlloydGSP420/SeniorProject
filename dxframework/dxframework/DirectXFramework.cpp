@@ -123,6 +123,14 @@ void CDirectXFramework::Init(HWND& hWnd, HINSTANCE& hInst, bool bWindowed)
 	baseGhost = new Enemy_Base(100, 50, 15, D3DXVECTOR4( 45, 2.5,5, 0.0));
 	baseGhost->Init( m_pD3DDevice, render);
 
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Sount init
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+	AudioManager::GetInstance()->Initialize();
+	// Load sound effects
+	gunSFX = new SoundEffect();
+	gunSFX = SoundLoader::GetInstance()->Load(false,false ,"Laser.mp3");
+	AudioManager::GetInstance()->SetSFXVolume(1.0f);
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Creating Light																						 //
@@ -730,6 +738,7 @@ void CDirectXFramework::playerControls(float dt)
 	if( m_pDInput->isButtonDown(0) && delay <= 0.0f)
 	{
 		delay = 0.3f;
+		AudioManager::GetInstance()->PlaySFX(*gunSFX);
 		Player->mPSys->addParticle(eyePos);
 	}
 	delay -= dt;
