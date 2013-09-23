@@ -29,5 +29,5 @@ void objVsPlayer(float deltaTime)
 
 void enemyVsPlayer(float deltaTime)
 {
-
+	//for each();
 }

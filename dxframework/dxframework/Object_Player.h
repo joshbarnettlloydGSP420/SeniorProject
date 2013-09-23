@@ -3,7 +3,6 @@
 #include "Mesh.h"
 #include "HavokCore.h"
 #include "PSystem.h"
-//#include "Gun.h"
 
 // Enum for deciding what Shape the Object is in Havok
 enum HavokPlayerShape
@@ -63,18 +62,21 @@ public:
 
 	// bullet
 	PSystem*					mPSys;
+	hkpRigidBody*				bullets[20];
 
 	// Constructor, Destructor, and Methods
 	Object_Player();
 	~Object_Player(void);
 
-	void Update(float deltaTime, D3DXVECTOR3 eyePos, D3DXVECTOR3 lookAt);
+	void Update(float deltaTime, D3DXVECTOR3 eyePos, D3DXVECTOR3 lookAt, hkpWorld* world);
 
 	void convertPosition();
 
 	hkVector4 velocityCalc(float dt);
 
 	void createHavokObject(hkpWorld* world);
+
+	void createBulletHavokObject(hkpWorld* world, D3DXVECTOR3 bulletPos, short bulletNum);
 
 	void characterInputOutput(D3DXVECTOR3 lookAt);
 
@@ -83,5 +85,6 @@ public:
 	void changeGunType(gunType type);
 
 	bool collisionCheck(hkpRigidBody* rigidBody);
-};
 
+	void getBulletPos(hkpWorld* world, float deltaTime);
+};

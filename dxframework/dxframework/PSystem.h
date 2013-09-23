@@ -26,15 +26,19 @@ public:
 	void  setTime(float t);
 	const AABB& getAABB()const;
 
+
 	void setWorldMtx(const D3DXMATRIX& world);
-	void addParticle(D3DXVECTOR3 pos);
+	void addParticle(D3DXVECTOR3 pos, D3DXVECTOR3 iPos, D3DXVECTOR3 look);
 
 	virtual void onLostDevice();
 	virtual void onResetDevice();
 
-	virtual void initParticle(Particle& out,D3DXVECTOR3 pos) = 0;
-	virtual void update(float dt,D3DXVECTOR3 eyePos);
+	virtual void initParticle(Particle& out,D3DXVECTOR3 pos, D3DXVECTOR3 iPos, D3DXVECTOR3 look) = 0;
+	virtual void update(float dt,D3DXVECTOR3 eyePos, D3DXVECTOR3 look);
 	virtual void draw(HWND hWnd,D3DXVECTOR3 eyePos, D3DXMATRIX viewProj);
+	std::vector<Particle*> getmAliveParticles();
+
+	std::vector<Particle*> mAliveParticles;
 
 protected:
 	// In practice, some sort of ID3DXEffect and IDirect3DTexture9 manager should
@@ -60,7 +64,6 @@ protected:
 	float mTimePerParticle;
 
 	std::vector<Particle> mParticles;
-	std::vector<Particle*> mAliveParticles;
 	std::vector<Particle*> mDeadParticles; 
 };
 

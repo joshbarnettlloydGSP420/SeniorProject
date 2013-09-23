@@ -91,13 +91,13 @@ void PSystem::setWorldMtx(const D3DXMATRIX& world)
 	// system's local space.
 	D3DXMatrixInverse(&mInvWorld, 0, &mWorld);
 }
-void PSystem::addParticle(D3DXVECTOR3 pos)
+void PSystem::addParticle(D3DXVECTOR3 pos, D3DXVECTOR3 iPos, D3DXVECTOR3 look)
 {
 	if( mDeadParticles.size() > 0)
 	{
 		// Reinitialize a particle.
 		Particle* p = mDeadParticles.back();
-		initParticle(*p, pos);
+		initParticle(*p, pos, iPos, look);
 
 		// No longer dead.
 		mDeadParticles.pop_back();
@@ -127,7 +127,7 @@ void PSystem::onResetDevice()
 }
 
 
-void PSystem::update(float dt, D3DXVECTOR3 eyePos)
+void PSystem::update(float dt, D3DXVECTOR3 eyePos, D3DXVECTOR3 look)
 {
 	mTime += dt;
 
@@ -161,7 +161,7 @@ void PSystem::update(float dt, D3DXVECTOR3 eyePos)
 		timeAccum += dt;
 		while( timeAccum >= mTimePerParticle )
 		{
-			addParticle(eyePos);
+			addParticle(eyePos, eyePos, look);
 			timeAccum -= mTimePerParticle;
 		}
 	}
@@ -227,4 +227,9 @@ void PSystem::draw(HWND hWnd, D3DXVECTOR3 eyePos, D3DXMATRIX viewProj)
 
 	HR(mFX->EndPass());
 	HR(mFX->End());
+}
+
+std::vector<Particle*> PSystem::getmAliveParticles()
+{
+	return mAliveParticles;
 }

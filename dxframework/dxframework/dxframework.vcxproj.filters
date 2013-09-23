@@ -239,9 +239,6 @@
     <ClInclude Include="HavokCore.h">
       <Filter>Header Files\Game</Filter>
     </ClInclude>
-    <ClInclude Include="Gun.h">
-      <Filter>Header Files\Objects</Filter>
-    </ClInclude>
     <ClInclude Include="PSystem.h">
       <Filter>Header Files\Objects</Filter>
     </ClInclude>
@@ -283,6 +280,9 @@
     </ClInclude>
     <ClInclude Include="EntityManager.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Gun.h">
+      <Filter>Header Files\Objects</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

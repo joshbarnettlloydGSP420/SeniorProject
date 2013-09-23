@@ -24,8 +24,11 @@ public:
 		timePerParticle)
 	{}  //empty constructor
 
-	void initParticle(Particle& out, D3DXVECTOR3 pos)
+	void initParticle(Particle& out, D3DXVECTOR3 pos, D3DXVECTOR3 iPos, D3DXVECTOR3 look)
 	{
+		D3DXVECTOR3 shootDir; // where player is going to move
+		D3DXVec3Normalize(&shootDir, &(iPos - look)); //iPos = eyePosition, look = lookAt
+
 		// Generate at camera. OR GENERATE AT ANY WANTED POINT 
 		out.initialPos = pos;
 
@@ -35,8 +38,8 @@ public:
 		out.initialPos.z += 3.0f;
 
 		// Fire in camera's look direction.
-		float speed = 50.0f;
-		out.initialVelocity = speed*gCamera->look();
+		float speed = 5.0f;
+		out.initialVelocity = speed*(-shootDir);
 
 
 		out.initialTime      = mTime;

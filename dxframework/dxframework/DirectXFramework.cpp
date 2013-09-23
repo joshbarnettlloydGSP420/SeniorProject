@@ -285,6 +285,10 @@ void CDirectXFramework::Init(HWND& hWnd, HINSTANCE& hInst, bool bWindowed)
 	havok->getWorld()->lock();
 
 	Player->createHavokObject(havok->getWorld());
+	for(short i = 0; i < ARRAYSIZE(Player->bullets); i++)
+	{
+		Player->createBulletHavokObject(havok->getWorld(), D3DXVECTOR3(i * 20, -120, 0.0f), i);
+	}
 	Mansion->createHavokObject(havok->getWorld());
 
 	// Mansion
@@ -326,7 +330,7 @@ void CDirectXFramework::Update(float dt)
 
 	havok->getWorld()->lock();
 
-	Player->Update(dt, eyePos, lookAt);
+	Player->Update(dt, eyePos, lookAt, havok->getWorld());
 	Mansion->Update(dt);
 
 	// enemies update
@@ -732,7 +736,7 @@ void CDirectXFramework::playerControls(float dt)
 	if( m_pDInput->isButtonDown(0) && delay <= 0.0f)
 	{
 		delay = 0.3f;
-		Player->mPSys->addParticle(eyePos);
+		Player->mPSys->addParticle(eyePos, eyePos, lookAt);
 	}
 	delay -= dt;
 
