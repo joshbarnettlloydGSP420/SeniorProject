@@ -58,6 +58,9 @@
     <Filter Include="Header Files\Devices">
       <UniqueIdentifier>{e07fdf1f-22ef-4582-be9a-76402131e0d7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resource Files\Models\Base_Objects">
+      <UniqueIdentifier>{854a1f9b-9807-4dbc-bfcc-c024b4622092}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="winMain.cpp">
@@ -366,6 +369,33 @@
     </None>
     <None Include="bolt4blue.dds">
       <Filter>Resource Files\Texture</Filter>
+    </None>
+    <None Include="CandleStick.X">
+      <Filter>Resource Files\Models\Base_Objects</Filter>
+    </None>
+    <None Include="Chair.X">
+      <Filter>Resource Files\Models\Base_Objects</Filter>
+    </None>
+    <None Include="counter.X">
+      <Filter>Resource Files\Models\Base_Objects</Filter>
+    </None>
+    <None Include="counterIsland.X">
+      <Filter>Resource Files\Models\Base_Objects</Filter>
+    </None>
+    <None Include="Cup.X">
+      <Filter>Resource Files\Models\Base_Objects</Filter>
+    </None>
+    <None Include="sinkCounter.X">
+      <Filter>Resource Files\Models\Base_Objects</Filter>
+    </None>
+    <None Include="Table.X">
+      <Filter>Resource Files\Models\Base_Objects</Filter>
+    </None>
+    <None Include="Fridge.X">
+      <Filter>Resource Files\Models\Base_Objects</Filter>
+    </None>
+    <None Include="Piano.X">
+      <Filter>Resource Files\Models\Base_Objects</Filter>
     </None>
   </ItemGroup>
 </Project>

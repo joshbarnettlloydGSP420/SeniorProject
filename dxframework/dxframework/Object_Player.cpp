@@ -48,6 +48,8 @@ void Object_Player::Update(float deltaTime, D3DXVECTOR3 eyePos, D3DXVECTOR3 look
 	//gun update
 	mPSys->update(deltaTime, eyePos, lookAt);
 
+	hitInvulTimer(deltaTime);
+
 	if(jumpTimer < 3.2f)
 	{
 		jumpTimer += deltaTime;
@@ -378,5 +380,18 @@ void Object_Player::getBulletPos(hkpWorld* world, float deltaTime)
 			// here goes the code that will place
 			// the bullet into havok
 		}
+	}
+}
+
+void Object_Player::hitInvulTimer(float deltaTime)
+{
+	if(hitTimer < MAX_HIT_TIMER)
+	{
+		hitTimer += deltaTime;
+		beenHit = true;
+	}
+	else
+	{
+		beenHit = false;
 	}
 }

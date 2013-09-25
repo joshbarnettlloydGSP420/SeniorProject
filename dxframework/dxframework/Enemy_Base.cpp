@@ -241,3 +241,20 @@ void Enemy_Base::HavokMovement()
 
 	rigidBody->setLinearVelocity(output.m_velocity, 1.0f / 60.0f);
 }
+
+bool Enemy_Base::CollisionDetection(hkpRigidBody* rigidBody)
+{
+	hkAabb aabbBase;
+	hkAabb aabbOut;
+
+	rigidBody->getCollidable()->getShape()->getAabb(rigidBody->getTransform(), 0.4f, aabbOut);
+	this->rigidBody->getRigidBody()->getCollidable()->getShape()->getAabb(this->rigidBody->getRigidBody()->getTransform(), 0.4f, aabbBase);
+
+
+	if(aabbBase.overlaps(aabbOut))
+	{
+		return true;
+	}
+
+	return false;
+}

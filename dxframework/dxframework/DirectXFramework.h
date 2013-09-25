@@ -81,6 +81,7 @@ class CDirectXFramework
 		D3DXVECTOR3				pos;
 		D3DXVECTOR3				norm;
 		D3DXVECTOR2				uv;
+
 	}tempPos;
 
 	//////////////////////////////////////////////////////////////////////////
@@ -206,6 +207,18 @@ class CDirectXFramework
 	Object_Player*					Player;
 	gunType							type;
 
+	//Object_Base*					bookCases[4];
+	Object_Base*					piano[2];
+	//Object_Base*					sinkCounter[2];
+	//Object_Base*					normalCounter[4];
+	Object_Base*					fridge;
+	//Object_Base*					islandCounter[4];
+	Object_Base*					table[4];
+	Object_Base*					candleStick[4];
+	Object_Base*					chair[8];
+
+
+
 	//////////////////////////////////////////////////////////////////////////
 	// Enemies																//
 	//////////////////////////////////////////////////////////////////////////
@@ -237,6 +250,8 @@ public:
 	void UpdateCamera(float dt);
 
 	void playerControls(float dt);
+
+	void renderObject(Object_Base* object, D3DXVECTOR3 offset);
 };
 
 extern CDirectXFramework gd3dApp;

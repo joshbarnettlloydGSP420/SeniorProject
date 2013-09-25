@@ -172,10 +172,16 @@
     <None Include="bolt2.dds" />
     <None Include="bolt3.dds" />
     <None Include="bolt4blue.dds" />
+    <None Include="CandleStick.X" />
+    <None Include="Chair.X" />
+    <None Include="counter.X" />
+    <None Include="counterIsland.X" />
+    <None Include="Cup.X" />
     <None Include="defaulteffect.fx" />
     <None Include="Dwarf.x" />
     <None Include="DwarfHead.dds" />
     <None Include="FlippedY.X" />
+    <None Include="Fridge.X" />
     <None Include="GirRobot.X" />
     <None Include="Headgear.dds" />
     <None Include="Helmet.dds" />
@@ -183,7 +189,10 @@
     <None Include="Metal_Texture.jpg" />
     <None Include="Pack.dds" />
     <None Include="Parallax.fx" />
+    <None Include="Piano.X" />
     <None Include="PlayerFlipped.X" />
+    <None Include="sinkCounter.X" />
+    <None Include="Table.X" />
     <None Include="TestShader.txt" />
     <None Include="ToonColored.fx" />
     <None Include="Weapons.dds" />

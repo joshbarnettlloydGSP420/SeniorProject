@@ -4,6 +4,8 @@
 #include "HavokCore.h"
 #include "PSystem.h"
 
+static const float MAX_HIT_TIMER = 3.0f;
+
 // Enum for deciding what Shape the Object is in Havok
 enum HavokPlayerShape
 {
@@ -27,18 +29,23 @@ private:
 	void stateMachineInit();
 
 public:
-	// Variables
+	// Base Variables
 	D3DXVECTOR4					position;
 	D3DXVECTOR3					rotation;
 	D3DXVECTOR3					scale;
+
+	// Player Variables
 	int							health;
 	bool						isAlive;
 	bool						wantJump;
+	float						jumpTimer;
+	bool						beenHit;
+	float						hitTimer;
+	
 
 	// Physics
 	float						velUD;
 	float						velLR;
-	float						jumpTimer;
 
 	// Mesh
 	Mesh*						objectMesh;
@@ -87,4 +94,6 @@ public:
 	bool collisionCheck(hkpRigidBody* rigidBody);
 
 	void getBulletPos(hkpWorld* world, float deltaTime);
+
+	void hitInvulTimer(float deltaTime);
 };

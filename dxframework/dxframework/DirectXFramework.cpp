@@ -227,9 +227,89 @@ void CDirectXFramework::Init(HWND& hWnd, HINSTANCE& hInst, bool bWindowed)
 	Player->shape = CAPSULE;
 
 	Mansion = new Object_Base();
-	Mansion->position = D3DXVECTOR4(0.0f, 5.0f, 10.0f, 0.0f);
+	Mansion->position = D3DXVECTOR4(0.0f, 0.0f, 10.0f, 0.0f);
+	Mansion->scale = D3DXVECTOR3( 0.75f, 0.75f, 0.75f);
 	Mansion->shape = BOX;
 	Mansion->weight = UNMOVABLE;
+
+	for(short i = 0; i < ARRAYSIZE(piano); ++i)
+	{
+		piano[i] = new Object_Base();
+		piano[i]->shape = BOX;
+		piano[i]->weight = UNMOVABLE;
+		piano[i]->scale = D3DXVECTOR3(2.0f, 2.0f, 2.0f);
+	}
+
+	piano[0]->position = D3DXVECTOR4(-54.0f, 1.8f, 45.0f, 0.0f);
+	piano[1]->position = D3DXVECTOR4(-12.4f, 1.8f, 0.0f, 0.0f);
+
+	//for(short i = 0; i < ARRAYSIZE(sinkCounter); ++i)
+	//{
+	//	sinkCounter[i] = new Object_Base();
+	//	sinkCounter[i]->shape = BOX;
+	//	sinkCounter[i]->weight = UNMOVABLE;
+	//}
+
+	//for(short i = 0; i < ARRAYSIZE(normalCounter); ++i)
+	//{
+	//	normalCounter[i] = new Object_Base();
+	//	normalCounter[i]->shape = BOX;
+	//	normalCounter[i]->weight = UNMOVABLE;
+	//}
+
+	fridge = new Object_Base();
+	fridge->shape = BOX;
+	fridge->weight = UNMOVABLE;
+	fridge->scale = D3DXVECTOR3(1.0f, 3.0f, 1.0f);
+	fridge->position = D3DXVECTOR4(-3.6f, 7.0f, 7.5f, 0.0f);
+
+	//for(short i = 0; i < ARRAYSIZE(islandCounter); ++i)
+	//{
+	//	islandCounter[i] = new Object_Base();
+	//	islandCounter[i]->shape = BOX;
+	//	islandCounter[i]->weight = UNMOVABLE;
+	//}
+
+	for(short i = 0; i < ARRAYSIZE(table); ++i)
+	{
+		table[i] = new Object_Base();
+		table[i]->shape = BOX;
+		table[i]->weight = HEAVY;
+		table[i]->scale = D3DXVECTOR3(2.0f, 1.25f, 2.0f);
+	}
+	
+	// Table Position
+	table[0]->position = D3DXVECTOR4(-48.8f, 1.8f, 15.5, 0.0f);
+	table[1]->position = D3DXVECTOR4( -2.4f, 1.8f, 46.2, 0.0f);
+	table[2]->position = D3DXVECTOR4( 51.5f, 1.8f, 24.4, 0.0f);
+	table[3]->position = D3DXVECTOR4( 46.4f, 1.8f, -0.5, 0.0f);
+
+	for(short i = 0; i < ARRAYSIZE(candleStick); ++i)
+	{
+		candleStick[i] = new Object_Base();
+		candleStick[i]->shape = BOX;
+		candleStick[i]->weight = LIGHT;
+		candleStick[i]->scale = D3DXVECTOR3(0.50f, 0.50f, 0.50f);
+	}
+	candleStick[0]->position = D3DXVECTOR4(-48.8f, 3.8f, 15.5, 0.0f);
+	candleStick[1]->position = D3DXVECTOR4( -2.4f, 3.8f, 46.2, 0.0f);
+	candleStick[2]->position = D3DXVECTOR4( 51.5f, 3.8f, 24.4, 0.0f);
+	candleStick[3]->position = D3DXVECTOR4( 46.4f, 3.8f, -0.5, 0.0f);
+
+	for(short i = 0; i < ARRAYSIZE(chair); ++i)
+	{
+		chair[i] = new Object_Base();
+		chair[i]->shape = BOX;
+		chair[i]->weight = HEAVY;
+		chair[i]->scale = D3DXVECTOR3(1.5f, 1.5f, 1.5f);
+	}
+
+	// Chair Positions
+	chair[0]->position = D3DXVECTOR4(-50.8f, 5.4f, 15.5, 0.0f);
+	chair[1]->position = D3DXVECTOR4( -2.4f, 5.4f, 46.2, 0.0f);
+	chair[2]->position = D3DXVECTOR4( 51.5f, 5.4f, 24.4, 0.0f);
+	chair[3]->position = D3DXVECTOR4( 46.4f, 5.4f, -0.5, 0.0f);
+
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Load Shader Effects																					 //
@@ -264,7 +344,31 @@ void CDirectXFramework::Init(HWND& hWnd, HINSTANCE& hInst, bool bWindowed)
 
 	// Load Test Mesh
 	loadMesh(L"FlippedY.X", &Player->objectMesh);
-	loadMesh(L"RoomWithWalls.X", &Mansion->objectMesh);
+	loadMesh(L"RoomWithWalls.X", &Mansion->objectMesh); 
+
+	for(short i = 0; i < ARRAYSIZE(piano); ++i)
+	loadMesh(L"Piano.X", &piano[i]->objectMesh);
+
+	//for(short i = 0; i < ARRAYSIZE(sinkCounter); ++i)
+	//loadMesh(L"sinkCounter.X", &sinkCounter[i]->objectMesh);
+
+	//for(short i = 0; i < ARRAYSIZE(normalCounter); ++i)
+	//loadMesh(L"counter.X", &normalCounter[i]->objectMesh);
+
+	loadMesh(L"Fridge.X", &fridge->objectMesh);
+
+	//for(short i = 0; i < ARRAYSIZE(islandCounter); ++i)
+	//loadMesh(L"counterIsland.X", &islandCounter[i]->objectMesh);
+
+	for(short i = 0; i < ARRAYSIZE(table); ++i)
+	loadMesh(L"Table.X", &table[i]->objectMesh);
+
+	for(short i = 0; i < ARRAYSIZE(candleStick); ++i)
+	loadMesh(L"CandleStick.X", &candleStick[i]->objectMesh);
+
+	for(short i = 0; i < ARRAYSIZE(chair); ++i)
+	loadMesh(L"Chair.X", &chair[i]->objectMesh);
+	
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Create 3D Mesh From X																				 //
@@ -289,22 +393,54 @@ void CDirectXFramework::Init(HWND& hWnd, HINSTANCE& hInst, bool bWindowed)
 	{
 		Player->createBulletHavokObject(havok->getWorld(), D3DXVECTOR3(i * 20, -120, 0.0f), i);
 	}
+
 	Mansion->createHavokObject(havok->getWorld());
 
 	// Mansion
-	createGroundBox(havok->getWorld(), 85.0f, 2.0f, 50.0f, 0.0f, 0.0f, 10.0f);	// Floor
-	createGroundBox(havok->getWorld(), 100.0f, 20.0f, 2.0f, 0.0f, 0.0f, -40.0f);	// Front
-	createGroundBox(havok->getWorld(), 100.0f, 20.0f, 2.0f, 0.0f, 0.0f, 57.0f);	// Back
-	createGroundBox(havok->getWorld(), 2.0f, 20.0f, 50.0f, 85.0f, 0.0f, 10.0f); // Right
-	createGroundBox(havok->getWorld(), 2.0f, 20.0f, 50.0f, -80.0f, 0.0f, 10.0f);// Left
-	createGroundBox(havok->getWorld(), 25.0f, 20.0f, 1.0f, 5.0f, 0.0f, 12.0f);	// middle
+	createGroundBox(havok->getWorld(), 85.0f, 2.0f, 50.0f, 0.0f, 0.0f, 10.0f);		// Floor
+	createGroundBox(havok->getWorld(), 100.0f, 20.0f, 2.0f, 0.0f, 0.0f, -35.0f);	// Front
+	createGroundBox(havok->getWorld(), 100.0f, 20.0f, 2.0f, 0.0f, 0.0f, 49.0f);		// Back
+	createGroundBox(havok->getWorld(), 2.0f, 20.0f, 50.0f, 65.0f, 0.0f, 10.0f);		// Right
+	createGroundBox(havok->getWorld(), 2.0f, 20.0f, 50.0f, -60.0f, 0.0f, 10.0f);	// Left
+	createGroundBox(havok->getWorld(), 22.5f, 20.0f, 1.0f, 2.0f, 0.0f, 4.5f);		// Middle
+	createGroundBox(havok->getWorld(), 2.0f, 5.0f, 50.0f, -20.0f, 15.0f, 10.0f);	// Left Inside Top
+	createGroundBox(havok->getWorld(), 2.0f, 5.0f, 50.0f, 22.5f, 15.0f, 10.0f);		// Right Inside Top
+	createGroundBox(havok->getWorld(), 2.0f, 10.0f, 22.0f, -20.0f, 5.0f, 2.5f);		// Middle Left Inside
+	createGroundBox(havok->getWorld(), 2.0f, 10.0f, 22.0f, 22.5f, 5.0f, 2.5f);		// Middle Right Inside
+	createGroundBox(havok->getWorld(), 2.0f, 10.0f, 7.5f, -20.0f, 5.0f, 41.0f);		// Top Left Inside 
+	createGroundBox(havok->getWorld(), 2.0f, 10.0f, 7.5f, 22.5f, 5.0f, 41.0f);		// Top Right Inside
+	createGroundBox(havok->getWorld(), 2.0f, 10.0f, 7.5f, -20.0f, 5.0f, -37.5f);	// Bottom Left Inside 
+	createGroundBox(havok->getWorld(), 2.0f, 10.0f, 7.5f, 22.5f, 5.0f, -37.5f);		// Bottom Right Inside
+
+	// House Objects
+	for(short i = 0; i < ARRAYSIZE(piano); ++i)
+		piano[i]->createHavokObject(havok->getWorld());
+
+	//for(short i = 0; i < ARRAYSIZE(sinkCounter); ++i)
+	//	sinkCounter[i]->createHavokObject(havok->getWorld());
+
+	//for(short i = 0; i < ARRAYSIZE(normalCounter); ++i)
+	//	normalCounter[i]->createHavokObject(havok->getWorld());
+
+		fridge->createHavokObject(havok->getWorld());
+
+	//for(short i = 0; i < ARRAYSIZE(islandCounter); ++i)
+	//	islandCounter[i]->createHavokObject(havok->getWorld());
+
+	for(short i = 0; i < ARRAYSIZE(table); ++i)
+		table[i]->createHavokObject(havok->getWorld());
+
+	for(short i = 0; i < ARRAYSIZE(candleStick); ++i)
+		candleStick[i]->createHavokObject(havok->getWorld());
+
+	for(short i = 0; i < ARRAYSIZE(chair); ++i)
+		chair[i]->createHavokObject(havok->getWorld());
 
 	// enemies
 	/*redGhost->createHavokObject( havok->getWorld());
 	blueGhost->createHavokObject( havok->getWorld());
 	yellowGhost->createHavokObject( havok->getWorld());
 	greenGhost->createHavokObject( havok->getWorld());*/
-	
 	
 	havok->getWorld()->unlock();
 
@@ -315,6 +451,13 @@ void CDirectXFramework::Init(HWND& hWnd, HINSTANCE& hInst, bool bWindowed)
 	//Gamestate
 	gameState = new GameStateManager();
 	gameState->Init(&hWnd,&D3Dpp,hInst,m_pD3DDevice);
+
+	for(short i = 0; i < ARRAYSIZE(candleStick); ++i)
+	{
+		candleStick[i]->scale = D3DXVECTOR3(0.0050f, 0.0050f, 0.0050f);
+	}
+
+	fridge->scale = D3DXVECTOR3(0.0050f, 0.0050f, 0.0050f);
 }
 
 HWND CDirectXFramework::getMainWnd()
@@ -332,6 +475,21 @@ void CDirectXFramework::Update(float dt)
 
 	Player->Update(dt, eyePos, lookAt, havok->getWorld());
 	Mansion->Update(dt);
+
+	for(short i = 0; i < ARRAYSIZE(piano); ++i)
+	piano[i]->Update(dt);
+
+	fridge->Update(dt);
+
+	for(short i = 0; i < ARRAYSIZE(table); ++i)
+	table[i]->Update(dt);
+
+	for(short i = 0; i < ARRAYSIZE(candleStick); ++i)
+	candleStick[i]->Update(dt);
+
+	for(short i = 0; i < ARRAYSIZE(chair); ++i)
+	chair[i]->Update(dt);
+
 
 	// enemies update
 	/*yellowGhost->Update( dt, Player->position);
@@ -437,9 +595,9 @@ if(gameState->activeGameState == GAME)
 		fx[0]->BeginPass(i);
 
 		// Mesh Matrix
-		D3DXMatrixScaling(&scaleMat, 1.0f, 1.0f, 1.0f);
-		D3DXMatrixRotationYawPitchRoll(&rotMat, 0.0f, 0.0f, 0.0f);
-		D3DXMatrixTranslation(&transMat, Mansion->position.x, Mansion->position.y - 8.0f, Mansion->position.z);
+		D3DXMatrixScaling(&scaleMat, Mansion->scale.x, Mansion->scale.y, Mansion->scale.z);
+        D3DXMatrixRotationYawPitchRoll(&rotMat, 0.0f, 0.0f, 0.0f);
+		D3DXMatrixTranslation(&transMat, Mansion->position.x, Mansion->position.y - 5.0f, Mansion->position.z);
 		D3DXMatrixMultiply(&scaleMat, &scaleMat, &rotMat);
 		D3DXMatrixMultiply(&worldMat, &scaleMat, &transMat);
 		//D3DXMatrixMultiply(&worldMat, &scaleMat, &transMat);
@@ -459,20 +617,39 @@ if(gameState->activeGameState == GAME)
 		fx[0]->SetMatrix("Projection", &projMat);
 		fx[0]->SetMatrix("WorldInverseTranspose", &invTransMat);
 
-		/*for( short e = 0; e < Mansion->objectMesh->numMaterials; ++e )
-		{
+		
 			fx[0]->SetTexture("gTexture", m_pTexture[0]);
 			fx[0]->CommitChanges();
-			Mansion->objectMesh->p_Mesh->DrawSubset(e);
-		}*/
+			Mansion->objectMesh->p_Mesh->DrawSubset(0);
 
-		fx[0]->SetTexture("gTexture", m_pTexture[0]);
-		fx[0]->CommitChanges();
-		Mansion->objectMesh->p_Mesh->DrawSubset(0);
 
 		fx[0]->EndPass();
 	}
 	fx[0]->End();
+
+	for(short i = 0; i < ARRAYSIZE(piano); ++i)
+		renderObject(piano[i], D3DXVECTOR3(0.0f, -4.5f, 6.0f));
+
+	//for(short i = 0; i < ARRAYSIZE(sinkCounter); ++i)
+	//	renderObject(sinkCounter[i]);
+
+	//for(short i = 0; i < ARRAYSIZE(normalCounter); ++i)
+	//	renderObject(normalCounter[i]);
+
+	renderObject(fridge, D3DXVECTOR3(-0.5f, -12.0f, 6.0f));
+
+	//for(short i = 0; i < ARRAYSIZE(islandCounter); ++i)
+	//	renderObject(islandCounter[i]);
+
+	for(short i = 0; i < ARRAYSIZE(table); ++i)
+		renderObject(table[i], D3DXVECTOR3(0.0f, -7.25f, 8.0f));
+
+	for(short i = 0; i < ARRAYSIZE(candleStick); ++i)
+		renderObject(candleStick[i], D3DXVECTOR3(-0.0f, -6.75f, 7.0f));
+
+	for(short i = 0; i < ARRAYSIZE(chair); ++i)
+		renderObject(chair[i], D3DXVECTOR3(0.0f, -7.5f, 6.5f));
+
 
 	//yellowGhost->Render( m_hWnd, viewMat, projMat);
 	////if ( yellowGhost->GetIsDead() == true)
@@ -554,13 +731,6 @@ gameState->Render(m_pD3DSprite);
 	/*char debugMessage[256];
 	sprintf( debugMessage, "X: %f\nY: %f\nZ: %f", 
 		eyePos.x, eyePos.y, eyePos.z );*/
-
-	/*char message[256];
-	sprintf( message,"Team Madness" );
-	m_pD3DFont->DrawText(0, debugMessage, -1, &rect, 
-                  DT_TOP | DT_LEFT | DT_NOCLIP, 
-                  D3DCOLOR_ARGB(255, 255, 255, 255));*/
-
 
 
 	// EndScene, and Present the back buffer to the display buffer
@@ -829,4 +999,59 @@ void CDirectXFramework::playerControls(float dt)
 		Player->rotation.x = 0.0f;
 	else if(Player->rotation.x <= 0.0f)
 		Player->rotation.x = 360.0f;
+}
+
+void CDirectXFramework::renderObject(Object_Base* object, D3DXVECTOR3 offset)
+{
+	fx[0]->SetTechnique(hTech[0]);
+
+	UINT numPasses = 0;
+	fx[0]->Begin(&numPasses, 0);
+
+	for(UINT i = 0; i < numPasses; ++i)
+	{
+		fx[0]->BeginPass(i);
+
+		// Mesh Matrix
+		D3DXMatrixScaling(&scaleMat, object->scale.x, object->scale.y, object->scale.z);
+		D3DXMatrixRotationYawPitchRoll(&rotMat, 0.0f, 0.0f, 0.0f);
+		D3DXMatrixTranslation(&transMat, object->position.x + offset.x, object->position.y + offset.y, object->position.z + offset.z);
+		D3DXMatrixMultiply(&scaleMat, &scaleMat, &rotMat);
+		D3DXMatrixMultiply(&worldMat, &scaleMat, &transMat);
+		//D3DXMatrixMultiply(&worldMat, &scaleMat, &transMat);
+
+		D3DXMatrixInverse(&invTransMat, 0, &worldMat);
+		D3DXMatrixTranspose(&invTransMat, &invTransMat);
+
+		D3DXMATRIX wvp = worldMat * viewMat * projMat;
+		D3DXMATRIX wvpit;
+		D3DXMatrixInverse(&wvpit, 0, &wvp);
+		D3DXMatrixTranspose(&wvpit, &wvpit);
+
+		fx[0]->SetMatrix("WVP", &wvp);
+		fx[0]->SetMatrix("WVPIT", &wvpit);
+		fx[0]->SetMatrix("World", &worldMat);
+		fx[0]->SetMatrix("View", &viewMat);
+		fx[0]->SetMatrix("Projection", &projMat);
+		fx[0]->SetMatrix("WorldInverseTranspose", &invTransMat);
+
+		for( short e = 0; e < object->objectMesh->numMaterials; ++e )
+		{
+			if(object->objectMesh->textures[e] != NULL)
+			{
+				fx[0]->SetTexture("gTexture", object->objectMesh->textures[e]);
+				fx[0]->CommitChanges();
+				object->objectMesh->p_Mesh->DrawSubset(e);
+			}
+			else
+			{
+				fx[0]->SetTexture("gTexture", m_pTexture[0]);
+				fx[0]->CommitChanges();
+				object->objectMesh->p_Mesh->DrawSubset(e);
+			}
+		}
+
+		fx[0]->EndPass();
+	}
+	fx[0]->End();
 }

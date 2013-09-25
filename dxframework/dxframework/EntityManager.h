@@ -13,8 +13,10 @@ public:
 
 	// Variables
 	std::vector<Object_Base*>		v_baseObjects;
-	std::vector<Object_Player*>		v_playerObjects;
 	std::vector<Enemy_Base*>		v_Enemy_Base;
+
+	int								numEmemies;
+	int								numObjects;
 
 	EntityManager(void);
 	~EntityManager(void);
@@ -22,7 +24,10 @@ public:
 	void entityUpdates(float deltaTime);
 	void collisionChecks(float deltaTime);
 
-	void objVsPlayer(float deltaTime);
-	void enemyVsPlayer(float deltaTime);
+	void objVsPlayer(float deltaTime, Object_Player* player);
+	void enemyVsPlayer(float deltaTime, Object_Player* player);
+
+	void addEnemyObject(Enemy_Base* Enemy);
+	void addBaseObject(Object_Base* Object);
 };
 
