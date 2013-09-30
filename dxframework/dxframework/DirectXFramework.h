@@ -19,8 +19,7 @@
 #include "Vertex.h"
 #include "GameStateManager.h"
 #include "RenderObject.h"
-#include "Enemy_Base.h"
-#include "Enemy_BlueGhost.h"
+#include "Enemy_PurpleGhost.h"
 #include "Enemy_YellowGhost.h"
 #include "Enemy_GreenGhost.h"
 #include "Enemy_RedGhost.h"
@@ -222,11 +221,10 @@ class CDirectXFramework
 	//////////////////////////////////////////////////////////////////////////
 	// Enemies																//
 	//////////////////////////////////////////////////////////////////////////
-	/*Enemy_Base*				redGhost;
-	Enemy_Base*				blueGhost;
-	Enemy_Base*				yellowGhost;
-	Enemy_Base*				greenGhost;*/
-	Enemy_Base*				baseGhost;
+	Enemy_YellowGhost*				yellowGhost;
+	Enemy_RedGhost*					redGhost;
+	Enemy_PurpleGhost*				purpleGhost;
+	Enemy_GreenGhost*				greenGhost;
 
 public:
 

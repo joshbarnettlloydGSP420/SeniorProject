@@ -75,9 +75,6 @@
     <ClCompile Include="Enemy_Base.cpp">
       <Filter>Source Files\Objects\Enemy</Filter>
     </ClCompile>
-    <ClCompile Include="Enemy_BlueGhost.cpp">
-      <Filter>Source Files\Objects\Enemy</Filter>
-    </ClCompile>
     <ClCompile Include="Enemy_Flee.cpp">
       <Filter>Source Files\Objects\Enemy</Filter>
     </ClCompile>
@@ -171,7 +168,16 @@
     <ClCompile Include="SoundLoader.cpp">
       <Filter>Source Files\Audio / FMOD</Filter>
     </ClCompile>
+    <ClCompile Include="Enemy_PurpleGhost.cpp">
+      <Filter>Source Files\Objects\Enemy</Filter>
+    </ClCompile>
     <ClCompile Include="EntityManager.cpp">
+      <Filter>Source Files\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy_SpawnMiniGhost.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy_Arrive.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -183,9 +189,6 @@
       <Filter>Header Files\Objects\Enemy</Filter>
     </ClInclude>
     <ClInclude Include="Enemy_Base.h">
-      <Filter>Header Files\Objects\Enemy</Filter>
-    </ClInclude>
-    <ClInclude Include="Enemy_BlueGhost.h">
       <Filter>Header Files\Objects\Enemy</Filter>
     </ClInclude>
     <ClInclude Include="Enemy_Flee.h">
@@ -281,11 +284,23 @@
     <ClInclude Include="Utilities.h">
       <Filter>Header Files\Audio / FMOD</Filter>
     </ClInclude>
-    <ClInclude Include="EntityManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Gun.h">
       <Filter>Header Files\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy_PurpleGhost.h">
+      <Filter>Header Files\Objects\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="EntityManager.h">
+      <Filter>Header Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy_SpawnMiniGhost.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy_Arrive.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy_Render.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

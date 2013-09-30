@@ -1,11 +1,10 @@
 #pragma once
 #include "Enemy_Base.h"
-
-class Enemy_GreenGhost : public Enemy_Base
+class Enemy_PurpleGhost : public Enemy_Base
 {
 public:
-	Enemy_GreenGhost(void);
-	~Enemy_GreenGhost(void);
+	Enemy_PurpleGhost(void);
+	~Enemy_PurpleGhost(void);
 
 	void Init( IDirect3DDevice9* m_pD3DDevice, RenderObject* m_pRender);
 	void BulletCollision( LPCSTR bulletColor );

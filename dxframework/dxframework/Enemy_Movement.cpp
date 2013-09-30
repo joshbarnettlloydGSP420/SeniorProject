@@ -13,6 +13,9 @@ Enemy_Movement::~Enemy_Movement(void)
 
 void Enemy_Movement::Update( float dt)
 {
+	position.y = -10.0;
+	velocity.y = 0;
+
 	// update position and orientation
 	position += velocity * dt;
 	orientation += rotation * dt;

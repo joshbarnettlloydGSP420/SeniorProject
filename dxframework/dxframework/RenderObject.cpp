@@ -3,7 +3,6 @@
 
 RenderObject::RenderObject(void)
 {
-	textureNum = 0;
 }
 
 
@@ -15,6 +14,7 @@ void RenderObject::Init( IDirect3DDevice9* device, ID3DXSprite* m_pD3DSprite )
 {
 	this->device = device;
 	spriteObject = m_pD3DSprite;
+	scale = D3DXVECTOR4( 0.15, 0.15, 0.15, 0.0);
 }
 
 void RenderObject::MaterialSettings()
@@ -42,7 +42,6 @@ void RenderObject::CreateVertexElement()
 
 void RenderObject::LoadTexture( LPCWSTR fileName, int textureNum )
 {
-	this->textureNum = textureNum;
 
 	//D3DXCreateSprite(device, &spriteObject);
 
@@ -77,8 +76,9 @@ void RenderObject::LoadShaderEffects(LPCWSTR fileName, int fxNum )
 	hTech[0] = fx[0]->GetTechniqueByName("tech0");
 }
 
-void RenderObject::Render3DObject(D3DXVECTOR4 position, Mesh* objectMesh, D3DXMATRIX	viewMat, D3DXMATRIX projMat)
+void RenderObject::Render3DObject(D3DXVECTOR4 position, Mesh* objectMesh, D3DXMATRIX	viewMat, D3DXMATRIX projMat, int textureNum)
 {
+
 	// change rotation from float angle to (x, z) vector
 	D3DXVECTOR4 RotationAsVector = D3DXVECTOR4((float) sin(rotation), 0, (float) cos(rotation), 0);
 
@@ -90,8 +90,6 @@ void RenderObject::Render3DObject(D3DXVECTOR4 position, Mesh* objectMesh, D3DXMA
 	D3DXMatrixIdentity(&worldMat);
 	D3DXMatrixIdentity(&transMat);
 
-	
-
 	fx[0]->SetTechnique(hTech[0]);
 
 	UINT numPasses = 0;
@@ -102,9 +100,8 @@ void RenderObject::Render3DObject(D3DXVECTOR4 position, Mesh* objectMesh, D3DXMA
 		fx[0]->BeginPass(i);
 
 		// Mesh Matrix
-		D3DXMatrixScaling(&scaleMat, 0.15f, 0.15f, 0.15f);
-		D3DXMatrixRotationYawPitchRoll(&rotMat, 0.0f, 0.0f, 0.0f);
-		D3DXMatrixRotationYawPitchRoll(&rotMat, D3DXToRadian(rotation), 0, 0);
+		D3DXMatrixScaling(&scaleMat, scale.x, scale.y, scale.z);
+		D3DXMatrixRotationYawPitchRoll(&rotMat, 0, 0, 0);
 		D3DXMatrixTranslation(&transMat, position.x, position.y, position.z);
 		D3DXMatrixMultiply(&scaleMat, &scaleMat, &rotMat);
 		D3DXMatrixMultiply(&worldMat, &scaleMat, &transMat);

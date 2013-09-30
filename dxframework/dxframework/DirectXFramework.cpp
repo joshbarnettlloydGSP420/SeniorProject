@@ -97,8 +97,9 @@ void CDirectXFramework::Init(HWND& hWnd, HINSTANCE& hInst, bool bWindowed)
 	m_pD3DDevice->CreateVertexDeclaration( elems, &d3dVertexDecl );
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
-// Render																						 //
+// Render																								 //
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 	render = new RenderObject();
 	render->Init( m_pD3DDevice, m_pD3DSprite);
 	//render->CreateVertexElement();
@@ -109,20 +110,18 @@ void CDirectXFramework::Init(HWND& hWnd, HINSTANCE& hInst, bool bWindowed)
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Creating Enemies																						 //
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
-	/*redGhost = new Enemy_Base(100, 50, 15, D3DXVECTOR4( 45, 2.5,5, 0.0), L"RedGhostTexture.jpg", 0);
+
+	redGhost = new Enemy_RedGhost();
 	redGhost->Init( m_pD3DDevice, render);
 
-	blueGhost = new Enemy_Base(100, 35, 10, D3DXVECTOR4( -5, 2.5,30, 0.0), L"BlueGhostTexture.jpg", 0);
-	blueGhost->Init( m_pD3DDevice, render);
+	purpleGhost = new Enemy_PurpleGhost();
+	purpleGhost->Init( m_pD3DDevice, render);
 
-	yellowGhost = new Enemy_Base(100, 20, 5, D3DXVECTOR4( -35, 2.5,5, 0.0), L"YellowGhostTexture.jpg", 0);
+	greenGhost = new Enemy_GreenGhost();
+	greenGhost->Init( m_pD3DDevice, render);
+
+	yellowGhost = new Enemy_YellowGhost();
 	yellowGhost->Init( m_pD3DDevice, render);
-
-	greenGhost = new Enemy_Base(100, 20, 20, D3DXVECTOR4( 10, 2.5,-10, 0.0), L"GreenGhostTexture.jpg", 0);
-	greenGhost->Init( m_pD3DDevice, render);*/
-	baseGhost = new Enemy_Base(100, 50, 15, D3DXVECTOR4( 45, 2.5,5, 0.0));
-	baseGhost->Init( m_pD3DDevice, render);
-
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Creating Light																						 //
@@ -475,7 +474,10 @@ void CDirectXFramework::Update(float dt)
 
 		havok->getWorld()->lock();
 
+		// Player Update
 		Player->Update(dt, eyePos, lookAt, havok->getWorld());
+
+		// Object Updates
 		Mansion->Update(dt);
 
 		for(short i = 0; i < ARRAYSIZE(piano); ++i)
@@ -493,15 +495,30 @@ void CDirectXFramework::Update(float dt)
 			chair[i]->Update(dt);
 
 
-		// enemies update
-		/*yellowGhost->Update( dt, Player->position);
-		if ( yellowGhost->GetIsDead() == true)
-		greenGhost->Update( dt, Player->position);
-		if ( greenGhost->GetIsDead() == true)
-		blueGhost->Update( dt, Player->position);
-		if ( blueGhost->GetIsDead() == true)
-		redGhost->Update( dt, Player->position);*/
-		baseGhost->Update( dt, Player->position);
+		// Enemies update
+		// Check to make sure they aren't dead before running the updates
+
+		if ( redGhost->GetIsDead() == false)
+		{
+			redGhost->Update( dt, Player->position);
+			//redGhost->BulletCollision( bulletColor );
+		}
+		else if( redGhost->GetIsDead() == true && purpleGhost->GetIsDead() == false)
+		{
+			purpleGhost->Update( dt, Player->position);
+			//purpleGhost->BulletCollision( bulletColor );
+		}
+		else if ( purpleGhost->GetIsDead() == true && greenGhost->GetIsDead() == false)
+		{
+			greenGhost->Update( dt, Player->position);
+			//greenGhost->BulletCollision( bulletColor );
+		}
+		 else if ( greenGhost->GetIsDead() == true && yellowGhost->GetIsDead() == false)
+		{
+			yellowGhost->Update( dt, Player->position);
+			//yellowGhost->BulletCollision( bulletColor );
+		}
+			
 
 		havok->getWorld()->unlock();
 
@@ -509,6 +526,7 @@ void CDirectXFramework::Update(float dt)
 		UpdateCamera(dt);
 		playerControls(dt);
 	}
+
 	gameState->Update(dt);
 }
 
@@ -638,6 +656,7 @@ if(gameState->activeGameState == GAME)
 	}
 	fx[0]->End();
 
+	// Object Renders
 	for(short i = 0; i < ARRAYSIZE(piano); ++i)
 		renderObject(piano[i], D3DXVECTOR3(0.0f, -4.5f, 6.0f));
 
@@ -662,14 +681,18 @@ if(gameState->activeGameState == GAME)
 		renderObject(chair[i], D3DXVECTOR3(0.0f, -7.5f, 6.5f));
 
 
-	//yellowGhost->Render( m_hWnd, viewMat, projMat);
-	////if ( yellowGhost->GetIsDead() == true)
-	//	greenGhost->Render( m_hWnd, viewMat, projMat);
-	////if ( greenGhost->GetIsDead() == true)
-	//	blueGhost->Render( m_hWnd, viewMat, projMat);
-	////if ( blueGhost->GetIsDead() == true)
-	//	redGhost->Render(m_hWnd, viewMat, projMat);
-	baseGhost->Render( m_hWnd, viewMat, projMat);
+
+
+	// Render the ghosts
+	// when one ghost is dead then the next one renders
+	if ( redGhost->GetIsDead() == false)
+		redGhost->Render( m_hWnd, viewMat, projMat);
+	else if( redGhost->GetIsDead() == true && purpleGhost->GetIsDead() == false)
+		purpleGhost->Render( m_hWnd, viewMat, projMat);
+	else if ( purpleGhost->GetIsDead() == true && greenGhost->GetIsDead() == false)
+		greenGhost->Render( m_hWnd, viewMat, projMat);
+	else if ( greenGhost->GetIsDead() == true && yellowGhost->GetIsDead() == false)
+		yellowGhost->Render( m_hWnd, viewMat, projMat);
 
 	Player->mPSys->draw(m_hWnd, eyePos, viewMat * projMat); // bullet draw
 
