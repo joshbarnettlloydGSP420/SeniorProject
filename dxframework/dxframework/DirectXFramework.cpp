@@ -551,11 +551,20 @@ if(gameState->activeGameState == GAME)
 	{
 		fx[0]->BeginPass(i);
 
+		D3DXMatrixRotationY(&rotMat, D3DXToRadian(Player->rotation.x));
+
+		D3DXVECTOR3 tempPos = D3DXVECTOR3(0.0f, 0.0f, -15.0f);
+
+		D3DXVec3Normalize(&tempPos, &tempPos);
+
+		D3DXVec3TransformCoord(&tempPos, &tempPos, &rotMat);
+
 		// Mesh Matrix
 		D3DXMatrixScaling(&scaleMat, 0.04f, 0.04f, 0.0f);
+
 		//D3DXMatrixRotationYawPitchRoll(&rotMat, Player->rotation.x, Player->rotation.y, Player->rotation.z);
-		D3DXMatrixRotationYawPitchRoll(&rotMat, Player->rotation.x / (360 * dt * 100.0f), 0.0f, 0.0f);
-	    D3DXMatrixTranslation(&transMat, Player->position.x-1.55, Player->position.y-1.6, Player->position.z-5.0f); //x-1.55 is the value for gun to be directly in the center of the camera
+		//D3DXMatrixRotationYawPitchRoll(&rotMat, , 0.0f, 0.0f);
+		D3DXMatrixTranslation(&transMat, Player->position.x + (tempPos.x * 2) - 0.5f, Player->position.y + tempPos.y + -0.5f, Player->position.z + (tempPos.z * 2) - 0.5f); //x-1.55 is the value for gun to be directly in the center of the camera
 		D3DXMatrixMultiply(&scaleMat, &scaleMat, &rotMat);
 		D3DXMatrixMultiply(&worldMat, &scaleMat, &transMat);
 		//D3DXMatrixMultiply(&worldMat, &scaleMat, &transMat);
