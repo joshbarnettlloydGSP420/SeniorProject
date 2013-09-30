@@ -132,6 +132,9 @@ void CDirectXFramework::Init(HWND& hWnd, HINSTANCE& hInst, bool bWindowed)
 	gunSFX = SoundLoader::GetInstance()->Load(false,false ,"Laser.mp3");
 	AudioManager::GetInstance()->SetSFXVolume(1.0f);
 
+	changeBullet = new SoundEffect();
+	changeBullet = SoundLoader::GetInstance()->Load(false,false,"gun-cocking-01.wav");
+	        
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Creating Light																						 //
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -746,6 +749,7 @@ void CDirectXFramework::playerControls(float dt)
 	//switching from green to blue bullets
 	if( m_pDInput->keyPress(DIK_C) )
 	{
+		AudioManager::GetInstance()->PlaySFX(*changeBullet);
 		if(type == green)
 		type = blue;
 		else if(type == blue)
