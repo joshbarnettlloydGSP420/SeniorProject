@@ -341,44 +341,24 @@ void Object_Player::createBulletHavokObject(hkpWorld* world, D3DXVECTOR3 bulletP
 	// Set Mass Properties
 
 	// Create Rigid Body
-	bullets[bulletNum] = new hkpRigidBody(bodyInfo);
+	bull[bulletNum].bulletObject = new hkpRigidBody(bodyInfo);
 
 	// No longer need the reference on the shape, as the rigidbody owns it now
 	sphereShape->removeReference();
 
 	// Add Rigid Body to the World
-	world->addEntity(bullets[bulletNum]);
+	world->addEntity(bull[bulletNum].bulletObject);
 }
 
 void Object_Player::getBulletPos(hkpWorld* world, float deltaTime)
 {
-	// after Player is done updating
-	// get position of the particles
-	std::vector<Particle*> bulletList;
-	bulletList = mPSys->getmAliveParticles();
-
-	// check if the bullet list is empty
-	// if its not, then extract the bullets
-	if(bulletList.size() > 0)
+	if(mPSys->GetBulletCounter() < 20)
 	{
-		// go through the list and extract the position of each
-		// bullet
-		for(int i = 0; i < bulletList.size(); i++)
+		for(int i = 0; i < mPSys->GetBulletCounter(); i++)
 		{
-			D3DXVECTOR3 position;
-
-			if(bulletList[i]->lifeTime <= 0.5f)
-				position = bulletList[i]->initialPos;//initialPos;
-			else if(bulletList[i]->lifeTime >= 0.6f && bulletList[i]->lifeTime <= 4.0f)
-				position = bulletList[i]->initialPos + (bulletList[i]->initialVelocity * (deltaTime + 0.5f) * 9.8 * deltaTime * deltaTime) ;
-
-			hkVector4 havokPos = hkVector4(position.x, position.y, position.z, 0.0f);
-
-			bullets[i]->setPosition(havokPos);
-			//bullets[i]->i
-			
-			// here goes the code that will place
-			// the bullet into havok
+			bull[i].position += (bull[i].velocity * 40.0f) * deltaTime + 0.5f * D3DXVECTOR3(0, 0, 0) * deltaTime * deltaTime;
+			hkVector4 havokPos = hkVector4(bull[i].position.x, bull[i].position.y, bull[i].position.z, 0.0f);
+			bull[i].bulletObject->setPosition(havokPos);
 		}
 	}
 }

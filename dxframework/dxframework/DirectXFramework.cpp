@@ -389,8 +389,10 @@ void CDirectXFramework::Init(HWND& hWnd, HINSTANCE& hInst, bool bWindowed)
 	havok->getWorld()->lock();
 
 	Player->createHavokObject(havok->getWorld());
-	for(short i = 0; i < ARRAYSIZE(Player->bullets); i++)
+
+	for(short i = 0; i < 20; i++)
 	{
+		Player->bullets.push_back(0);
 		Player->createBulletHavokObject(havok->getWorld(), D3DXVECTOR3(i * 20, -120, 0.0f), i);
 	}
 
@@ -469,43 +471,43 @@ void CDirectXFramework::Update(float dt)
 {
 	if(gameState->activeGameState == GAME)
 	{
-	havok->stepSimulation(dt);
+		havok->stepSimulation(dt);
 
-	havok->getWorld()->lock();
+		havok->getWorld()->lock();
 
-	Player->Update(dt, eyePos, lookAt, havok->getWorld());
-	Mansion->Update(dt);
+		Player->Update(dt, eyePos, lookAt, havok->getWorld());
+		Mansion->Update(dt);
 
-	for(short i = 0; i < ARRAYSIZE(piano); ++i)
-	piano[i]->Update(dt);
+		for(short i = 0; i < ARRAYSIZE(piano); ++i)
+			piano[i]->Update(dt);
 
-	fridge->Update(dt);
+		fridge->Update(dt);
 
-	for(short i = 0; i < ARRAYSIZE(table); ++i)
-	table[i]->Update(dt);
+		for(short i = 0; i < ARRAYSIZE(table); ++i)
+			table[i]->Update(dt);
 
-	for(short i = 0; i < ARRAYSIZE(candleStick); ++i)
-	candleStick[i]->Update(dt);
+		for(short i = 0; i < ARRAYSIZE(candleStick); ++i)
+			candleStick[i]->Update(dt);
 
-	for(short i = 0; i < ARRAYSIZE(chair); ++i)
-	chair[i]->Update(dt);
+		for(short i = 0; i < ARRAYSIZE(chair); ++i)
+			chair[i]->Update(dt);
 
 
-	// enemies update
-	/*yellowGhost->Update( dt, Player->position);
-	if ( yellowGhost->GetIsDead() == true)
+		// enemies update
+		/*yellowGhost->Update( dt, Player->position);
+		if ( yellowGhost->GetIsDead() == true)
 		greenGhost->Update( dt, Player->position);
-	if ( greenGhost->GetIsDead() == true)
+		if ( greenGhost->GetIsDead() == true)
 		blueGhost->Update( dt, Player->position);
-	if ( blueGhost->GetIsDead() == true)
+		if ( blueGhost->GetIsDead() == true)
 		redGhost->Update( dt, Player->position);*/
-	baseGhost->Update( dt, Player->position);
+		baseGhost->Update( dt, Player->position);
 
-	havok->getWorld()->unlock();
-	
+		havok->getWorld()->unlock();
 
-	UpdateCamera(dt);
-	playerControls(dt);
+
+		UpdateCamera(dt);
+		playerControls(dt);
 	}
 	gameState->Update(dt);
 }
@@ -910,30 +912,44 @@ void CDirectXFramework::playerControls(float dt)
 	}
 	delay -= dt;
 
+	// Bullet Controls
+
 	//switching from green to blue bullets
-	if( m_pDInput->keyPress(DIK_C) )
+	if( m_pDInput->keyPress(DIK_1) )
 	{
-		if(type == green)
-		type = blue;
-		else if(type == blue)
-			type = red;
-		else if(type == red)
+		if(type !=green)
+		{
 			type = green;
-
-		Player->changeGunType(type);
+			Player->changeGunType(type);
+		}
 	}
-
-	if( m_pDInput->keyPress(DIK_V) )
+	if( m_pDInput->keyPress(DIK_2) )
 	{
-		if(type == green)
-		type = red;
-		else if(type == blue)
-			type = green;
-		else if(type == red)
+		if(type != blue)
+		{
 			type = blue;
-
-		Player->changeGunType(type);
+			Player->changeGunType(type);
+		}
 	}
+	if( m_pDInput->keyPress(DIK_3) )
+	{
+		if(type !=red)
+		{
+			type = red;
+			Player->changeGunType(type);
+		}
+	}
+
+	//reload reset bullets 
+	if( m_pDInput->keyPress(DIK_R))
+	{
+		Player->mPSys->setBulletCounter(0);
+		for(int i = 0; i < 20; i++)
+		{
+			Player->bull[i].Reset();
+		}
+	}
+
 	/************end of cycling stuff*/
 	// Moving Forward and Backward
 	if(m_pDInput->keyDown(DIK_W))

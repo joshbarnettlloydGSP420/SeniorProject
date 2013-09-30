@@ -24,7 +24,7 @@ public:
 	void entityUpdates(float deltaTime);
 	void collisionChecks(float deltaTime);
 
-	void objVsPlayer(float deltaTime, Object_Player* player);
+	void objVsBullet(float deltaTime, Object_Base* object, Object_Player* player);
 	void enemyVsPlayer(float deltaTime, Object_Player* player);
 
 	void addEnemyObject(Enemy_Base* Enemy);

@@ -40,6 +40,12 @@ public:
 
 	std::vector<Particle*> mAliveParticles;
 
+	float GetTime() {return mTime;}
+	ID3DXEffect* GetFX() {return mFX;}
+
+	void setBulletCounter( int bulletCounter);
+	int GetBulletCounter(){return bulletCounter;}
+
 protected:
 	// In practice, some sort of ID3DXEffect and IDirect3DTexture9 manager should
 	// be used so that you do not duplicate effects/textures by having several
@@ -62,6 +68,7 @@ protected:
 	AABB mBox;
 	int mMaxNumParticles;
 	float mTimePerParticle;
+	int bulletCounter;
 
 	std::vector<Particle> mParticles;
 	std::vector<Particle*> mDeadParticles; 

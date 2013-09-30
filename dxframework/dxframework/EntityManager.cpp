@@ -21,9 +21,16 @@ void EntityManager::collisionChecks(float deltaTime)
 
 }
 
-void EntityManager::objVsPlayer(float deltaTime, Object_Player* player)
+void EntityManager::objVsBullet(float deltaTime, Object_Base* object, Object_Player* player)
 {
-
+	// Torch Test
+	for(short i = 0; i < 20; ++i)
+	{
+		if(object->collisionCheck(player->objectBody->getRigidBody()))
+		{
+			
+		}
+	}
 }
 
 void EntityManager::enemyVsPlayer(float deltaTime, Object_Player* player)

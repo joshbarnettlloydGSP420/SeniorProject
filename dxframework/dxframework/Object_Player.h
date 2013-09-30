@@ -4,6 +4,8 @@
 #include "HavokCore.h"
 #include "PSystem.h"
 
+using namespace std;
+
 static const float MAX_HIT_TIMER = 3.0f;
 
 // Enum for deciding what Shape the Object is in Havok
@@ -17,6 +19,7 @@ enum HavokPlayerShape
 
 enum gunType{green, red, blue};
 
+
 class Object_Player
 {
 private:
@@ -29,6 +32,21 @@ private:
 	void stateMachineInit();
 
 public:
+
+struct HavokBullet
+{
+	D3DXVECTOR3 position;
+	D3DXVECTOR3 velocity;
+	hkpRigidBody* bulletObject;
+
+	void Reset()
+	{
+		position = D3DXVECTOR3(-1000, 0, 0);
+		velocity = D3DXVECTOR3(0, 0, 0);
+	}
+
+}bull[20];
+
 	// Base Variables
 	D3DXVECTOR4					position;
 	D3DXVECTOR3					rotation;
@@ -69,7 +87,8 @@ public:
 
 	// bullet
 	PSystem*					mPSys;
-	hkpRigidBody*				bullets[20];
+	vector<hkpRigidBody*>		bullets;
+	vector<D3DXVECTOR3>			bulletPosition;
 
 	// Constructor, Destructor, and Methods
 	Object_Player();

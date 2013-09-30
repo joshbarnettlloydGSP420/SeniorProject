@@ -58,6 +58,8 @@ PSystem::PSystem(const LPCWSTR fxName,
 	HR(m_pD3DDevice->CreateVertexBuffer(mMaxNumParticles*sizeof(Particle),
 		D3DUSAGE_DYNAMIC|D3DUSAGE_WRITEONLY|D3DUSAGE_POINTS,
 		0, D3DPOOL_DEFAULT, &mVB, 0));
+
+	bulletCounter = 0;
 }
 
 PSystem::~PSystem()
@@ -91,19 +93,31 @@ void PSystem::setWorldMtx(const D3DXMATRIX& world)
 	// system's local space.
 	D3DXMatrixInverse(&mInvWorld, 0, &mWorld);
 }
+
+void PSystem::setBulletCounter( int bulletCounter)
+{
+	this->bulletCounter = bulletCounter;
+}
+
 void PSystem::addParticle(D3DXVECTOR3 pos, D3DXVECTOR3 iPos, D3DXVECTOR3 look)
 {
-	if( mDeadParticles.size() > 0)
+	if(bulletCounter < 20)
 	{
-		// Reinitialize a particle.
-		Particle* p = mDeadParticles.back();
-		initParticle(*p, pos, iPos, look);
+		if( mDeadParticles.size() > 0)
+		{
+			// Reinitialize a particle.
+			Particle* p = mDeadParticles.back();
+			initParticle(*p, pos, iPos, look);
 
-		// No longer dead.
-		mDeadParticles.pop_back();
-		mAliveParticles.push_back(p);
+			// No longer dead.
+			mDeadParticles.pop_back();
+			mAliveParticles.push_back(p);
+		}
 	}
+
+	bulletCounter++;
 }
+
 
 void PSystem::onLostDevice()
 {

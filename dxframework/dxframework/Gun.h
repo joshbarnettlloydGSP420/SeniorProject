@@ -38,7 +38,7 @@ public:
 		out.initialPos.z += 3.0f;
 
 		// Fire in camera's look direction.
-		float speed = 5.0f;
+		float speed = 40.0f;
 		out.initialVelocity = speed*(-shootDir);
 
 

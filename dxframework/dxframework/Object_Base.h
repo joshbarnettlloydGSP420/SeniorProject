@@ -77,8 +77,6 @@ public:
 
 	void createHavokObject(hkpWorld* world);
 
-	//AABB getHavokAABB();
-
-	//void characterInputOutput();
+	bool collisionCheck(hkpRigidBody* rigidBody); 
 };
 
