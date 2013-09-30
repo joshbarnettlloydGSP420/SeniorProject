@@ -30,7 +30,7 @@ void GameStateManager::Init( HWND* wndHandle,  D3DPRESENT_PARAMETERS* D3dpp, HIN
 	
 }
 
-void GameStateManager::Update( float dt )
+void GameStateManager::Update( float dt, HWND m_hWnd)
 {
 	input->getInput();
 	switch ( activeGameState )

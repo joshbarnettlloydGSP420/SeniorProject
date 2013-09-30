@@ -76,7 +76,7 @@ public:
 	~GameStateManager(void);
 
 	void Init(HWND* wndHandle,  D3DPRESENT_PARAMETERS* D3dpp, HINSTANCE hInst, IDirect3DDevice9* device);
-	void Update( float dt);
+	void Update( float dt, HWND m_hWnd);
 	void Render(ID3DXSprite* sprite);
 	
 	void onResetDevice();

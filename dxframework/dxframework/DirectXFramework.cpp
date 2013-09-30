@@ -356,7 +356,7 @@ void CDirectXFramework::Update(float dt)
 	UpdateCamera(dt);
 	playerControls(dt);
 	}
-	gameState->Update(dt);
+	gameState->Update(dt,m_hWnd);
 }
 
 void CDirectXFramework::Render(float dt)
