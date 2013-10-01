@@ -3,12 +3,11 @@
 
 Enemy_Align::Enemy_Align(void)
 {
-	maxAngularAcceleration = 20.0f;
-	maxRotation = 2.0f;
-	targetRadius = 1.0f;
-	slowRadius = 1.5f;
+	maxAngularAcceleration = 1000.0f;
+	maxRotation = 100.0;
+	targetRadius = 0.15;
+	slowRadius = 0.25;
 }
-
 
 Enemy_Align::~Enemy_Align(void)
 {
@@ -24,7 +23,7 @@ void Enemy_Align::GetSteering( Enemy_Movement* movement, float targetOrientation
 	float rotationSize = std::abs(rotation);
 
 	// check if we are there, if not get steering
-	if ( rotationSize > targetRadius )
+	if ( rotationSize >= targetRadius )
 	{
 		float targetRotation;
 		// if we are outside the slowRadius, then use maximum rotation
@@ -42,7 +41,7 @@ void Enemy_Align::GetSteering( Enemy_Movement* movement, float targetOrientation
 		movement->SetAngular ( movement->GetAngular() / TIME_TO_TARGET);
 
 		// check if the acceleration is too great
-		float angularAcceleration = abs(movement->GetAngular());
+		float angularAcceleration = std::abs(movement->GetAngular());
 
 		// if angular accel greater than max normalize and set to max
 		if ( angularAcceleration > maxAngularAcceleration)
@@ -64,7 +63,7 @@ float Enemy_Align::MapToRange( float rotation)
 	// else if rotation is less than -pi return the remainder
 	else if ( rotation <= -PI )
 	{
-		return (int)rotation % (int)PI;
+		return ((int)PI - (int)rotation) % (int)PI;
 	}
 	// if rotation is in the boundries then return
 	else

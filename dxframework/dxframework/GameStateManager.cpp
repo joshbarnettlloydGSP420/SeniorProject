@@ -218,7 +218,7 @@ void GameStateManager::Render(ID3DXSprite* sprite)
 	case GAME:
 		{
 			// Render the game
-			hud->Render(m_pD3DDevice,sprite);
+			hud->Render(m_pD3DDevice, sprite, hud->getColor());
 			break;
 		}
 		///////////////////////////////////////////////////////////////////////

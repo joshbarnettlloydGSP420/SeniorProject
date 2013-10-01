@@ -39,13 +39,16 @@ Object_Player::~Object_Player(void)
 
 }
 
-void Object_Player::Update(float deltaTime,D3DXVECTOR3 eyePos)
+void Object_Player::Update(float deltaTime, D3DXVECTOR3 eyePos, D3DXVECTOR3 lookAt, hkpWorld* world)
 {
 	convertPosition();
-	characterInputOutput();
+	characterInputOutput(lookAt);
+	getBulletPos(world, deltaTime);
 
 	//gun update
-	mPSys->update(deltaTime, eyePos);
+	mPSys->update(deltaTime, eyePos, lookAt);
+
+	hitInvulTimer(deltaTime);
 
 	if(jumpTimer < 3.2f)
 	{
@@ -234,7 +237,7 @@ void Object_Player::stateMachineInit()
 
 }
 
-void Object_Player::characterInputOutput()
+void Object_Player::characterInputOutput(D3DXVECTOR3 lookAt)
 {
 	hkpCharacterInput input;
 	hkpCharacterOutput output;
@@ -312,4 +315,63 @@ void Object_Player::changeGunType(gunType type)
 		break;
 	}
 	mPSys->setWorldMtx(psysWorld);
+}
+
+void Object_Player::createBulletHavokObject(hkpWorld* world, D3DXVECTOR3 bulletPos, short bulletNum)
+{
+		// Create a temp body info
+	hkpRigidBodyCinfo	bodyInfo;
+
+	// Sphere Parameters
+	hkReal radius = 1;
+
+	// Create Sphere Based on Parameters
+	hkpSphereShape* sphereShape = new hkpSphereShape(radius);
+
+	// Set The Object's Properties
+	bodyInfo.m_shape = sphereShape;
+	bodyInfo.m_position.set(bulletPos.x, bulletPos.y, bulletPos.z, 0.0f);
+	bodyInfo.m_friction = 1.0f;
+	bodyInfo.m_motionType = hkpMotion::MOTION_KEYFRAMED;
+
+	// Calculate Mass Properties
+	hkMassProperties massProperties;
+	hkpInertiaTensorComputer::computeShapeVolumeMassProperties(sphereShape, mass, massProperties);
+	
+	// Set Mass Properties
+
+	// Create Rigid Body
+	bull[bulletNum].bulletObject = new hkpRigidBody(bodyInfo);
+
+	// No longer need the reference on the shape, as the rigidbody owns it now
+	sphereShape->removeReference();
+
+	// Add Rigid Body to the World
+	world->addEntity(bull[bulletNum].bulletObject);
+}
+
+void Object_Player::getBulletPos(hkpWorld* world, float deltaTime)
+{
+	if(mPSys->GetBulletCounter() < 20)
+	{
+		for(int i = 0; i < mPSys->GetBulletCounter(); i++)
+		{
+			bull[i].position += (bull[i].velocity * 40.0f) * deltaTime + 0.5f * D3DXVECTOR3(0, 0, 0) * deltaTime * deltaTime;
+			hkVector4 havokPos = hkVector4(bull[i].position.x, bull[i].position.y, bull[i].position.z, 0.0f);
+			bull[i].bulletObject->setPosition(havokPos);
+		}
+	}
+}
+
+void Object_Player::hitInvulTimer(float deltaTime)
+{
+	if(hitTimer < MAX_HIT_TIMER)
+	{
+		hitTimer += deltaTime;
+		beenHit = true;
+	}
+	else
+	{
+		beenHit = false;
+	}
 }

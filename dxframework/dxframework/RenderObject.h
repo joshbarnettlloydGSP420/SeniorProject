@@ -12,7 +12,6 @@ class RenderObject
 {
 private:
 	IDirect3DDevice9*			device;	// Direct3D 9 Device
-	int							textureNum;
 
 	//////////////////////////////////////////////////////////////////////////
 	// Structs																//
@@ -39,6 +38,9 @@ private:
 	//////////////////////////////////////////////////////////////////////////
 	// 3D Variables													        //
 	//////////////////////////////////////////////////////////////////////////
+
+	// scale
+	D3DXVECTOR4						scale;
 
 	// Lights
 	D3DLIGHT9						light;
@@ -75,6 +77,7 @@ private:
 
 	// movement variables
 	float						rotation;
+
 
 	//////////////////////////////////////////////////////////////////////////
 	// Shaders																//
@@ -115,7 +118,7 @@ public:
 	void LoadTexture( LPCWSTR fileName, int textureNum );
 	void LoadMesh( LPCWSTR fileName, Mesh** meshObject);
 	void LoadShaderEffects(LPCWSTR fileName, int fxNum );
-	void Render3DObject(D3DXVECTOR4 position, Mesh* ObjectMesh, D3DXMATRIX	viewMat, D3DXMATRIX projMat);
+	void Render3DObject(D3DXVECTOR4 position, Mesh* ObjectMesh, D3DXMATRIX	viewMat, D3DXMATRIX projMat, int textureNum);
 	void Render2DSprite(int textureNum);
 
 	void MaterialSettings();
@@ -133,6 +136,9 @@ public:
 		rotation = newRotation;
 	};
 
-
+	void SetScale( D3DXVECTOR4 newScale )
+	{
+		scale = newScale;
+	};
 };
 

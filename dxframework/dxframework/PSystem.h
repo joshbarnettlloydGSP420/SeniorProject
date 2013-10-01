@@ -26,15 +26,25 @@ public:
 	void  setTime(float t);
 	const AABB& getAABB()const;
 
+
 	void setWorldMtx(const D3DXMATRIX& world);
-	void addParticle(D3DXVECTOR3 pos);
+	void addParticle(D3DXVECTOR3 pos, D3DXVECTOR3 iPos, D3DXVECTOR3 look);
 
 	virtual void onLostDevice();
 	virtual void onResetDevice();
 
-	virtual void initParticle(Particle& out,D3DXVECTOR3 pos) = 0;
-	virtual void update(float dt,D3DXVECTOR3 eyePos);
+	virtual void initParticle(Particle& out,D3DXVECTOR3 pos, D3DXVECTOR3 iPos, D3DXVECTOR3 look) = 0;
+	virtual void update(float dt,D3DXVECTOR3 eyePos, D3DXVECTOR3 look);
 	virtual void draw(HWND hWnd,D3DXVECTOR3 eyePos, D3DXMATRIX viewProj);
+	std::vector<Particle*> getmAliveParticles();
+
+	std::vector<Particle*> mAliveParticles;
+
+	float GetTime() {return mTime;}
+	ID3DXEffect* GetFX() {return mFX;}
+
+	void setBulletCounter( int bulletCounter);
+	int GetBulletCounter(){return bulletCounter;}
 
 protected:
 	// In practice, some sort of ID3DXEffect and IDirect3DTexture9 manager should
@@ -58,9 +68,9 @@ protected:
 	AABB mBox;
 	int mMaxNumParticles;
 	float mTimePerParticle;
+	int bulletCounter;
 
 	std::vector<Particle> mParticles;
-	std::vector<Particle*> mAliveParticles;
 	std::vector<Particle*> mDeadParticles; 
 };
 

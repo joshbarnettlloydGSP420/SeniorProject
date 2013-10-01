@@ -39,17 +39,6 @@ void Object_Base::convertPosition()
 	//rotation.x = (float)rigidBody->getRotation().getComponent(0);
 }
 
-//// Changes the velocity in Havok based on velocityUD and velocityLR
-//hkVector4 Object_Base::velocityCalc(float dt)
-//{
-//	hkVector4 tempVel;
-//
-//	tempVel.set(velLR, 0.0f, velUD, dt);
-//
-//	return tempVel;
-//}
-
-// This is a switch that will auto create an Havok Object based on its shape
 void Object_Base::createHavokObject(hkpWorld* world)
 {
 	// Create Object Based on Shape
@@ -206,23 +195,18 @@ void Object_Base::createCapsuleObject(hkpWorld* world)
 
 }
 
-//AABB Object_Base::getHavokAABB()
-//{
-//	hkpRigidBody* rb = new hkpRigidBody(bodyInfo);
-//	hkAabb aabbOut;
-//	float extraRadius = 0.0f;
-//
-//	AABB temp;
-//
-//	rb->getCollidable()->getShape()->getAabb(rb->getTransform(), extraRadius, aabbOut);
-//
-//	temp.maxPt.x = aabbOut.m_max.getComponent(0);
-//	temp.maxPt.y = aabbOut.m_max.getComponent(1);
-//	temp.maxPt.z = aabbOut.m_max.getComponent(2);
-//
-//	temp.minPt.x = aabbOut.m_min.getComponent(0);
-//	temp.minPt.y = aabbOut.m_min.getComponent(1);
-//	temp.minPt.z = aabbOut.m_min.getComponent(2);
-//
-//	return temp;
-//}
+bool Object_Base::collisionCheck(hkpRigidBody* rigidBody)
+{
+	hkAabb aabbBase;
+	hkAabb aabbOut;
+
+	rigidBody->getCollidable()->getShape()->getAabb(rigidBody->getTransform(), 0.4f, aabbOut);
+	this->rigidBody->getCollidable()->getShape()->getAabb(rigidBody->getTransform(), 0.4f, aabbBase);
+
+	if(aabbBase.overlaps(aabbOut))
+	{
+		return true;
+	}
+
+	return false;
+}

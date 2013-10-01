@@ -1,16 +1,16 @@
-#include "Enemy_GreenGhost.h"
+#include "Enemy_PurpleGhost.h"
 
 
-Enemy_GreenGhost::Enemy_GreenGhost(void)
+Enemy_PurpleGhost::Enemy_PurpleGhost(void)
 {
 }
 
 
-Enemy_GreenGhost::~Enemy_GreenGhost(void)
+Enemy_PurpleGhost::~Enemy_PurpleGhost(void)
 {
 }
 
-void Enemy_GreenGhost::Init(IDirect3DDevice9* m_pD3DDevice, RenderObject* m_pRender)
+void Enemy_PurpleGhost::Init(IDirect3DDevice9* m_pD3DDevice, RenderObject* m_pRender)
 {
 	// call the enemy base init
 	Enemy_Base::Init(m_pD3DDevice, m_pRender);
@@ -37,19 +37,19 @@ void Enemy_GreenGhost::Init(IDirect3DDevice9* m_pD3DDevice, RenderObject* m_pRen
 	attackInitialized = false;
 
 	// Initialize the 3D model of the enemy.
-	textureName = L"GreenGhostTexture.jpg";
-	textureNumber = GreenGhost;
-	meshName = L"GreenGhost.x";
+	textureName = L"PurpleGhostTexture.jpg";
+	textureNumber = PurpleGhost;
+	meshName = L"PurpleGhost.x";
 }
 
 // if the enemy is hit with a bullet
-void Enemy_GreenGhost::BulletCollision( LPCSTR bulletColor )
+void Enemy_PurpleGhost::BulletCollision( LPCSTR bulletColor )
 {
 	// if the bullet is the same color as the ghost then lose health
-	if ( bulletColor == "Green" )
+	if ( bulletColor == "Purple" )
 		health -= 20;
 	// else if the bullet is the opposite color then gain health and create mini ghosts
-	else if ( bulletColor == "Red" )
+	else if ( bulletColor == "Yellow" )
 	{
 		health += 10;
 		ChangeState( Defence );

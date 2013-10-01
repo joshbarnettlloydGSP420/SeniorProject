@@ -4,13 +4,14 @@
 Enemy_Wander::Enemy_Wander(void)
 {
 	// default variables
-	maxRotation = 20.0;
+	maxRotation = 10.0f;
 
-	wanderOffset = 10.0f;	// distance between enemy and center of target circle
-	wanderRadius = 3.0f;	// radius of circle
-	wanderRate = 5.0f;		
-	maxAcceleration = 1.0f;
-	wanderOrientation = 1;
+	wanderOffset = 10.0;	// distance between enemy and center of target circle
+	wanderRadius = 5.0f;	// radius of circle
+	wanderRate = 100.0;		
+	maxAcceleration = 200.0f;
+
+	wanderOrientation = 0.0f;
 }
 
 Enemy_Wander::~Enemy_Wander(void)
@@ -23,6 +24,7 @@ void Enemy_Wander::GetSteering(Enemy_Movement* movement)
 	// update the wnader orientation
 	float randNum = RandomBinomial();
 	wanderOrientation += randNum * wanderRate;
+	//movement->SetOrientation( movement->GetOrientation() + randNum * wanderRate);
 
 	// calculate the combined target orientation
 	float targetOrientation = wanderOrientation + movement->GetOrientation();
@@ -44,8 +46,7 @@ void Enemy_Wander::GetSteering(Enemy_Movement* movement)
 void Enemy_Wander::GetKinematicSteering( Enemy_Movement* movement)
 {
 	// get velocity from the vector form of orientaiton
-	movement->setVelocity( MAX_SPEED * 
-		movement->GetOrientationAsVector());
+	movement->setVelocity( MAX_SPEED * movement->GetOrientationAsVector());
 	// change our orientation randomly
 	float randNum = RandomBinomial();
 	movement->SetRotation(randNum * maxRotation);
