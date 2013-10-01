@@ -23,6 +23,8 @@
 #include "Enemy_YellowGhost.h"
 #include "Enemy_GreenGhost.h"
 #include "Enemy_RedGhost.h"
+#include "SoundLoader.h"
+#include "AudioManager.h"
 
 // Macro to release COM objects fast and safely
 #define SAFE_RELEASE(x) if(x){x->Release(); x = 0;}
@@ -64,6 +66,11 @@ class CDirectXFramework
 	//////////////////////////////////////////////////////////////////////////
 	GameStateManager*				gameState;
 
+	//////////////////////////////////////////////////////////////////////////
+	// sound Manager													//
+	//////////////////////////////////////////////////////////////////////////
+	SoundEffect*				gunSFX;
+	SoundEffect*				changeBullet;
 
 	//////////////////////////////////////////////////////////////////////////
 	// Camera																//

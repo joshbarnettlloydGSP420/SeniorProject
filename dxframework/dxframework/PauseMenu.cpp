@@ -40,6 +40,14 @@ bool PauseMenu::Init(InputManager* input, IDirect3DDevice9*	m_pD3DDevice)
 
 	// set back ground position
 	backGroundPos = D3DXVECTOR3(0,0,0);
+
+	// Load sound effects
+	MenuMusic = SoundLoader::GetInstance()->LoadBGM("DST-GhostHouse.mp3");
+	AudioManager::GetInstance()->PlayBGM(*MenuMusic);
+	AudioManager::GetInstance()->SetBGMVolume(1.0f);
+
+	MenuBeep = SoundLoader::GetInstance()->Load(false,false ,"MenuBeep2.mp3");
+	AudioManager::GetInstance()->SetSFXVolume(1.0f);
 	return true;
 }
 void PauseMenu::Update()

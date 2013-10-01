@@ -40,6 +40,17 @@ bool MenuMain::Init(InputManager* input, IDirect3DDevice9*	m_pD3DDevice)
 
 	// set back ground position
 	backGroundPos = D3DXVECTOR3(0,0,0);
+
+	// Load bgm
+	MenuMusic = new SoundEffect();
+	MenuMusic = SoundLoader::GetInstance()->LoadBGM("MainMenuMusic.ogg");
+	AudioManager::GetInstance()->PlayBGM(*MenuMusic);
+	AudioManager::GetInstance()->SetBGMVolume(1.0f);
+
+	// Load sound effects
+	MenuBeep = new SoundEffect();
+	MenuBeep = SoundLoader::GetInstance()->Load(false,false ,"MenuBeep2.mp3");
+	AudioManager::GetInstance()->SetSFXVolume(1.0f);
 	return true;
 }
 
@@ -52,6 +63,10 @@ void MenuMain::Update()
 		if ( menuItemSelected == 1)
 		{
 			menuState = m_GAME;
+			MenuMusic->Free();
+			GameBGM = SoundLoader::GetInstance()->LoadBGM("DST-TheHauntedChapel.mp3");
+			AudioManager::GetInstance()->PlayBGM(*GameBGM);
+			AudioManager::GetInstance()->SetBGMVolume(5.0f);
 		}
 		else if ( menuItemSelected == 2)
 		{

@@ -123,6 +123,18 @@ void CDirectXFramework::Init(HWND& hWnd, HINSTANCE& hInst, bool bWindowed)
 	yellowGhost = new Enemy_YellowGhost();
 	yellowGhost->Init( m_pD3DDevice, render);
 
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Sount init
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+	AudioManager::GetInstance()->Initialize();
+	// Load sound effects
+	gunSFX = new SoundEffect();
+	gunSFX = SoundLoader::GetInstance()->Load(false,false ,"Laser.mp3");
+	AudioManager::GetInstance()->SetSFXVolume(1.0f);
+
+	changeBullet = new SoundEffect();
+	changeBullet = SoundLoader::GetInstance()->Load(false,false,"gun-cocking-01.wav");
+	//AudioManager::GetInstance()->SetSFXVolume(1.0f);
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Creating Light																						 //
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -940,6 +952,7 @@ void CDirectXFramework::playerControls(float dt)
 	if( m_pDInput->isButtonDown(0) && delay <= 0.0f)
 	{
 		delay = 0.3f;
+		AudioManager::GetInstance()->PlaySFX(*gunSFX);
 		Player->mPSys->addParticle(eyePos, eyePos, lookAt);
 	}
 	delay -= dt;
@@ -949,6 +962,7 @@ void CDirectXFramework::playerControls(float dt)
 	//switching from green to blue bullets
 	if( m_pDInput->keyPress(DIK_1) )
 	{
+		AudioManager::GetInstance()->PlaySFX(*changeBullet);
 		if(type !=green)
 		{
 			type = green;
@@ -957,6 +971,7 @@ void CDirectXFramework::playerControls(float dt)
 	}
 	if( m_pDInput->keyPress(DIK_2) )
 	{
+		AudioManager::GetInstance()->PlaySFX(*changeBullet);
 		if(type != blue)
 		{
 			type = blue;
@@ -965,6 +980,7 @@ void CDirectXFramework::playerControls(float dt)
 	}
 	if( m_pDInput->keyPress(DIK_3) )
 	{
+		AudioManager::GetInstance()->PlaySFX(*changeBullet);
 		if(type !=red)
 		{
 			type = red;

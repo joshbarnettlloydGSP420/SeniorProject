@@ -6,7 +6,7 @@
 #include "OptionsMenu.h"
 #include "PauseMenu.h"
 #include "HUD.h"
-
+#include <dshow.h>
 // include sound headers
 #include "SoundEffect.h"
 #include "SoundLoader.h"
@@ -21,6 +21,7 @@ enum GAME_STATE
 	OPTIONS_MENU	= 2,
 	GAME			= 3,
 	PAUSE_MENU		= 4,
+	INTRO			= 5,
 };
 
 
@@ -53,7 +54,17 @@ private:
 	HUD*					hud;
 	//Game*					game;
 
-		
+	////////////////////////////////////////////////////////////////////////
+	// DirectShow COM Object Creation
+	////////////////////////////////////////////////////////////////////////
+	IGraphBuilder			*videoGraph;
+	IMediaControl			*videoControl;
+	IMediaEvent				*videoEvent;
+	IVideoWindow			*videoWindow;
+	//HRESULT                *isVideoDone;
+	long evCode;
+	LONG_PTR eventParam1, eventParam2;
+	bool					videoRunning;
 	
 
 public:
@@ -69,5 +80,6 @@ public:
 
 	void onResetDevice();
 	void onLostDevice();
+	void InitVideo(LPCWSTR vidName);
 };
 
