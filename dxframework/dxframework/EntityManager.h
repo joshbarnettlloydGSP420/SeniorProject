@@ -21,13 +21,15 @@ public:
 	EntityManager(void);
 	~EntityManager(void);
 
-	void entityUpdates(float deltaTime);
-	void collisionChecks(float deltaTime);
+	void entityUpdates(float deltaTime, Object_Player* Player);
+	void collisionChecks(float deltaTime, Object_Player* Player);
 
-	void objVsBullet(float deltaTime, Object_Base* object, Object_Player* player);
-	void enemyVsPlayer(float deltaTime, Object_Player* player);
+	bool objVsBullet(float deltaTime, Object_Base* object, Object_Player* player);
+	bool objVsPlayer(float deltaTime, Object_Base* object, Object_Player* player);
+	bool enemyVsBullet(float deltaTime, Enemy_Base* enemy, Object_Player* player);
+	bool enemyVsPlayer(float deltaTime, Enemy_Base* enemy, Object_Player* player);
 
-	void addEnemyObject(Enemy_Base* Enemy);
-	void addBaseObject(Object_Base* Object);
+	/*void addEnemyObject(Enemy_Base* Enemy);
+	void addBaseObject(Object_Base* Object);*/
 };
 

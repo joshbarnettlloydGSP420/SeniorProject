@@ -98,5 +98,6 @@ public:
 	void CreateBodyObject(hkpWorld* world);
 	void EnemyInputOutput();
 	void HavokMovement();
+
 };
 

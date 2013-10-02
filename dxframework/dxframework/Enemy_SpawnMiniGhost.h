@@ -28,6 +28,7 @@ struct Ghost_Color
 
 		position = D3DXVECTOR4( 1,-3,1,0);
 	};
+
 	void Update( float dt, D3DXVECTOR4 parentPos)
 	{
 		// moving in a circle around parent ghost

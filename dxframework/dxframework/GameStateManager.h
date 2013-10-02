@@ -53,6 +53,8 @@ private:
 	HUD*					hud;
 	//Game*					game;
 
+	int					bCounter;
+
 		
 	
 
@@ -69,5 +71,8 @@ public:
 
 	void onResetDevice();
 	void onLostDevice();
+
+	void setHudBulletCounter(int bCounter);
+	int getHudBulletCounter(){return bCounter;}
 };
 

@@ -177,6 +177,7 @@
     <None Include="bolt2.dds" />
     <None Include="bolt3.dds" />
     <None Include="bolt4blue.dds" />
+    <None Include="bolt4red.dds" />
     <None Include="CandleStick.X" />
     <None Include="Chair.X" />
     <None Include="counter.X" />

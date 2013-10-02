@@ -236,7 +236,7 @@ void CDirectXFramework::Init(HWND& hWnd, HINSTANCE& hInst, bool bWindowed)
 		piano[i] = new Object_Base();
 		piano[i]->shape = BOX;
 		piano[i]->weight = UNMOVABLE;
-		piano[i]->scale = D3DXVECTOR3(2.0f, 2.0f, 2.0f);
+		piano[i]->scale = D3DXVECTOR3(3.0f, 3.0f, 3.0f);
 	}
 
 	piano[0]->position = D3DXVECTOR4(-54.0f, 1.8f, 45.0f, 0.0f);
@@ -278,10 +278,10 @@ void CDirectXFramework::Init(HWND& hWnd, HINSTANCE& hInst, bool bWindowed)
 	}
 	
 	// Table Position
-	table[0]->position = D3DXVECTOR4(-48.8f, 1.8f, 15.5, 0.0f);
-	table[1]->position = D3DXVECTOR4( -2.4f, 1.8f, 46.2, 0.0f);
-	table[2]->position = D3DXVECTOR4( 51.5f, 1.8f, 24.4, 0.0f);
-	table[3]->position = D3DXVECTOR4( 46.4f, 1.8f, -0.5, 0.0f);
+	table[0]->position = D3DXVECTOR4(-48.8f, 2.8f, 15.5, 0.0f);
+	table[1]->position = D3DXVECTOR4( -2.4f, 2.8f, 46.2, 0.0f);
+	table[2]->position = D3DXVECTOR4( 51.5f, 2.8f, 24.4, 0.0f);
+	table[3]->position = D3DXVECTOR4( 46.4f, 2.8f, -0.5, 0.0f);
 
 	for(short i = 0; i < ARRAYSIZE(candleStick); ++i)
 	{
@@ -290,10 +290,10 @@ void CDirectXFramework::Init(HWND& hWnd, HINSTANCE& hInst, bool bWindowed)
 		candleStick[i]->weight = LIGHT;
 		candleStick[i]->scale = D3DXVECTOR3(0.50f, 0.50f, 0.50f);
 	}
-	candleStick[0]->position = D3DXVECTOR4(-48.8f, 3.8f, 15.5, 0.0f);
-	candleStick[1]->position = D3DXVECTOR4( -2.4f, 3.8f, 46.2, 0.0f);
-	candleStick[2]->position = D3DXVECTOR4( 51.5f, 3.8f, 24.4, 0.0f);
-	candleStick[3]->position = D3DXVECTOR4( 46.4f, 3.8f, -0.5, 0.0f);
+	candleStick[0]->position = D3DXVECTOR4(-48.8f, 4.8f, 15.5, 0.0f);
+	candleStick[1]->position = D3DXVECTOR4( -2.4f, 4.8f, 46.2, 0.0f);
+	candleStick[2]->position = D3DXVECTOR4( 51.5f, 4.8f, 24.4, 0.0f);
+	candleStick[3]->position = D3DXVECTOR4( 46.4f, 4.8f, -0.5, 0.0f);
 
 	for(short i = 0; i < ARRAYSIZE(chair); ++i)
 	{
@@ -304,10 +304,10 @@ void CDirectXFramework::Init(HWND& hWnd, HINSTANCE& hInst, bool bWindowed)
 	}
 
 	// Chair Positions
-	chair[0]->position = D3DXVECTOR4(-50.8f, 5.4f, 15.5, 0.0f);
-	chair[1]->position = D3DXVECTOR4( -2.4f, 5.4f, 46.2, 0.0f);
-	chair[2]->position = D3DXVECTOR4( 51.5f, 5.4f, 24.4, 0.0f);
-	chair[3]->position = D3DXVECTOR4( 46.4f, 5.4f, -0.5, 0.0f);
+	chair[0]->position = D3DXVECTOR4(-50.8f, 6.4f, 15.5, 0.0f);
+	chair[1]->position = D3DXVECTOR4( -2.4f, 6.4f, 46.2, 0.0f);
+	chair[2]->position = D3DXVECTOR4( 51.5f, 6.4f, 24.4, 0.0f);
+	chair[3]->position = D3DXVECTOR4( 46.4f, 6.4f, -0.5, 0.0f);
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -389,11 +389,12 @@ void CDirectXFramework::Init(HWND& hWnd, HINSTANCE& hInst, bool bWindowed)
 
 	Player->createHavokObject(havok->getWorld());
 
-	for(short i = 0; i < 20; i++)
+	for(short i = 0; i < ARRAYSIZE(Player->bull); ++i)
 	{
 		Player->bullets.push_back(0);
-		Player->createBulletHavokObject(havok->getWorld(), D3DXVECTOR3(i * 20, -120, 0.0f), i);
+		Player->createBulletHavokObject(havok->getWorld(), D3DXVECTOR3(i * 20.0f, -100.0f, 0.0f), i); 
 	}
+
 
 	Mansion->createHavokObject(havok->getWorld());
 
@@ -438,10 +439,10 @@ void CDirectXFramework::Init(HWND& hWnd, HINSTANCE& hInst, bool bWindowed)
 		chair[i]->createHavokObject(havok->getWorld());
 
 	// enemies
-	/*redGhost->createHavokObject( havok->getWorld());
-	blueGhost->createHavokObject( havok->getWorld());
-	yellowGhost->createHavokObject( havok->getWorld());
-	greenGhost->createHavokObject( havok->getWorld());*/
+	redGhost->CreateBodyObject(havok->getWorld());
+	purpleGhost->CreateBodyObject(havok->getWorld());
+	yellowGhost->CreateBodyObject(havok->getWorld());
+	greenGhost->CreateBodyObject(havok->getWorld());
 	
 	havok->getWorld()->unlock();
 
@@ -453,12 +454,18 @@ void CDirectXFramework::Init(HWND& hWnd, HINSTANCE& hInst, bool bWindowed)
 	gameState = new GameStateManager();
 	gameState->Init(&hWnd,&D3Dpp,hInst,m_pD3DDevice);
 
+	// Entity Manager
+	entityMan = new EntityManager();
+
+
 	for(short i = 0; i < ARRAYSIZE(candleStick); ++i)
 	{
 		candleStick[i]->scale = D3DXVECTOR3(0.0050f, 0.0050f, 0.0050f);
 	}
 
 	fridge->scale = D3DXVECTOR3(0.0050f, 0.0050f, 0.0050f);
+
+	
 }
 
 HWND CDirectXFramework::getMainWnd()
@@ -473,6 +480,7 @@ void CDirectXFramework::Update(float dt)
 		havok->stepSimulation(dt);
 
 		havok->getWorld()->lock();
+		collisions(dt);
 
 		// Player Update
 		Player->Update(dt, eyePos, lookAt, havok->getWorld());
@@ -941,6 +949,10 @@ void CDirectXFramework::playerControls(float dt)
 	{
 		delay = 0.3f;
 		Player->mPSys->addParticle(eyePos, eyePos, lookAt);
+		Player->bull[Player->mPSys->GetBulletCounter() - 1].position = eyePos;
+		D3DXVec3Normalize(&Player->bull[Player->mPSys->GetBulletCounter() - 1].velocity, &(eyePos - lookAt));
+		//Player->createBulletHavokObject(havok->getWorld(), D3DXVECTOR3(20, -120, 0.0f), 0);
+		gameState->setHudBulletCounter(Player->mPSys->GetBulletCounter());
 	}
 	delay -= dt;
 
@@ -976,7 +988,9 @@ void CDirectXFramework::playerControls(float dt)
 	if( m_pDInput->keyPress(DIK_R))
 	{
 		Player->mPSys->setBulletCounter(0);
-		for(int i = 0; i < 20; i++)
+		gameState->setHudBulletCounter(Player->mPSys->GetBulletCounter());
+
+		for(int i = 0; i < ARRAYSIZE(Player->bull); i++)
 		{
 			Player->bull[i].Reset();
 		}
@@ -1102,4 +1116,21 @@ void CDirectXFramework::renderObject(Object_Base* object, D3DXVECTOR3 offset)
 		fx[0]->EndPass();
 	}
 	fx[0]->End();
+}
+
+void CDirectXFramework::collisions(float dt)
+{ 
+	hkReal deltaTime = dt;
+	hkVector4 Force = hkVector4(5.0f, 3.0f, 5.0f);
+
+	if(entityMan->objVsPlayer(dt, table[0], Player))
+	{
+		table[0]->rigidBody->applyForce(deltaTime, Force);
+	}
+
+	if(entityMan->objVsBullet(dt, table[0], Player))
+	{
+		table[0]->rigidBody->applyForce(deltaTime, Force);
+	}
+
 }

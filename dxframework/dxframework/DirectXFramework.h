@@ -23,6 +23,7 @@
 #include "Enemy_YellowGhost.h"
 #include "Enemy_GreenGhost.h"
 #include "Enemy_RedGhost.h"
+#include "EntityManager.h"
 
 // Macro to release COM objects fast and safely
 #define SAFE_RELEASE(x) if(x){x->Release(); x = 0;}
@@ -226,6 +227,11 @@ class CDirectXFramework
 	Enemy_PurpleGhost*				purpleGhost;
 	Enemy_GreenGhost*				greenGhost;
 
+	//////////////////////////////////////////////////////////////////////////
+	// Entity Manager														//
+	//////////////////////////////////////////////////////////////////////////
+	EntityManager*					entityMan;
+
 public:
 
 	CDirectXFramework(void);
@@ -250,6 +256,8 @@ public:
 	void playerControls(float dt);
 
 	void renderObject(Object_Base* object, D3DXVECTOR3 offset);
+
+	void collisions(float dt);
 };
 
 extern CDirectXFramework gd3dApp;

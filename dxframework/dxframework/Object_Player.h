@@ -35,9 +35,10 @@ public:
 
 struct HavokBullet
 {
-	D3DXVECTOR3 position;
-	D3DXVECTOR3 velocity;
-	hkpRigidBody* bulletObject;
+	D3DXVECTOR3					position;
+	D3DXVECTOR3					velocity;
+	hkpRigidBody*				bulletObject;
+	bool						isAlive;
 
 	void Reset()
 	{
@@ -45,7 +46,7 @@ struct HavokBullet
 		velocity = D3DXVECTOR3(0, 0, 0);
 	}
 
-}bull[20];
+}bull[12];
 
 	// Base Variables
 	D3DXVECTOR4					position;
