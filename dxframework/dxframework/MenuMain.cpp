@@ -3,6 +3,9 @@
 MenuMain::MenuMain()
 {
 	menuState = m_MAIN_MENU;
+
+	mousePos.x = 0.0f;
+	mousePos.y = 0.0f;
 }
 
 MenuMain::~MenuMain()
@@ -16,7 +19,6 @@ bool MenuMain::Init(InputManager* input, IDirect3DDevice9*	m_pD3DDevice)
 	// Local pointer to the input manager
 	myInput = input;
 	this->m_pD3DDevice = m_pD3DDevice;
-	SetRect(&mouseSheetRect,29,30,44,52); 
 
 	// create the SPRITE object
 	D3DXCreateSprite(m_pD3DDevice, &m_pD3DSprite);
@@ -47,7 +49,9 @@ bool MenuMain::Init(InputManager* input, IDirect3DDevice9*	m_pD3DDevice)
 	// Create Mouse sprite
 	D3DXCreateTextureFromFileEx(m_pD3DDevice, L"cursor.png",0,0,0,0,D3DFMT_UNKNOWN, D3DPOOL_MANAGED, D3DX_DEFAULT, 
 		D3DX_DEFAULT, D3DCOLOR_XRGB(255, 0, 255), 
-		&m_imageInfo, 0, &mouseTexture);
+		&m_cursorInfo, 0, &mouseTexture);
+
+	SetRect(&mouseSheetRect, 0, 0, m_cursorInfo.Width, m_cursorInfo.Height); 
 
 	// set back ground position
 	backGroundPos = D3DXVECTOR3(0,0,0);
@@ -69,8 +73,9 @@ void MenuMain::Update(float dt)
 {
 	BaseMenu::Update();
 	myInput->Update(dt);
-	mousePos.x = myInput->GetMousePosX();
-	mousePos.y = myInput->GetMousePosY();
+
+	mousePos.x += (float)myInput->getMouseMovingX();
+	mousePos.y += (float)myInput->getMouseMovingY();
 
 	
 	if (myInput->keyDown( DIK_RETURN))
@@ -99,7 +104,9 @@ void MenuMain::Render()
 	// Call the base menu's render method to initialize some variables
 	BaseMenu::Render();
 	
-	
+	D3DXMATRIX transMat, scaleMat, rotMat, worldMat;
+
+
 
 	m_pD3DSprite->Begin(D3DXSPRITE_ALPHABLEND);
 	DrawBackGround();
@@ -136,9 +143,22 @@ void MenuMain::Render()
 		option = D3DCOLOR_ARGB(255,0,0,255);
 	m_pD3DFont->DrawTextA(0,menuPrint,-1,&m_rect, DT_CENTER | DT_NOCLIP,option);
 
-	m_pD3DSprite->Draw(mouseTexture,&mouseSheetRect,&D3DXVECTOR3(0,0,0),&D3DXVECTOR3(myInput->GetMousePosX(),myInput->GetMousePosY(),0),D3DCOLOR_ARGB(255, 255, 255, 255));
+
+	// Cursor
+	D3DXMatrixIdentity(&transMat);
+	D3DXMatrixIdentity(&scaleMat);
+	D3DXMatrixIdentity(&rotMat);
+	D3DXMatrixIdentity(&worldMat);
+
+	D3DXMatrixScaling(&scaleMat, 1.0f, 1.0f, 1.0f);
+	D3DXMatrixTranslation(&transMat, mousePos.x, mousePos.y, 0.0f);
+	D3DXMatrixMultiply(&worldMat, &scaleMat, &transMat);
+
+	m_pD3DSprite->SetTransform(&worldMat);
+
+	m_pD3DSprite->Draw(mouseTexture, &mouseSheetRect,&D3DXVECTOR3(0,0,0),&D3DXVECTOR3(m_cursorInfo.Width * 0.5f , m_cursorInfo.Height * 0.5f,0),D3DCOLOR_ARGB(255, 255, 255, 255));
 	
-	//m_pD3DSprite->End();
+	m_pD3DSprite->End();
 }
 
 

@@ -54,6 +54,7 @@ protected:
 	IDirect3DTexture9*	backgroundTexture;	// Texture to use for background
 	IDirect3DTexture9*	mouseTexture;		// texture for mouse cursor
 	D3DXIMAGE_INFO		m_imageInfo;		// File details of a texture
+	D3DXIMAGE_INFO		m_cursorInfo;		// File Info for the cursor
 	RECT				m_rect;				// RECT for the menu background
 	LPCWSTR				backgroundFileName;	// name of file for background
 	D3DXVECTOR3			backGroundPos;		// position  for background sprite

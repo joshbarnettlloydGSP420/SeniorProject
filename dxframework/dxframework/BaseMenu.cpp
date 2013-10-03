@@ -60,8 +60,8 @@ bool BaseMenu::Init(InputManager* input, IDirect3DDevice9*	m_pD3DDevice)
 void BaseMenu::Update()
 {	
 	myInput->getInput();
-	mousePos.x = myInput->GetMousePosX();
-	mousePos.y = myInput->GetMousePosY();
+	mousePos.x = (float)myInput->GetMousePosX();
+	mousePos.y = (float)myInput->GetMousePosY();
 
 	if (myInput->keyPress( DIK_UP))
 	{
