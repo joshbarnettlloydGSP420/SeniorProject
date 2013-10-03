@@ -8,5 +8,6 @@ public:
 	~Enemy_GreenGhost(void);
 
 	void Init( IDirect3DDevice9* m_pD3DDevice, RenderObject* m_pRender);
+	void BulletCollision( LPCSTR bulletColor );
 };
 

@@ -4,7 +4,7 @@
 #include <d3dx9.h>
 #include <cmath>
 
-CONST float MAX_SPEED = 5.0;
+CONST float MAX_SPEED = 2.0;
 
 class Enemy_Movement
 {
@@ -22,7 +22,7 @@ public:
 	Enemy_Movement(void);
 	~Enemy_Movement(void);
 
-	void Update( float dt);
+	void Update( float dt, bool isDead);
 	void GetNewOrientation();
 
 	// Accessors and mutators

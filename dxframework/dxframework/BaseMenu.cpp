@@ -29,6 +29,7 @@ bool BaseMenu::Init(InputManager* input, IDirect3DDevice9*	m_pD3DDevice)
 		DEFAULT_PITCH | FF_DONTCARE, TEXT("SanitariumBB"), 
 		&m_pD3DFont);
 
+
 	// set the initial selected item
 	menuItemSelected = 1;
 
@@ -43,12 +44,16 @@ bool BaseMenu::Init(InputManager* input, IDirect3DDevice9*	m_pD3DDevice)
 	AudioManager::GetInstance()->Initialize();
 	
 
+
+	// Load sound effects
+	MenuBeep = new SoundEffect();
+	MenuBeep = SoundLoader::GetInstance()->Load(false, false, "MenuBeep2.mp3");
+
 	return true;
 }
 
 void BaseMenu::Update()
 {	
-	
 	myInput->getInput();
 
 	if (myInput->keyPress( DIK_UP))

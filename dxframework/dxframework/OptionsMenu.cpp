@@ -40,7 +40,6 @@ bool OptionsMenu::Init(InputManager* input, IDirect3DDevice9* m_pD3DDevice, HWND
 	// set back ground position
 	backGroundPos = D3DXVECTOR3(0,0,0);
 
-	
 	// Load sound effects
 	MenuMusic = SoundLoader::GetInstance()->LoadBGM("MainMenuMusic.ogg");
 	AudioManager::GetInstance()->PlayBGM(*MenuMusic);
@@ -56,7 +55,6 @@ bool OptionsMenu::Init(InputManager* input, IDirect3DDevice9* m_pD3DDevice, HWND
 
 void OptionsMenu::Update()
 {
-	
 	myInput->getInput();
 
 	if ( videoInit == false)

@@ -10,7 +10,6 @@ private:
 	////////////////////////////////////////////////////////////////////////
 	enum MAIN_MENU_STATE
 	{
-		m_INTRO			= 0,
 		m_MAIN_MENU		= 0,
 		m_QUIT			= 1,
 		m_OPTIONS_MENU	= 2,

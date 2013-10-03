@@ -23,14 +23,15 @@ void GameStateManager::Init( HWND* wndHandle,  D3DPRESENT_PARAMETERS* D3dpp, HIN
 	// Create a new menu
 	mainMenu = new MenuMain();
 	mainMenu->Init( input, m_pD3DDevice );
+
+	// intialize video
 	InitVideo(L"SplashScreenMovie.wmv");
 	
-	// Set the active game state to the Main Menu
+	// Set the active game state 
 	activeGameState = INTRO;
-	
 }
 
-void GameStateManager::Update( float dt, HWND m_hWnd)
+void GameStateManager::Update( float dt )
 {
 	input->getInput();
 	switch ( activeGameState )
@@ -124,7 +125,7 @@ void GameStateManager::Update( float dt, HWND m_hWnd)
 	case GAME:
 		{
 			// Game's update function
-			hud->Update( dt );
+			hud->Update( dt,  getHudBulletCounter());
 
 			if (input->keyPress(DIK_P))
 			{
@@ -133,6 +134,19 @@ void GameStateManager::Update( float dt, HWND m_hWnd)
 				pauseMenu->Init( input, m_pD3DDevice);
 
 				activeGameState = PAUSE_MENU;
+			}
+			//stuff to update the hud's bullet color
+			if (input->keyPress(DIK_1))
+			{
+				hud->setColor(g);
+			}
+			if (input->keyPress(DIK_2))
+			{
+				hud->setColor(b);
+			}
+			if (input->keyPress(DIK_3))
+			{
+				hud->setColor(p);	
 			}
 
 			break;
@@ -183,7 +197,7 @@ void GameStateManager::Update( float dt, HWND m_hWnd)
 			}
 			break;
 		}
-	case INTRO:
+		case INTRO:
 		{
 			videoControl->Run();
 		videoEvent->GetEvent(&evCode, &eventParam1, &eventParam2,0);
@@ -199,8 +213,6 @@ void GameStateManager::Update( float dt, HWND m_hWnd)
 		}
 		}
 		break;
-
-
 	}
 }
 
@@ -236,7 +248,7 @@ void GameStateManager::Render(ID3DXSprite* sprite)
 	case GAME:
 		{
 			// Render the game
-			hud->Render(m_pD3DDevice,sprite);
+			hud->Render(m_pD3DDevice, sprite, hud->getColor());
 			break;
 		}
 		///////////////////////////////////////////////////////////////////////
@@ -276,6 +288,7 @@ void GameStateManager::onLostDevice()
 		mainMenu->onLostDevice();
 }
 
+
 void GameStateManager::InitVideo(LPCWSTR vidName)
 {
 	CoInitialize(NULL); 
@@ -310,4 +323,9 @@ void GameStateManager::InitVideo(LPCWSTR vidName)
 	// Set the video size to the size of the window
 	videoWindow->SetWindowPosition(WinRect.left, WinRect.top, 
 		WinRect.right, WinRect.bottom);
+}
+
+void GameStateManager::setHudBulletCounter(int bCounter)
+{
+	this->bCounter = bCounter;
 }

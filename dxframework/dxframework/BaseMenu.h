@@ -33,7 +33,6 @@ protected:
 	SoundEffect* MenuBeep;
 	SoundEffect* MenuMusic;
 	SoundEffect* GameBGM;
-
 	////////////////////////////////////////////////////////////////////////
 	// D3D Variables
 	////////////////////////////////////////////////////////////////////////
@@ -43,6 +42,7 @@ protected:
 	// Font Variables
 	//////////////////////////////////////////////////////////////////////////
 	ID3DXFont*	m_pD3DFont;			// Font Object
+	ID3DXFont*	m_pD3DFont2;	
 	char		menuPrint[30];		// Holds the text that will be witten on screen
 	D3DXCOLOR	option;				// variable to changeduring selection
 

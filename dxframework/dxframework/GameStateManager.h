@@ -53,8 +53,9 @@ private:
 	PauseMenu*				pauseMenu;
 	HUD*					hud;
 	//Game*					game;
+	int					bCounter;
 
-		////////////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////
 	// DirectShow COM Object Creation
 	////////////////////////////////////////////////////////////////////////
 	IGraphBuilder			*videoGraph;
@@ -65,7 +66,6 @@ private:
 	long evCode;
 	LONG_PTR eventParam1, eventParam2;
 	bool					videoRunning;
-		
 	
 
 public:
@@ -76,11 +76,14 @@ public:
 	~GameStateManager(void);
 
 	void Init(HWND* wndHandle,  D3DPRESENT_PARAMETERS* D3dpp, HINSTANCE hInst, IDirect3DDevice9* device);
-	void Update( float dt, HWND m_hWnd);
+	void Update( float dt);
 	void Render(ID3DXSprite* sprite);
-	
+
 	void onResetDevice();
 	void onLostDevice();
 	void InitVideo(LPCWSTR vidName);
+
+	void setHudBulletCounter(int bCounter);
+	int getHudBulletCounter(){return bCounter;}
 };
 
