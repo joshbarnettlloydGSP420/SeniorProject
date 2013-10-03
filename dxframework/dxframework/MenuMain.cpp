@@ -69,8 +69,7 @@ void MenuMain::Update()
 {
 	BaseMenu::Update();
 	myInput->Update();
-	mousePos.x = myInput->GetMousePosX();
-	mousePos.y = myInput->GetMousePosY();
+
 	
 	if (myInput->keyDown( DIK_RETURN))
 	{
@@ -113,6 +112,7 @@ void MenuMain::Render()
 	sprintf(menuPrint,"Game Start");
 	SetRect(&m_rect,120,210,600,500);
 	if(menuItemSelected == 1)
+	 
 		option = D3DCOLOR_ARGB(255,255,0,0);
 	else
 		option = D3DCOLOR_ARGB(255,0,0,255);

@@ -34,6 +34,9 @@ void GameStateManager::Init( HWND* wndHandle,  D3DPRESENT_PARAMETERS* D3dpp, HIN
 void GameStateManager::Update( float dt )
 {
 	input->getInput();
+	/*input->GetMousePosX();
+	input->GetMousePosY();
+	input->Update();*/
 	switch ( activeGameState )
 	{
 		///////////////////////////////////////////////////////////////////////

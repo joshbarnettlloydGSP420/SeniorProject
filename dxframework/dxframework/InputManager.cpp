@@ -37,7 +37,8 @@ InputManager::~InputManager(void)
 bool InputManager::init(HINSTANCE hInst, HWND wndHandle)
 {
 	HRESULT hr;
-	SetCursorPos( 0, 0 );
+	SetCursorPos( 300, 300 );
+	ShowCursor(true);
 	mouseX = 0;
 	mouseY = 0;
 	// Create a direct input object
@@ -165,6 +166,8 @@ bool InputManager::keyPress(DWORD key)
 
 void InputManager::Update()
 {
+	ZeroMemory( &mouseState, sizeof(mouseState) );
+	mouseDevice->GetDeviceState( sizeof(DIMOUSESTATE), &mouseState );
 	mouseX += mouseState.lX;
 	mouseY += mouseState.lX;
 	if( mouseX < 0 ) mouseX = 0;
