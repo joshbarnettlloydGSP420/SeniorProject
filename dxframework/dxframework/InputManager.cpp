@@ -37,7 +37,9 @@ InputManager::~InputManager(void)
 bool InputManager::init(HINSTANCE hInst, HWND wndHandle)
 {
 	HRESULT hr;
-
+	SetCursorPos( 0, 0 );
+	mouseX = 0;
+	mouseY = 0;
 	// Create a direct input object
 
     hr = DirectInput8Create(hInst, DIRECTINPUT_VERSION, 
@@ -53,7 +55,7 @@ bool InputManager::init(HINSTANCE hInst, HWND wndHandle)
 	if FAILED(mouseDevice->SetDataFormat(&c_dfDIMouse))
 		return FALSE; 
 
-    if FAILED(mouseDevice->SetCooperativeLevel(wndHandle, DISCL_FOREGROUND | DISCL_NONEXCLUSIVE))
+    if FAILED(mouseDevice->SetCooperativeLevel(wndHandle, DISCL_FOREGROUND | DISCL_EXCLUSIVE))
         return FALSE; 
 		
     //if FAILED(mouseDevice->Acquire())
@@ -100,6 +102,8 @@ int InputManager::getMouseMovingY()
 {
 	return mouseState.lY; 
 }
+
+
 
 bool InputManager::isButtonDown(int button)
 {
@@ -157,4 +161,24 @@ bool InputManager::keyPress(DWORD key)
 	}
 	
 	return false;
+}
+
+void InputManager::Update()
+{
+	mouseX += mouseState.lX;
+	mouseY += mouseState.lX;
+	if( mouseX < 0 ) mouseX = 0;
+	if( mouseX > 600 ) mouseX = 600;
+	if( mouseY < 0 ) mouseY = 0;
+	if( mouseY > 600 ) mouseY = 600;
+}
+
+int  InputManager::GetMousePosX()
+{
+	return mouseX;
+}
+
+int  InputManager::GetMousePosY()
+{
+	return mouseY;
 }

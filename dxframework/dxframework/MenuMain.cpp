@@ -16,6 +16,7 @@ bool MenuMain::Init(InputManager* input, IDirect3DDevice9*	m_pD3DDevice)
 	// Local pointer to the input manager
 	myInput = input;
 	this->m_pD3DDevice = m_pD3DDevice;
+	SetRect(&mouseSheetRect,29,30,44,52); 
 
 	// create the SPRITE object
 	D3DXCreateSprite(m_pD3DDevice, &m_pD3DSprite);
@@ -43,6 +44,11 @@ bool MenuMain::Init(InputManager* input, IDirect3DDevice9*	m_pD3DDevice)
 		D3DX_DEFAULT, D3DCOLOR_XRGB(255, 0, 255), 
 		&m_imageInfo, 0, &backgroundTexture);
 
+	// Create Mouse sprite
+	D3DXCreateTextureFromFileEx(m_pD3DDevice, L"cursor.png",0,0,0,0,D3DFMT_UNKNOWN, D3DPOOL_MANAGED, D3DX_DEFAULT, 
+		D3DX_DEFAULT, D3DCOLOR_XRGB(255, 0, 255), 
+		&m_imageInfo, 0, &mouseTexture);
+
 	// set back ground position
 	backGroundPos = D3DXVECTOR3(0,0,0);
 
@@ -62,7 +68,10 @@ bool MenuMain::Init(InputManager* input, IDirect3DDevice9*	m_pD3DDevice)
 void MenuMain::Update()
 {
 	BaseMenu::Update();
-
+	myInput->Update();
+	mousePos.x = myInput->GetMousePosX();
+	mousePos.y = myInput->GetMousePosY();
+	
 	if (myInput->keyDown( DIK_RETURN))
 	{
 		if ( menuItemSelected == 1)
@@ -88,6 +97,8 @@ void MenuMain::Render()
 {
 	// Call the base menu's render method to initialize some variables
 	BaseMenu::Render();
+	
+	
 
 	m_pD3DSprite->Begin(D3DXSPRITE_ALPHABLEND);
 	DrawBackGround();
@@ -123,6 +134,8 @@ void MenuMain::Render()
 		option = D3DCOLOR_ARGB(255,0,0,255);
 	m_pD3DFont->DrawTextA(0,menuPrint,-1,&m_rect, DT_CENTER | DT_NOCLIP,option);
 
+	m_pD3DSprite->Draw(mouseTexture,&mouseSheetRect,&D3DXVECTOR3(0,0,0),&D3DXVECTOR3(myInput->GetMousePosX(),myInput->GetMousePosY(),0),D3DCOLOR_ARGB(255, 255, 255, 255));
+	
 	//m_pD3DSprite->End();
 }
 

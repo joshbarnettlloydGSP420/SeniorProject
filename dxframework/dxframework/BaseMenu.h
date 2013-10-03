@@ -52,10 +52,12 @@ protected:
 	ID3DXSprite*		m_pD3DSprite;		// Sprite Object
 	ID3DXSprite*		backgroundSprite;	// Sprite for background
 	IDirect3DTexture9*	backgroundTexture;	// Texture to use for background
+	IDirect3DTexture9*	mouseTexture;		// texture for mouse cursor
 	D3DXIMAGE_INFO		m_imageInfo;		// File details of a texture
 	RECT				m_rect;				// RECT for the menu background
 	LPCWSTR				backgroundFileName;	// name of file for background
 	D3DXVECTOR3			backGroundPos;		// position  for background sprite
+
 	
 	////////////////////////////////////////////////////////////////////////
 	// DirectShow COM Object Creation
@@ -77,7 +79,7 @@ protected:
 	int menuItemSelected;		// Hold the menu selection			
 
 	InputManager* myInput;
-
+	D3DXVECTOR2 mousePos;
 public:
 	BaseMenu(void);
 	virtual ~BaseMenu(void);
