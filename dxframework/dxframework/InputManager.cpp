@@ -166,8 +166,10 @@ bool InputManager::keyPress(DWORD key)
 
 void InputManager::Update(float dt)
 {
-	ZeroMemory( &mouseState, sizeof(mouseState) );
+
+	ZeroMemory( &mouseState, sizeof(mouseState));
 	mouseDevice->GetDeviceState( sizeof(DIMOUSESTATE), &mouseState );
+	
 	mouseX += mouseState.lX * dt;
 	mouseY += mouseState.lY * dt;
 	if( mouseX < 0 ) mouseX = 0;
