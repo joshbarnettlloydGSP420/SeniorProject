@@ -69,6 +69,8 @@ void MenuMain::Update(float dt)
 {
 	BaseMenu::Update();
 	myInput->Update(dt);
+	mousePos.x = myInput->GetMousePosX();
+	mousePos.y = myInput->GetMousePosY();
 
 	
 	if (myInput->keyDown( DIK_RETURN))
