@@ -125,7 +125,7 @@ void GameStateManager::Update( float dt )
 	case GAME:
 		{
 			// Game's update function
-			hud->Update( dt );
+			hud->Update( dt,  getHudBulletCounter());
 
 			if (input->keyPress(DIK_P))
 			{
@@ -134,6 +134,19 @@ void GameStateManager::Update( float dt )
 				pauseMenu->Init( input, m_pD3DDevice);
 
 				activeGameState = PAUSE_MENU;
+			}
+			//stuff to update the hud's bullet color
+			if (input->keyPress(DIK_1))
+			{
+				hud->setColor(g);
+			}
+			if (input->keyPress(DIK_2))
+			{
+				hud->setColor(b);
+			}
+			if (input->keyPress(DIK_3))
+			{
+				hud->setColor(p);	
 			}
 
 			break;
@@ -310,4 +323,9 @@ void GameStateManager::InitVideo(LPCWSTR vidName)
 	// Set the video size to the size of the window
 	videoWindow->SetWindowPosition(WinRect.left, WinRect.top, 
 		WinRect.right, WinRect.bottom);
+}
+
+void GameStateManager::setHudBulletCounter(int bCounter)
+{
+	this->bCounter = bCounter;
 }

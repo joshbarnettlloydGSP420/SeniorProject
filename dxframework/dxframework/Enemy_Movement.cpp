@@ -11,9 +11,13 @@ Enemy_Movement::~Enemy_Movement(void)
 {
 }
 
-void Enemy_Movement::Update( float dt)
+void Enemy_Movement::Update(float dt, bool isDead)
 {
-	position.y = -10.0;
+	if(!isDead)
+	position.y = 5.0;
+	else
+	position.y = -20.0;
+
 	velocity.y = 0;
 
 	// update position and orientation

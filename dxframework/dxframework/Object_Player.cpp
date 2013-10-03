@@ -13,12 +13,12 @@ Object_Player::Object_Player()
 	velUD = 0.0f;
 	velLR = 0.0f;
 
+	hitTimer = 0.0f;
+
 	wantJump = false;
 	
 	// Initialize the particle system.
-	
 	D3DXMatrixIdentity(&psysWorld);
-
 
 	//bullets/gun
 	
@@ -29,7 +29,8 @@ Object_Player::Object_Player()
 	// such a high velocity, the effect of gravity of not really observed.
 	gunType type = green;
 	changeGunType(type);
-	mPSys->setWorldMtx(psysWorld);           
+
+	mPSys->setWorldMtx(psysWorld);         
 
 }
 
@@ -178,9 +179,9 @@ void Object_Player::createCapsuleObject(hkpWorld* world)
 	hkpCharacterRigidBodyCinfo	bodyInfo;
 
 	// Capsule Parameters
-	hkVector4	vertexA(position.x, position.y + (scale.y / 2), position.z, 0);	// Top
-	hkVector4	vertexB(position.x, position.y - (scale.y / 2), position.z, 0);	// Bottom
-	hkReal		radius	=	(scale.x + scale.z) / 2;							// Radius
+	hkVector4	vertexA(0.0f, 1.0f, 0.0f, 0);	// Top
+	hkVector4	vertexB(0.0f, -1.0f, 0.0f, 0);	// Bottom
+	hkReal		radius	=	1.0f;				// Radius
 
 	// Create Capsule Based on Parameters
 	hkpCapsuleShape* capsuleShape = new hkpCapsuleShape(vertexA, vertexB, radius);
@@ -285,16 +286,17 @@ bool Object_Player::collisionCheck(hkpRigidBody* rigidBody)
 	hkAabb aabbBase;
 	hkAabb aabbOut;
 
+	// Getting both objects' bounding boxes
 	rigidBody->getCollidable()->getShape()->getAabb(rigidBody->getTransform(), 0.4f, aabbOut);
 	objectBody->getRigidBody()->getCollidable()->getShape()->getAabb(objectBody->getRigidBody()->getTransform(), 0.4f, aabbBase);
 
-
+	// If there is a collision between the two objects...
 	if(aabbBase.overlaps(aabbOut))
 	{
-		return true;
+		return true;				// ...return true...
 	}
 
-	return false;
+	return false;					// ...if not retrun false
 }
 
 
@@ -303,15 +305,15 @@ void Object_Player::changeGunType(gunType type)
 	switch(type)
 	{
 		case green:
-		mPSys = new Gun(L"gun.fx", "GunTech", L"bolt2.dds", D3DXVECTOR3(0, 0, 0), psysBox, 100, -1.0f); //gravity changed
+		mPSys = new Gun(L"gun.fx", "GunTech", L"bolt2.dds", D3DXVECTOR3(0, 0, 0), psysBox, ARRAYSIZE(bull), -1.0f); //gravity changed
 		break;
 
 		case red:
-		mPSys = new Gun(L"gun.fx", "GunTech", L"bolt3.dds", D3DXVECTOR3(0, 0, 0), psysBox, 100, -1.0f); //gravity changed
+		mPSys = new Gun(L"gun.fx", "GunTech", L"bolt4red.dds", D3DXVECTOR3(0, 0, 0), psysBox, ARRAYSIZE(bull), -1.0f); //gravity changed
 		break;
 
 		case blue:
-		mPSys = new Gun(L"gun.fx", "GunTech", L"bolt4blue.dds", D3DXVECTOR3(0, 0, 0), psysBox, 100, -1.0f); //gravity changedd
+		mPSys = new Gun(L"gun.fx", "GunTech", L"bolt3.dds", D3DXVECTOR3(0, 0, 0), psysBox, ARRAYSIZE(bull), -1.0f); //gravity changedd
 		break;
 	}
 	mPSys->setWorldMtx(psysWorld);
@@ -323,7 +325,8 @@ void Object_Player::createBulletHavokObject(hkpWorld* world, D3DXVECTOR3 bulletP
 	hkpRigidBodyCinfo	bodyInfo;
 
 	// Sphere Parameters
-	hkReal radius = 1;
+	hkReal radius = 1.0f;
+	hkReal mass = 20.0f;
 
 	// Create Sphere Based on Parameters
 	hkpSphereShape* sphereShape = new hkpSphereShape(radius);
@@ -331,8 +334,9 @@ void Object_Player::createBulletHavokObject(hkpWorld* world, D3DXVECTOR3 bulletP
 	// Set The Object's Properties
 	bodyInfo.m_shape = sphereShape;
 	bodyInfo.m_position.set(bulletPos.x, bulletPos.y, bulletPos.z, 0.0f);
+	bull[bulletNum].position = bulletPos;
 	bodyInfo.m_friction = 1.0f;
-	bodyInfo.m_motionType = hkpMotion::MOTION_KEYFRAMED;
+	bodyInfo.m_motionType = hkpMotion::MOTION_FIXED;
 
 	// Calculate Mass Properties
 	hkMassProperties massProperties;
@@ -352,12 +356,13 @@ void Object_Player::createBulletHavokObject(hkpWorld* world, D3DXVECTOR3 bulletP
 
 void Object_Player::getBulletPos(hkpWorld* world, float deltaTime)
 {
-	if(mPSys->GetBulletCounter() < 20)
+	if(mPSys->GetBulletCounter() <= ARRAYSIZE(bull))
 	{
 		for(int i = 0; i < mPSys->GetBulletCounter(); i++)
 		{
-			bull[i].position += (bull[i].velocity * 40.0f) * deltaTime + 0.5f * D3DXVECTOR3(0, 0, 0) * deltaTime * deltaTime;
-			hkVector4 havokPos = hkVector4(bull[i].position.x, bull[i].position.y, bull[i].position.z, 0.0f);
+			bull[i].isAlive = true;
+			bull[i].position += -1.0f * (bull[i].velocity * 40.0f) * deltaTime + 0.5f * D3DXVECTOR3(0, 0, 0) * deltaTime * deltaTime;
+			hkVector4 havokPos = hkVector4(bull[i].position.x, bull[i].position.y + 3.5f, bull[i].position.z, 0.0f);
 			bull[i].bulletObject->setPosition(havokPos);
 		}
 	}

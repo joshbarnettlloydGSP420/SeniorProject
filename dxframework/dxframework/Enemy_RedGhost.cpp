@@ -23,7 +23,7 @@ void Enemy_RedGhost::Init(IDirect3DDevice9* m_pD3DDevice, RenderObject* m_pRende
 
 	// Set the Initial movement variables
 	movement = new Enemy_Movement();
-	movement->setPosition( D3DXVECTOR4(0.0, -5.0, 25.0, 0));
+	movement->setPosition( D3DXVECTOR4(0.0, 20.0, -5.0, 0));
 	movement->setVelocity( D3DXVECTOR4( 0, 0, 0, 0 ));
 	movement->SetOrientation( 0.0f);
 	movement->SetRotation( 0.0f);
@@ -39,6 +39,14 @@ void Enemy_RedGhost::Init(IDirect3DDevice9* m_pD3DDevice, RenderObject* m_pRende
 	textureName = L"RedGhostTexture.jpg";
 	textureNumber = RedGhost;
 	meshName = L"RedGhost.x";
+
+	// Create the texture
+	render->LoadTexture( textureName, textureNumber);
+
+	// create 3D mesh from .x file
+	render->LoadMesh( meshName, &objectMesh);
+
+	miniGhostInitialized = false;
 }
 
 // if the enemy is hit with a bullet
@@ -51,7 +59,7 @@ void Enemy_RedGhost::BulletCollision( LPCSTR bulletColor )
 	else if ( bulletColor == "Green" )
 	{
 		health += 10;
-		ChangeState( Defence );
+		//ChangeState( Defence );
 	}
 	// else if other colors then gain more health and increase attackSpeed
 	else

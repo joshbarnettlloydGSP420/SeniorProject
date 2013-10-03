@@ -15,6 +15,8 @@ void Enemy_YellowGhost::Init(IDirect3DDevice9* m_pD3DDevice, RenderObject* m_pRe
 		// call the enemy base init
 	Enemy_Base::Init(m_pD3DDevice, m_pRender);
 
+
+
 	// initialize the variables
 	isDead = false;
 	health = 200;
@@ -24,7 +26,7 @@ void Enemy_YellowGhost::Init(IDirect3DDevice9* m_pD3DDevice, RenderObject* m_pRe
 
 	// Set the Initial movement variables
 	movement = new Enemy_Movement();
-	movement->setPosition( D3DXVECTOR4(10, 1.0, 50, 0));
+	movement->setPosition( D3DXVECTOR4(-45.5, 1.0, 2.4, 0));
 	movement->setVelocity( D3DXVECTOR4( 0, 0, 0, 0 ));
 	movement->SetOrientation( 0.0f);
 	movement->SetRotation( 0.0f);
@@ -40,6 +42,14 @@ void Enemy_YellowGhost::Init(IDirect3DDevice9* m_pD3DDevice, RenderObject* m_pRe
 	textureName = L"YellowGhostTexture.jpg";
 	textureNumber = YellowGhost;
 	meshName = L"YellowGhost.x";
+
+	// Create the texture
+	render->LoadTexture( textureName, textureNumber);
+
+	// create 3D mesh from .x file
+	render->LoadMesh( meshName, &objectMesh);
+
+	miniGhostInitialized = false;
 }
 
 // if the enemy is hit with a bullet
@@ -52,7 +62,7 @@ void Enemy_YellowGhost::BulletCollision( LPCSTR bulletColor )
 	else if ( bulletColor == "Purple" )
 	{
 		health += 10;
-		ChangeState( Defence );
+		//ChangeState( Defence );
 	}
 	// else if other colors then gain more health and increase attackSpeed
 	else

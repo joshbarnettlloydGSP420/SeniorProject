@@ -27,6 +27,11 @@ bool MenuMain::Init(InputManager* input, IDirect3DDevice9*	m_pD3DDevice)
 		DEFAULT_PITCH | FF_DONTCARE, TEXT("SanitariumBB"), 
 		&m_pD3DFont);
 
+	D3DXCreateFont(m_pD3DDevice, 110, 0, FW_BOLD, 0, false, 
+		DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, DEFAULT_QUALITY,
+		DEFAULT_PITCH | FF_DONTCARE, TEXT("SanitariumBB"), 
+		&m_pD3DFont2);
+
 	// set the initial selected item
 	menuItemSelected = 1;
 
@@ -88,11 +93,11 @@ void MenuMain::Render()
 	DrawBackGround();
 	// Print Main Menu at the top of the screen
 	sprintf(menuPrint,"Ghost Hunter X");
-	SetRect(&m_rect,120,10,600,500);  
-	option = D3DCOLOR_ARGB(255,150,0,240);
+	SetRect(&m_rect,170,-30,600,500);  
+	option = D3DCOLOR_ARGB(255,0,0,240);
 
 	
-	m_pD3DFont->DrawTextA(0,menuPrint,-1,&m_rect, DT_CENTER | DT_NOCLIP,option);
+	m_pD3DFont2->DrawTextA(0,menuPrint,-1,&m_rect, DT_CENTER | DT_NOCLIP,option);
 
 	sprintf(menuPrint,"Game Start");
 	SetRect(&m_rect,120,210,600,500);

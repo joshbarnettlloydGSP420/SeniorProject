@@ -101,7 +101,7 @@ void PSystem::setBulletCounter( int bulletCounter)
 
 void PSystem::addParticle(D3DXVECTOR3 pos, D3DXVECTOR3 iPos, D3DXVECTOR3 look)
 {
-	if(bulletCounter < 20)
+	if(bulletCounter < 12)
 	{
 		if( mDeadParticles.size() > 0)
 		{

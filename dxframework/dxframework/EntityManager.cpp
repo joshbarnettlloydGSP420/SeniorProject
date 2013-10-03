@@ -11,49 +11,112 @@ EntityManager::~EntityManager(void)
 
 }
 
-void EntityManager::entityUpdates(float deltaTime)
+void EntityManager::entityUpdates(float deltaTime, Object_Player* Player)
 {
 
 }
 
-void EntityManager::collisionChecks(float deltaTime)
+void EntityManager::collisionChecks(float deltaTime, Object_Player* Player)
 {
 
 }
 
-void EntityManager::objVsBullet(float deltaTime, Object_Base* object, Object_Player* player)
+bool EntityManager::objVsBullet(float deltaTime, Object_Base* object, Object_Player* player)
 {
-	// Torch Test
-	for(short i = 0; i < 20; ++i)
+	hkAabb aabbBase;
+	hkAabb aabbOut;
+
+	// Object Hit Bullets
+	for(short i = 0; i < ARRAYSIZE(player->bull); ++i)
 	{
-		if(object->collisionCheck(player->objectBody->getRigidBody()))
+		object->rigidBody->getCollidable()->getShape()->getAabb(object->rigidBody->getTransform(), 0.4f, aabbOut);
+		player->bull[i].bulletObject->getCollidable()->getShape()->getAabb(player->bull[i].bulletObject->getTransform(), 0.4f, aabbBase);
+
+
+		if(aabbBase.overlaps(aabbOut))
 		{
-			
+			return true;
 		}
+
+		return false;
 	}
 }
 
-void EntityManager::enemyVsPlayer(float deltaTime, Object_Player* player)
+bool EntityManager::objVsPlayer(float deltaTime, Object_Base* object, Object_Player* player)
 {
+	// Object Hit Bullets
+	
+	hkAabb aabbBase;
+	hkAabb aabbOut;
+
+	object->rigidBody->getCollidable()->getShape()->getAabb(object->rigidBody->getTransform(), 0.4f, aabbOut);
+	player->objectBody->getRigidBody()->getCollidable()->getShape()->getAabb(player->objectBody->getRigidBody()->getTransform(), 0.4f, aabbBase);
+
+
+	if(aabbBase.overlaps(aabbOut))
+	{
+		return true;
+	}
+
+	return false;
+}
+
+bool EntityManager::enemyVsBullet(float deltaTime, Enemy_Base* enemy, Object_Player* player)
+{
+	hkAabb aabbBase;
+	hkAabb aabbOut;
+
+	// Enemy Hits Bullets
+	for(short i = 0; i < ARRAYSIZE(player->bull); ++i)
+	{
+		// Object Hit Bullets
+		for(short i = 0; i < ARRAYSIZE(player->bull); ++i)
+		{
+			enemy->GetHavokbody()->getCollidable()->getShape()->getAabb(enemy->GetHavokbody()->getTransform(), 0.4f, aabbOut);
+			player->bull[i].bulletObject->getCollidable()->getShape()->getAabb(player->bull[i].bulletObject->getTransform(), 0.4f, aabbBase);
+
+
+			if(aabbBase.overlaps(aabbOut))
+			{
+				return true;
+			}
+
+		}
+
+	}
+
+	return false;
+}
+
+bool EntityManager::enemyVsPlayer(float deltaTime, Enemy_Base* enemy,  Object_Player* player)
+{
+	hkAabb aabbBase;
+	hkAabb aabbOut;
+
+	// Enemy Hits Player
 	if(!player->beenHit)
 	{
-		for(short i = 0; i < v_Enemy_Base.max_size(); ++i)
+
+		enemy->GetHavokbody()->getCollidable()->getShape()->getAabb(enemy->GetHavokbody()->getTransform(), 0.4f, aabbOut);
+		player->objectBody->getRigidBody()->getCollidable()->getShape()->getAabb(player->objectBody->getRigidBody()->getTransform(), 0.4f, aabbBase);
+
+
+		if(aabbBase.overlaps(aabbOut))
 		{
-			if(v_Enemy_Base.at(i)->CollisionDetection(player->objectBody->getRigidBody()))
-			{
-				player->health -= 2;
-				player->hitTimer = 0.0f;
-			}
+			return true;
 		}
+
 	}
+
+	return false;
 }
 
-void EntityManager::addEnemyObject(Enemy_Base* Enemy)
-{
-
-}
-
-void EntityManager::addBaseObject(Object_Base* Object)
-{
-	
-}
+//void EntityManager::addEnemyObject(Enemy_Base* Enemy)
+//{
+//	v_Enemy_Base.push_back(Enemy);
+//}
+//
+//void EntityManager::addBaseObject(Object_Base* Object)
+//{
+//	v_baseObjects.push_back(Object);
+//}

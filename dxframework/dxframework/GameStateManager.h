@@ -53,6 +53,7 @@ private:
 	PauseMenu*				pauseMenu;
 	HUD*					hud;
 	//Game*					game;
+	int					bCounter;
 
 	////////////////////////////////////////////////////////////////////////
 	// DirectShow COM Object Creation
@@ -81,5 +82,8 @@ public:
 	void onResetDevice();
 	void onLostDevice();
 	void InitVideo(LPCWSTR vidName);
+
+	void setHudBulletCounter(int bCounter);
+	int getHudBulletCounter(){return bCounter;}
 };
 

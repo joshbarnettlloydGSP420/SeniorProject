@@ -22,7 +22,7 @@ public:
 	Enemy_Movement(void);
 	~Enemy_Movement(void);
 
-	void Update( float dt);
+	void Update( float dt, bool isDead);
 	void GetNewOrientation();
 
 	// Accessors and mutators
