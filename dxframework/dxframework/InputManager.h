@@ -12,7 +12,7 @@ public:
 	~InputManager(void);
 
 	bool init(HINSTANCE hInst, HWND wndHandle);
-	void Update();
+	void Update(float dt);
 	void getInput();
 	//mouse functions
 	int GetMousePosY();

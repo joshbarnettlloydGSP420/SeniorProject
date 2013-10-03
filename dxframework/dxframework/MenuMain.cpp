@@ -65,10 +65,10 @@ bool MenuMain::Init(InputManager* input, IDirect3DDevice9*	m_pD3DDevice)
 	return true;
 }
 
-void MenuMain::Update()
+void MenuMain::Update(float dt)
 {
 	BaseMenu::Update();
-	myInput->Update();
+	myInput->Update(dt);
 
 	
 	if (myInput->keyDown( DIK_RETURN))

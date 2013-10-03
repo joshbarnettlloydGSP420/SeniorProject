@@ -164,12 +164,12 @@ bool InputManager::keyPress(DWORD key)
 	return false;
 }
 
-void InputManager::Update()
+void InputManager::Update(float dt)
 {
 	ZeroMemory( &mouseState, sizeof(mouseState) );
 	mouseDevice->GetDeviceState( sizeof(DIMOUSESTATE), &mouseState );
-	mouseX += mouseState.lX;
-	mouseY += mouseState.lX;
+	mouseX += mouseState.lX * dt;
+	mouseY += mouseState.lY * dt;
 	if( mouseX < 0 ) mouseX = 0;
 	if( mouseX > 600 ) mouseX = 600;
 	if( mouseY < 0 ) mouseY = 0;

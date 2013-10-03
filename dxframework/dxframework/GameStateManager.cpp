@@ -52,7 +52,7 @@ void GameStateManager::Update( float dt )
 		{
 			
 			// Call the main menu and return menu selection
-			mainMenu->Update();
+			mainMenu->Update(dt);
 			
 			switch ( mainMenu->GetState() )
 			{
