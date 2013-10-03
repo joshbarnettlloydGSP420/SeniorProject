@@ -40,6 +40,10 @@ bool OptionsMenu::Init(InputManager* input, IDirect3DDevice9* m_pD3DDevice, HWND
 	// set back ground position
 	backGroundPos = D3DXVECTOR3(0,0,0);
 
+	// Load sound effects
+	MenuBeep = new SoundEffect();
+	MenuBeep = SoundLoader::GetInstance()->Load(false, false, "MenuBeep2.mp3");
+
 	videoInit = false;
 	return true;
 }

@@ -63,17 +63,26 @@ bool EntityManager::objVsPlayer(float deltaTime, Object_Base* object, Object_Pla
 
 bool EntityManager::enemyVsBullet(float deltaTime, Enemy_Base* enemy, Object_Player* player)
 {
+	hkAabb aabbBase;
+	hkAabb aabbOut;
+
 	// Enemy Hits Bullets
 	for(short i = 0; i < ARRAYSIZE(player->bull); ++i)
 	{
-		if(player->mPSys->getmAliveParticles().at(i))
+		// Object Hit Bullets
+		for(short i = 0; i < ARRAYSIZE(player->bull); ++i)
 		{
-			if(enemy->CollisionDetection(player->bull[i].bulletObject))
+			enemy->GetHavokbody()->getCollidable()->getShape()->getAabb(enemy->GetHavokbody()->getTransform(), 0.4f, aabbOut);
+			player->bull[i].bulletObject->getCollidable()->getShape()->getAabb(player->bull[i].bulletObject->getTransform(), 0.4f, aabbBase);
+
+
+			if(aabbBase.overlaps(aabbOut))
 			{
-				player->bull[i].isAlive = false;
 				return true;
 			}
+
 		}
+
 	}
 
 	return false;
@@ -81,16 +90,22 @@ bool EntityManager::enemyVsBullet(float deltaTime, Enemy_Base* enemy, Object_Pla
 
 bool EntityManager::enemyVsPlayer(float deltaTime, Enemy_Base* enemy,  Object_Player* player)
 {
+	hkAabb aabbBase;
+	hkAabb aabbOut;
+
 	// Enemy Hits Player
 	if(!player->beenHit)
 	{
-		for(short i = 0; i < v_Enemy_Base.max_size(); ++i)
+
+		enemy->GetHavokbody()->getCollidable()->getShape()->getAabb(enemy->GetHavokbody()->getTransform(), 0.4f, aabbOut);
+		player->objectBody->getRigidBody()->getCollidable()->getShape()->getAabb(player->objectBody->getRigidBody()->getTransform(), 0.4f, aabbBase);
+
+
+		if(aabbBase.overlaps(aabbOut))
 		{
-			if(enemy->CollisionDetection(player->objectBody->getRigidBody()))
-			{
-				return true;
-			}
+			return true;
 		}
+
 	}
 
 	return false;

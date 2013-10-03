@@ -16,16 +16,23 @@ bool MenuMain::Init(InputManager* input, IDirect3DDevice9*	m_pD3DDevice)
 	// Local pointer to the input manager
 	myInput = input;
 	this->m_pD3DDevice = m_pD3DDevice;
+	
 
 	// create the SPRITE object
 	D3DXCreateSprite(m_pD3DDevice, &m_pD3DSprite);
 
 	// create a FONT object
 	AddFontResourceEx(L"SanitariumBB.otf", FR_PRIVATE, 0);
+
 	D3DXCreateFont(m_pD3DDevice, 30, 0, FW_BOLD, 0, false, 
 		DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, DEFAULT_QUALITY,
 		DEFAULT_PITCH | FF_DONTCARE, TEXT("SanitariumBB"), 
 		&m_pD3DFont);
+
+	D3DXCreateFont(m_pD3DDevice, 110, 0, FW_BOLD, 0, false, 
+		DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, DEFAULT_QUALITY,
+		DEFAULT_PITCH | FF_DONTCARE, TEXT("SanitariumBB"), 
+		&m_pD3DFont2);
 
 	// set the initial selected item
 	menuItemSelected = 1;
@@ -40,6 +47,16 @@ bool MenuMain::Init(InputManager* input, IDirect3DDevice9*	m_pD3DDevice)
 
 	// set back ground position
 	backGroundPos = D3DXVECTOR3(0,0,0);
+
+	// Load bgm
+	MenuMusic = new SoundEffect();
+	MenuMusic = SoundLoader::GetInstance()->LoadBGM("MainMenuMusic.ogg");
+	AudioManager::GetInstance()->PlayBGM(*MenuMusic);
+	AudioManager::GetInstance()->SetBGMVolume(1.0f);
+
+	// Load sound effects
+	MenuBeep = new SoundEffect();
+	MenuBeep = SoundLoader::GetInstance()->Load(false, false, "MenuBeep2.mp3");
 	return true;
 }
 
@@ -52,6 +69,11 @@ void MenuMain::Update()
 		if ( menuItemSelected == 1)
 		{
 			menuState = m_GAME;
+			MenuMusic->Free();
+			GameBGM = SoundLoader::GetInstance()->LoadBGM("DST-TheHauntedChaple.mp3");
+			AudioManager::GetInstance()->PlayBGM(*GameBGM);
+			AudioManager::GetInstance()->SetBGMVolume(5.0);
+
 		}
 		else if ( menuItemSelected == 2)
 		{
@@ -73,14 +95,14 @@ void MenuMain::Render()
 	DrawBackGround();
 	// Print Main Menu at the top of the screen
 	sprintf(menuPrint,"Ghost Hunter X");
-	SetRect(&m_rect,120,10,600,500);  
-	option = D3DCOLOR_ARGB(255,150,0,240);
+	SetRect(&m_rect,170,-30,600,500);  
+	option = D3DCOLOR_ARGB(255,0,0,240);
 
 	
-	m_pD3DFont->DrawTextA(0,menuPrint,-1,&m_rect, DT_CENTER | DT_NOCLIP,option);
+	m_pD3DFont2->DrawTextA(0,menuPrint,-1,&m_rect, DT_CENTER | DT_NOCLIP,option);
 
 	sprintf(menuPrint,"Game Start");
-	SetRect(&m_rect,120,210,600,500);
+	SetRect(&m_rect,130,210,600,500);
 	if(menuItemSelected == 1)
 		option = D3DCOLOR_ARGB(255,255,0,0);
 	else

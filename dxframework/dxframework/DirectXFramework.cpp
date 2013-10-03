@@ -21,6 +21,7 @@ CDirectXFramework::~CDirectXFramework(void)
 void CDirectXFramework::Init(HWND& hWnd, HINSTANCE& hInst, bool bWindowed)
 {
 	m_hWnd = hWnd;
+	
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Direct3D Foundations - D3D Object, Present Parameters, and D3D Device								 //
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -107,21 +108,30 @@ void CDirectXFramework::Init(HWND& hWnd, HINSTANCE& hInst, bool bWindowed)
 	render->MaterialSettings();
 	render->LoadShaderEffects( L"TestShader.txt", 0);
 
+	AudioManager::GetInstance()->Initialize();
+	// sound
+	gunSFX = new SoundEffect();
+	gunSFX = SoundLoader::GetInstance()->Load(false,false,"Laser.mp3");
+	AudioManager::GetInstance()->SetSFXVolume(1.0f);
+
+	changeBullet = new SoundEffect();
+	changeBullet = SoundLoader::GetInstance()->Load(false,false,"gun-cocking-01.wav");
+	AudioManager::GetInstance()->SetSFXVolume(1.0f);
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Creating Enemies																						 //
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	redGhost = new Enemy_RedGhost();
-	redGhost->Init( m_pD3DDevice, render);
+	redGhost->Init(m_pD3DDevice, render);
 
 	purpleGhost = new Enemy_PurpleGhost();
-	purpleGhost->Init( m_pD3DDevice, render);
+	purpleGhost->Init(m_pD3DDevice, render);
 
 	greenGhost = new Enemy_GreenGhost();
-	greenGhost->Init( m_pD3DDevice, render);
+	greenGhost->Init(m_pD3DDevice, render);
 
 	yellowGhost = new Enemy_YellowGhost();
-	yellowGhost->Init( m_pD3DDevice, render);
+	yellowGhost->Init(m_pD3DDevice, render);
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Creating Light																						 //
@@ -309,7 +319,6 @@ void CDirectXFramework::Init(HWND& hWnd, HINSTANCE& hInst, bool bWindowed)
 	chair[2]->position = D3DXVECTOR4( 51.5f, 6.4f, 24.4, 0.0f);
 	chair[3]->position = D3DXVECTOR4( 46.4f, 6.4f, -0.5, 0.0f);
 
-
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Load Shader Effects																					 //
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -376,7 +385,6 @@ void CDirectXFramework::Init(HWND& hWnd, HINSTANCE& hInst, bool bWindowed)
 	// Input Manager Init
 	m_pDInput = new InputManager();
 	m_pDInput->init(hInst,hWnd);
-
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Create Havok Object																					 //
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -439,10 +447,10 @@ void CDirectXFramework::Init(HWND& hWnd, HINSTANCE& hInst, bool bWindowed)
 		chair[i]->createHavokObject(havok->getWorld());
 
 	// enemies
-	redGhost->CreateBodyObject(havok->getWorld());
-	purpleGhost->CreateBodyObject(havok->getWorld());
-	yellowGhost->CreateBodyObject(havok->getWorld());
-	greenGhost->CreateBodyObject(havok->getWorld());
+	redGhost->CreateHavokObject(havok->getWorld());
+	purpleGhost->CreateHavokObject(havok->getWorld());
+	yellowGhost->CreateHavokObject(havok->getWorld());
+	greenGhost->CreateHavokObject(havok->getWorld());
 	
 	havok->getWorld()->unlock();
 
@@ -527,7 +535,6 @@ void CDirectXFramework::Update(float dt)
 			//yellowGhost->BulletCollision( bulletColor );
 		}
 			
-
 		havok->getWorld()->unlock();
 
 
@@ -590,7 +597,7 @@ if(gameState->activeGameState == GAME)
 
 		//D3DXMatrixRotationYawPitchRoll(&rotMat, Player->rotation.x, Player->rotation.y, Player->rotation.z);
 		//D3DXMatrixRotationYawPitchRoll(&rotMat, , 0.0f, 0.0f);
-		D3DXMatrixTranslation(&transMat, Player->position.x + (tempPos.x * 2) - 0.5f, Player->position.y + tempPos.y + -0.5f, Player->position.z + (tempPos.z * 2) - 0.5f); //x-1.55 is the value for gun to be directly in the center of the camera
+		D3DXMatrixTranslation(&transMat, Player->position.x + (tempPos.x * 2) - 0.5f, Player->position.y + tempPos.y - 5.0f, Player->position.z + (tempPos.z * 2) - 0.5f); //x-1.55 is the value for gun to be directly in the center of the camera
 		D3DXMatrixMultiply(&scaleMat, &scaleMat, &rotMat);
 		D3DXMatrixMultiply(&worldMat, &scaleMat, &transMat);
 		//D3DXMatrixMultiply(&worldMat, &scaleMat, &transMat);
@@ -634,10 +641,9 @@ if(gameState->activeGameState == GAME)
 		// Mesh Matrix
 		D3DXMatrixScaling(&scaleMat, Mansion->scale.x, Mansion->scale.y, Mansion->scale.z);
         D3DXMatrixRotationYawPitchRoll(&rotMat, 0.0f, 0.0f, 0.0f);
-		D3DXMatrixTranslation(&transMat, Mansion->position.x, Mansion->position.y - 5.0f, Mansion->position.z);
+		D3DXMatrixTranslation(&transMat, Mansion->position.x, Mansion->position.y - 5.0f, Mansion->position.z - 8.25f);
 		D3DXMatrixMultiply(&scaleMat, &scaleMat, &rotMat);
 		D3DXMatrixMultiply(&worldMat, &scaleMat, &transMat);
-		//D3DXMatrixMultiply(&worldMat, &scaleMat, &transMat);
 
 		D3DXMatrixInverse(&invTransMat, 0, &worldMat);
 		D3DXMatrixTranspose(&invTransMat, &invTransMat);
@@ -666,7 +672,7 @@ if(gameState->activeGameState == GAME)
 
 	// Object Renders
 	for(short i = 0; i < ARRAYSIZE(piano); ++i)
-		renderObject(piano[i], D3DXVECTOR3(0.0f, -4.5f, 6.0f));
+		renderObject(piano[i], D3DXVECTOR3(0.0f, -4.5f, 0.0f));
 
 	//for(short i = 0; i < ARRAYSIZE(sinkCounter); ++i)
 	//	renderObject(sinkCounter[i]);
@@ -674,22 +680,19 @@ if(gameState->activeGameState == GAME)
 	//for(short i = 0; i < ARRAYSIZE(normalCounter); ++i)
 	//	renderObject(normalCounter[i]);
 
-	renderObject(fridge, D3DXVECTOR3(-0.5f, -12.0f, 6.0f));
+	renderObject(fridge, D3DXVECTOR3(-0.5f, -12.0f, 0.0f));
 
 	//for(short i = 0; i < ARRAYSIZE(islandCounter); ++i)
 	//	renderObject(islandCounter[i]);
 
 	for(short i = 0; i < ARRAYSIZE(table); ++i)
-		renderObject(table[i], D3DXVECTOR3(0.0f, -7.25f, 8.0f));
+		renderObject(table[i], D3DXVECTOR3(0.0f, -7.25f, 0.0f));
 
 	for(short i = 0; i < ARRAYSIZE(candleStick); ++i)
-		renderObject(candleStick[i], D3DXVECTOR3(-0.0f, -6.75f, 7.0f));
+		renderObject(candleStick[i], D3DXVECTOR3(-0.0f, -6.75f, 0.0f));
 
 	for(short i = 0; i < ARRAYSIZE(chair); ++i)
-		renderObject(chair[i], D3DXVECTOR3(0.0f, -7.5f, 6.5f));
-
-
-
+		renderObject(chair[i], D3DXVECTOR3(0.0f, -7.5f, 0.5f));
 
 	// Render the ghosts
 	// when one ghost is dead then the next one renders
@@ -904,9 +907,9 @@ void CDirectXFramework::UpdateCamera(float dt)
 
 	D3DXVec3TransformCoord(&tempChange, &tempPos, &tempRot);
 	// Initialize View Matrix
-	eyePos								= D3DXVECTOR3(0.0f, 0.5f, 0.0f ) + D3DXVECTOR3(Player->position.x, Player->position.y, Player->position.z);		// Camera Position
-	lookAt								= D3DXVECTOR3(Player->position.x, Player->position.y, Player->position.z) + tempChange;							// Position camera is viewing
-	upVec								= D3DXVECTOR3(0.0f, 1.0f, 0.0f);																				// Rotational orientation
+	eyePos								= D3DXVECTOR3(0.0f, 0.5f, 0.0f ) + D3DXVECTOR3(Player->position.x, Player->position.y - 5.0f, Player->position.z);		// Camera Position
+	lookAt								= D3DXVECTOR3(Player->position.x, Player->position.y - 5.0f, Player->position.z) + tempChange;							// Position camera is viewing
+	upVec								= D3DXVECTOR3(0.0f, 1.0f, 0.0f);																						// Rotational orientation
 
 
 	// Easily calculate the view matrix with 3 intuitive vectors
@@ -948,6 +951,7 @@ void CDirectXFramework::playerControls(float dt)
 	if( m_pDInput->isButtonDown(0) && delay <= 0.0f)
 	{
 		delay = 0.3f;
+		AudioManager::GetInstance()->PlaySFX(*gunSFX);
 		Player->mPSys->addParticle(eyePos, eyePos, lookAt);
 		Player->bull[Player->mPSys->GetBulletCounter() - 1].position = eyePos;
 		D3DXVec3Normalize(&Player->bull[Player->mPSys->GetBulletCounter() - 1].velocity, &(eyePos - lookAt));
@@ -963,6 +967,7 @@ void CDirectXFramework::playerControls(float dt)
 	{
 		if(type !=green)
 		{
+			AudioManager::GetInstance()->PlaySFX(*changeBullet);
 			type = green;
 			Player->changeGunType(type);
 		}
@@ -971,6 +976,7 @@ void CDirectXFramework::playerControls(float dt)
 	{
 		if(type != blue)
 		{
+			AudioManager::GetInstance()->PlaySFX(*changeBullet);
 			type = blue;
 			Player->changeGunType(type);
 		}
@@ -979,6 +985,7 @@ void CDirectXFramework::playerControls(float dt)
 	{
 		if(type !=red)
 		{
+			AudioManager::GetInstance()->PlaySFX(*changeBullet);
 			type = red;
 			Player->changeGunType(type);
 		}
@@ -1123,14 +1130,50 @@ void CDirectXFramework::collisions(float dt)
 	hkReal deltaTime = dt;
 	hkVector4 Force = hkVector4(5.0f, 3.0f, 5.0f);
 
-	if(entityMan->objVsPlayer(dt, table[0], Player))
+	// Ghosts hitting the player
+	if(entityMan->enemyVsPlayer(dt, redGhost, Player) && redGhost->GetIsDead() == false)
 	{
-		table[0]->rigidBody->applyForce(deltaTime, Force);
+		Player->health -= 20;
+		Player->hitTimer = 0.0f;
 	}
 
-	if(entityMan->objVsBullet(dt, table[0], Player))
+	if(entityMan->enemyVsPlayer(dt, purpleGhost, Player) && purpleGhost->GetIsDead() == false)
 	{
-		table[0]->rigidBody->applyForce(deltaTime, Force);
+		Player->health -= 20;
+		Player->hitTimer = 0.0f;
+	}
+
+	if(entityMan->enemyVsPlayer(dt, greenGhost, Player) && greenGhost->GetIsDead() == false)
+	{
+		Player->health -= 20;
+		Player->hitTimer = 0.0f;
+	}
+
+	if(entityMan->enemyVsPlayer(dt, yellowGhost, Player) && yellowGhost->GetIsDead() == false)
+	{
+		Player->health -= 20;
+		Player->hitTimer = 0.0f;
+	}
+
+	// Bullets hitting Enemies
+	if(entityMan->enemyVsBullet(dt, redGhost, Player) && redGhost->GetIsDead() == false && type == red)
+	{
+		redGhost->SetHealth(redGhost->GetHealth() - 20);
+	}
+
+	if(entityMan->enemyVsBullet(dt, purpleGhost, Player) && purpleGhost->GetIsDead() == false && type == blue )
+	{
+		purpleGhost->SetHealth(purpleGhost->GetHealth() - 20);
+	}
+
+	if(entityMan->enemyVsBullet(dt, greenGhost, Player) && greenGhost->GetIsDead() == false && type == green)
+	{
+		greenGhost->SetHealth(greenGhost->GetHealth() - 20);
+	}
+
+	if(entityMan->enemyVsBullet(dt, yellowGhost, Player) && yellowGhost->GetIsDead() == false)
+	{
+		yellowGhost->SetHealth(yellowGhost->GetHealth() - 20);
 	}
 
 }

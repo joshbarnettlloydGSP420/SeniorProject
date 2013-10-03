@@ -13,6 +13,8 @@ Object_Player::Object_Player()
 	velUD = 0.0f;
 	velLR = 0.0f;
 
+	hitTimer = 0.0f;
+
 	wantJump = false;
 	
 	// Initialize the particle system.
@@ -177,9 +179,9 @@ void Object_Player::createCapsuleObject(hkpWorld* world)
 	hkpCharacterRigidBodyCinfo	bodyInfo;
 
 	// Capsule Parameters
-	hkVector4	vertexA(position.x, position.y + (scale.y / 2), position.z, 0);	// Top
-	hkVector4	vertexB(position.x, position.y - (scale.y / 2), position.z, 0);	// Bottom
-	hkReal		radius	=	(scale.x + scale.z) / 2;							// Radius
+	hkVector4	vertexA(0.0f, 1.0f, 0.0f, 0);	// Top
+	hkVector4	vertexB(0.0f, -1.0f, 0.0f, 0);	// Bottom
+	hkReal		radius	=	1.0f;				// Radius
 
 	// Create Capsule Based on Parameters
 	hkpCapsuleShape* capsuleShape = new hkpCapsuleShape(vertexA, vertexB, radius);
@@ -284,16 +286,17 @@ bool Object_Player::collisionCheck(hkpRigidBody* rigidBody)
 	hkAabb aabbBase;
 	hkAabb aabbOut;
 
+	// Getting both objects' bounding boxes
 	rigidBody->getCollidable()->getShape()->getAabb(rigidBody->getTransform(), 0.4f, aabbOut);
 	objectBody->getRigidBody()->getCollidable()->getShape()->getAabb(objectBody->getRigidBody()->getTransform(), 0.4f, aabbBase);
 
-
+	// If there is a collision between the two objects...
 	if(aabbBase.overlaps(aabbOut))
 	{
-		return true;
+		return true;				// ...return true...
 	}
 
-	return false;
+	return false;					// ...if not retrun false
 }
 
 
