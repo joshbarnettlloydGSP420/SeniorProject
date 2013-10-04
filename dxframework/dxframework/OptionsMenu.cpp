@@ -106,8 +106,10 @@ void OptionsMenu::Update()
 	if ( myInput->keyPress(DIK_RETURN) || myInput->isButtonDown(0))
 	{
 		if ( menuItemSelected == 1)
+		
 			optionsState = o_CREDITS;
-		//menuItemSelected == 1;
+			
+		
 		else if ( menuItemSelected == 2)
 		{
 			optionsState = o_QUIT_TO_MAIN;
@@ -127,11 +129,11 @@ void OptionsMenu::Update()
 	{
 		videoEvent->GetEvent(&evCode, &eventParam1, &eventParam2, 0);
 		// wait for the video to finish, or wait until the user hits Enter/Return Key
-		if(myInput->keyPress( DIK_SPACE) || (evCode == EC_COMPLETE))
+		if(myInput->keyPress( DIK_BACK) || (evCode == EC_COMPLETE))
 		{
 			optionsState = o_OPTIONS_MENU;
 			DestroyVideo();
-
+			
 			videoInit = false;
 		}
 	}
