@@ -64,9 +64,20 @@ bool OptionsMenu::Init(InputManager* input, IDirect3DDevice9* m_pD3DDevice, HWND
 void OptionsMenu::Update()
 {
 	BaseMenu::Update();
+	myInput->getInput();
 	myInput->Update();
 	mousePos.x = myInput->GetMousePosX();
 	mousePos.y = myInput->GetMousePosY();
+
+	if(mousePos.x >= 290  && mousePos.x < 420 && mousePos.y > 280 && mousePos.y < 300)
+		menuItemSelected = 1;
+	
+	
+	
+	if(mousePos.x >= 240  && mousePos.x < 465 && mousePos.y > 450 && mousePos.y < 460)
+		menuItemSelected = 2;
+	
+
 	
 	if ( videoInit == false)
 	{
@@ -92,7 +103,7 @@ void OptionsMenu::Update()
 		PostQuitMessage(0);
 	}
 
-	if ( myInput->keyPress(DIK_RETURN))
+	if ( myInput->keyPress(DIK_RETURN) || myInput->isButtonDown(0))
 	{
 		if ( menuItemSelected == 1)
 			optionsState = o_CREDITS;
@@ -116,10 +127,9 @@ void OptionsMenu::Update()
 	{
 		videoEvent->GetEvent(&evCode, &eventParam1, &eventParam2, 0);
 		// wait for the video to finish, or wait until the user hits Enter/Return Key
-		if(myInput->keyPress( DIK_SPACE) || (evCode == EC_COMPLETE) )
+		if(myInput->keyPress( DIK_SPACE) || (evCode == EC_COMPLETE))
 		{
 			optionsState = o_OPTIONS_MENU;
-
 			DestroyVideo();
 
 			videoInit = false;

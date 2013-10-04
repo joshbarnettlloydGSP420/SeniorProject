@@ -28,7 +28,7 @@ void GameStateManager::Init( HWND* wndHandle,  D3DPRESENT_PARAMETERS* D3dpp, HIN
 	InitVideo(L"SplashScreenMovie.wmv");
 	
 	// Set the active game state 
-	activeGameState = INTRO;
+	activeGameState = MAIN_MENU;
 }
 
 void GameStateManager::Update( float dt )
@@ -67,7 +67,6 @@ void GameStateManager::Update( float dt )
 					// create a new options menu
 					optionsMenu = new OptionsMenu();
 					optionsMenu->Init( input, m_pD3DDevice, hwnd, D3Dpp);
-
 					// switch the game state to the options menu
 					activeGameState = OPTIONS_MENU;
 					break;

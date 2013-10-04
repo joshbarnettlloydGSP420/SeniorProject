@@ -133,7 +133,7 @@ void PauseMenu::DrawBackground()
 
 	D3DXMATRIX T, S;
 	D3DXMatrixTranslation(&T,  backGroundPos.x, - backGroundPos.y, - backGroundPos.z);
-	D3DXMatrixScaling(&S, 1.0f, 1.2f, 0.0f);
+	D3DXMatrixScaling(&S, 0.8f, 1.2f, 0.0f);
 	m_pD3DSprite->SetTransform(&(S*T));
 
 	// Draw the background sprite.

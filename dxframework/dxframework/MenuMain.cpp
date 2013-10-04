@@ -75,10 +75,20 @@ void MenuMain::Update(float dt)
 	myInput->Update();
 	mousePos.x = myInput->GetMousePosX();
 	mousePos.y = myInput->GetMousePosY();
+
+	if(mousePos.x >= 280  && mousePos.x < 440 && mousePos.y > 170 && mousePos.y < 200)
+		menuItemSelected = 1;
 	
-	if (myInput->keyDown( DIK_RETURN))
+	if(mousePos.x >= 260  && mousePos.x < 440 && mousePos.y > 340 && mousePos.y < 350)
+		menuItemSelected = 2;
+
+	if(mousePos.x >= 320  && mousePos.x < 400 && mousePos.y > 460 && mousePos.y < 490)
+		menuItemSelected = 3;
+	
+
+	if (myInput->keyDown( DIK_RETURN) || myInput->isButtonDown(0))
 	{
-		if ( menuItemSelected == 1)
+		if ( menuItemSelected == 1) 
 		{
 			menuState = m_GAME;
 			MenuMusic->Free();
@@ -127,6 +137,7 @@ void MenuMain::Render()
 		option = D3DCOLOR_ARGB(255,255,0,0);
 	else
 		option = D3DCOLOR_ARGB(255,0,0,255);
+		
 	m_pD3DFont->DrawTextA(0,menuPrint,-1,&m_rect, DT_CENTER | DT_NOCLIP,option);
 
 	sprintf(menuPrint,"Quit");
