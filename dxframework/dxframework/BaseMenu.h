@@ -58,6 +58,7 @@ protected:
 	RECT				m_rect;				// RECT for the menu background
 	LPCWSTR				backgroundFileName;	// name of file for background
 	D3DXVECTOR3			backGroundPos;		// position  for background sprite
+	RECT				mouseSheetRect;		// for mouse sprite
 
 	
 	////////////////////////////////////////////////////////////////////////

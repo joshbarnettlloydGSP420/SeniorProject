@@ -16,7 +16,7 @@ private:
 		m_GAME			= 3,
 	} menuState;
 
-	RECT		mouseSheetRect;
+	
 
 public:
 	MenuMain();

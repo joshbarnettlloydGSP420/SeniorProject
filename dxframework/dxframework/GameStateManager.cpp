@@ -92,7 +92,7 @@ void GameStateManager::Update( float dt )
 		{
 			// Add optionsMenu update function
 			optionsMenu->Update();
-
+			input->Update();
 			switch ( optionsMenu->GetState() )
 			{
 			case 1: // Exit to main menu
@@ -157,7 +157,7 @@ void GameStateManager::Update( float dt )
 		{
 			// Pause menu Update
 			pauseMenu->Update();
-
+			input->Update();
 			switch ( pauseMenu->GetState() )
 			{
 			case 1: // Resume Game

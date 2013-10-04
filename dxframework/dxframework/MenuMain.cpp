@@ -102,10 +102,6 @@ void MenuMain::Render()
 	// Call the base menu's render method to initialize some variables
 	BaseMenu::Render();
 	
-	D3DXMATRIX identity, transMat, scaleMat, rotMat, worldMat;
-
-
-
 	m_pD3DSprite->Begin(D3DXSPRITE_ALPHABLEND);
 	DrawBackGround();
 	// Print Main Menu at the top of the screen
@@ -141,18 +137,6 @@ void MenuMain::Render()
 		option = D3DCOLOR_ARGB(255,0,0,255);
 	m_pD3DFont->DrawTextA(0,menuPrint,-1,&m_rect, DT_CENTER | DT_NOCLIP,option);
 
-
-	//// Cursor
-	/*D3DXMatrixIdentity(&transMat);
-	D3DXMatrixIdentity(&scaleMat);
-	D3DXMatrixIdentity(&rotMat);
-	D3DXMatrixIdentity(&worldMat);
-
-	D3DXMatrixScaling(&scaleMat, 1.0f, 1.0f, 1.0f);
-	D3DXMatrixTranslation(&transMat, mousePos.x, mousePos.y, 0.0f);
-	D3DXMatrixMultiply(&worldMat, &scaleMat, &transMat);
-
-	m_pD3DSprite->SetTransform(&worldMat);*/
 
 	m_pD3DSprite->Draw(mouseTexture, &mouseSheetRect,&D3DXVECTOR3(0,0,0),&D3DXVECTOR3(myInput->GetMousePosX(),myInput->GetMousePosY(),0),D3DCOLOR_ARGB(255, 255, 255, 255));
 	
