@@ -61,7 +61,33 @@ void PauseMenu::Update()
 	myInput->Update();
 	mousePos.x = myInput->GetMousePosX();
 	mousePos.y = myInput->GetMousePosY();
-	if ( myInput->keyPress( DIK_RETURN))
+
+	if(mousePos.x >= 320  && mousePos.x < 550 && mousePos.y > 170 && mousePos.y < 200)
+	{
+		menuItemSelected = 1;
+	if( musicPlayCounter < 1)
+		AudioManager::GetInstance()->PlaySFX(*MenuBeep);
+		musicPlayCounter++;
+	}
+	else if(mousePos.x >= 320  && mousePos.x < 550 && mousePos.y > 340 && mousePos.y < 370)
+	{
+		menuItemSelected = 2;
+	if( musicPlayCounter < 1)
+		AudioManager::GetInstance()->PlaySFX(*MenuBeep);
+		musicPlayCounter++;
+	}
+
+	else if(mousePos.x >= 370  && mousePos.x < 490 && mousePos.y > 470 && mousePos.y < 490)
+	{
+		menuItemSelected = 3;
+		if( musicPlayCounter < 1)
+		AudioManager::GetInstance()->PlaySFX(*MenuBeep);
+		musicPlayCounter++;
+	}
+	else
+		musicPlayCounter = 0;
+
+	if ( myInput->keyPress( DIK_RETURN) || myInput->isButtonDown(0))
 	{
 		if ( menuItemSelected == 1)
 		{
@@ -92,7 +118,7 @@ void PauseMenu::Render()
 	m_pD3DFont->DrawTextA(0,menuPrint,-1,&m_rect, DT_CENTER | DT_NOCLIP,option);
 
 	sprintf(menuPrint,"Resume Game ");
-	SetRect(&m_rect,120,220,600,500);
+	SetRect(&m_rect,120,210,600,500);
 	if(menuItemSelected == 1)
 		option = D3DCOLOR_ARGB(255,255,0,0);
 	else
