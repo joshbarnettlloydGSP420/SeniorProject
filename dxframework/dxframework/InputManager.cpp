@@ -121,6 +121,7 @@ bool InputManager::isButtonDown(int button)
 	} else {
 		return false;
 	}
+	
 }
 
 bool InputManager::keyDown(DWORD key)
@@ -184,14 +185,14 @@ void InputManager::Update()
 	mouseY += mouseState.lY;
 	mouseZ += mouseState.lZ;
 	
-	//if( mouseX < 0 ) 
-	//	mouseX = 0;
-	//if( mouseX > ScreenWidth ) 
-	//	mouseX = ScreenWidth;
-	//if( mouseY < 0 ) 
-	//	mouseY = 0;
-	//if( mouseY > ScreenHeight )
-	//	mouseY = ScreenHeight;
+	/*if( mouseX < 0 ) 
+		mouseX = 0;
+	if( mouseX > ScreenWidth ) 
+		mouseX = ScreenWidth;
+	if( mouseY < 0 ) 
+		mouseY = 0;
+	if( mouseY > ScreenHeight )
+		mouseY = ScreenHeight;*/
 }
 
 int  InputManager::GetMousePosX()
