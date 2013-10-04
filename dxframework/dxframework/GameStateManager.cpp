@@ -34,9 +34,7 @@ void GameStateManager::Init( HWND* wndHandle,  D3DPRESENT_PARAMETERS* D3dpp, HIN
 void GameStateManager::Update( float dt )
 {
 	input->getInput();
-	/*input->GetMousePosX();
-	input->GetMousePosY();
-	input->Update();*/
+	
 	switch ( activeGameState )
 	{
 		///////////////////////////////////////////////////////////////////////
@@ -53,7 +51,7 @@ void GameStateManager::Update( float dt )
 			
 			// Call the main menu and return menu selection
 			mainMenu->Update(dt);
-			
+			input->Update();
 			switch ( mainMenu->GetState() )
 			{
 			case 1:	// Quit

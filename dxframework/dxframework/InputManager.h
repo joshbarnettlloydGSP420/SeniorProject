@@ -12,7 +12,7 @@ public:
 	~InputManager(void);
 
 	bool init(HINSTANCE hInst, HWND wndHandle);
-	void Update(float dt);
+	void Update();
 	void getInput();
 	//mouse functions
 	int GetMousePosY();
@@ -24,7 +24,7 @@ public:
 	bool keyDown(DWORD key);
 	bool keyUp(DWORD key);
 	bool keyPress(DWORD key);
-	
+	void SetWindowDimension( float width, float height);
 	
 private:
 
@@ -32,9 +32,9 @@ private:
 	LPDIRECTINPUTDEVICE8  mouseDevice;		// the direct input device for the mouse
 	LPDIRECTINPUTDEVICE8 keyboardDevice;	// the direct input device for the keyboard
 
-	DIMOUSESTATE mouseState;			// The current state of the mouse device
+	DIMOUSESTATE2 mouseState;			// The current state of the mouse device
 	int	 mouseX, mouseY;
-	
+	short ScreenWidth, ScreenHeight;	// get windo size
 	UCHAR keyState[256];				//state of the keys
 	UCHAR keyPressState[256];			//used for the keyPressed function
 

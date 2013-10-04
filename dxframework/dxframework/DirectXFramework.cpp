@@ -385,6 +385,8 @@ void CDirectXFramework::Init(HWND& hWnd, HINSTANCE& hInst, bool bWindowed)
 	// Input Manager Init
 	m_pDInput = new InputManager();
 	m_pDInput->init(hInst,hWnd);
+
+	m_pDInput->SetWindowDimension(screenWidth, screenHeight);
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Create Havok Object																					 //
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -485,6 +487,7 @@ void CDirectXFramework::Update(float dt)
 {
 	if(gameState->activeGameState == GAME)
 	{
+		m_pDInput->Update();
 		havok->stepSimulation(dt);
 
 		havok->getWorld()->lock();
@@ -563,7 +566,7 @@ void CDirectXFramework::Render(float dt)
 	//////////////////////////////////////////////////////////////////////////
 	// Draw 3D Objects (for future labs - not used in Week #1)
 	//////////////////////////////////////////////////////////////////////////
-
+	m_pD3DSprite->Begin(D3DXSPRITE_ALPHABLEND);
 	D3DXMatrixIdentity(&rotMat);
 	D3DXMatrixIdentity(&scaleMat);
 	D3DXMatrixIdentity(&worldMat);

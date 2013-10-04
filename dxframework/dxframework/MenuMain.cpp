@@ -51,8 +51,8 @@ bool MenuMain::Init(InputManager* input, IDirect3DDevice9*	m_pD3DDevice)
 		D3DX_DEFAULT, D3DCOLOR_XRGB(255, 0, 255), 
 		&m_cursorInfo, 0, &mouseTexture);
 
-	SetRect(&mouseSheetRect, 0, 0, m_cursorInfo.Width, m_cursorInfo.Height); 
-
+	SetRect(&mouseSheetRect, 7, 4, 24, 30); 
+	
 	// set back ground position
 	backGroundPos = D3DXVECTOR3(0,0,0);
 
@@ -72,11 +72,9 @@ bool MenuMain::Init(InputManager* input, IDirect3DDevice9*	m_pD3DDevice)
 void MenuMain::Update(float dt)
 {
 	BaseMenu::Update();
-	myInput->Update(dt);
-
-	mousePos.x += (float)myInput->getMouseMovingX();
-	mousePos.y += (float)myInput->getMouseMovingY();
-
+	myInput->Update();
+	mousePos.x = myInput->GetMousePosX();
+	mousePos.y = myInput->GetMousePosY();
 	
 	if (myInput->keyDown( DIK_RETURN))
 	{
@@ -104,7 +102,7 @@ void MenuMain::Render()
 	// Call the base menu's render method to initialize some variables
 	BaseMenu::Render();
 	
-	D3DXMATRIX transMat, scaleMat, rotMat, worldMat;
+	D3DXMATRIX identity, transMat, scaleMat, rotMat, worldMat;
 
 
 
@@ -144,8 +142,8 @@ void MenuMain::Render()
 	m_pD3DFont->DrawTextA(0,menuPrint,-1,&m_rect, DT_CENTER | DT_NOCLIP,option);
 
 
-	// Cursor
-	D3DXMatrixIdentity(&transMat);
+	//// Cursor
+	/*D3DXMatrixIdentity(&transMat);
 	D3DXMatrixIdentity(&scaleMat);
 	D3DXMatrixIdentity(&rotMat);
 	D3DXMatrixIdentity(&worldMat);
@@ -154,9 +152,9 @@ void MenuMain::Render()
 	D3DXMatrixTranslation(&transMat, mousePos.x, mousePos.y, 0.0f);
 	D3DXMatrixMultiply(&worldMat, &scaleMat, &transMat);
 
-	m_pD3DSprite->SetTransform(&worldMat);
+	m_pD3DSprite->SetTransform(&worldMat);*/
 
-	m_pD3DSprite->Draw(mouseTexture, &mouseSheetRect,&D3DXVECTOR3(0,0,0),&D3DXVECTOR3(m_cursorInfo.Width * 0.5f , m_cursorInfo.Height * 0.5f,0),D3DCOLOR_ARGB(255, 255, 255, 255));
+	m_pD3DSprite->Draw(mouseTexture, &mouseSheetRect,&D3DXVECTOR3(0,0,0),&D3DXVECTOR3(myInput->GetMousePosX(),myInput->GetMousePosY(),0),D3DCOLOR_ARGB(255, 255, 255, 255));
 	
 	m_pD3DSprite->End();
 }

@@ -16,7 +16,6 @@ private:
 		m_GAME			= 3,
 	} menuState;
 
-	D3DXVECTOR2 mousePos;   // hold mouse position
 	RECT		mouseSheetRect;
 
 public:
