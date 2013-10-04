@@ -108,7 +108,10 @@ int InputManager::getMouseMovingY()
 	return mouseState.lY; 
 }
 
-
+int InputManager::getMouseMovingZ() 
+{
+	return mouseState.lZ; 
+}
 
 bool InputManager::isButtonDown(int button)
 {
@@ -179,6 +182,7 @@ void InputManager::Update()
 	
 	mouseX += mouseState.lX;
 	mouseY += mouseState.lY;
+	mouseZ += mouseState.lZ;
 	
 	//if( mouseX < 0 ) 
 	//	mouseX = 0;
@@ -198,4 +202,9 @@ int  InputManager::GetMousePosX()
 int  InputManager::GetMousePosY()
 {
 	return mouseY;
+}
+
+int  InputManager::GetMousePosZ()
+{
+	return mouseZ;
 }

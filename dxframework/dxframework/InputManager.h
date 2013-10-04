@@ -17,6 +17,8 @@ public:
 	//mouse functions
 	int GetMousePosY();
 	int GetMousePosX();
+	int GetMousePosZ();
+	int getMouseMovingZ();
 	bool isButtonDown(int button);
 	int getMouseMovingX();
 	int getMouseMovingY();
@@ -33,7 +35,7 @@ private:
 	LPDIRECTINPUTDEVICE8 keyboardDevice;	// the direct input device for the keyboard
 
 	DIMOUSESTATE2 mouseState;			// The current state of the mouse device
-	int	 mouseX, mouseY;
+	int	 mouseX, mouseY, mouseZ;
 	short ScreenWidth, ScreenHeight;	// get windo size
 	UCHAR keyState[256];				//state of the keys
 	UCHAR keyPressState[256];			//used for the keyPressed function

@@ -73,7 +73,7 @@ void OptionsMenu::Update()
 
 	if(mousePos.x >= 290  && mousePos.x < 420 && mousePos.y > 280 && mousePos.y < 300)
 	{
-		menuItemSelected = 1;
+			menuItemSelected = 1;
 		if( musicPlayCounter < 1)
 		AudioManager::GetInstance()->PlaySFX(*MenuBeep);
 		musicPlayCounter++;
@@ -118,9 +118,9 @@ void OptionsMenu::Update()
 	if ( myInput->keyPress(DIK_RETURN) || myInput->isButtonDown(0))
 	{
 		if ( menuItemSelected == 1)
-		
+		{
 			optionsState = o_CREDITS;
-			
+		}
 		
 		else if ( menuItemSelected == 2)
 		{

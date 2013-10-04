@@ -966,7 +966,7 @@ void CDirectXFramework::playerControls(float dt)
 	// Bullet Controls
 
 	//switching from green to blue bullets
-	if( m_pDInput->keyPress(DIK_1) )
+	if( m_pDInput->keyPress(DIK_1))
 	{
 		if(type !=green)
 		{
