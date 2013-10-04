@@ -37,7 +37,7 @@ bool MenuMain::Init(InputManager* input, IDirect3DDevice9*	m_pD3DDevice)
 
 	// set the initial selected item
 	menuItemSelected = 1;
-
+	
 	// if no image is chosen this will be the default for the background
 	backgroundFileName = L"haunted_house.jpg";
 
@@ -66,6 +66,8 @@ bool MenuMain::Init(InputManager* input, IDirect3DDevice9*	m_pD3DDevice)
 	MenuBeep = new SoundEffect();
 	MenuBeep = SoundLoader::GetInstance()->Load(false,false ,"MenuBeep2.mp3");
 	AudioManager::GetInstance()->SetSFXVolume(1.0f);
+	// sound played counter
+	musicPlayCounter = 0;
 	return true;
 }
 
@@ -77,14 +79,31 @@ void MenuMain::Update(float dt)
 	mousePos.y = myInput->GetMousePosY();
 
 	if(mousePos.x >= 280  && mousePos.x < 440 && mousePos.y > 170 && mousePos.y < 200)
+	{
 		menuItemSelected = 1;
+	if( musicPlayCounter < 1)
+		AudioManager::GetInstance()->PlaySFX(*MenuBeep);
+		musicPlayCounter++;
+	}
 	
-	if(mousePos.x >= 260  && mousePos.x < 440 && mousePos.y > 340 && mousePos.y < 350)
+	
+	else if(mousePos.x >= 260  && mousePos.x < 440 && mousePos.y > 340 && mousePos.y < 350)
+	{
 		menuItemSelected = 2;
+	if( musicPlayCounter < 1)
+		AudioManager::GetInstance()->PlaySFX(*MenuBeep);
+		musicPlayCounter++;
+	}
 
-	if(mousePos.x >= 320  && mousePos.x < 400 && mousePos.y > 460 && mousePos.y < 490)
+	else if(mousePos.x >= 320  && mousePos.x < 400 && mousePos.y > 460 && mousePos.y < 490)
+	{
 		menuItemSelected = 3;
-	
+		if( musicPlayCounter < 1)
+		AudioManager::GetInstance()->PlaySFX(*MenuBeep);
+		musicPlayCounter++;
+	}
+	else
+		musicPlayCounter = 0;
 
 	if (myInput->keyDown( DIK_RETURN) || myInput->isButtonDown(0))
 	{

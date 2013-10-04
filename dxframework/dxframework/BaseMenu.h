@@ -59,7 +59,7 @@ protected:
 	LPCWSTR				backgroundFileName;	// name of file for background
 	D3DXVECTOR3			backGroundPos;		// position  for background sprite
 	RECT				mouseSheetRect;		// for mouse sprite
-
+	int					musicPlayCounter;
 	
 	////////////////////////////////////////////////////////////////////////
 	// DirectShow COM Object Creation

@@ -56,6 +56,8 @@ bool OptionsMenu::Init(InputManager* input, IDirect3DDevice9* m_pD3DDevice, HWND
 	
 	MenuBeep = SoundLoader::GetInstance()->Load(false,false ,"MenuBeep2.mp3");
 	AudioManager::GetInstance()->SetSFXVolume(1.0f);
+	// sound played counter
+	musicPlayCounter = 0;
 
 	videoInit = false;
 	return true;
@@ -70,13 +72,23 @@ void OptionsMenu::Update()
 	mousePos.y = myInput->GetMousePosY();
 
 	if(mousePos.x >= 290  && mousePos.x < 420 && mousePos.y > 280 && mousePos.y < 300)
+	{
 		menuItemSelected = 1;
+		if( musicPlayCounter < 1)
+		AudioManager::GetInstance()->PlaySFX(*MenuBeep);
+		musicPlayCounter++;
+	}
 	
 	
-	
-	if(mousePos.x >= 240  && mousePos.x < 465 && mousePos.y > 450 && mousePos.y < 460)
+	else if(mousePos.x >= 240  && mousePos.x < 465 && mousePos.y > 450 && mousePos.y < 460)
+	{
 		menuItemSelected = 2;
-	
+		if( musicPlayCounter < 1)
+		AudioManager::GetInstance()->PlaySFX(*MenuBeep);
+		musicPlayCounter++;
+	}
+	else
+		musicPlayCounter = 0;
 
 	
 	if ( videoInit == false)
