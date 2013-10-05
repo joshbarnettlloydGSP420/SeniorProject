@@ -39,6 +39,9 @@ private:
 	// 3D Variables													        //
 	//////////////////////////////////////////////////////////////////////////
 
+	// scale
+	D3DXVECTOR4						scale;
+
 	// Lights
 	D3DLIGHT9						light;
 
@@ -72,6 +75,9 @@ private:
 	// Mesh
 	ID3DXMesh*						testMesh;
 
+	// movement variables
+	float						rotation;
+
 
 	//////////////////////////////////////////////////////////////////////////
 	// Shaders																//
@@ -85,6 +91,8 @@ private:
 	D3DXMATRIX						rotMat;
 	D3DXMATRIX						scaleMat;
 	D3DXMATRIX						worldMat;
+	//D3DXMATRIX						viewMat;
+	//D3DXMATRIX						projMat;
 	D3DXMATRIX						invTransMat;
 
 	//////////////////////////////////////////////////////////////////////////
@@ -107,10 +115,10 @@ public:
 	~RenderObject(void);
 
 	void Init(IDirect3DDevice9* device, ID3DXSprite* m_pD3DSprite );
-	void LoadTexture( LPCSTR fileName, int textureNum );
-	void LoadMesh( LPCSTR fileName, Mesh** meshObject);
-	void LoadShaderEffects(LPCSTR fileName, int fxNum );
-	void Render3DObject(D3DXVECTOR4 position, Mesh* ObjectMesh,	D3DXMATRIX viewMat, D3DXMATRIX projMat);
+	void LoadTexture( LPCWSTR fileName, int textureNum );
+	void LoadMesh( LPCWSTR fileName, Mesh** meshObject);
+	void LoadShaderEffects(LPCWSTR fileName, int fxNum );
+	void Render3DObject(D3DXVECTOR4 position, Mesh* ObjectMesh, D3DXMATRIX	viewMat, D3DXMATRIX projMat, int textureNum);
 	void Render2DSprite(int textureNum);
 
 	void MaterialSettings();
@@ -123,5 +131,14 @@ public:
 		this->d3dVertexDecl = d3dVertexDecl;
 	};
 
+	void SetRotation( float newRotation )
+	{
+		rotation = newRotation;
+	};
+
+	void SetScale( D3DXVECTOR4 newScale )
+	{
+		scale = newScale;
+	};
 };
 

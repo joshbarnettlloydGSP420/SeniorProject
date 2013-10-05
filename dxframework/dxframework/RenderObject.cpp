@@ -14,6 +14,7 @@ void RenderObject::Init( IDirect3DDevice9* device, ID3DXSprite* m_pD3DSprite )
 {
 	this->device = device;
 	spriteObject = m_pD3DSprite;
+	scale = D3DXVECTOR4( 0.15, 0.15, 0.15, 0.0);
 }
 
 void RenderObject::MaterialSettings()
@@ -39,7 +40,7 @@ void RenderObject::CreateVertexElement()
 	//device->CreateVertexDeclaration( elems, &d3dVertexDecl );
 }
 
-void RenderObject::LoadTexture( LPCSTR fileName, int textureNum )
+void RenderObject::LoadTexture( LPCWSTR fileName, int textureNum )
 {
 
 	//D3DXCreateSprite(device, &spriteObject);
@@ -48,10 +49,10 @@ void RenderObject::LoadTexture( LPCSTR fileName, int textureNum )
 	D3DXCreateTextureFromFileEx(device, fileName , 0, 0, 0, 0,
 		D3DFMT_UNKNOWN, D3DPOOL_MANAGED, D3DX_DEFAULT, 
 		D3DX_DEFAULT, D3DCOLOR_XRGB(255, 0, 255), 
-		&m_imageInfo, 0, &m_pTexture[0]);
+		&m_imageInfo, 0, &m_pTexture[textureNum]);
 }
 
-void RenderObject::LoadShaderEffects(LPCSTR fileName, int fxNum )
+void RenderObject::LoadShaderEffects(LPCWSTR fileName, int fxNum )
 {
 	// Toon Effects Shader
 	ID3DXBuffer* ErrorMessage = 0;
@@ -69,14 +70,17 @@ void RenderObject::LoadShaderEffects(LPCSTR fileName, int fxNum )
 		char error[512];
 		ZeroMemory( error, 256 );
 		strcpy_s( error, (char*)ErrorMessage->GetBufferPointer() );
-		MessageBox(0, (LPCSTR)error, "Shader Error", MB_OK );
+		MessageBox(0, (LPCWSTR)error, L"Shader Error", MB_OK );
 	}
 
 	hTech[0] = fx[0]->GetTechniqueByName("tech0");
 }
 
-void RenderObject::Render3DObject(D3DXVECTOR4 position, Mesh* objectMesh,	D3DXMATRIX viewMat, D3DXMATRIX projMat)
+void RenderObject::Render3DObject(D3DXVECTOR4 position, Mesh* objectMesh, D3DXMATRIX	viewMat, D3DXMATRIX projMat, int textureNum)
 {
+
+	// change rotation from float angle to (x, z) vector
+	D3DXVECTOR4 RotationAsVector = D3DXVECTOR4((float) sin(rotation), 0, (float) cos(rotation), 0);
 
 	//////////////////////////////////////////////////////////////////////////
 	// Draw 3D Objects
@@ -85,10 +89,6 @@ void RenderObject::Render3DObject(D3DXVECTOR4 position, Mesh* objectMesh,	D3DXMA
 	D3DXMatrixIdentity(&scaleMat);
 	D3DXMatrixIdentity(&worldMat);
 	D3DXMatrixIdentity(&transMat);
-
-	//device->SetStreamSource(0, mesh_vb, 0, sizeof(Vertex));
-	//device->SetIndices(mesh_ib);
-	//device->SetVertexDeclaration(d3dVertexDecl);
 
 	fx[0]->SetTechnique(hTech[0]);
 
@@ -100,11 +100,10 @@ void RenderObject::Render3DObject(D3DXVECTOR4 position, Mesh* objectMesh,	D3DXMA
 		fx[0]->BeginPass(i);
 
 		// Mesh Matrix
-		D3DXMatrixScaling(&scaleMat, 0.025f, 0.025f, 0.025f);
-		D3DXMatrixRotationYawPitchRoll(&rotMat, 0.0f, 0.0f, 0.0f);
+		D3DXMatrixScaling(&scaleMat, scale.x, scale.y, scale.z);
+		D3DXMatrixRotationYawPitchRoll(&rotMat, 0, 0, 0);
 		D3DXMatrixTranslation(&transMat, position.x, position.y, position.z);
-		//D3DXMatrixMultiply(&scaleMat, &scaleMat, &rotMat);
-		//D3DXMatrixMultiply(&worldMat, &scaleMat, &transMat);
+		D3DXMatrixMultiply(&scaleMat, &scaleMat, &rotMat);
 		D3DXMatrixMultiply(&worldMat, &scaleMat, &transMat);
 
 		D3DXMatrixInverse(&invTransMat, 0, &worldMat);
@@ -122,7 +121,7 @@ void RenderObject::Render3DObject(D3DXVECTOR4 position, Mesh* objectMesh,	D3DXMA
 		fx[0]->SetMatrix("Projection", &projMat);
 		fx[0]->SetMatrix("WorldInverseTranspose", &invTransMat);
 
-		fx[0]->SetTexture("gTexture", m_pTexture[0]);
+		fx[0]->SetTexture("gTexture", m_pTexture[textureNum]);
 		fx[0]->CommitChanges();
 		objectMesh->p_Mesh->DrawSubset(0);
 
@@ -148,12 +147,12 @@ void RenderObject::Render2DSprite(int textureNum )
 	// Set Transform for the object m_pD3DSprite
 	spriteObject->SetTransform(&worldMat);
 
-	spriteObject->Draw(m_pTexture[0], 0, &D3DXVECTOR3(m_imageInfo.Width * 0.5f, 
+	spriteObject->Draw(m_pTexture[textureNum], 0, &D3DXVECTOR3(m_imageInfo.Width * 0.5f, 
 			m_imageInfo.Height * 0.5f, 0.0f), 0,
 			D3DCOLOR_ARGB(255, 255, 255, 255));
 }
 
-void RenderObject::LoadMesh(LPCSTR fileName, Mesh** meshObject)
+void RenderObject::LoadMesh(LPCWSTR fileName, Mesh** meshObject)
 {
 	// Create a Temp Mesh
 	Mesh* temp = new Mesh();
@@ -195,7 +194,7 @@ void RenderObject::LoadMesh(LPCSTR fileName, Mesh** meshObject)
 
 			if( mat[i].pTextureFilename != 0 )
 			{
-				D3DXCreateTextureFromFileA( m_pD3DDevice, (LPCSTR)mat[i].pTextureFilename, &temp->textures[i] );
+				D3DXCreateTextureFromFileA( device, (LPCSTR)mat[i].pTextureFilename, &temp->textures[i] );
 			}
 		}
 	}

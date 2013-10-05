@@ -8,11 +8,12 @@ CameraObj::CameraObj(void)
 	D3DXMatrixIdentity( &projMat );
 	D3DXMatrixIdentity( &viewProjMat );
 
-	eyePos	= D3DXVECTOR3(0.0f, -8.0f, 0);//-80.0f);			// The position of our camera //changed 9/9/2013
+	eyePos	= D3DXVECTOR3(0.0f, -12.0f, 2.0f);			// The position of our camera
 	lookAt	= D3DXVECTOR3(0.0f, 0.0f, 1.0f);			// The lookat target of our camera
 	upVec	= D3DXVECTOR3(0.0f, 1.0f, 0.0f);			// Up vector
 	right	= D3DXVECTOR3(1.0f, 0.0f, 0.0f);			//
 }
+
 
 CameraObj::~CameraObj(void)
 {

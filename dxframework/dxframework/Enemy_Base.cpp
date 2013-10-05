@@ -1,81 +1,85 @@
 #include "Enemy_Base.h"
 
 
+// Default variables
 Enemy_Base::Enemy_Base(void)
 {
-	// defalut values
-	textureName = "RedGhostTexture.JPEG";
-	textureNumber = RedGhost;
-	meshName = "Dwarf.X";
+	// initialize the variables
 	isDead = false;
-	health = 100;
-	attackPower = 50;
-	defencePower = 50;
-	attackRange = D3DXVECTOR4( 50, 50, 50, 0);
-	wanderRange = D3DXVECTOR4( 50, 50, 50, 0);
+	health = 200;
+	attackSpeed = 10;
+	attackRange = 25;
+	wanderRange = 75;
+
+	// Set the Initial movement variables
+	//movement->setPosition( D3DXVECTOR4(10, 1.0, 50, 0));
+	//movement->setVelocity( D3DXVECTOR4( 0, 0, 0, 0 ));
+	//movement->SetOrientation( 0.0f);
+	//movement->SetRotation( 0.0f);
+	//movement->SetLinear( D3DXVECTOR4(0, 0, 0, 0));
+	//movement->SetAngular( 0.0f);
+
+	// set the initial state of the enemy
+	State = Wander;
+	miniGhostInitialized = false;
+
+	// Initialize the 3D model of the enemy.
+	textureName = L"RedGhostTexture.jpg";
+	textureNumber = RedGhost;
+	meshName = L"RedGhost.x";
+
+	velUD = 0.0f;
+	velLR = 0.0f;
 }
 
-
+// Destructor
 Enemy_Base::~Enemy_Base(void)
 {
 	//delete movement;
-	//delete havokShape;
 }
 
 // Initialize all the variables for the enemies
 void Enemy_Base::Init(IDirect3DDevice9* m_pD3DDevice, RenderObject* renderObject)
 {
+	// set external variables to class variables to be used in base class
 	device = m_pD3DDevice;
 	render = renderObject;
 
-	textureName = "RedGhostTexture.jpg";
-	textureNumber = RedGhost;
-	meshName = "RedGhost.X";
-	isDead = false;
-	health = 100;
-	attackPower = 50;
-	defencePower = 50;
-	attackRange = D3DXVECTOR4( 50, 50, 50, 0);
-	wanderRange = D3DXVECTOR4( 50, 50, 50, 0);
-
-	// Set the Initial position of the enemy if none is specified.
-	movement = new Enemy_Movement();
-	movement->setPosition( D3DXVECTOR4( 0, 0, 0, 0 ));
-	movement->setVelocity( D3DXVECTOR4( 0, 0, 0, 0 ));
-	movement->SetOrientation( 0.0f);
-	movement->SetRotation( 0.0f);
-	movement->SetLinear( D3DXVECTOR4(0, 0, 0, 0));
-
-	// Initial state of the enemy
-	State = Attack;
-
-	havokShape = new Object_Player();
-	havokShape->position = movement->GetPosition();
-	havokShape->shape = 3;	// CAPSULE SHAPE
+	// havok variables
+	velUD = 5.0f;
+	velLR = 5.0f;		
 
 	// Create the texture
 	render->LoadTexture( textureName, textureNumber);
 
 	// create 3D mesh from .x file
-	render->LoadMesh( meshName, &havokShape->objectMesh);
+	render->LoadMesh( meshName, &objectMesh);
+
+	miniGhostInitialized = false;
 }
 
 // Update the enemy
-void Enemy_Base::Update( float dt, D3DXVECTOR4 playerPosition )
-{
+void Enemy_Base::Update( float dt, D3DXVECTOR4 playerPosition)
+{ 
 	playerPos = playerPosition;
 
+	// if health is less than 0 then enemy is dead
 	if ( health <= 0)
-	{
 		isDead = true;
-	}
 
+	// update the state
 	UpdateState( State, dt );
-	movement->GetNewOrientation();
-	movement->Update(dt);
 
-	havokShape->position = movement->GetPosition();
-	//havokShape->Update(dt);
+	// update the movement and orientation
+	movement->GetNewOrientation();
+	movement->Update(dt, isDead);
+
+	// update the havok movement
+	HavokBodyUpdate();
+
+	// if there are mini enemies then update them
+	if ( miniGhostInitialized == true )
+		miniGhost.Update( dt, movement->GetPosition());
 }
 
 // Change the state of the enemy based on current actions in the game
@@ -83,80 +87,200 @@ void Enemy_Base::UpdateState(StateType CurrentState, float dt)
 {
 	switch( CurrentState )
 	{
-		// Wander around the room
+	//	Wander Around Room		/////////////////////////////////////////////////////
 	case Wander:
 		{
 			wander.GetSteering( movement);
-			// if player is in range then seek
-			if (playerPos - movement->GetPosition() < wanderRange )
-				ChangeState( Seek );
+			
+			// if player is in range then seek player
+			if ((sqrt(( playerPos.x * playerPos.x) + ( playerPos.z * playerPos.z))) < wanderRange )
+				//ChangeState( Arrive );
 			break;
 		}
-		// Seek out the player
-	case Seek:
+	//	Seek out player		////////////////////////////////////////////////////////
+	case Arrive:
 		{
-			seek.GetSteering( movement, playerPos );
-			// if in range of player then attack
-			if (playerPos - movement->GetPosition() < attackRange )
+			arrive.GetSteering( movement, playerPos);
+			// if in attack range of player then attack
+			if ((sqrt(( playerPos.x * playerPos.x) + ( playerPos.z * playerPos.z))) < attackRange )
 				ChangeState( Attack );
 
 			// if player is out of range then wander
-			else if (playerPos - movement->GetPosition() >= wanderRange )
+			else if ((sqrt(( playerPos.x * playerPos.x) + ( playerPos.z * playerPos.z))) >= wanderRange )
 				ChangeState( Wander );
 			break;
 		}
-		// Run away from the player
+	//	Flee from player	////////////////////////////////////////////////////////
 	case Flee:
 		{
 			flee.GetSteering( movement, playerPos );
 			// if out of range of player then wander
-			if (playerPos - movement->GetPosition() >= wanderRange )
+			if ((sqrt(( playerPos.x * playerPos.x) + ( playerPos.z * playerPos.z))) >= wanderRange )
 				ChangeState( Wander );
 			break;
 		}
-		// Attack the player
+	//	Attack player	////////////////////////////////////////////////////////////
 	case Attack:
 		{
-			// initialize the attack
-			attack.Init();
-
+			// set the velocity
+			attack.SetSpeed( attackSpeed );
 			// update the attack to fire at the player
-			if (playerPos - movement->GetPosition() < attackRange )			
-			attack.Update( dt, movement->GetPosition(), playerPos);
+			attack.Update( dt, movement, playerPos);
+
 			// if health is low then flee
 			if ( health < 40 )
-			{
 				ChangeState( Flee );
-			}
-			// TODO: if player attacks then guard 50% of the time
-			// ChangeState ( Guard );
 			break;
 		}
-		// Guard against player's attack
-	case Guard:
+	//	Hit with opposite color bullet	//////////////////////////////////////////
+	case Defence:
 		{
-			// if health is low then flee
-			if ( health < 40 )
-			{
-				ChangeState( Flee );
-			}
-			// TODO: if player is not attacking then attack
-			// ChangeState ( Attack );
+			// spawn 4 new mini ghosts that will circle arround parent ghost
+			/*if ( miniGhostInitialized == false)
+				miniGhostInitialized = miniGhost.Init( movement->GetPosition(), render, device);
+			ChangeState( Wander );*/
 			break;
 		}
 	};
 }
 
-void Enemy_Base::Render(HWND hwnd, D3DXMATRIX viewMat, D3DXMATRIX projMat)
+// render the enemy
+void Enemy_Base::Render(HWND hwnd, D3DXMATRIX veiwMat, D3DXMATRIX projMat)
 {
-	attack.Render(hwnd);
+	// has to send in orientation to turn properly
+	//render->SetRotation( movement->GetOrientation());
+	//render->SetRotation( movement->GetRotation());
 
-	//havokShape->mPSys->draw(hwnd);
+	// set the health based on the scale ( 150 health will = 0.15 scale )
+	render->SetScale(D3DXVECTOR4( 0.15, 0.15, 0.15, 0) );
 
-	render->Render3DObject( movement->GetPosition(), havokShape->objectMesh, viewMat, projMat);
+	// render the ghost
+	render->Render3DObject( D3DXVECTOR4(movement->GetPosition().x, movement->GetPosition().y - 10.0f, movement->GetPosition().z, movement->GetPosition().w), objectMesh, veiwMat, projMat, textureNumber);
+
+	// render the mini ghosts if they are initialized
+	//if ( miniGhostInitialized == true)
+		//miniGhost.Render(hwnd, veiwMat, projMat);
 }
+
+//void Enemy_Base::CreateBodyObject(hkpWorld* world)
+//{
+//	// Create a ridid body that can move dynamically about the scene.
+//	hkpCharacterRigidBodyCinfo	bodyInfo;
+//
+//	// Capsule Parameters
+//	hkVector4	vertexA(0.0f, 1.0f, 0.0f, 0);		// Top
+//	hkVector4	vertexB(0.0f, -1.0f, 0.0f, 0);		// Bottom
+//	hkReal		radius	=	1.0f;					// Radius
+//
+//	// Create Capsule Based on Parameters
+//	hkpCapsuleShape* capsuleShape = new hkpCapsuleShape(vertexA, vertexB, radius);
+//
+//	// Set The Object's Properties
+//	bodyInfo.m_shape = capsuleShape;
+//	bodyInfo.m_position.set(movement->GetPosition().x, movement->GetPosition().y, movement->GetPosition().z, 0.0f);
+//	bodyInfo.m_mass = 5.0f;
+//
+//	// Calculate Mass Properties
+//	hkMassProperties massProperties;
+//
+//	hkpInertiaTensorComputer::computeShapeVolumeMassProperties(bodyInfo.m_shape, bodyInfo.m_mass, massProperties);
+//	
+//	// Create Rigid Body
+//	rigidBody = new hkpCharacterRigidBody(bodyInfo);
+//
+//	// Add Rigid Body to the World
+//	world->addEntity(rigidBody->getRigidBody());
+//
+//	// No longer need the reference on the shape, as the rigidbody owns it now
+//	capsuleShape->removeReference();
+//}
 
 void Enemy_Base::CreateHavokObject(hkpWorld* world)
 {
-	havokShape->createHavokObject( world );
+	// Create a temp body info
+	hkpRigidBodyCinfo			bodyInfo;
+
+	// Sphere Parameters
+	hkReal radius = 4.0f;
+
+	// Create Sphere Based on Parameters
+	hkpSphereShape* sphereShape = new hkpSphereShape(radius);
+
+	// Set The Object's Properties
+	bodyInfo.m_shape = sphereShape;
+	bodyInfo.m_position.set(movement->GetPosition().x, movement->GetPosition().y, movement->GetPosition().z, 0.0f);
+	bodyInfo.m_friction = 1.0f;
+	bodyInfo.m_motionType = hkpMotion::MOTION_KEYFRAMED;
+
+	hkReal	mass = 5.0f;
+	// Calculate Mass Properties
+	hkMassProperties massProperties;
+	hkpInertiaTensorComputer::computeShapeVolumeMassProperties(sphereShape, mass, massProperties);
+	
+	// Set Mass Properties
+
+	// Create Rigid Body
+	rigidBody = new hkpRigidBody(bodyInfo);
+
+	// No longer need the reference on the shape, as the rigidbody owns it now
+	sphereShape->removeReference();
+
+	// Add Rigid Body to the World
+	world->addEntity(rigidBody);
+}
+
+//void Enemy_Base::HavokMovement()
+//{
+//	hkpCharacterInput input;
+//	hkpCharacterOutput output;
+//
+//	if(movement->GetPosition().x < rigidBody->getPosition().getComponent(0))
+//		input.m_inputLR += velLR;
+//	else if(movement->GetPosition().x > rigidBody->getPosition().getComponent(0))
+//		input.m_inputLR -= velLR;
+//
+//	if(movement->GetPosition().z < rigidBody->getPosition().getComponent(2))
+//		input.m_inputUD += velUD;
+//	else if(movement->GetPosition().z > rigidBody->getPosition().getComponent(2))
+//		input.m_inputUD -= velUD;
+//
+//	input.m_up = hkVector4(0, 1, 0);
+//	input.m_forward.set(0, 0, 1);
+//
+//	hkStepInfo stepInfo;
+//	stepInfo.m_deltaTime = 1.0f / 60.0f;
+//	stepInfo.m_invDeltaTime = 1.0f / (1.0f / 60.0f);
+//
+//	input.m_stepInfo = stepInfo;
+//	input.m_characterGravity.set(0, -16, 0);
+//	input.m_velocity = rigidBody->getRigidBody()->getLinearVelocity();
+//	input.m_position = rigidBody->getRigidBody()->getPosition();
+//
+//	rigidBody->checkSupport(stepInfo, input.m_surfaceInfo);
+//
+//	context->update(input, output);
+//
+//	rigidBody->setLinearVelocity(output.m_velocity, 1.0f / 60.0f);
+//}
+
+bool Enemy_Base::CollisionDetection(hkpRigidBody* playerBody)
+{
+	hkAabb aabbBase;
+	hkAabb aabbOut;
+
+	playerBody->getCollidable()->getShape()->getAabb(playerBody->getTransform(), 0.4f, aabbOut);
+	rigidBody->getCollidable()->getShape()->getAabb(rigidBody->getTransform(), 0.4f, aabbBase);
+
+	if(aabbBase.overlaps(aabbOut))
+	{
+		return true;
+	}
+
+	return false;
+}
+
+void Enemy_Base::HavokBodyUpdate()
+{
+	hkVector4 havokPos = hkVector4(movement->GetPosition().x, movement->GetPosition().y, movement->GetPosition().z, 0.0f);
+	rigidBody->setPosition(havokPos);
 }

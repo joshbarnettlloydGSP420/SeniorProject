@@ -5,9 +5,9 @@
 #include <cassert>
 #include "DirectXFramework.h"
 
-PSystem::PSystem(const std::string& fxName, 
+PSystem::PSystem(const LPCWSTR fxName, 
 				 const std::string& techName,
-		         const std::string& texName, 
+		         const LPCWSTR texName, 
 			     const D3DXVECTOR3& accel,
 		         const AABB& box,
 				 int maxNumParticles,
@@ -31,14 +31,14 @@ PSystem::PSystem(const std::string& fxName,
 	D3DXMatrixIdentity(&mInvWorld);
 
 	// Create the texture.
-	HR(D3DXCreateTextureFromFile(m_pD3DDevice, texName.c_str(), &mTex));
+	HR(D3DXCreateTextureFromFile(m_pD3DDevice, texName, &mTex));
 
 	// Create the FX.
 	ID3DXBuffer* errors = 0;
-	D3DXCreateEffectFromFile(m_pD3DDevice, fxName.c_str(),
+	D3DXCreateEffectFromFile(m_pD3DDevice, fxName,
 		0, 0, D3DXSHADER_DEBUG, 0, &mFX, &errors);
 	if( errors )
-		MessageBox(0, (char*)errors->GetBufferPointer(), 0, 0);
+		MessageBoxW(0, (LPCWSTR)errors->GetBufferPointer(), 0, 0);
 
 
 
@@ -58,6 +58,8 @@ PSystem::PSystem(const std::string& fxName,
 	HR(m_pD3DDevice->CreateVertexBuffer(mMaxNumParticles*sizeof(Particle),
 		D3DUSAGE_DYNAMIC|D3DUSAGE_WRITEONLY|D3DUSAGE_POINTS,
 		0, D3DPOOL_DEFAULT, &mVB, 0));
+
+	bulletCounter = 0;
 }
 
 PSystem::~PSystem()
@@ -92,19 +94,30 @@ void PSystem::setWorldMtx(const D3DXMATRIX& world)
 	D3DXMatrixInverse(&mInvWorld, 0, &mWorld);
 }
 
-void PSystem::addParticle(D3DXVECTOR3 pos)
+void PSystem::setBulletCounter( int bulletCounter)
 {
-	if( mDeadParticles.size() > 0)
-	{
-		// Reinitialize a particle.
-		Particle* p = mDeadParticles.back();
-		initParticle(*p, pos);
-
-		// No longer dead.
-		mDeadParticles.pop_back();
-		mAliveParticles.push_back(p);
-	}
+	this->bulletCounter = bulletCounter;
 }
+
+void PSystem::addParticle(D3DXVECTOR3 pos, D3DXVECTOR3 iPos, D3DXVECTOR3 look)
+{
+	if(bulletCounter < 12)
+	{
+		if( mDeadParticles.size() > 0)
+		{
+			// Reinitialize a particle.
+			Particle* p = mDeadParticles.back();
+			initParticle(*p, pos, iPos, look);
+
+			// No longer dead.
+			mDeadParticles.pop_back();
+			mAliveParticles.push_back(p);
+		}
+	}
+
+	bulletCounter++;
+}
+
 
 void PSystem::onLostDevice()
 {
@@ -127,7 +140,8 @@ void PSystem::onResetDevice()
 	}
 }
 
-void PSystem::update(float dt, D3DXVECTOR3 eyePos)
+
+void PSystem::update(float dt, D3DXVECTOR3 eyePos, D3DXVECTOR3 look)
 {
 	mTime += dt;
 
@@ -161,7 +175,7 @@ void PSystem::update(float dt, D3DXVECTOR3 eyePos)
 		timeAccum += dt;
 		while( timeAccum >= mTimePerParticle )
 		{
-			addParticle(eyePos);
+			addParticle(eyePos, eyePos, look);
 			timeAccum -= mTimePerParticle;
 		}
 	}
@@ -227,4 +241,9 @@ void PSystem::draw(HWND hWnd, D3DXVECTOR3 eyePos, D3DXMATRIX viewProj)
 
 	HR(mFX->EndPass());
 	HR(mFX->End());
+}
+
+std::vector<Particle*> PSystem::getmAliveParticles()
+{
+	return mAliveParticles;
 }

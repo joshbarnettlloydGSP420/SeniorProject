@@ -4,8 +4,8 @@
 Enemy_Seek::Enemy_Seek(void)
 {
 	// default 
-	maxSpeed = 2.0f;
-	targetSpeed = 1.0f;
+	maxSpeed = 0.5f;
+	targetSpeed = 0.25f;
 	targetRadius = 25.0f;
 	slowRadius = 50.0f;
 	maxAcceleration = 1.0f;

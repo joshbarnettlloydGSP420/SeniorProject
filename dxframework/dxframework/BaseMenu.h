@@ -9,6 +9,9 @@
 #include <iostream>
 #include <dshow.h>
 #include "InputManager.h"
+#include "SoundEffect.h"
+#include "SoundLoader.h"
+#include "AudioManager.h"
 
 #pragma comment(lib, "Strmiids.lib")
 #pragma comment(lib, "d3d9.lib")
@@ -25,6 +28,12 @@ class BaseMenu
 {
 protected:
 	////////////////////////////////////////////////////////////////////////
+	// Sound Variables
+	////////////////////////////////////////////////////////////////////////
+	SoundEffect* MenuBeep;
+	SoundEffect* MenuMusic;
+	SoundEffect* GameBGM;
+	////////////////////////////////////////////////////////////////////////
 	// D3D Variables
 	////////////////////////////////////////////////////////////////////////
 	IDirect3DDevice9*		m_pD3DDevice;		// Device for menus
@@ -33,6 +42,7 @@ protected:
 	// Font Variables
 	//////////////////////////////////////////////////////////////////////////
 	ID3DXFont*	m_pD3DFont;			// Font Object
+	ID3DXFont*	m_pD3DFont2;	
 	char		menuPrint[30];		// Holds the text that will be witten on screen
 	D3DXCOLOR	option;				// variable to changeduring selection
 
@@ -44,8 +54,20 @@ protected:
 	IDirect3DTexture9*	backgroundTexture;	// Texture to use for background
 	D3DXIMAGE_INFO		m_imageInfo;		// File details of a texture
 	RECT				m_rect;				// RECT for the menu background
-	LPCSTR				backgroundFileName;	// name of file for background
-
+	LPCWSTR				backgroundFileName;	// name of file for background
+	D3DXVECTOR3			backGroundPos;		// position  for background sprite
+	
+	////////////////////////////////////////////////////////////////////////
+	// DirectShow COM Object Creation
+	////////////////////////////////////////////////////////////////////////
+	IGraphBuilder			*videoGraph;
+	IMediaControl			*videoControl;
+	IMediaEvent				*videoEvent;
+	IVideoWindow			*videoWindow;
+	//HRESULT                *isVideoDone;
+	long evCode;
+	LONG_PTR eventParam1, eventParam2;
+	HWND*					hwnd;
 	////////////////////////////////////////////////////////////////////////
 	// Istance of gameState
 	////////////////////////////////////////////////////////////////////////
@@ -60,7 +82,7 @@ public:
 	BaseMenu(void);
 	virtual ~BaseMenu(void);
 
-	bool Init(InputManager* input, IDirect3DDevice9* m_pD3DDevice);
+	virtual bool Init(InputManager* input, IDirect3DDevice9* m_pD3DDevice);
 	void Update();
 	void Render();
 

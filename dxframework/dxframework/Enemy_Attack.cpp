@@ -1,100 +1,81 @@
 #include "Enemy_Attack.h"
-#include "enemyGun.h"
+
 
 Enemy_Attack::Enemy_Attack(void)
 {
-	// Initialize the particle system.
-	D3DXMATRIX psysWorld;
-	D3DXMatrixIdentity(&psysWorld);
+	// default variables
+	attackTime = 0;
+	coolDown = 10.0f;
 
+	fleeRange = 0.05f;
 
-	//bullets/gun
-	AABB psysBox;
-	psysBox.maxPt = D3DXVECTOR3(INFINITY, INFINITY, INFINITY);
-	psysBox.minPt = D3DXVECTOR3(-INFINITY, -INFINITY, -INFINITY);
-	
-	// Accelerate due to gravity.  However, since the bullets travel at 
-	// such a high velocity, the effect of gravity of not really observed.
-	enemyParticle = new enemyGun("gun.fx", "GunTech", "bolt3.dds", D3DXVECTOR3(0, -9.8f, 0), psysBox, 100, -1.0f);
-	enemyParticle->setWorldMtx(psysWorld);    
-	enemyParticle->setEnemyPos(D3DXVECTOR3(position.x, position.y, position.z));
+	targetSpeed = 0.005f;
+	maxSpeed = 0.05f;
+	maxAcceleration = 0.001;
+
+	slowRadius = 0.25;
+	targetRadius = 0.15;
+
+	TimeToTarget = 0.1f;
 }
 
 Enemy_Attack::~Enemy_Attack(void)
 {
 }
 
-void Enemy_Attack::Init()
+void Enemy_Attack::Update( float dt, Enemy_Movement* movement, D3DXVECTOR4 playerPos)
 {
-	//// Initialize the particle system.
-	//D3DXMATRIX psysWorld;
-	//D3DXMatrixIdentity(&psysWorld);
+	D3DXVECTOR4 direction = playerPos - movement->GetPosition();
+	float distance = sqrt(( direction.x * direction.x) + (direction.z + direction.z));
 
-
-	////bullets/gun
-	//AABB psysBox;
-	//psysBox.maxPt = D3DXVECTOR3(INFINITY, INFINITY, INFINITY);
-	//psysBox.minPt = D3DXVECTOR3(-INFINITY, -INFINITY, -INFINITY);
-	//
-	//// Accelerate due to gravity.  However, since the bullets travel at 
-	//// such a high velocity, the effect of gravity of not really observed.
-	//enemyParticle = new enemyGun("gun.fx", "GunTech", "bolt2.dds", D3DXVECTOR3(0, -9.8f, 0), psysBox, 100, -1.0f);
-	//enemyParticle->setWorldMtx(psysWorld);   
-
-	attackTime = 0;
-	coolDown = 5.0f;
-}
-
-void Enemy_Attack::Update( float dt, D3DXVECTOR4 enemyPos, D3DXVECTOR4 playerPos)
-{
-	
-	//if ( attackTime > 0 )
-	//	attackTime -= dt;
-
-	//if ( attackTime < 0 )
-	//	attackTime = 0;
-
-	//if ( attackTime == 0 )
-	//{
-	//	//BulletAttack(enemyPos, playerPos);
-	//	attackTime = coolDown;
-	//}
-	enemyParticle->update(dt);
-	BulletAttack(enemyPos, playerPos, dt);
-
-}
-
-void Enemy_Attack::BulletAttack( D3DXVECTOR4 enemyPos, D3DXVECTOR4 playerPos, float dt)
-{
-	// face the player
-	D3DXVECTOR4 direction = playerPos - enemyPos;
-	float distance = sqrt(( direction.x * direction.x) + (direction.y * direction.y) + (direction.z * direction.z));
-
-	// normalize velocity
-	float length = sqrt((velocity.x * velocity.x) + (velocity.y * velocity.y) + (velocity.z * velocity.z));
-	velocity.x /= length;
-	velocity.y /= length;
-	velocity.z /= length;
-/*
-	 shoot a blast
-	static float delay = 0.0f;
-	if(delay <= 0.0f)
+	// if the time of the last attack is greater than 0, then countdown
+	if ( attackTime > 0 )
+		attackTime -= dt;
+	// if it is less than 0, then set to 0
+	else if ( attackTime < 0 )
+		attackTime = 0;
+	// if it is 0 then attack
+	else if ( attackTime == 0 )
 	{
-		delay = 0.3f;
-		enemyParticle->addParticle();
+		// face the player
+		//face.GetSteering( movement, movement->GetOrientation(), playerPos);
+
+		// get the direction to the target
+		if ( distance > slowRadius)
+		{
+			targetSpeed = maxSpeed;
+		}
+		else
+		{
+			targetSpeed = maxSpeed * distance / slowRadius;
+		}
+
+		D3DXVECTOR4 targetVelocity = direction;
+		// normalize targetVelocity
+		float length = sqrt((targetVelocity.x * targetVelocity.x) + (targetVelocity.z * targetVelocity.z) + ( targetVelocity.y * targetVelocity.y));
+		targetVelocity.x /= length;
+		targetVelocity.z /= length;
+		targetVelocity.y /= length;
+		targetVelocity *= targetSpeed;
+
+		// acceleration tries to get to the target velocity
+		movement->SetLinear( targetVelocity - movement->GetVelocity());
+		movement->SetLinear( movement->GetLinear() /= TimeToTarget);
+
+		// check if the acceleration is too fast
+		if (sqrt(( movement->GetLinear().x * movement->GetLinear().x) + (movement->GetLinear().y * movement->GetLinear().y) + (movement->GetLinear().z * movement->GetLinear().z)) > maxAcceleration)
+		{
+			movement->NormalizeLinear();
+			movement->SetLinear( movement->GetLinear() * maxAcceleration);
+		}
+
+		movement->SetAngular(0);
 	}
-	delay -= dt;*/
 
-	// if blast hits the player then player loses health
-}
-
-void Enemy_Attack::ObjectThrowAttack( D3DXVECTOR4 enemyPos, D3DXVECTOR4 playerPos)
-{
-	// TODO:  if object is in range then pick up closest object
-	// throw at the player
-	// destroy object
-}
-void Enemy_Attack::Render(HWND hwnd)
-{
-	enemyParticle->draw(hwnd);
+	// after the collision the flee
+	else if ( distance <= fleeRange )
+	{
+		flee.GetSteering( movement, playerPos);
+		attackTime = coolDown;
+	}
 }

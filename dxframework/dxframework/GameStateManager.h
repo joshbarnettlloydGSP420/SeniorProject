@@ -6,6 +6,11 @@
 #include "OptionsMenu.h"
 #include "PauseMenu.h"
 #include "HUD.h"
+#include <dshow.h>
+// include sound headers
+#include "SoundEffect.h"
+#include "SoundLoader.h"
+#include "AudioManager.h"
 
 
 
@@ -16,6 +21,7 @@ enum GAME_STATE
 	OPTIONS_MENU	= 2,
 	GAME			= 3,
 	PAUSE_MENU		= 4,
+	INTRO			= 5,
 };
 
 
@@ -47,7 +53,21 @@ private:
 	PauseMenu*				pauseMenu;
 	HUD*					hud;
 	//Game*					game;
+	int					bCounter;
+	D3DXVECTOR4			playerPosition;
 
+
+	////////////////////////////////////////////////////////////////////////
+	// DirectShow COM Object Creation
+	////////////////////////////////////////////////////////////////////////
+	IGraphBuilder			*videoGraph;
+	IMediaControl			*videoControl;
+	IMediaEvent				*videoEvent;
+	IVideoWindow			*videoWindow;
+	//HRESULT                *isVideoDone;
+	long evCode;
+	LONG_PTR eventParam1, eventParam2;
+	bool					videoRunning;
 	
 
 public:
@@ -63,5 +83,13 @@ public:
 
 	void onResetDevice();
 	void onLostDevice();
+	void InitVideo(LPCWSTR vidName);
+
+	void setHudBulletCounter(int bCounter);
+	int getHudBulletCounter(){return bCounter;}
+
+	//minimap player position
+	void setPlayerPosition(D3DXVECTOR4 playerPosition);
+	D3DXVECTOR4 getPlayerPosition(){return playerPosition;}
 };
 
