@@ -123,7 +123,7 @@ void HUD::Init(IDirect3DDevice9* device)
 		D3DX_DEFAULT, D3DCOLOR_XRGB(255, 0, 255), 
 		0, 0, &hudTexture);
 	
-	D3DXCreateTextureFromFileExA(device, "LifeBar.png", 256, 32, 0, 0,
+	D3DXCreateTextureFromFileExA(device, "LifeBarAlternate.png", 256, 32, 0, 0,
 		D3DFMT_UNKNOWN, D3DPOOL_MANAGED, D3DX_DEFAULT, 
 		D3DX_DEFAULT, D3DCOLOR_XRGB(255, 0, 255), 
 		0, 0, &healthTexture);
