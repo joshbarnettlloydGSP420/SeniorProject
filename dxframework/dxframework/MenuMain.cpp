@@ -3,6 +3,9 @@
 MenuMain::MenuMain()
 {
 	menuState = m_MAIN_MENU;
+
+	mousePos.x = 0.0f;
+	mousePos.y = 0.0f;
 }
 
 MenuMain::~MenuMain()
@@ -34,7 +37,7 @@ bool MenuMain::Init(InputManager* input, IDirect3DDevice9*	m_pD3DDevice)
 
 	// set the initial selected item
 	menuItemSelected = 1;
-
+	
 	// if no image is chosen this will be the default for the background
 	backgroundFileName = L"haunted_house.jpg";
 
@@ -43,6 +46,13 @@ bool MenuMain::Init(InputManager* input, IDirect3DDevice9*	m_pD3DDevice)
 		D3DX_DEFAULT, D3DCOLOR_XRGB(255, 0, 255), 
 		&m_imageInfo, 0, &backgroundTexture);
 
+	// Create Mouse sprite
+	D3DXCreateTextureFromFileEx(m_pD3DDevice, L"cursor.png",0,0,0,0,D3DFMT_UNKNOWN, D3DPOOL_MANAGED, D3DX_DEFAULT, 
+		D3DX_DEFAULT, D3DCOLOR_XRGB(255, 0, 255), 
+		&m_cursorInfo, 0, &mouseTexture);
+
+	SetRect(&mouseSheetRect, 7, 4, 24, 30); 
+	
 	// set back ground position
 	backGroundPos = D3DXVECTOR3(0,0,0);
 
@@ -56,16 +66,48 @@ bool MenuMain::Init(InputManager* input, IDirect3DDevice9*	m_pD3DDevice)
 	MenuBeep = new SoundEffect();
 	MenuBeep = SoundLoader::GetInstance()->Load(false,false ,"MenuBeep2.mp3");
 	AudioManager::GetInstance()->SetSFXVolume(1.0f);
+	// sound played counter
+	musicPlayCounter = 0;
 	return true;
 }
 
-void MenuMain::Update()
+void MenuMain::Update(float dt)
 {
 	BaseMenu::Update();
+	myInput->Update();
+	mousePos.x = myInput->GetMousePosX();
+	mousePos.y = myInput->GetMousePosY();
 
-	if (myInput->keyDown( DIK_RETURN))
+	if(mousePos.x >= 280  && mousePos.x < 440 && mousePos.y > 170 && mousePos.y < 200)
 	{
-		if ( menuItemSelected == 1)
+		menuItemSelected = 1;
+	if( musicPlayCounter < 1)
+		AudioManager::GetInstance()->PlaySFX(*MenuBeep);
+		musicPlayCounter++;
+	}
+	
+	
+	else if(mousePos.x >= 260  && mousePos.x < 440 && mousePos.y > 340 && mousePos.y < 350)
+	{
+		menuItemSelected = 2;
+	if( musicPlayCounter < 1)
+		AudioManager::GetInstance()->PlaySFX(*MenuBeep);
+		musicPlayCounter++;
+	}
+
+	else if(mousePos.x >= 320  && mousePos.x < 400 && mousePos.y > 460 && mousePos.y < 490)
+	{
+		menuItemSelected = 3;
+		if( musicPlayCounter < 1)
+		AudioManager::GetInstance()->PlaySFX(*MenuBeep);
+		musicPlayCounter++;
+	}
+	else
+		musicPlayCounter = 0;
+
+	if (myInput->keyDown( DIK_RETURN) || myInput->isButtonDown(0))
+	{
+		if ( menuItemSelected == 1) 
 		{
 			menuState = m_GAME;
 			MenuMusic->Free();
@@ -88,7 +130,7 @@ void MenuMain::Render()
 {
 	// Call the base menu's render method to initialize some variables
 	BaseMenu::Render();
-
+	
 	m_pD3DSprite->Begin(D3DXSPRITE_ALPHABLEND);
 	DrawBackGround();
 	// Print Main Menu at the top of the screen
@@ -102,6 +144,7 @@ void MenuMain::Render()
 	sprintf(menuPrint,"Game Start");
 	SetRect(&m_rect,120,210,600,500);
 	if(menuItemSelected == 1)
+	 
 		option = D3DCOLOR_ARGB(255,255,0,0);
 	else
 		option = D3DCOLOR_ARGB(255,0,0,255);
@@ -113,6 +156,7 @@ void MenuMain::Render()
 		option = D3DCOLOR_ARGB(255,255,0,0);
 	else
 		option = D3DCOLOR_ARGB(255,0,0,255);
+		
 	m_pD3DFont->DrawTextA(0,menuPrint,-1,&m_rect, DT_CENTER | DT_NOCLIP,option);
 
 	sprintf(menuPrint,"Quit");
@@ -123,7 +167,10 @@ void MenuMain::Render()
 		option = D3DCOLOR_ARGB(255,0,0,255);
 	m_pD3DFont->DrawTextA(0,menuPrint,-1,&m_rect, DT_CENTER | DT_NOCLIP,option);
 
-	//m_pD3DSprite->End();
+
+	m_pD3DSprite->Draw(mouseTexture, &mouseSheetRect,&D3DXVECTOR3(0,0,0),&D3DXVECTOR3(myInput->GetMousePosX(),myInput->GetMousePosY(),0),D3DCOLOR_ARGB(255, 255, 255, 255));
+	
+	m_pD3DSprite->End();
 }
 
 

@@ -18,7 +18,7 @@ bool BaseMenu::Init(InputManager* input, IDirect3DDevice9*	m_pD3DDevice)
 	// Local pointer to the input manager
 	myInput = input;
 	this->m_pD3DDevice = m_pD3DDevice;
-
+	
 	// create the SPRITE object
 	D3DXCreateSprite(m_pD3DDevice, &m_pD3DSprite);
 
@@ -40,6 +40,11 @@ bool BaseMenu::Init(InputManager* input, IDirect3DDevice9*	m_pD3DDevice)
 	D3DXCreateTextureFromFileEx(m_pD3DDevice, backgroundFileName ,0,0,0,0,D3DFMT_UNKNOWN, D3DPOOL_MANAGED, D3DX_DEFAULT, 
 		D3DX_DEFAULT, D3DCOLOR_XRGB(255, 0, 255), 
 		&m_imageInfo, 0, &backgroundTexture);
+	
+	// Create Mouse sprite
+	D3DXCreateTextureFromFileEx(m_pD3DDevice, L"cursor.png",0,0,0,0,D3DFMT_UNKNOWN, D3DPOOL_MANAGED, D3DX_DEFAULT, 
+		D3DX_DEFAULT, D3DCOLOR_XRGB(255, 0, 255), 
+		&m_imageInfo, 0, &mouseTexture);
 
 	AudioManager::GetInstance()->Initialize();
 	
@@ -55,6 +60,8 @@ bool BaseMenu::Init(InputManager* input, IDirect3DDevice9*	m_pD3DDevice)
 void BaseMenu::Update()
 {	
 	myInput->getInput();
+	mousePos.x = (float)myInput->GetMousePosX();
+	mousePos.y = (float)myInput->GetMousePosY();
 
 	if (myInput->keyPress( DIK_UP))
 	{

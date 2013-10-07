@@ -1,5 +1,5 @@
 #include "DirectXFramework.h"
-
+#include <crtdbg.h>
 //CDirectXFramework* gd3dApp   = 0;
 IDirect3DDevice9* m_pD3DDevice = 0;
 //CameraObj* gCamera = 0;
@@ -33,14 +33,14 @@ void CDirectXFramework::Init(HWND& hWnd, HINSTANCE& hInst, bool bWindowed)
 	// Find the width and height of window using hWnd and GetWindowRect()
 	RECT windowSizeRect;
 	GetWindowRect(hWnd, &windowSizeRect);
-	screenWidth = windowSizeRect.right - windowSizeRect.left;
-	screenHeight = windowSizeRect.bottom - windowSizeRect.top;
+	 screenWidth = windowSizeRect.right - windowSizeRect.left;
+	 screenHeight = windowSizeRect.bottom - windowSizeRect.top;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Presentation paramters for creating the D3D9 device													 //
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	D3DPRESENT_PARAMETERS D3Dpp;
+	
 	ZeroMemory(&D3Dpp, sizeof(D3Dpp));						// NULL the structure's memory
 
 	D3Dpp.hDeviceWindow					= hWnd;																		// Handle to the focus window
@@ -87,6 +87,11 @@ void CDirectXFramework::Init(HWND& hWnd, HINSTANCE& hInst, bool bWindowed)
 								deviceBehaviorFlags,	// behavior flags
 								&D3Dpp,					// presentation parameters
 								&m_pD3DDevice);			// returned device pointer
+
+	RECT R;
+	GetClientRect(m_hWnd, &R);
+	float width2  = (float)R.right;
+	float height2 = (float)R.bottom;
 	// create a vertex format
 	D3DVERTEXELEMENT9 elems[] =
 	{
@@ -385,6 +390,8 @@ void CDirectXFramework::Init(HWND& hWnd, HINSTANCE& hInst, bool bWindowed)
 	// Input Manager Init
 	m_pDInput = new InputManager();
 	m_pDInput->init(hInst,hWnd);
+
+	m_pDInput->SetWindowDimension(screenWidth, screenHeight);
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Create Havok Object																					 //
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -457,10 +464,10 @@ void CDirectXFramework::Init(HWND& hWnd, HINSTANCE& hInst, bool bWindowed)
 	/// YOU FORGOT TO INIT YOU'RE VERTEX DECLARATIONS...
 	/// you digital dummy :)
 	InitAllVertexDeclarations();
-
+	
 	//Gamestate
 	gameState = new GameStateManager();
-	gameState->Init(&hWnd,&D3Dpp,hInst,m_pD3DDevice);
+	gameState->Init(&m_hWnd,&D3Dpp,hInst,m_pD3DDevice);
 
 	// Entity Manager
 	entityMan = new EntityManager();
@@ -485,6 +492,7 @@ void CDirectXFramework::Update(float dt)
 {
 	if(gameState->activeGameState == GAME)
 	{
+		m_pDInput->Update();
 		havok->stepSimulation(dt);
 
 		havok->getWorld()->lock();
@@ -563,7 +571,7 @@ void CDirectXFramework::Render(float dt)
 	//////////////////////////////////////////////////////////////////////////
 	// Draw 3D Objects (for future labs - not used in Week #1)
 	//////////////////////////////////////////////////////////////////////////
-
+	m_pD3DSprite->Begin(D3DXSPRITE_ALPHABLEND);
 	D3DXMatrixIdentity(&rotMat);
 	D3DXMatrixIdentity(&scaleMat);
 	D3DXMatrixIdentity(&worldMat);
@@ -963,7 +971,7 @@ void CDirectXFramework::playerControls(float dt)
 	// Bullet Controls
 
 	//switching from green to blue bullets
-	if( m_pDInput->keyPress(DIK_1) )
+	if( m_pDInput->keyPress(DIK_1))
 	{
 		if(type !=green)
 		{

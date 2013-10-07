@@ -23,17 +23,18 @@ void GameStateManager::Init( HWND* wndHandle,  D3DPRESENT_PARAMETERS* D3dpp, HIN
 	// Create a new menu
 	mainMenu = new MenuMain();
 	mainMenu->Init( input, m_pD3DDevice );
-
+	
 	// intialize video
 	InitVideo(L"SplashScreenMovie.wmv");
 	
 	// Set the active game state 
-	activeGameState = INTRO;
+	activeGameState = MAIN_MENU;
 }
 
 void GameStateManager::Update( float dt )
 {
 	input->getInput();
+	
 	switch ( activeGameState )
 	{
 		///////////////////////////////////////////////////////////////////////
@@ -49,8 +50,8 @@ void GameStateManager::Update( float dt )
 		{
 			
 			// Call the main menu and return menu selection
-			mainMenu->Update();
-			
+			mainMenu->Update(dt);
+			input->Update();
 			switch ( mainMenu->GetState() )
 			{
 			case 1:	// Quit
@@ -66,7 +67,6 @@ void GameStateManager::Update( float dt )
 					// create a new options menu
 					optionsMenu = new OptionsMenu();
 					optionsMenu->Init( input, m_pD3DDevice, hwnd, D3Dpp);
-
 					// switch the game state to the options menu
 					activeGameState = OPTIONS_MENU;
 					break;
@@ -91,7 +91,7 @@ void GameStateManager::Update( float dt )
 		{
 			// Add optionsMenu update function
 			optionsMenu->Update();
-
+			input->Update();
 			switch ( optionsMenu->GetState() )
 			{
 			case 1: // Exit to main menu
@@ -156,7 +156,7 @@ void GameStateManager::Update( float dt )
 		{
 			// Pause menu Update
 			pauseMenu->Update();
-
+			input->Update();
 			switch ( pauseMenu->GetState() )
 			{
 			case 1: // Resume Game
