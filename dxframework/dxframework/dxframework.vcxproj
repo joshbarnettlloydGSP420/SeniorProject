@@ -151,6 +151,7 @@
     <ClInclude Include="OptionsMenu.h" />
     <ClInclude Include="PauseMenu.h" />
     <ClInclude Include="PSystem.h" />
+    <ClInclude Include="PuzzleManager.h" />
     <ClInclude Include="RenderObject.h" />
     <ClInclude Include="SoundEffect.h" />
     <ClInclude Include="SoundLoader.h" />
