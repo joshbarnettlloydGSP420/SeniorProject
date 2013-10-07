@@ -17,7 +17,7 @@ enum HavokPlayerShape
 	PLAYERCAPSULE		=	3		// Havok Capsule
 };
 
-enum gunType{green, red, blue};
+enum gunType{green, red, blue, yellow};
 
 
 class Object_Player

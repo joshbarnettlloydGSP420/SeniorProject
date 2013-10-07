@@ -148,6 +148,10 @@ void GameStateManager::Update( float dt )
 			{
 				hud->setColor(p);	
 			}
+			if (input->keyPress(DIK_4))
+			{
+				hud->setColor(y);	
+			}
 			if (input->keyPress(DIK_M) || input->keyPress(DIK_TAB))
 			{
 				if(hud->getMiniMapOn() == true)

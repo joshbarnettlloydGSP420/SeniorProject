@@ -993,6 +993,15 @@ void CDirectXFramework::playerControls(float dt)
 			Player->changeGunType(type);
 		}
 	}
+	if( m_pDInput->keyPress(DIK_4) )
+	{
+		if(type != yellow)
+		{
+			AudioManager::GetInstance()->PlaySFX(*changeBullet);
+			type = yellow;
+			Player->changeGunType(type);
+		}
+	}
 
 	//reload reset bullets 
 	if( m_pDInput->keyPress(DIK_R))
