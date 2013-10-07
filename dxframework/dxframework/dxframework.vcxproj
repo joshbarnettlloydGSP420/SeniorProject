@@ -103,6 +103,7 @@
     <ClCompile Include="Enemy_Wander.cpp" />
     <ClCompile Include="Enemy_YellowGhost.cpp" />
     <ClCompile Include="EntityManager.cpp" />
+    <ClCompile Include="EventManager.cpp" />
     <ClCompile Include="GameStateManager.cpp" />
     <ClCompile Include="Gun.cpp" />
     <ClCompile Include="HavokCore.cpp" />
@@ -145,6 +146,7 @@
     <ClInclude Include="Enemy_Wander.h" />
     <ClInclude Include="Enemy_YellowGhost.h" />
     <ClInclude Include="EntityManager.h" />
+    <ClInclude Include="EventManager.h" />
     <ClInclude Include="GameStateManager.h" />
     <ClInclude Include="Gun.h" />
     <ClInclude Include="HavokCore.h" />

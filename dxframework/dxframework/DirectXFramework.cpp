@@ -342,7 +342,6 @@ void CDirectXFramework::Init(HWND& hWnd, HINSTANCE& hInst, bool bWindowed)
 		MessageBox(0, (LPCWSTR)error, L"Shader Error", MB_OK );
 	}
 
-	//hTech[0] = fx[0]->GetTechniqueByName("ToonColored");
 	hTech[0] = fx[0]->GetTechniqueByName("tech0");
 
 
@@ -379,14 +378,15 @@ void CDirectXFramework::Init(HWND& hWnd, HINSTANCE& hInst, bool bWindowed)
 	
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
-// Create 3D Mesh From X																				 //
+// Input Manager																						 //
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	// Input Manager Init
 	m_pDInput = new InputManager();
 	m_pDInput->init(hInst,hWnd);
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
-// Create Havok Object																					 //
+// Create Havok Objects																					 //
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	// Havok
@@ -421,7 +421,7 @@ void CDirectXFramework::Init(HWND& hWnd, HINSTANCE& hInst, bool bWindowed)
 	createGroundBox(havok->getWorld(), 2.0f, 10.0f, 7.5f, 22.5f, 5.0f, 41.0f);		// Top Right Inside
 	createGroundBox(havok->getWorld(), 2.0f, 10.0f, 7.5f, -20.0f, 5.0f, -37.5f);	// Bottom Left Inside 
 	createGroundBox(havok->getWorld(), 2.0f, 10.0f, 7.5f, 22.5f, 5.0f, -37.5f);		// Bottom Right Inside
-
+	
 	// House Objects
 	for(short i = 0; i < ARRAYSIZE(piano); ++i)
 		piano[i]->createHavokObject(havok->getWorld());
@@ -451,6 +451,9 @@ void CDirectXFramework::Init(HWND& hWnd, HINSTANCE& hInst, bool bWindowed)
 	purpleGhost->CreateHavokObject(havok->getWorld());
 	yellowGhost->CreateHavokObject(havok->getWorld());
 	greenGhost->CreateHavokObject(havok->getWorld());
+
+	eventMan = new EventManager();
+	eventMan->Init();
 	
 	havok->getWorld()->unlock();
 
@@ -535,8 +538,14 @@ void CDirectXFramework::Update(float dt)
 			//yellowGhost->BulletCollision( bulletColor );
 		}
 			
+		if(eventMan->checkForPlayer(Player))
+		{
+			bool touch = true;
+		}
+
 		havok->getWorld()->unlock();
 
+	
 
 		UpdateCamera(dt);
 		playerControls(dt);

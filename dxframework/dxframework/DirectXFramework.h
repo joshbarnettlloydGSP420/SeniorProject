@@ -24,6 +24,7 @@
 #include "Enemy_GreenGhost.h"
 #include "Enemy_RedGhost.h"
 #include "EntityManager.h"
+#include "EventManager.h"
 #include "AudioManager.h"
 #include "SoundLoader.h"
 
@@ -233,9 +234,10 @@ class CDirectXFramework
 	Enemy_GreenGhost*				greenGhost;
 
 	//////////////////////////////////////////////////////////////////////////
-	// Entity Manager														//
+	// Game Managers														//
 	//////////////////////////////////////////////////////////////////////////
 	EntityManager*					entityMan;
+	EventManager*					eventMan;
 
 public:
 

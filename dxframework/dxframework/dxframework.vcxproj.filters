@@ -180,6 +180,9 @@
     <ClCompile Include="Enemy_SpawnMiniGhost.cpp">
       <Filter>Source Files\Objects\Enemy</Filter>
     </ClCompile>
+    <ClCompile Include="EventManager.cpp">
+      <Filter>Source Files\Game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Enemy_Attack.h">
@@ -301,6 +304,9 @@
     </ClInclude>
     <ClInclude Include="Enemy_SpawnMiniGhost.h">
       <Filter>Header Files\Objects\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="EventManager.h">
+      <Filter>Header Files\Game</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
