@@ -116,6 +116,9 @@ void PSystem::addParticle(D3DXVECTOR3 pos, D3DXVECTOR3 iPos, D3DXVECTOR3 look)
 	}
 
 	bulletCounter++;
+
+	if(bulletCounter > 12)
+		bulletCounter = 12;
 }
 
 
