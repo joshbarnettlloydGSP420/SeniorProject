@@ -55,6 +55,7 @@ private:
 	//Game*					game;
 	int					bCounter;
 	D3DXVECTOR4			playerPosition;
+	D3DXVECTOR4			enemyPosition;
 
 
 	////////////////////////////////////////////////////////////////////////
@@ -91,5 +92,8 @@ public:
 	//minimap player position
 	void setPlayerPosition(D3DXVECTOR4 playerPosition);
 	D3DXVECTOR4 getPlayerPosition(){return playerPosition;}
+
+	void setEnemyPosition(D3DXVECTOR4 enemyPosition);
+	D3DXVECTOR4 getEnemyPosition(){return enemyPosition;}
 };
 

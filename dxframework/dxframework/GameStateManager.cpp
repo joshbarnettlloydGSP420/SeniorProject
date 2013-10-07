@@ -125,7 +125,7 @@ void GameStateManager::Update( float dt )
 	case GAME:
 		{
 			// Game's update function
-			hud->Update( dt,  getHudBulletCounter(), getPlayerPosition());
+			hud->Update( dt,  getHudBulletCounter(), getPlayerPosition(), getEnemyPosition());
 
 			if (input->keyPress(DIK_P))
 			{
@@ -343,4 +343,9 @@ void GameStateManager::setHudBulletCounter(int bCounter)
 void GameStateManager::setPlayerPosition(D3DXVECTOR4 playerPosition)
 {
 	this->playerPosition = playerPosition;
+}
+
+void GameStateManager::setEnemyPosition(D3DXVECTOR4 enemyPosition)
+{
+	this->enemyPosition = enemyPosition;
 }

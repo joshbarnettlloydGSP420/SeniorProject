@@ -104,6 +104,8 @@ HUD::HUD(void)
 
 	SetRect(&mapTabSheetRect, 87, 111, 259, 169);
 	tabPosition.position = D3DXVECTOR3(628, 0, 0);
+
+
 	mapOn = true;
 	/****** end of minimap****/
 }
@@ -235,13 +237,16 @@ void HUD::Init(IDirect3DDevice9* device)
 		D3DX_DEFAULT, D3DCOLOR_XRGB(255, 0, 255), 
 		0, 0, &minimapTabTexture);
 
-
+	D3DXCreateTextureFromFileExA(device, "minimapEnemyDot.png", 640, 480, 0, 0,
+		D3DFMT_UNKNOWN, D3DPOOL_MANAGED, D3DX_DEFAULT, 
+		D3DX_DEFAULT, D3DCOLOR_XRGB(255, 0, 255), 
+		0, 0, &minimapEnemyDotTexture);
 	//D3DXCreateTextureFromFile(device, "healthHUD.png", &hudTexture);
 	hudOn = true;
 
 }
 
-void HUD::Update(float dt, int counter, D3DXVECTOR4 playerPosition)
+void HUD::Update(float dt, int counter, D3DXVECTOR4 playerPosition, D3DXVECTOR4 enemyPosition)
 {
 	if(counter == 0)
 		number = twelve;
@@ -273,6 +278,10 @@ void HUD::Update(float dt, int counter, D3DXVECTOR4 playerPosition)
 	minimapDotPosition.position.x = (playerPosition.x * 1.3f) + 686;
 	minimapDotPosition.position.y = (-1 * playerPosition.z * 1.2f ) + 78;
 	minimapDotPosition.position.z = 0.0f;
+
+	minimapEnemyDotPosition.position.x = (enemyPosition.x * 1.3f) + 686;
+	minimapEnemyDotPosition.position.y = (-1 * enemyPosition.z * 1.2f ) + 78;
+	minimapEnemyDotPosition.position.z = 0.0f;
 }
 
 void HUD::Render(IDirect3DDevice9* device, ID3DXSprite* sprite, int colorSwitch)
@@ -379,6 +388,7 @@ void HUD::Render(IDirect3DDevice9* device, ID3DXSprite* sprite, int colorSwitch)
 	{
 	sprite->Draw(minimapBackgroundTexture, &minimapSheetRect, &D3DXVECTOR3(0,0,0), &minimapPosition.position, D3DCOLOR_ARGB(255,255, 255, 255));
 	sprite->Draw(minimapDotTexture, &minimapDotSheetRect, &D3DXVECTOR3(0,0,0), &minimapDotPosition.position, D3DCOLOR_ARGB(255,255, 255, 255));
+	sprite->Draw(minimapEnemyDotTexture, &minimapDotSheetRect, &D3DXVECTOR3(0,0,0), &minimapEnemyDotPosition.position, D3DCOLOR_ARGB(255,255, 255, 255));
 	}
 	else if(mapOn == false)
 	{
@@ -417,6 +427,8 @@ void HUD::Shutdown()
 	SAFE_RELEASE(yellowAmmoTexture)	
 	SAFE_RELEASE(blackBarTexture)
 	SAFE_RELEASE(minimapDotTexture)
+	SAFE_RELEASE(minimapEnemyDotTexture)
+
 	SAFE_RELEASE(minimapBackgroundTexture)
 
 	SAFE_RELEASE(oneTexture)
