@@ -101,6 +101,9 @@ HUD::HUD(void)
 	
 	SetRect(&minimapSheetRect, 320, 205, 575, 375); //260, 180, 445, 330);
 	minimapPosition.position = D3DXVECTOR3(564, -21, 0);
+
+	SetRect(&mapTabSheetRect, 87, 111, 259, 169);
+	tabPosition.position = D3DXVECTOR3(628, 0, 0);
 	mapOn = true;
 	/****** end of minimap****/
 }
@@ -226,6 +229,12 @@ void HUD::Init(IDirect3DDevice9* device)
 		D3DFMT_UNKNOWN, D3DPOOL_MANAGED, D3DX_DEFAULT, 
 		D3DX_DEFAULT, D3DCOLOR_XRGB(255, 0, 255), 
 		0, 0, &minimapBackgroundTexture);
+
+	D3DXCreateTextureFromFileExA(device, "miniMapBackground3.png", 800, 600, 0, 0,
+		D3DFMT_UNKNOWN, D3DPOOL_MANAGED, D3DX_DEFAULT, 
+		D3DX_DEFAULT, D3DCOLOR_XRGB(255, 0, 255), 
+		0, 0, &minimapTabTexture);
+
 
 	//D3DXCreateTextureFromFile(device, "healthHUD.png", &hudTexture);
 	hudOn = true;
@@ -370,6 +379,10 @@ void HUD::Render(IDirect3DDevice9* device, ID3DXSprite* sprite, int colorSwitch)
 	{
 	sprite->Draw(minimapBackgroundTexture, &minimapSheetRect, &D3DXVECTOR3(0,0,0), &minimapPosition.position, D3DCOLOR_ARGB(255,255, 255, 255));
 	sprite->Draw(minimapDotTexture, &minimapDotSheetRect, &D3DXVECTOR3(0,0,0), &minimapDotPosition.position, D3DCOLOR_ARGB(255,255, 255, 255));
+	}
+	else if(mapOn == false)
+	{
+	sprite->Draw(minimapTabTexture, &mapTabSheetRect, &D3DXVECTOR3(0,0,0), &tabPosition.position, D3DCOLOR_ARGB(255,255, 255, 255));
 	}
 
 	}

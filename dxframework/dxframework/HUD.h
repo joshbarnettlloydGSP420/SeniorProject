@@ -98,7 +98,7 @@ private:
 		D3DXVECTOR3 position;
 	}
 	hudPosition, healthPosition, shieldPosition, ammoPosition, bulletPosition, numberPosition, blackBar1Position, blackBar2Position,
-		minimapDotPosition, minimapPosition;
+		minimapDotPosition, minimapPosition, tabPosition;
 
 	//hud position variables, the health/shield bars will be dependant on hud pos
 	D3DXVECTOR3 hudLocation;
@@ -109,6 +109,8 @@ private:
 	IDirect3DTexture9*  minimapBackgroundTexture;
 	RECT				minimapSheetRect;
 	bool				mapOn;
+	RECT				mapTabSheetRect;
+	IDirect3DTexture9*	minimapTabTexture;
 	/************** END OF MINIMAP *******/
 
 public:
