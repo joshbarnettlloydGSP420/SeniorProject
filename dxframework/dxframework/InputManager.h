@@ -27,7 +27,8 @@ public:
 	bool keyUp(DWORD key);
 	bool keyPress(DWORD key);
 	void SetWindowDimension( float width, float height);
-	
+	void SetMouseDevice(bool mouse);
+
 private:
 
 	LPDIRECTINPUT8        dInput;			// the direct input object

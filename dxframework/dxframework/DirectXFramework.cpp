@@ -467,7 +467,7 @@ void CDirectXFramework::Init(HWND& hWnd, HINSTANCE& hInst, bool bWindowed)
 	
 	//Gamestate
 	gameState = new GameStateManager();
-	gameState->Init(&m_hWnd,&D3Dpp,hInst,m_pD3DDevice);
+	gameState->Init(m_hWnd,&D3Dpp,hInst,m_pD3DDevice);
 
 	// Entity Manager
 	entityMan = new EntityManager();
@@ -479,7 +479,7 @@ void CDirectXFramework::Init(HWND& hWnd, HINSTANCE& hInst, bool bWindowed)
 	}
 
 	fridge->scale = D3DXVECTOR3(0.0050f, 0.0050f, 0.0050f);
-
+	videoIsPlaying = false;
 	
 }
 
@@ -501,6 +501,9 @@ void CDirectXFramework::Update(float dt)
 		// Player Update
 		Player->Update(dt, eyePos, lookAt, havok->getWorld());
 
+		//minimap player position init
+		gameState->setPlayerPosition(Player->position);
+		
 		// Object Updates
 		Mansion->Update(dt);
 
@@ -551,10 +554,15 @@ void CDirectXFramework::Update(float dt)
 	}
 
 	gameState->Update(dt);
+	
 }
 
 void CDirectXFramework::Render(float dt)
 {
+	if(gameState->optionsMenu != NULL)
+		videoIsPlaying = gameState->optionsMenu->GetVideoPlaying();
+	if(videoIsPlaying)
+		return;
 	// If the device was not created successfully, return
 	if(!m_pD3DDevice)
 		return;

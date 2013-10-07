@@ -95,6 +95,14 @@ HUD::HUD(void)
 	blackBar2Position.position.x = hudLocation.x + 37;
 	blackBar2Position.position.y = hudLocation.y + 40;
 	blackBar2Position.position.z = 0.0f;
+
+	/****** minimap *****/
+	SetRect(&minimapDotSheetRect, 302, 223, 312, 233);
+	
+	SetRect(&minimapSheetRect, 320, 205, 575, 375); //260, 180, 445, 330);
+	minimapPosition.position = D3DXVECTOR3(564, -21, 0);
+	mapOn = true;
+	/****** end of minimap****/
 }
 
 
@@ -204,41 +212,24 @@ void HUD::Init(IDirect3DDevice9* device)
 		D3DX_DEFAULT, D3DCOLOR_XRGB(255, 0, 255), 
 		0, 0, &twelveTexture);
 
+	D3DXCreateTextureFromFileExA(device, "minimapDot.png", 640, 480, 0, 0,
+		D3DFMT_UNKNOWN, D3DPOOL_MANAGED, D3DX_DEFAULT, 
+		D3DX_DEFAULT, D3DCOLOR_XRGB(255, 0, 255), 
+		0, 0, &minimapDotTexture);
+
+	D3DXCreateTextureFromFileExA(device, "miniMapBackground3.png", 800, 600, 0, 0,
+		D3DFMT_UNKNOWN, D3DPOOL_MANAGED, D3DX_DEFAULT, 
+		D3DX_DEFAULT, D3DCOLOR_XRGB(255, 0, 255), 
+		0, 0, &minimapBackgroundTexture);
+
 	//D3DXCreateTextureFromFile(device, "healthHUD.png", &hudTexture);
 	hudOn = true;
 
 }
 
-void HUD::Update(float dt, int counter)
+void HUD::Update(float dt, int counter, D3DXVECTOR4 playerPosition)
 {
-	/*if(counter == 0)
-		number = zero;
-	else if(counter == 1)
-		number = one;
-	else if(counter == 2)
-		number = two;
-	else if(counter == 3)
-		number = three;
-	else if(counter == 4)
-		number = four;
-	else if(counter == 5)
-		number = five;
-	else if(counter == 6)
-		number = six;
-	else if(counter == 7)
-		number = seven;
-	else if(counter == 8)
-		number = eight;
-	else if(counter == 9)
-		number = nine;
-	else if(counter == 10)
-		number = ten;
-	else if(counter == 11)
-		number = eleven;
-	else if(counter == 12)
-		number = twelve;
-*/
-		if(counter == 0)
+	if(counter == 0)
 		number = twelve;
 	else if(counter == 1)
 		number = eleven;
@@ -264,6 +255,10 @@ void HUD::Update(float dt, int counter)
 		number = one;
 	else if(counter == 12)
 		number = zero;
+
+	minimapDotPosition.position.x = (playerPosition.x * 1.3f) + 686;
+	minimapDotPosition.position.y = (-1 * playerPosition.z * 1.2f ) + 78;
+	minimapDotPosition.position.z = 0.0f;
 }
 
 void HUD::Render(IDirect3DDevice9* device, ID3DXSprite* sprite, int colorSwitch)
@@ -361,6 +356,14 @@ void HUD::Render(IDirect3DDevice9* device, ID3DXSprite* sprite, int colorSwitch)
 		sprite->Draw(twelveTexture, &numberSheetRect, &D3DXVECTOR3(0,0,0), &numberPosition.position, D3DCOLOR_ARGB(255,255, 255, 255));
 		break;
 	}
+
+	//minimap draw
+	if(mapOn == true)
+	{
+	sprite->Draw(minimapBackgroundTexture, &minimapSheetRect, &D3DXVECTOR3(0,0,0), &minimapPosition.position, D3DCOLOR_ARGB(255,255, 255, 255));
+	sprite->Draw(minimapDotTexture, &minimapDotSheetRect, &D3DXVECTOR3(0,0,0), &minimapDotPosition.position, D3DCOLOR_ARGB(255,255, 255, 255));
+	}
+
 	}
 }
 
@@ -377,6 +380,11 @@ void HUD::setShield(int currentShield)
 {
 	this->currentShield = currentShield;
 }
+
+void HUD::miniMapOn(bool mapOn)
+{
+	this->mapOn = mapOn;
+}
 void HUD::Shutdown()
 {
 	SAFE_RELEASE(hudTexture)
@@ -386,4 +394,19 @@ void HUD::Shutdown()
 	SAFE_RELEASE(purpleAmmoTexture)
 	SAFE_RELEASE(greenAmmoTexture)
 	SAFE_RELEASE(blackBarTexture)
+	SAFE_RELEASE(minimapDotTexture)
+	SAFE_RELEASE(minimapBackgroundTexture)
+
+	SAFE_RELEASE(oneTexture)
+	SAFE_RELEASE(twoTexture)
+	SAFE_RELEASE(threeTexture)
+	SAFE_RELEASE(fourTexture)
+	SAFE_RELEASE(fiveTexture)
+	SAFE_RELEASE(sixTexture)
+	SAFE_RELEASE(sevenTexture)
+	SAFE_RELEASE(eightTexture)
+	SAFE_RELEASE(nineTexture)
+	SAFE_RELEASE(tenTexture)
+	SAFE_RELEASE(elevenTexture)
+	SAFE_RELEASE(twelveTexture)
 }

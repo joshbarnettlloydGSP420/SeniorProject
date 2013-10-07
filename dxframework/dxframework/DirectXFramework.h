@@ -54,7 +54,7 @@ class CDirectXFramework
 	//////////////////////////////////////////////////////////////////////////
 	bool						m_bFullscreen;
 	bool						FPSDisplay;
-
+	bool						videoIsPlaying;
 	int							screenWidth;
 	int							screenHeight;
 
