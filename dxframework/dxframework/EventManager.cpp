@@ -19,20 +19,20 @@ void EventManager::spawnEnemies()
 void EventManager::Init()
 {
 	// Set Rooms Positions, Scale, then create them
-	Foyer.roomPos.set(1.0f, 0.0f, 27.0f, 0.0f);
-	Foyer.roomSize.set(21.5f, 20.0f, 22.0f, 0.0f);
+	Foyer.roomPos = D3DXVECTOR3(1.0f, 0.0f, -18.0f);
+	Foyer.roomSize = D3DXVECTOR3(21.5f, 20.0f, 22.0f);
 	
 	
-	Ballroom.roomPos.set(-42.0f, 0.0f, 7.5f, 0.0f);
-	Ballroom.roomSize.set(21.5, 20.0f, 42.0f, 0.0f);
+	Ballroom.roomPos = D3DXVECTOR3(-42.0f, 0.0f, 7.5f);
+	Ballroom.roomSize = D3DXVECTOR3(21.5, 20.0f, 42.0f);
 	
 	
-	Diningroom.roomPos.set(44.0f, 0.0f, 7.5f, 0.0f);
-	Diningroom.roomSize.set(42.5f, 20.0f, 84.0f, 0.0f);
+	Diningroom.roomPos = D3DXVECTOR3(44.0f, 0.0f, 7.5f);
+	Diningroom.roomSize = D3DXVECTOR3(21.5, 20.0f, 42.0f);
 	
 	
-	Kitchen.roomPos.set(1.0f, 0.0f, -18.0f, 0.0f);
-	Kitchen.roomSize.set(21.5f, 20.0f, 22.0f, 0.0f);
+	Kitchen.roomPos = D3DXVECTOR3(1.0f, 0.0f, 27.0f);
+	Kitchen.roomSize = D3DXVECTOR3(21.5f, 20.0f, 22.0f);
 
 	createRooms();
 }
@@ -44,84 +44,105 @@ void EventManager::Update(float deltaTime)
 
 void EventManager::createRooms()
 {
-	Foyer.enemiesDead = false;
-	Foyer.puzzleSolved = false;
-	Foyer.playerInRoom = false;
+	// Create the Foyer
+	{
+		hkpRigidBody* rigidBody;
+		hkpRigidBodyCinfo bodyInfo;
 
-	hkpRigidBody* rigidBody;
-	hkpRigidBodyCinfo bodyInfo;
+		Foyer.enemiesDead = false;
+		Foyer.puzzleSolved = false;
+		Foyer.playerInRoom = false;
 
-	// Box Parameters
-	hkVector4 halfExtents(Foyer.roomSize);
+		// Box Parameters
+		hkVector4 halfExtents(hkVector4(Foyer.roomSize.x, Foyer.roomSize.y, Foyer.roomSize.z, 0.0f));
 
-	// Create Box Based on Parameters
-	hkpBoxShape* boxShape = new hkpBoxShape(halfExtents);
+		// Create Box Based on Parameters
+		hkpBoxShape* boxShape = new hkpBoxShape(halfExtents);
 
-	// Set The Object's Properties
-	bodyInfo.m_shape = boxShape;
-	bodyInfo.m_position.set(Foyer.roomPos.getComponent(0), Foyer.roomPos.getComponent(1), Foyer.roomPos.getComponent(2), Foyer.roomPos.getComponent(3));
+		// Set The Object's Properties
+		bodyInfo.m_shape = boxShape;
+		bodyInfo.m_position.set(Foyer.roomPos.x, Foyer.roomPos.y, Foyer.roomPos.z);
+		bodyInfo.m_motionType = hkpMotion::MOTION_FIXED;
 
-	// Create Rigid Body
-	rigidBody = new hkpRigidBody(bodyInfo);
+		// Create Rigid Body
+		rigidBody = new hkpRigidBody(bodyInfo);
 
-	rigidBody->getCollidable()->getShape()->getAabb(rigidBody->getTransform(), 0.0f, Foyer.boundingArea);
+		rigidBody->getCollidable()->getShape()->getAabb(rigidBody->getTransform(), 0.0f, Foyer.boundingArea);
+	}
 
-	Ballroom.enemiesDead = false;
-	Ballroom.puzzleSolved = false;
-	Ballroom.playerInRoom = false;
+	// Ballroom
+	{
+		hkpRigidBody* rigidBody;
+		hkpRigidBodyCinfo bodyInfo;
 
-	// Box Parameters
-	halfExtents = Ballroom.roomSize;
+		Ballroom.enemiesDead = false;
+		Ballroom.puzzleSolved = false;
+		Ballroom.playerInRoom = false;
 
-	// Create Box Based on Parameters
-	 boxShape = new hkpBoxShape(halfExtents);
+		// Box Parameters
+		hkVector4 halfExtents(hkVector4(Ballroom.roomSize.x, Ballroom.roomSize.y, Ballroom.roomSize.z, 0.0f));
 
-	// Set The Object's Properties
-	bodyInfo.m_shape = boxShape;
-	bodyInfo.m_position.set(Ballroom.roomPos.getComponent(0), Ballroom.roomPos.getComponent(1), Ballroom.roomPos.getComponent(2), Ballroom.roomPos.getComponent(3));
+		// Create Box Based on Parameters
+		hkpBoxShape* boxShape = new hkpBoxShape(halfExtents);
 
-	// Create Rigid Body
-	rigidBody = new hkpRigidBody(bodyInfo);
+		// Set The Object's Properties
+		bodyInfo.m_shape = boxShape;
+		bodyInfo.m_position.set(Ballroom.roomPos.x, Ballroom.roomPos.y, Ballroom.roomPos.z);
 
-	rigidBody->getCollidable()->getShape()->getAabb(rigidBody->getTransform(), 0.0f, Ballroom.boundingArea);
+		// Create Rigid Body
+		rigidBody = new hkpRigidBody(bodyInfo);
 
-	Diningroom.enemiesDead = false;
-	Diningroom.puzzleSolved = false;
-	Diningroom.playerInRoom = false;
+		rigidBody->getCollidable()->getShape()->getAabb(rigidBody->getTransform(), 0.0f, Ballroom.boundingArea);
+	}
 
-	// Box Parameters
-	halfExtents = Diningroom.roomSize;
+	{
+		hkpRigidBody* rigidBody;
+		hkpRigidBodyCinfo bodyInfo;
 
-	// Create Box Based on Parameters
-	boxShape = new hkpBoxShape(halfExtents);
+		Diningroom.enemiesDead = false;
+		Diningroom.puzzleSolved = false;
+		Diningroom.playerInRoom = false;
 
-	// Set The Object's Properties
-	bodyInfo.m_shape = boxShape;
-	bodyInfo.m_position.set(Diningroom.roomPos.getComponent(0), Diningroom.roomPos.getComponent(1), Diningroom.roomPos.getComponent(2), Diningroom.roomPos.getComponent(3));
+		// Box Parameters
+		hkVector4 halfExtents(hkVector4(Diningroom.roomSize.x, Diningroom.roomSize.y, Diningroom.roomSize.z, 0.0f));
 
-	// Create Rigid Body
-	rigidBody = new hkpRigidBody(bodyInfo);
+		// Create Box Based on Parameters
+		hkpBoxShape* boxShape = new hkpBoxShape(halfExtents);
 
-	rigidBody->getCollidable()->getShape()->getAabb(rigidBody->getTransform(), 0.0f, Diningroom.boundingArea);
+		// Set The Object's Properties
+		bodyInfo.m_shape = boxShape;
+		bodyInfo.m_position.set(Diningroom.roomPos.x, Diningroom.roomPos.y, Diningroom.roomPos.z);
 
-	Kitchen.enemiesDead = false;
-	Kitchen.puzzleSolved = false;
-	Kitchen.playerInRoom = false;
+		// Create Rigid Body
+		rigidBody = new hkpRigidBody(bodyInfo);
 
-	// Box Parameters
-	halfExtents = Kitchen.roomSize;
+		rigidBody->getCollidable()->getShape()->getAabb(rigidBody->getTransform(), 0.0f, Diningroom.boundingArea);
+	}
 
-	// Create Box Based on Parameters
-	boxShape = new hkpBoxShape(halfExtents);
+	{
+		hkpRigidBody* rigidBody;
+		hkpRigidBodyCinfo bodyInfo;
 
-	// Set The Object's Properties
-	bodyInfo.m_shape = boxShape;
-	bodyInfo.m_position.set(Kitchen.roomPos.getComponent(0), Kitchen.roomPos.getComponent(1), Kitchen.roomPos.getComponent(2), Kitchen.roomPos.getComponent(3));
+		Kitchen.enemiesDead = false;
+		Kitchen.puzzleSolved = false;
+		Kitchen.playerInRoom = false;
 
-	// Create Rigid Body
-	rigidBody = new hkpRigidBody(bodyInfo);
+		// Box Parameters
+		hkVector4 halfExtents(hkVector4(Kitchen.roomSize.x, Kitchen.roomSize.y, Kitchen.roomSize.z, 0.0f));
 
-	rigidBody->getCollidable()->getShape()->getAabb(rigidBody->getTransform(), 0.0f, Kitchen.boundingArea);
+		// Create Box Based on Parameters
+		hkpBoxShape* boxShape = new hkpBoxShape(halfExtents);
+
+		// Set The Object's Properties
+		bodyInfo.m_shape = boxShape;
+		bodyInfo.m_position.set(Kitchen.roomPos.x, Kitchen.roomPos.y, Kitchen.roomPos.z);
+
+		// Create Rigid Body
+		rigidBody = new hkpRigidBody(bodyInfo);
+
+		rigidBody->getCollidable()->getShape()->getAabb(rigidBody->getTransform(), 0.0f, Kitchen.boundingArea);
+	}
+	bool candybar;
 }
 
 bool EventManager::checkForPlayer(Object_Player* Player)
@@ -131,16 +152,30 @@ bool EventManager::checkForPlayer(Object_Player* Player)
 	Player->objectBody->getRigidBody()->getCollidable()->getShape()->getAabb(Player->objectBody->getRigidBody()->getTransform(), 0.0f, player);
 
 	if(Foyer.boundingArea.overlaps(player))
-		currentRoom = FOYER;		return true;
+	{
+		currentRoom = FOYER;
+		return true;
+	}
 
 	if(Ballroom.boundingArea.overlaps(player))
-		currentRoom = BALLROOM;		return true;
+	{
+		currentRoom = BALLROOM;
+		return true;
+	}
+
 
 	if(Diningroom.boundingArea.overlaps(player))
-		currentRoom = DININGROOM;	return true;
+	{
+		currentRoom = DININGROOM;
+		return true;
+	}
 
 	if(Kitchen.boundingArea.overlaps(player))
-		currentRoom = KITCHEN;		return true;
+	{
+		currentRoom = KITCHEN;
+		return true;
+	}
 
+	currentRoom = BLAH;
 	return false;
 }

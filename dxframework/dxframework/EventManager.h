@@ -20,7 +20,7 @@ enum AREA
 	BALLROOM	= 1,
 	DININGROOM	= 2,
 	KITCHEN		= 3,
-
+	BLAH		= 4,
 };
 
 // A room struct that'll be the base for all the rooms
@@ -35,8 +35,8 @@ struct Room
 	bool		playerInRoom;	// Is the player currently in the room?
 
 	// room position and scale for the bounding box
-	hkVector4	roomPos;
-	hkVector4	roomSize;
+	D3DXVECTOR3	roomPos;
+	D3DXVECTOR3	roomSize;
 
 	// Enemies
 	int			remainingEnemies;

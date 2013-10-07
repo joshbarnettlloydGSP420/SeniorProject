@@ -421,6 +421,13 @@ void CDirectXFramework::Init(HWND& hWnd, HINSTANCE& hInst, bool bWindowed)
 	createGroundBox(havok->getWorld(), 2.0f, 10.0f, 7.5f, 22.5f, 5.0f, 41.0f);		// Top Right Inside
 	createGroundBox(havok->getWorld(), 2.0f, 10.0f, 7.5f, -20.0f, 5.0f, -37.5f);	// Bottom Left Inside 
 	createGroundBox(havok->getWorld(), 2.0f, 10.0f, 7.5f, 22.5f, 5.0f, -37.5f);		// Bottom Right Inside
+
+
+	// TEST WALLS
+	//createGroundBox(havok->getWorld(), 21.5f, 20.0f, 22.0f, 1.0f, 0.0f, 27.0f);
+	//createGroundBox(havok->getWorld(), 21.5, 20.0f, 42.0f, -42.0f, 0.0f, 7.5f);
+	//createGroundBox(havok->getWorld(), 21.5, 20.0f, 42.0f, 44.0f, 0.0f, 7.5f);
+	//createGroundBox(havok->getWorld(), 21.5f, 20.0f, 22.0f, 1.0f, 0.0f, -18.0f);
 	
 	// House Objects
 	for(short i = 0; i < ARRAYSIZE(piano); ++i)
@@ -778,13 +785,18 @@ gameState->Render(m_pD3DSprite);
 	GetWindowRect(m_hWnd, &rect);
 	int width = rect.right - rect.left;
 	int height = rect.bottom - rect.top;
+	int currentRoom = eventMan->currentRoom;
 
 	// Draw Text, using DT_TOP, DT_RIGHT for placement in the top right of the
 	// screen.  DT_NOCLIP can improve speed of text rendering, but allows text
 	// to be drawn outside of the rect specified to draw text in.
-	/*char debugMessage[256];
-	sprintf( debugMessage, "X: %f\nY: %f\nZ: %f", 
-		eyePos.x, eyePos.y, eyePos.z );*/
+	char debugMessage[256];
+	sprintf(debugMessage, "CurrentRoom: %d", 
+		currentRoom);
+
+	m_pD3DFont->DrawTextA(0, debugMessage, -1, &rect, 
+                  DT_TOP | DT_LEFT | DT_NOCLIP, 
+                  D3DCOLOR_ARGB(255, 255, 255, 255));
 
 
 	// EndScene, and Present the back buffer to the display buffer
