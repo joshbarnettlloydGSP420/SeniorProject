@@ -23,8 +23,8 @@
 #include "Enemy_YellowGhost.h"
 #include "Enemy_GreenGhost.h"
 #include "Enemy_RedGhost.h"
-#include "EntityManager.h"
 #include "EventManager.h"
+#include "EntityManager.h"
 #include "AudioManager.h"
 #include "SoundLoader.h"
 
@@ -49,13 +49,13 @@ class CDirectXFramework
 	IDirect3D9*					m_pD3DObject;	// Direct3D 9 Object
 	//IDirect3DDevice9*			m_pD3DDevice;	// Direct3D 9 Device
 	D3DCAPS9					m_D3DCaps;		// Device Capabilities
-
+		D3DPRESENT_PARAMETERS D3Dpp;
 	//////////////////////////////////////////////////////////////////////////
 	// Screen Variables														//
 	//////////////////////////////////////////////////////////////////////////
 	bool						m_bFullscreen;
 	bool						FPSDisplay;
-
+	bool						videoIsPlaying;
 	int							screenWidth;
 	int							screenHeight;
 

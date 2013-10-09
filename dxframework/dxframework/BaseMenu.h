@@ -33,7 +33,6 @@ protected:
 	SoundEffect* MenuBeep;
 	SoundEffect* MenuMusic;
 	SoundEffect* GameBGM;
-
 	////////////////////////////////////////////////////////////////////////
 	// D3D Variables
 	////////////////////////////////////////////////////////////////////////
@@ -53,11 +52,15 @@ protected:
 	ID3DXSprite*		m_pD3DSprite;		// Sprite Object
 	ID3DXSprite*		backgroundSprite;	// Sprite for background
 	IDirect3DTexture9*	backgroundTexture;	// Texture to use for background
+	IDirect3DTexture9*	mouseTexture;		// texture for mouse cursor
 	D3DXIMAGE_INFO		m_imageInfo;		// File details of a texture
+	D3DXIMAGE_INFO		m_cursorInfo;		// File Info for the cursor
 	RECT				m_rect;				// RECT for the menu background
 	LPCWSTR				backgroundFileName;	// name of file for background
 	D3DXVECTOR3			backGroundPos;		// position  for background sprite
-	
+	RECT				mouseSheetRect;		// for mouse sprite
+	int					musicPlayCounter;
+	int					mouseCounter;
 	////////////////////////////////////////////////////////////////////////
 	// DirectShow COM Object Creation
 	////////////////////////////////////////////////////////////////////////
@@ -68,7 +71,7 @@ protected:
 	//HRESULT                *isVideoDone;
 	long evCode;
 	LONG_PTR eventParam1, eventParam2;
-	HWND*					hwnd;
+	HWND					hwnd;
 	////////////////////////////////////////////////////////////////////////
 	// Istance of gameState
 	////////////////////////////////////////////////////////////////////////
@@ -78,7 +81,7 @@ protected:
 	int menuItemSelected;		// Hold the menu selection			
 
 	InputManager* myInput;
-
+	D3DXVECTOR2 mousePos;
 public:
 	BaseMenu(void);
 	virtual ~BaseMenu(void);

@@ -1,5 +1,5 @@
 #include "DirectXFramework.h"
-
+#include <crtdbg.h>
 //CDirectXFramework* gd3dApp   = 0;
 IDirect3DDevice9* m_pD3DDevice = 0;
 //CameraObj* gCamera = 0;
@@ -33,18 +33,18 @@ void CDirectXFramework::Init(HWND& hWnd, HINSTANCE& hInst, bool bWindowed)
 	// Find the width and height of window using hWnd and GetWindowRect()
 	RECT windowSizeRect;
 	GetWindowRect(hWnd, &windowSizeRect);
-	screenWidth = windowSizeRect.right - windowSizeRect.left;
-	screenHeight = windowSizeRect.bottom - windowSizeRect.top;
+	 screenWidth = windowSizeRect.right - windowSizeRect.left;
+	 screenHeight = windowSizeRect.bottom - windowSizeRect.top;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Presentation paramters for creating the D3D9 device													 //
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	D3DPRESENT_PARAMETERS D3Dpp;
+	
 	ZeroMemory(&D3Dpp, sizeof(D3Dpp));						// NULL the structure's memory
 
 	D3Dpp.hDeviceWindow					= hWnd;																		// Handle to the focus window
-	D3Dpp.Windowed						= bWindowed;																// Windowed or Full-screen boolean
+	D3Dpp.Windowed						=  bWindowed;																// Windowed or Full-screen boolean
 	D3Dpp.AutoDepthStencilFormat		= D3DFMT_D24S8;																// Format of depth/stencil buffer, 24 bit depth, 8 bit stencil
 	D3Dpp.EnableAutoDepthStencil		= TRUE;																		// Enables Z-Buffer (Depth Buffer)
 	D3Dpp.BackBufferCount				= 1;																		// Change if need of > 1 is required at a later date
@@ -87,6 +87,11 @@ void CDirectXFramework::Init(HWND& hWnd, HINSTANCE& hInst, bool bWindowed)
 								deviceBehaviorFlags,	// behavior flags
 								&D3Dpp,					// presentation parameters
 								&m_pD3DDevice);			// returned device pointer
+
+	RECT R;
+	GetClientRect(m_hWnd, &R);
+	float width2  = (float)R.right;
+	float height2 = (float)R.bottom;
 	// create a vertex format
 	D3DVERTEXELEMENT9 elems[] =
 	{
@@ -342,6 +347,7 @@ void CDirectXFramework::Init(HWND& hWnd, HINSTANCE& hInst, bool bWindowed)
 		MessageBox(0, (LPCWSTR)error, L"Shader Error", MB_OK );
 	}
 
+	//hTech[0] = fx[0]->GetTechniqueByName("ToonColored");
 	hTech[0] = fx[0]->GetTechniqueByName("tech0");
 
 
@@ -378,15 +384,16 @@ void CDirectXFramework::Init(HWND& hWnd, HINSTANCE& hInst, bool bWindowed)
 	
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
-// Input Manager																						 //
+// Create 3D Mesh From X																				 //
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	// Input Manager Init
 	m_pDInput = new InputManager();
 	m_pDInput->init(hInst,hWnd);
 
+	m_pDInput->SetWindowDimension(screenWidth, screenHeight);
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
-// Create Havok Objects																					 //
+// Create Havok Object																					 //
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	// Havok
@@ -422,13 +429,6 @@ void CDirectXFramework::Init(HWND& hWnd, HINSTANCE& hInst, bool bWindowed)
 	createGroundBox(havok->getWorld(), 2.0f, 10.0f, 7.5f, -20.0f, 5.0f, -37.5f);	// Bottom Left Inside 
 	createGroundBox(havok->getWorld(), 2.0f, 10.0f, 7.5f, 22.5f, 5.0f, -37.5f);		// Bottom Right Inside
 
-
-	// TEST WALLS
-	//createGroundBox(havok->getWorld(), 21.5f, 20.0f, 22.0f, 1.0f, 0.0f, 27.0f);
-	//createGroundBox(havok->getWorld(), 21.5, 20.0f, 42.0f, -42.0f, 0.0f, 7.5f);
-	//createGroundBox(havok->getWorld(), 21.5, 20.0f, 42.0f, 44.0f, 0.0f, 7.5f);
-	//createGroundBox(havok->getWorld(), 21.5f, 20.0f, 22.0f, 1.0f, 0.0f, -18.0f);
-	
 	// House Objects
 	for(short i = 0; i < ARRAYSIZE(piano); ++i)
 		piano[i]->createHavokObject(havok->getWorld());
@@ -467,10 +467,10 @@ void CDirectXFramework::Init(HWND& hWnd, HINSTANCE& hInst, bool bWindowed)
 	/// YOU FORGOT TO INIT YOU'RE VERTEX DECLARATIONS...
 	/// you digital dummy :)
 	InitAllVertexDeclarations();
-
+	
 	//Gamestate
 	gameState = new GameStateManager();
-	gameState->Init(&hWnd,&D3Dpp,hInst,m_pD3DDevice);
+	gameState->Init(m_hWnd,&D3Dpp,hInst,m_pD3DDevice);
 
 	// Entity Manager
 	entityMan = new EntityManager();
@@ -482,7 +482,7 @@ void CDirectXFramework::Init(HWND& hWnd, HINSTANCE& hInst, bool bWindowed)
 	}
 
 	fridge->scale = D3DXVECTOR3(0.0050f, 0.0050f, 0.0050f);
-
+	videoIsPlaying = false;
 	
 }
 
@@ -495,6 +495,7 @@ void CDirectXFramework::Update(float dt)
 {
 	if(gameState->activeGameState == GAME)
 	{
+		m_pDInput->Update();
 		havok->stepSimulation(dt);
 
 		havok->getWorld()->lock();
@@ -503,6 +504,9 @@ void CDirectXFramework::Update(float dt)
 		// Player Update
 		Player->Update(dt, eyePos, lookAt, havok->getWorld());
 
+		//minimap player position init
+		gameState->setPlayerPosition(Player->position);
+		
 		// Object Updates
 		Mansion->Update(dt);
 
@@ -529,30 +533,29 @@ void CDirectXFramework::Update(float dt)
 			redGhost->Update( dt, Player->position);
 			//redGhost->BulletCollision( bulletColor );
 		}
-		else if( redGhost->GetIsDead() == true && purpleGhost->GetIsDead() == false)
+		//else if( redGhost->GetIsDead() == true && purpleGhost->GetIsDead() == false)
 		{
 			purpleGhost->Update( dt, Player->position);
 			//purpleGhost->BulletCollision( bulletColor );
 		}
-		else if ( purpleGhost->GetIsDead() == true && greenGhost->GetIsDead() == false)
+		//else if ( purpleGhost->GetIsDead() == true && greenGhost->GetIsDead() == false)
 		{
 			greenGhost->Update( dt, Player->position);
 			//greenGhost->BulletCollision( bulletColor );
 		}
-		 else if ( greenGhost->GetIsDead() == true && yellowGhost->GetIsDead() == false)
+		 //else if ( greenGhost->GetIsDead() == true && yellowGhost->GetIsDead() == false)
 		{
 			yellowGhost->Update( dt, Player->position);
 			//yellowGhost->BulletCollision( bulletColor );
 		}
-			
+
 		if(eventMan->checkForPlayer(Player))
 		{
 			bool touch = true;
 		}
-
+			
 		havok->getWorld()->unlock();
 
-	
 
 		UpdateCamera(dt);
 		playerControls(dt);
@@ -563,6 +566,10 @@ void CDirectXFramework::Update(float dt)
 
 void CDirectXFramework::Render(float dt)
 {
+	if(gameState->optionsMenu != NULL)
+		videoIsPlaying = gameState->optionsMenu->GetVideoPlaying();
+	if(videoIsPlaying)
+		return;
 	// If the device was not created successfully, return
 	if(!m_pD3DDevice)
 		return;
@@ -579,7 +586,7 @@ void CDirectXFramework::Render(float dt)
 	//////////////////////////////////////////////////////////////////////////
 	// Draw 3D Objects (for future labs - not used in Week #1)
 	//////////////////////////////////////////////////////////////////////////
-
+	m_pD3DSprite->Begin(D3DXSPRITE_ALPHABLEND);
 	D3DXMatrixIdentity(&rotMat);
 	D3DXMatrixIdentity(&scaleMat);
 	D3DXMatrixIdentity(&worldMat);
@@ -714,11 +721,11 @@ if(gameState->activeGameState == GAME)
 	// when one ghost is dead then the next one renders
 	if ( redGhost->GetIsDead() == false)
 		redGhost->Render( m_hWnd, viewMat, projMat);
-	else if( redGhost->GetIsDead() == true && purpleGhost->GetIsDead() == false)
+	//else if( redGhost->GetIsDead() == true && purpleGhost->GetIsDead() == false)
 		purpleGhost->Render( m_hWnd, viewMat, projMat);
-	else if ( purpleGhost->GetIsDead() == true && greenGhost->GetIsDead() == false)
+	//else if ( purpleGhost->GetIsDead() == true && greenGhost->GetIsDead() == false)
 		greenGhost->Render( m_hWnd, viewMat, projMat);
-	else if ( greenGhost->GetIsDead() == true && yellowGhost->GetIsDead() == false)
+	//else if ( greenGhost->GetIsDead() == true && yellowGhost->GetIsDead() == false)
 		yellowGhost->Render( m_hWnd, viewMat, projMat);
 
 	Player->mPSys->draw(m_hWnd, eyePos, viewMat * projMat); // bullet draw
@@ -984,7 +991,7 @@ void CDirectXFramework::playerControls(float dt)
 	// Bullet Controls
 
 	//switching from green to blue bullets
-	if( m_pDInput->keyPress(DIK_1) )
+	if( m_pDInput->keyPress(DIK_1))
 	{
 		if(type !=green)
 		{

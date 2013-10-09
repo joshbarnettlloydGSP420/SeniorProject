@@ -38,6 +38,8 @@ bool InputManager::init(HINSTANCE hInst, HWND wndHandle)
 {
 	HRESULT hr;
 
+	mouseX = 300;
+	mouseY = 300;
 	// Create a direct input object
 
     hr = DirectInput8Create(hInst, DIRECTINPUT_VERSION, 
@@ -50,15 +52,14 @@ bool InputManager::init(HINSTANCE hInst, HWND wndHandle)
     // Create a device for monitoring the mouse
     if FAILED(dInput->CreateDevice(GUID_SysMouse, &mouseDevice, NULL))
 		return FALSE; 
-	if FAILED(mouseDevice->SetDataFormat(&c_dfDIMouse))
+	if FAILED(mouseDevice->SetDataFormat(&c_dfDIMouse2))
 		return FALSE; 
-	
 
-    if FAILED(mouseDevice->SetCooperativeLevel(wndHandle, DISCL_FOREGROUND | DISCL_EXCLUSIVE)) 
+    if FAILED(mouseDevice->SetCooperativeLevel(wndHandle, DISCL_FOREGROUND | DISCL_EXCLUSIVE))
         return FALSE; 
 		
-    //if FAILED(mouseDevice->Acquire())
-    //    return FALSE; 
+    if FAILED(mouseDevice->Acquire())
+        return FALSE; 
 
 	// Create a device for monitoring the keyboard
 	if (FAILED(dInput->CreateDevice(GUID_SysKeyboard, &keyboardDevice, NULL)))
@@ -73,6 +74,11 @@ bool InputManager::init(HINSTANCE hInst, HWND wndHandle)
 	return true;
 }
 
+void InputManager::SetWindowDimension( float width, float height)
+{
+	ScreenWidth = width;
+	ScreenHeight = height;
+}
 void InputManager::getInput()
 {
 	HRESULT hr;
@@ -92,6 +98,8 @@ void InputManager::getInput()
 	}
 }
 
+
+
 int InputManager::getMouseMovingX() 
 {
 	return mouseState.lX; 
@@ -102,6 +110,11 @@ int InputManager::getMouseMovingY()
 	return mouseState.lY; 
 }
 
+int InputManager::getMouseMovingZ() 
+{
+	return mouseState.lZ; 
+}
+
 bool InputManager::isButtonDown(int button)
 {
 	//check the state of the button
@@ -110,6 +123,7 @@ bool InputManager::isButtonDown(int button)
 	} else {
 		return false;
 	}
+	
 }
 
 bool InputManager::keyDown(DWORD key)
@@ -158,4 +172,50 @@ bool InputManager::keyPress(DWORD key)
 	}
 	
 	return false;
+}
+
+void InputManager::Update()
+{
+	ZeroMemory( &mouseState, sizeof(mouseState) );
+	if(DIERR_INPUTLOST == mouseDevice->GetDeviceState(sizeof(mouseState),
+		                                       (LPVOID)&mouseState))
+ {
+ //mouseDevice->Acquire();
+ }
+	
+	mouseX += mouseState.lX;
+	mouseY += mouseState.lY;
+	mouseZ += mouseState.lZ;
+	
+	/*if( mouseX < 0 ) 
+		mouseX = 0;
+	if( mouseX > ScreenWidth ) 
+		mouseX = ScreenWidth;
+	if( mouseY < 0 ) 
+		mouseY = 0;
+	if( mouseY > ScreenHeight )
+		mouseY = ScreenHeight;*/
+}
+
+int  InputManager::GetMousePosX()
+{
+	return mouseX;
+}
+
+int  InputManager::GetMousePosY()
+{
+	return mouseY;
+}
+
+int  InputManager::GetMousePosZ()
+{
+	return mouseZ;
+}
+
+void InputManager::SetMouseDevice(bool mouse)
+{
+	if( mouse)
+		mouseDevice->Acquire();
+	else
+		mouseDevice->Unacquire();
 }

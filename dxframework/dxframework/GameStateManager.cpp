@@ -3,6 +3,7 @@
 
 GameStateManager::GameStateManager(void)
 {
+	optionsMenu = NULL;
 }
 
 
@@ -10,7 +11,7 @@ GameStateManager::~GameStateManager(void)
 {
 }
 
-void GameStateManager::Init( HWND* wndHandle,  D3DPRESENT_PARAMETERS* D3dpp, HINSTANCE hInst, IDirect3DDevice9* device)
+void GameStateManager::Init( HWND wndHandle,  D3DPRESENT_PARAMETERS* D3dpp, HINSTANCE hInst, IDirect3DDevice9* device)
 {
 	m_pD3DDevice = device;
 	hwnd = wndHandle;
@@ -18,20 +19,23 @@ void GameStateManager::Init( HWND* wndHandle,  D3DPRESENT_PARAMETERS* D3dpp, HIN
 
 	// Create a new input manager
 	input = new InputManager();
-	input->init(hInst, *hwnd);
+	input->init(hInst, hwnd);
 
 	// Create a new menu
 	mainMenu = new MenuMain();
 	mainMenu->Init( input, m_pD3DDevice );
-
 	
-	// Set the active game state to the Main Menu
+	// intialize video
+	InitVideo(L"SplashScreenMovie.wmv");
+	
+	// Set the active game state 
 	activeGameState = MAIN_MENU;
 }
 
 void GameStateManager::Update( float dt )
 {
 	input->getInput();
+	
 	switch ( activeGameState )
 	{
 		///////////////////////////////////////////////////////////////////////
@@ -47,8 +51,9 @@ void GameStateManager::Update( float dt )
 		{
 			
 			// Call the main menu and return menu selection
-			mainMenu->Update();
-			
+			mainMenu->Update(dt);
+			input->Update();
+
 			switch ( mainMenu->GetState() )
 			{
 			case 1:	// Quit
@@ -64,7 +69,6 @@ void GameStateManager::Update( float dt )
 					// create a new options menu
 					optionsMenu = new OptionsMenu();
 					optionsMenu->Init( input, m_pD3DDevice, hwnd, D3Dpp);
-
 					// switch the game state to the options menu
 					activeGameState = OPTIONS_MENU;
 					break;
@@ -89,13 +93,14 @@ void GameStateManager::Update( float dt )
 		{
 			// Add optionsMenu update function
 			optionsMenu->Update();
-
+			input->Update();
 			switch ( optionsMenu->GetState() )
 			{
 			case 1: // Exit to main menu
 				{
 					// delete the options menu
 					delete optionsMenu;
+					optionsMenu = NULL;
 
 					// Create a new menu
 					mainMenu = new MenuMain();
@@ -123,7 +128,7 @@ void GameStateManager::Update( float dt )
 	case GAME:
 		{
 			// Game's update function
-			hud->Update( dt,  getHudBulletCounter());
+			hud->Update( dt,  getHudBulletCounter(), getPlayerPosition());
 
 			if (input->keyPress(DIK_P))
 			{
@@ -133,7 +138,7 @@ void GameStateManager::Update( float dt )
 
 				activeGameState = PAUSE_MENU;
 			}
-
+		
 			//stuff to update the hud's bullet color
 			if (input->keyPress(DIK_1))
 			{
@@ -147,7 +152,13 @@ void GameStateManager::Update( float dt )
 			{
 				hud->setColor(p);	
 			}
-
+			if (input->keyPress(DIK_M) || input->keyPress(DIK_TAB))
+			{
+				if(hud->getMiniMapOn() == true)
+				hud->miniMapOn(false);	
+				else if(hud->getMiniMapOn() == false)
+				hud->miniMapOn(true);	
+			}
 			break;
 		}
 		///////////////////////////////////////////////////////////////////////
@@ -155,7 +166,7 @@ void GameStateManager::Update( float dt )
 		{
 			// Pause menu Update
 			pauseMenu->Update();
-
+			input->Update();
 			switch ( pauseMenu->GetState() )
 			{
 			case 1: // Resume Game
@@ -196,7 +207,22 @@ void GameStateManager::Update( float dt )
 			}
 			break;
 		}
-
+		case INTRO:
+		{
+			videoControl->Run();
+		videoEvent->GetEvent(&evCode, &eventParam1, &eventParam2,0);
+		if(input->keyPress(DIK_E) ||  (evCode == EC_COMPLETE))
+		{
+			activeGameState = MAIN_MENU;
+			videoControl->Stop();
+			videoWindow->put_Visible(OAFALSE);
+			videoWindow->put_Owner((OAHWND)hwnd);
+			SAFE_RELEASE(videoControl);
+			SAFE_RELEASE(videoEvent);
+			SAFE_RELEASE(videoGraph);
+		}
+		}
+		break;
 	}
 }
 
@@ -272,7 +298,49 @@ void GameStateManager::onLostDevice()
 		mainMenu->onLostDevice();
 }
 
+
+void GameStateManager::InitVideo(LPCWSTR vidName)
+{
+	CoInitialize(NULL); 
+
+	CoCreateInstance( CLSID_FilterGraph, NULL,
+		CLSCTX_INPROC_SERVER, IID_IGraphBuilder,
+		(void**)&videoGraph);
+
+	videoGraph->QueryInterface(IID_IMediaControl,
+		(void**)&videoControl);
+
+	videoGraph->QueryInterface(IID_IMediaEvent,
+		(void**)&videoEvent);
+
+	// building a filter graph for our video
+	videoGraph->RenderFile(vidName, NULL);
+
+	//video window
+	videoControl->QueryInterface(IID_IVideoWindow,
+		(void**)&videoWindow);
+
+	// setup the window
+	videoWindow->put_Owner((OAHWND)hwnd);
+
+	// Set the style
+	videoWindow->put_WindowStyle(WS_CHILD | WS_CLIPSIBLINGS | WS_VISIBLE);
+
+	// Obtain the size of the window
+	RECT WinRect;
+	GetClientRect(hwnd, &WinRect);
+
+	// Set the video size to the size of the window
+	videoWindow->SetWindowPosition(WinRect.left, WinRect.top, 
+		WinRect.right, WinRect.bottom);
+}
+
 void GameStateManager::setHudBulletCounter(int bCounter)
 {
 	this->bCounter = bCounter;
+}
+
+void GameStateManager::setPlayerPosition(D3DXVECTOR4 playerPosition)
+{
+	this->playerPosition = playerPosition;
 }
