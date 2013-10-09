@@ -3,6 +3,7 @@
 
 GameStateManager::GameStateManager(void)
 {
+	optionsMenu = NULL;
 }
 
 
@@ -10,7 +11,7 @@ GameStateManager::~GameStateManager(void)
 {
 }
 
-void GameStateManager::Init( HWND* wndHandle,  D3DPRESENT_PARAMETERS* D3dpp, HINSTANCE hInst, IDirect3DDevice9* device)
+void GameStateManager::Init( HWND wndHandle,  D3DPRESENT_PARAMETERS* D3dpp, HINSTANCE hInst, IDirect3DDevice9* device)
 {
 	m_pD3DDevice = device;
 	hwnd = wndHandle;
@@ -18,22 +19,23 @@ void GameStateManager::Init( HWND* wndHandle,  D3DPRESENT_PARAMETERS* D3dpp, HIN
 
 	// Create a new input manager
 	input = new InputManager();
-	input->init(hInst, *hwnd);
+	input->init(hInst, hwnd);
 
 	// Create a new menu
 	mainMenu = new MenuMain();
 	mainMenu->Init( input, m_pD3DDevice );
-
+	
 	// intialize video
 	InitVideo(L"SplashScreenMovie.wmv");
 	
 	// Set the active game state 
-	activeGameState = INTRO;
+	activeGameState = MAIN_MENU;
 }
 
 void GameStateManager::Update( float dt )
 {
 	input->getInput();
+	
 	switch ( activeGameState )
 	{
 		///////////////////////////////////////////////////////////////////////
@@ -49,8 +51,9 @@ void GameStateManager::Update( float dt )
 		{
 			
 			// Call the main menu and return menu selection
-			mainMenu->Update();
-			
+			mainMenu->Update(dt);
+			input->Update();
+
 			switch ( mainMenu->GetState() )
 			{
 			case 1:	// Quit
@@ -66,7 +69,6 @@ void GameStateManager::Update( float dt )
 					// create a new options menu
 					optionsMenu = new OptionsMenu();
 					optionsMenu->Init( input, m_pD3DDevice, hwnd, D3Dpp);
-
 					// switch the game state to the options menu
 					activeGameState = OPTIONS_MENU;
 					break;
@@ -91,13 +93,14 @@ void GameStateManager::Update( float dt )
 		{
 			// Add optionsMenu update function
 			optionsMenu->Update();
-
+			input->Update();
 			switch ( optionsMenu->GetState() )
 			{
 			case 1: // Exit to main menu
 				{
 					// delete the options menu
 					delete optionsMenu;
+					optionsMenu = NULL;
 
 					// Create a new menu
 					mainMenu = new MenuMain();
@@ -135,6 +138,7 @@ void GameStateManager::Update( float dt )
 
 				activeGameState = PAUSE_MENU;
 			}
+		
 			//stuff to update the hud's bullet color
 			if (input->keyPress(DIK_1))
 			{
@@ -166,7 +170,7 @@ void GameStateManager::Update( float dt )
 		{
 			// Pause menu Update
 			pauseMenu->Update();
-
+			input->Update();
 			switch ( pauseMenu->GetState() )
 			{
 			case 1: // Resume Game
@@ -328,7 +332,7 @@ void GameStateManager::InitVideo(LPCWSTR vidName)
 
 	// Obtain the size of the window
 	RECT WinRect;
-	GetClientRect(*hwnd, &WinRect);
+	GetClientRect(hwnd, &WinRect);
 
 	// Set the video size to the size of the window
 	videoWindow->SetWindowPosition(WinRect.left, WinRect.top, 

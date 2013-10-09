@@ -3,7 +3,7 @@
 #include "RenderObject.h"
 #include <math.h>
 
-static const double  Pi= 3.1415926535897932384626433832795028841971693993751058209749445923078164062862089986280348;
+static const double  Pi= 3.14159265;
 
 // struct for creating mini ghosts
 struct Ghost_Color
@@ -44,8 +44,8 @@ struct Ghost_Color
 		float speedScale =  (0.001 * 2 * Pi) / speed;
 		float angle = dt * speedScale;
 
-		position.x = parentPos.x + sin( angle ) * radius;
-		position.y = parentPos.y + cos( angle ) * radius;
+		position.x = (position.x * cos( angle )) - (position.y * sin( angle ));
+		position.y = (position.y * cos( angle )) + (position.x * sin( angle ));
 		position.z = 0.0f;
 		
 	};
