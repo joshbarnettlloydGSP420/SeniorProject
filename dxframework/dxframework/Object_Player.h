@@ -91,6 +91,8 @@ struct HavokBullet
 	vector<hkpRigidBody*>		bullets;
 	vector<D3DXVECTOR3>			bulletPosition;
 
+	bool						canShoot;
+
 	// Constructor, Destructor, and Methods
 	Object_Player();
 	~Object_Player(void);
@@ -116,4 +118,7 @@ struct HavokBullet
 	void getBulletPos(hkpWorld* world, float deltaTime);
 
 	void hitInvulTimer(float deltaTime);
+	
+	void setCanShoot(bool canShoot);
+	bool getCanShoot(){return canShoot;}
 };
