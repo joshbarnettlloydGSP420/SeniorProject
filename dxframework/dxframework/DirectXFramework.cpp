@@ -277,16 +277,6 @@ void CDirectXFramework::Init(HWND& hWnd, HINSTANCE& hInst, bool bWindowed)
 	fridge->scale = D3DXVECTOR3(1.0f, 3.0f, 1.0f);
 	fridge->position = D3DXVECTOR4(-3.6f, 7.0f, 7.5f, 0.0f);
 
-<<<<<<< HEAD
-	// load torch object
-	torch = new Object_Base();
-	torch->shape = BOX;
-	torch->weight = UNMOVABLE;
-	torch->scale = D3DXVECTOR3(1.0f, 3.0f, 1.0f);
-	torch->position = D3DXVECTOR4(-12.4f, 1.8f, 0.0f, 0.0f);
-
-=======
->>>>>>> origin/master
 	//for(short i = 0; i < ARRAYSIZE(islandCounter); ++i)
 	//{
 	//	islandCounter[i] = new Object_Base();
@@ -391,16 +381,6 @@ void CDirectXFramework::Init(HWND& hWnd, HINSTANCE& hInst, bool bWindowed)
 
 	for(short i = 0; i < ARRAYSIZE(chair); ++i)
 	loadMesh(L"Chair.X", &chair[i]->objectMesh);
-<<<<<<< HEAD
-
-///////////////////////////////////////////////////////////////////////////////////////////////////////////
-// Load Meshes for puzzles																				 //
-///////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-	// torches for FourTorchPuzzle
-	loadMesh(L"Candlestick.X", &torch->objectMesh);
-=======
->>>>>>> origin/master
 	
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -478,12 +458,9 @@ void CDirectXFramework::Init(HWND& hWnd, HINSTANCE& hInst, bool bWindowed)
 	purpleGhost->CreateHavokObject(havok->getWorld());
 	yellowGhost->CreateHavokObject(havok->getWorld());
 	greenGhost->CreateHavokObject(havok->getWorld());
-<<<<<<< HEAD
-=======
 
 	eventMan = new EventManager();
 	eventMan->Init();
->>>>>>> origin/master
 	
 	havok->getWorld()->unlock();
 
@@ -493,11 +470,7 @@ void CDirectXFramework::Init(HWND& hWnd, HINSTANCE& hInst, bool bWindowed)
 	
 	//Gamestate
 	gameState = new GameStateManager();
-<<<<<<< HEAD
-	gameState->Init(&m_hWnd,&D3Dpp,hInst,m_pD3DDevice);
-=======
 	gameState->Init(m_hWnd,&D3Dpp,hInst,m_pD3DDevice);
->>>>>>> origin/master
 
 	// Entity Manager
 	entityMan = new EntityManager();
@@ -509,11 +482,7 @@ void CDirectXFramework::Init(HWND& hWnd, HINSTANCE& hInst, bool bWindowed)
 	}
 
 	fridge->scale = D3DXVECTOR3(0.0050f, 0.0050f, 0.0050f);
-<<<<<<< HEAD
-
-=======
 	videoIsPlaying = false;
->>>>>>> origin/master
 	
 }
 
@@ -535,12 +504,9 @@ void CDirectXFramework::Update(float dt)
 		// Player Update
 		Player->Update(dt, eyePos, lookAt, havok->getWorld());
 
-<<<<<<< HEAD
-=======
 		//minimap player position init
 		gameState->setPlayerPosition(Player->position);
 		
->>>>>>> origin/master
 		// Object Updates
 		Mansion->Update(dt);
 
@@ -557,32 +523,6 @@ void CDirectXFramework::Update(float dt)
 
 		for(short i = 0; i < ARRAYSIZE(chair); ++i)
 			chair[i]->Update(dt);
-<<<<<<< HEAD
-
-
-		// Enemies update
-		// Check to make sure they aren't dead before running the updates
-
-		if ( redGhost->GetIsDead() == false)
-		{
-			redGhost->Update( dt, Player->position);
-			//redGhost->BulletCollision( bulletColor );
-		}
-		else if( redGhost->GetIsDead() == true && purpleGhost->GetIsDead() == false)
-		{
-			purpleGhost->Update( dt, Player->position);
-			//purpleGhost->BulletCollision( bulletColor );
-		}
-		else if ( purpleGhost->GetIsDead() == true && greenGhost->GetIsDead() == false)
-		{
-			greenGhost->Update( dt, Player->position);
-			//greenGhost->BulletCollision( bulletColor );
-		}
-		 else if ( greenGhost->GetIsDead() == true && yellowGhost->GetIsDead() == false)
-		{
-			yellowGhost->Update( dt, Player->position);
-			//yellowGhost->BulletCollision( bulletColor );
-=======
 
 
 		// Enemies update
@@ -612,7 +552,6 @@ void CDirectXFramework::Update(float dt)
 		if(eventMan->checkForPlayer(Player))
 		{
 			bool touch = true;
->>>>>>> origin/master
 		}
 			
 		havok->getWorld()->unlock();
@@ -790,19 +729,11 @@ if(gameState->activeGameState == GAME)
 	// when one ghost is dead then the next one renders
 	if ( redGhost->GetIsDead() == false)
 		redGhost->Render( m_hWnd, viewMat, projMat);
-<<<<<<< HEAD
-	else if( redGhost->GetIsDead() == true && purpleGhost->GetIsDead() == false)
-		purpleGhost->Render( m_hWnd, viewMat, projMat);
-	else if ( purpleGhost->GetIsDead() == true && greenGhost->GetIsDead() == false)
-		greenGhost->Render( m_hWnd, viewMat, projMat);
-	else if ( greenGhost->GetIsDead() == true && yellowGhost->GetIsDead() == false)
-=======
 	//else if( redGhost->GetIsDead() == true && purpleGhost->GetIsDead() == false)
 		purpleGhost->Render( m_hWnd, viewMat, projMat);
 	//else if ( purpleGhost->GetIsDead() == true && greenGhost->GetIsDead() == false)
 		greenGhost->Render( m_hWnd, viewMat, projMat);
 	//else if ( greenGhost->GetIsDead() == true && yellowGhost->GetIsDead() == false)
->>>>>>> origin/master
 		yellowGhost->Render( m_hWnd, viewMat, projMat);
 
 	Player->mPSys->draw(m_hWnd, eyePos, viewMat * projMat); // bullet draw
@@ -875,13 +806,10 @@ gameState->Render(m_pD3DSprite);
 	sprintf(debugMessage, "CurrentRoom: %d", 
 		currentRoom);
 
-<<<<<<< HEAD
-=======
 	m_pD3DFont->DrawTextA(0, debugMessage, -1, &rect, 
                   DT_TOP | DT_LEFT | DT_NOCLIP, 
                   D3DCOLOR_ARGB(255, 255, 255, 255));
 
->>>>>>> origin/master
 
 	// EndScene, and Present the back buffer to the display buffer
 	m_pD3DDevice->EndScene();
@@ -1095,7 +1023,6 @@ void CDirectXFramework::playerControls(float dt)
 			Player->changeGunType(type);
 		}
 	}
-<<<<<<< HEAD
 
 	//reload reset bullets 
 	if( m_pDInput->keyPress(DIK_R))
@@ -1103,15 +1030,6 @@ void CDirectXFramework::playerControls(float dt)
 		Player->mPSys->setBulletCounter(0);
 		gameState->setHudBulletCounter(Player->mPSys->GetBulletCounter());
 
-=======
-
-	//reload reset bullets 
-	if( m_pDInput->keyPress(DIK_R))
-	{
-		Player->mPSys->setBulletCounter(0);
-		gameState->setHudBulletCounter(Player->mPSys->GetBulletCounter());
-
->>>>>>> origin/master
 		for(int i = 0; i < ARRAYSIZE(Player->bull); i++)
 		{
 			Player->bull[i].Reset();

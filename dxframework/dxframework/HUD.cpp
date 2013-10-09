@@ -95,8 +95,6 @@ HUD::HUD(void)
 	blackBar2Position.position.x = hudLocation.x + 37;
 	blackBar2Position.position.y = hudLocation.y + 40;
 	blackBar2Position.position.z = 0.0f;
-<<<<<<< HEAD
-=======
 
 	/****** minimap *****/
 	SetRect(&minimapDotSheetRect, 302, 223, 312, 233);
@@ -105,7 +103,6 @@ HUD::HUD(void)
 	minimapPosition.position = D3DXVECTOR3(564, -21, 0);
 	mapOn = true;
 	/****** end of minimap****/
->>>>>>> origin/master
 }
 
 
@@ -215,8 +212,6 @@ void HUD::Init(IDirect3DDevice9* device)
 		D3DX_DEFAULT, D3DCOLOR_XRGB(255, 0, 255), 
 		0, 0, &twelveTexture);
 
-<<<<<<< HEAD
-=======
 	D3DXCreateTextureFromFileExA(device, "minimapDot.png", 640, 480, 0, 0,
 		D3DFMT_UNKNOWN, D3DPOOL_MANAGED, D3DX_DEFAULT, 
 		D3DX_DEFAULT, D3DCOLOR_XRGB(255, 0, 255), 
@@ -227,48 +222,14 @@ void HUD::Init(IDirect3DDevice9* device)
 		D3DX_DEFAULT, D3DCOLOR_XRGB(255, 0, 255), 
 		0, 0, &minimapBackgroundTexture);
 
->>>>>>> origin/master
 	//D3DXCreateTextureFromFile(device, "healthHUD.png", &hudTexture);
 	hudOn = true;
 
 }
 
-<<<<<<< HEAD
-void HUD::Update(float dt, int counter)
-{
-	/*if(counter == 0)
-		number = zero;
-	else if(counter == 1)
-		number = one;
-	else if(counter == 2)
-		number = two;
-	else if(counter == 3)
-		number = three;
-	else if(counter == 4)
-		number = four;
-	else if(counter == 5)
-		number = five;
-	else if(counter == 6)
-		number = six;
-	else if(counter == 7)
-		number = seven;
-	else if(counter == 8)
-		number = eight;
-	else if(counter == 9)
-		number = nine;
-	else if(counter == 10)
-		number = ten;
-	else if(counter == 11)
-		number = eleven;
-	else if(counter == 12)
-		number = twelve;
-*/
-		if(counter == 0)
-=======
 void HUD::Update(float dt, int counter, D3DXVECTOR4 playerPosition)
 {
 	if(counter == 0)
->>>>>>> origin/master
 		number = twelve;
 	else if(counter == 1)
 		number = eleven;
@@ -294,13 +255,10 @@ void HUD::Update(float dt, int counter, D3DXVECTOR4 playerPosition)
 		number = one;
 	else if(counter == 12)
 		number = zero;
-<<<<<<< HEAD
-=======
 
 	minimapDotPosition.position.x = (playerPosition.x * 1.3f) + 686;
 	minimapDotPosition.position.y = (-1 * playerPosition.z * 1.2f ) + 78;
 	minimapDotPosition.position.z = 0.0f;
->>>>>>> origin/master
 }
 
 void HUD::Render(IDirect3DDevice9* device, ID3DXSprite* sprite, int colorSwitch)
@@ -397,8 +355,6 @@ void HUD::Render(IDirect3DDevice9* device, ID3DXSprite* sprite, int colorSwitch)
 	case twelve:
 		sprite->Draw(twelveTexture, &numberSheetRect, &D3DXVECTOR3(0,0,0), &numberPosition.position, D3DCOLOR_ARGB(255,255, 255, 255));
 		break;
-<<<<<<< HEAD
-=======
 	}
 
 	//minimap draw
@@ -408,8 +364,6 @@ void HUD::Render(IDirect3DDevice9* device, ID3DXSprite* sprite, int colorSwitch)
 	sprite->Draw(minimapDotTexture, &minimapDotSheetRect, &D3DXVECTOR3(0,0,0), &minimapDotPosition.position, D3DCOLOR_ARGB(255,255, 255, 255));
 	}
 
->>>>>>> origin/master
-	}
 	}
 }
 
@@ -422,30 +376,15 @@ void HUD::setHealth(int currentHealth)
 	this->currentHealth = currentHealth;
 }
 
-<<<<<<< HEAD
-=======
-void HUD::setColor(colorSwitch color)
-{
-	this->color = color;
-}
-void HUD::setHealth(int currentHealth)
-{
-	this->currentHealth = currentHealth;
-}
-
->>>>>>> origin/master
 void HUD::setShield(int currentShield)
 {
 	this->currentShield = currentShield;
 }
-<<<<<<< HEAD
-=======
 
 void HUD::miniMapOn(bool mapOn)
 {
 	this->mapOn = mapOn;
 }
->>>>>>> origin/master
 void HUD::Shutdown()
 {
 	SAFE_RELEASE(hudTexture)
@@ -455,8 +394,6 @@ void HUD::Shutdown()
 	SAFE_RELEASE(purpleAmmoTexture)
 	SAFE_RELEASE(greenAmmoTexture)
 	SAFE_RELEASE(blackBarTexture)
-<<<<<<< HEAD
-=======
 	SAFE_RELEASE(minimapDotTexture)
 	SAFE_RELEASE(minimapBackgroundTexture)
 
@@ -472,5 +409,4 @@ void HUD::Shutdown()
 	SAFE_RELEASE(tenTexture)
 	SAFE_RELEASE(elevenTexture)
 	SAFE_RELEASE(twelveTexture)
->>>>>>> origin/master
 }

@@ -61,8 +61,6 @@
     <Filter Include="Resource Files\Models\Base_Objects">
       <UniqueIdentifier>{854a1f9b-9807-4dbc-bfcc-c024b4622092}</UniqueIdentifier>
     </Filter>
-<<<<<<< HEAD
-=======
     <Filter Include="Source Files\Objects\Enemy\Attacks">
       <UniqueIdentifier>{56e7277c-61a4-40c7-89ed-54fb99b2c310}</UniqueIdentifier>
     </Filter>
@@ -87,42 +85,11 @@
     <Filter Include="Header Files\Objects\Enemy\Ghosts">
       <UniqueIdentifier>{1c39b273-4379-49bd-886c-0c873eb7a30a}</UniqueIdentifier>
     </Filter>
->>>>>>> origin/master
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="winMain.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-<<<<<<< HEAD
-    <ClCompile Include="Enemy_Attack.cpp">
-      <Filter>Source Files\Objects\Enemy</Filter>
-    </ClCompile>
-    <ClCompile Include="Enemy_YellowGhost.cpp">
-      <Filter>Source Files\Objects\Enemy</Filter>
-    </ClCompile>
-    <ClCompile Include="Enemy_Base.cpp">
-      <Filter>Source Files\Objects\Enemy</Filter>
-    </ClCompile>
-    <ClCompile Include="Enemy_Flee.cpp">
-      <Filter>Source Files\Objects\Enemy</Filter>
-    </ClCompile>
-    <ClCompile Include="Enemy_GreenGhost.cpp">
-      <Filter>Source Files\Objects\Enemy</Filter>
-    </ClCompile>
-    <ClCompile Include="Enemy_Movement.cpp">
-      <Filter>Source Files\Objects\Enemy</Filter>
-    </ClCompile>
-    <ClCompile Include="Enemy_RedGhost.cpp">
-      <Filter>Source Files\Objects\Enemy</Filter>
-    </ClCompile>
-    <ClCompile Include="Enemy_Seek.cpp">
-      <Filter>Source Files\Objects\Enemy</Filter>
-    </ClCompile>
-    <ClCompile Include="Enemy_Wander.cpp">
-      <Filter>Source Files\Objects\Enemy</Filter>
-    </ClCompile>
-=======
->>>>>>> origin/master
     <ClCompile Include="Object_Player.cpp">
       <Filter>Source Files\Objects</Filter>
     </ClCompile>
@@ -180,12 +147,6 @@
     <ClCompile Include="Vertex.cpp">
       <Filter>Source Files\Game</Filter>
     </ClCompile>
-    <ClCompile Include="Enemy_Align.cpp">
-      <Filter>Source Files\Objects\Enemy</Filter>
-    </ClCompile>
-    <ClCompile Include="Enemy_Face.cpp">
-      <Filter>Source Files\Objects\Enemy</Filter>
-    </ClCompile>
     <ClCompile Include="AudioManager.cpp">
       <Filter>Source Files\Audio / FMOD</Filter>
     </ClCompile>
@@ -194,56 +155,6 @@
     </ClCompile>
     <ClCompile Include="SoundLoader.cpp">
       <Filter>Source Files\Audio / FMOD</Filter>
-<<<<<<< HEAD
-    </ClCompile>
-    <ClCompile Include="Enemy_PurpleGhost.cpp">
-      <Filter>Source Files\Objects\Enemy</Filter>
-    </ClCompile>
-    <ClCompile Include="EntityManager.cpp">
-      <Filter>Source Files\Game</Filter>
-    </ClCompile>
-    <ClCompile Include="Enemy_SpawnMiniGhost.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Enemy_Arrive.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="FourTorchPuzzle.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Chandelier.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="Enemy_Attack.h">
-      <Filter>Header Files\Objects\Enemy</Filter>
-    </ClInclude>
-    <ClInclude Include="Enemy_YellowGhost.h">
-      <Filter>Header Files\Objects\Enemy</Filter>
-    </ClInclude>
-    <ClInclude Include="Enemy_Base.h">
-      <Filter>Header Files\Objects\Enemy</Filter>
-    </ClInclude>
-    <ClInclude Include="Enemy_Flee.h">
-      <Filter>Header Files\Objects\Enemy</Filter>
-    </ClInclude>
-    <ClInclude Include="Enemy_GreenGhost.h">
-      <Filter>Header Files\Objects\Enemy</Filter>
-    </ClInclude>
-    <ClInclude Include="Enemy_Movement.h">
-      <Filter>Header Files\Objects\Enemy</Filter>
-    </ClInclude>
-    <ClInclude Include="Enemy_RedGhost.h">
-      <Filter>Header Files\Objects\Enemy</Filter>
-    </ClInclude>
-    <ClInclude Include="Enemy_Seek.h">
-      <Filter>Header Files\Objects\Enemy</Filter>
-    </ClInclude>
-    <ClInclude Include="Enemy_Wander.h">
-      <Filter>Header Files\Objects\Enemy</Filter>
-    </ClInclude>
-=======
     </ClCompile>
     <ClCompile Include="EntityManager.cpp">
       <Filter>Source Files\Game</Filter>
@@ -298,7 +209,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
->>>>>>> origin/master
     <ClInclude Include="Object_Base.h">
       <Filter>Header Files\Objects</Filter>
     </ClInclude>
@@ -353,12 +263,6 @@
     <ClInclude Include="Vertex.h">
       <Filter>Header Files\Game</Filter>
     </ClInclude>
-    <ClInclude Include="Enemy_Align.h">
-      <Filter>Header Files\Objects\Enemy</Filter>
-    </ClInclude>
-    <ClInclude Include="Enemy_Face.h">
-      <Filter>Header Files\Objects\Enemy</Filter>
-    </ClInclude>
     <ClInclude Include="AudioManager.h">
       <Filter>Header Files\Audio / FMOD</Filter>
     </ClInclude>
@@ -370,14 +274,6 @@
     </ClInclude>
     <ClInclude Include="Utilities.h">
       <Filter>Header Files\Audio / FMOD</Filter>
-<<<<<<< HEAD
-    </ClInclude>
-    <ClInclude Include="Gun.h">
-      <Filter>Header Files\Objects</Filter>
-    </ClInclude>
-    <ClInclude Include="Enemy_PurpleGhost.h">
-      <Filter>Header Files\Objects\Enemy</Filter>
-=======
     </ClInclude>
     <ClInclude Include="Gun.h">
       <Filter>Header Files\Objects</Filter>
@@ -432,28 +328,6 @@
     </ClInclude>
     <ClInclude Include="EventManager.h">
       <Filter>Header Files\Game</Filter>
->>>>>>> origin/master
-    </ClInclude>
-    <ClInclude Include="EntityManager.h">
-      <Filter>Header Files\Game</Filter>
-    </ClInclude>
-    <ClInclude Include="Enemy_SpawnMiniGhost.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Enemy_Arrive.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Enemy_Render.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="PuzzleManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="FourTorchPuzzle.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Chandelier.h">
-      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

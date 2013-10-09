@@ -180,11 +180,7 @@ void InputManager::Update()
 	if(DIERR_INPUTLOST == mouseDevice->GetDeviceState(sizeof(mouseState),
 		                                       (LPVOID)&mouseState))
  {
-<<<<<<< HEAD
- mouseDevice->Acquire();
-=======
  //mouseDevice->Acquire();
->>>>>>> origin/master
  }
 	
 	mouseX += mouseState.lX;
@@ -215,8 +211,6 @@ int  InputManager::GetMousePosZ()
 {
 	return mouseZ;
 }
-<<<<<<< HEAD
-=======
 
 void InputManager::SetMouseDevice(bool mouse)
 {
@@ -225,4 +219,3 @@ void InputManager::SetMouseDevice(bool mouse)
 	else
 		mouseDevice->Unacquire();
 }
->>>>>>> origin/master

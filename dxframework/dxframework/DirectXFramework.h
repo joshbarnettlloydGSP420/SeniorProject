@@ -23,20 +23,10 @@
 #include "Enemy_YellowGhost.h"
 #include "Enemy_GreenGhost.h"
 #include "Enemy_RedGhost.h"
-<<<<<<< HEAD
-#include "EntityManager.h"
-#include "AudioManager.h"
-#include "SoundLoader.h"
-
-// puzzles
-#include "FourTorchPuzzle.h"
-
-=======
 #include "EventManager.h"
 #include "EntityManager.h"
 #include "AudioManager.h"
 #include "SoundLoader.h"
->>>>>>> origin/master
 
 // Macro to release COM objects fast and safely
 #define SAFE_RELEASE(x) if(x){x->Release(); x = 0;}
@@ -234,12 +224,6 @@ class CDirectXFramework
 	Object_Base*					candleStick[4];
 	Object_Base*					chair[8];
 
-<<<<<<< HEAD
-	// puzzle objects
-	Object_Base*					torch;
-
-=======
->>>>>>> origin/master
 
 
 	//////////////////////////////////////////////////////////////////////////
@@ -251,16 +235,10 @@ class CDirectXFramework
 	Enemy_GreenGhost*				greenGhost;
 
 	//////////////////////////////////////////////////////////////////////////
-<<<<<<< HEAD
-	// Entity Manager														//
-	//////////////////////////////////////////////////////////////////////////
-	EntityManager*					entityMan;
-=======
 	// Game Managers														//
 	//////////////////////////////////////////////////////////////////////////
 	EntityManager*					entityMan;
 	EventManager*					eventMan;
->>>>>>> origin/master
 
 public:
 

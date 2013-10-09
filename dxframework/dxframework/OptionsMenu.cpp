@@ -58,10 +58,7 @@ bool OptionsMenu::Init(InputManager* input, IDirect3DDevice9* m_pD3DDevice, HWND
 	AudioManager::GetInstance()->SetSFXVolume(1.0f);
 	// sound played counter
 	musicPlayCounter = 0;
-<<<<<<< HEAD
-=======
 	mouseCounter = 0;
->>>>>>> origin/master
 
 	videoInit = false;
 	videoPlaying = false;
@@ -75,7 +72,6 @@ void OptionsMenu::Update()
 	myInput->Update();
 	mousePos.x = myInput->GetMousePosX();
 	mousePos.y = myInput->GetMousePosY();
-<<<<<<< HEAD
 
 	if(mousePos.x >= 290  && mousePos.x < 420 && mousePos.y > 280 && mousePos.y < 300)
 	{
@@ -96,28 +92,6 @@ void OptionsMenu::Update()
 	else
 		musicPlayCounter = 0;
 
-=======
-
-	if(mousePos.x >= 290  && mousePos.x < 420 && mousePos.y > 280 && mousePos.y < 300)
-	{
-			menuItemSelected = 1;
-		if( musicPlayCounter < 1)
-		AudioManager::GetInstance()->PlaySFX(*MenuBeep);
-		musicPlayCounter++;
-	}
-	
-	
-	else if(mousePos.x >= 240  && mousePos.x < 465 && mousePos.y > 450 && mousePos.y < 460)
-	{
-		menuItemSelected = 2;
-		if( musicPlayCounter < 1)
-		AudioManager::GetInstance()->PlaySFX(*MenuBeep);
-		musicPlayCounter++;
-	}
-	else
-		musicPlayCounter = 0;
-
->>>>>>> origin/master
 	
 	if ( videoInit == false)
 	{
@@ -148,10 +122,7 @@ void OptionsMenu::Update()
 		if ( menuItemSelected == 1)
 		{
 			optionsState = o_CREDITS;
-<<<<<<< HEAD
-=======
 			
->>>>>>> origin/master
 		}
 		
 		else if ( menuItemSelected == 2)
@@ -162,12 +133,7 @@ void OptionsMenu::Update()
 	
 	if ( optionsState == 2)
 	{
-<<<<<<< HEAD
-		//optionsState = o_CREDITS;
-		
-=======
 		videoPlaying = true;
->>>>>>> origin/master
 		InitVideo(L"SplashScreenMovie.wmv");
 		videoInit = true;
 		videoControl->Run();
@@ -182,10 +148,6 @@ void OptionsMenu::Update()
 			
 			optionsState = o_OPTIONS_MENU;
 			DestroyVideo();
-<<<<<<< HEAD
-			
-=======
->>>>>>> origin/master
 			videoInit = false;
 			videoPlaying = false;
 			

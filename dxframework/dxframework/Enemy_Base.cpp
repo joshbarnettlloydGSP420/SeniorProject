@@ -11,22 +11,8 @@ Enemy_Base::Enemy_Base(void)
 	attackRange = 25;
 	wanderRange = 75;
 
-<<<<<<< HEAD
-	// Set the Initial movement variables
-	//movement->setPosition( D3DXVECTOR4(10, 1.0, 50, 0));
-	//movement->setVelocity( D3DXVECTOR4( 0, 0, 0, 0 ));
-	//movement->SetOrientation( 0.0f);
-	//movement->SetRotation( 0.0f);
-	//movement->SetLinear( D3DXVECTOR4(0, 0, 0, 0));
-	//movement->SetAngular( 0.0f);
-
 	// set the initial state of the enemy
 	State = Wander;
-	miniGhostInitialized = false;
-=======
-	// set the initial state of the enemy
-	State = Wander;
->>>>>>> origin/master
 
 	// Initialize the 3D model of the enemy.
 	textureName = L"RedGhostTexture.jpg";
@@ -59,8 +45,6 @@ void Enemy_Base::Init(IDirect3DDevice9* m_pD3DDevice, RenderObject* renderObject
 
 	// create 3D mesh from .x file
 	render->LoadMesh( meshName, &objectMesh);
-
-	miniGhostInitialized = false;
 }
 
 // Update the enemy
@@ -81,13 +65,6 @@ void Enemy_Base::Update( float dt, D3DXVECTOR4 playerPosition)
 
 	// update the havok movement
 	HavokBodyUpdate();
-<<<<<<< HEAD
-
-	// if there are mini enemies then update them
-	if ( miniGhostInitialized == true )
-		miniGhost.Update( dt, movement->GetPosition());
-=======
->>>>>>> origin/master
 }
 
 // Change the state of the enemy based on current actions in the game
@@ -138,18 +115,6 @@ void Enemy_Base::UpdateState(StateType CurrentState, float dt)
 			// if health is low then flee
 			if ( health < 40 )
 				ChangeState( Flee );
-<<<<<<< HEAD
-			break;
-		}
-	//	Hit with opposite color bullet	//////////////////////////////////////////
-	case Defence:
-		{
-			// spawn 4 new mini ghosts that will circle arround parent ghost
-			/*if ( miniGhostInitialized == false)
-				miniGhostInitialized = miniGhost.Init( movement->GetPosition(), render, device);
-			ChangeState( Wander );*/
-=======
->>>>>>> origin/master
 			break;
 		}
 	};
@@ -159,22 +124,6 @@ void Enemy_Base::UpdateState(StateType CurrentState, float dt)
 void Enemy_Base::Render(HWND hwnd, D3DXMATRIX veiwMat, D3DXMATRIX projMat)
 {
 	// has to send in orientation to turn properly
-<<<<<<< HEAD
-	//render->SetRotation( movement->GetOrientation());
-	//render->SetRotation( movement->GetRotation());
-
-	// set the health based on the scale ( 150 health will = 0.15 scale )
-	render->SetScale(D3DXVECTOR4( 0.15, 0.15, 0.15, 0) );
-
-	// render the ghost
-	render->Render3DObject( D3DXVECTOR4(movement->GetPosition().x, movement->GetPosition().y - 10.0f, movement->GetPosition().z, movement->GetPosition().w), objectMesh, veiwMat, projMat, textureNumber);
-
-	// render the mini ghosts if they are initialized
-	//if ( miniGhostInitialized == true)
-		//miniGhost.Render(hwnd, veiwMat, projMat);
-}
-
-=======
 	render->SetRotation( movement->GetOrientation());
 	//render->SetRotation( movement->GetRotation());
 
@@ -185,7 +134,6 @@ void Enemy_Base::Render(HWND hwnd, D3DXMATRIX veiwMat, D3DXMATRIX projMat)
 	render->Render3DObject( D3DXVECTOR4(movement->GetPosition().x, movement->GetPosition().y - 10.0f, movement->GetPosition().z, movement->GetPosition().w), objectMesh, veiwMat, projMat, textureNumber);
 }
 
->>>>>>> origin/master
 //void Enemy_Base::CreateBodyObject(hkpWorld* world)
 //{
 //	// Create a ridid body that can move dynamically about the scene.

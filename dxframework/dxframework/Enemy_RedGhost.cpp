@@ -32,10 +32,6 @@ void Enemy_RedGhost::Init(IDirect3DDevice9* m_pD3DDevice, RenderObject* m_pRende
 
 	// set the initial state of the enemy
 	State = Wander;
-<<<<<<< HEAD
-	miniGhostInitialized = false;
-=======
->>>>>>> origin/master
 	attackInitialized = false;
 
 	// Initialize the 3D model of the enemy.
@@ -48,11 +44,6 @@ void Enemy_RedGhost::Init(IDirect3DDevice9* m_pD3DDevice, RenderObject* m_pRende
 
 	// create 3D mesh from .x file
 	render->LoadMesh( meshName, &objectMesh);
-<<<<<<< HEAD
-
-	miniGhostInitialized = false;
-=======
->>>>>>> origin/master
 }
 
 // if the enemy is hit with a bullet

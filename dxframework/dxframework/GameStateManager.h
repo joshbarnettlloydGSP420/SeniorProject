@@ -53,10 +53,7 @@ private:
 	HUD*					hud;
 	//Game*					game;
 	int					bCounter;
-<<<<<<< HEAD
-=======
 	D3DXVECTOR4			playerPosition;
->>>>>>> origin/master
 
 	////////////////////////////////////////////////////////////////////////
 	// DirectShow COM Object Creation
@@ -91,13 +88,10 @@ public:
 
 	void setHudBulletCounter(int bCounter);
 	int getHudBulletCounter(){return bCounter;}
-<<<<<<< HEAD
-=======
 
 	//minimap player position
 	void setPlayerPosition(D3DXVECTOR4 playerPosition);
 	D3DXVECTOR4 getPlayerPosition(){return playerPosition;}
 
->>>>>>> origin/master
 };
 

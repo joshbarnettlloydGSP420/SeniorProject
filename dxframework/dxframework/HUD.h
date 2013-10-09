@@ -96,12 +96,8 @@ private:
 	{
 		D3DXVECTOR3 position;
 	}
-<<<<<<< HEAD
-	hudPosition, healthPosition, shieldPosition, ammoPosition, bulletPosition, numberPosition, blackBar1Position, blackBar2Position;//, ammoBulletPosition, ammoBulletPosition2, ammoBulletPosition3; // ammoBulletPosition will be where the little bullet sprite will be in the bullet hud, the 3 bullets will use the same position
-=======
 	hudPosition, healthPosition, shieldPosition, ammoPosition, bulletPosition, numberPosition, blackBar1Position, blackBar2Position,
 		minimapDotPosition, minimapPosition;
->>>>>>> origin/master
 
 	//hud position variables, the health/shield bars will be dependant on hud pos
 	D3DXVECTOR3 hudLocation;
@@ -120,11 +116,7 @@ public:
 
 	void Init(IDirect3DDevice9* device);
 
-<<<<<<< HEAD
-void Update(float dt, int counter);
-=======
 	void Update(float dt, int counter, D3DXVECTOR4 playerPosition);
->>>>>>> origin/master
 
 	void Render(IDirect3DDevice9* device, ID3DXSprite* sprite, int colorSwitch);
 
@@ -142,10 +134,7 @@ void Update(float dt, int counter);
 	void setShield(int currentShield);
 	int getShield(){return currentShield;}
 
-<<<<<<< HEAD
-=======
 	void miniMapOn(bool mapOn);
 	bool getMiniMapOn(){return mapOn;}
->>>>>>> origin/master
 };
 

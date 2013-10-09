@@ -12,17 +12,9 @@
 
 #include "Enemy_Align.h"
 #include "Enemy_Face.h"
-<<<<<<< HEAD
-
-#include "Enemy_SpawnMiniGhost.h"
-
-// The states that the enemy can be in
-enum StateType{Wander, Arrive, Flee, Attack, Defence };
-=======
 
 // The states that the enemy can be in
 enum StateType{Wander, Arrive, Flee, Attack };
->>>>>>> origin/master
 enum GhostColor{ RedGhost = 1, PurpleGhost, GreenGhost, YellowGhost };
 
 class Enemy_Base
@@ -57,13 +49,6 @@ protected:
 	Enemy_Face			face;
 	Enemy_Align			align;
 
-<<<<<<< HEAD
-	// MiniGhost variables
-	Enemy_SpawnMiniGhost miniGhost;
-	bool				 miniGhostInitialized;
-
-=======
->>>>>>> origin/master
 	// attack variable
 	bool				 attackInitialized;
 

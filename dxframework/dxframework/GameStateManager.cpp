@@ -53,10 +53,7 @@ void GameStateManager::Update( float dt )
 			// Call the main menu and return menu selection
 			mainMenu->Update(dt);
 			input->Update();
-<<<<<<< HEAD
-=======
 
->>>>>>> origin/master
 			switch ( mainMenu->GetState() )
 			{
 			case 1:	// Quit
@@ -131,11 +128,7 @@ void GameStateManager::Update( float dt )
 	case GAME:
 		{
 			// Game's update function
-<<<<<<< HEAD
-			hud->Update( dt,  getHudBulletCounter());
-=======
 			hud->Update( dt,  getHudBulletCounter(), getPlayerPosition());
->>>>>>> origin/master
 
 			if (input->keyPress(DIK_P))
 			{
@@ -145,10 +138,7 @@ void GameStateManager::Update( float dt )
 
 				activeGameState = PAUSE_MENU;
 			}
-<<<<<<< HEAD
-=======
 		
->>>>>>> origin/master
 			//stuff to update the hud's bullet color
 			if (input->keyPress(DIK_1))
 			{
@@ -162,9 +152,6 @@ void GameStateManager::Update( float dt )
 			{
 				hud->setColor(p);	
 			}
-<<<<<<< HEAD
-
-=======
 			if (input->keyPress(DIK_M) || input->keyPress(DIK_TAB))
 			{
 				if(hud->getMiniMapOn() == true)
@@ -172,7 +159,6 @@ void GameStateManager::Update( float dt )
 				else if(hud->getMiniMapOn() == false)
 				hud->miniMapOn(true);	
 			}
->>>>>>> origin/master
 			break;
 		}
 		///////////////////////////////////////////////////////////////////////
@@ -342,11 +328,7 @@ void GameStateManager::InitVideo(LPCWSTR vidName)
 
 	// Obtain the size of the window
 	RECT WinRect;
-<<<<<<< HEAD
-	GetClientRect(*hwnd, &WinRect);
-=======
 	GetClientRect(hwnd, &WinRect);
->>>>>>> origin/master
 
 	// Set the video size to the size of the window
 	videoWindow->SetWindowPosition(WinRect.left, WinRect.top, 
@@ -356,12 +338,9 @@ void GameStateManager::InitVideo(LPCWSTR vidName)
 void GameStateManager::setHudBulletCounter(int bCounter)
 {
 	this->bCounter = bCounter;
-<<<<<<< HEAD
-=======
 }
 
 void GameStateManager::setPlayerPosition(D3DXVECTOR4 playerPosition)
 {
 	this->playerPosition = playerPosition;
->>>>>>> origin/master
 }

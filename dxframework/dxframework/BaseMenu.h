@@ -60,11 +60,7 @@ protected:
 	D3DXVECTOR3			backGroundPos;		// position  for background sprite
 	RECT				mouseSheetRect;		// for mouse sprite
 	int					musicPlayCounter;
-<<<<<<< HEAD
-	
-=======
 	int					mouseCounter;
->>>>>>> origin/master
 	////////////////////////////////////////////////////////////////////////
 	// DirectShow COM Object Creation
 	////////////////////////////////////////////////////////////////////////
