@@ -218,7 +218,7 @@ void CDirectXFramework::Init(HWND& hWnd, HINSTANCE& hInst, bool bWindowed)
 		D3DX_DEFAULT, D3DCOLOR_XRGB(255, 0, 255), 
 		&m_imageInfo, 0, &m_pTexture[0]);
 
-	D3DXCreateTextureFromFileEx(m_pD3DDevice, L"test.tga", 0, 0, 0, 0,
+	D3DXCreateTextureFromFileEx(m_pD3DDevice, L"TitleLogo.png", 853, 480, 0, 0,
 		D3DFMT_UNKNOWN, D3DPOOL_MANAGED, D3DX_DEFAULT, 
 		D3DX_DEFAULT, D3DCOLOR_XRGB(255, 0, 255), 
 		&m_imageInfo, 0, &m_pTexture[1]);
@@ -591,6 +591,14 @@ void CDirectXFramework::Render(float dt)
 	D3DXMatrixIdentity(&scaleMat);
 	D3DXMatrixIdentity(&worldMat);
 	D3DXMatrixIdentity(&transMat);
+	
+	if(gameState->activeGameState == MAIN_MENU)
+	{
+	// Draw the texture with the sprite object
+	m_pD3DSprite->Draw(m_pTexture[1], 0, &D3DXVECTOR3(m_imageInfo.Width * 0.5f, 
+		m_imageInfo.Height * 0.5f, 0.0f), &D3DXVECTOR3(415, 115,0),
+		D3DCOLOR_ARGB(255, 255, 255, 255));
+	}
 
 if(gameState->activeGameState == GAME)
 {
@@ -773,10 +781,7 @@ if(gameState->activeGameState == GAME)
 
 
 
-	// Draw the texture with the sprite object
-	//m_pD3DSprite->Draw(m_pTexture[1], 0, &D3DXVECTOR3(m_imageInfo.Width * 0.5f, 
-	//	m_imageInfo.Height * 0.5f, 0.0f), 0,
-	//	D3DCOLOR_ARGB(255, 255, 255, 255));
+	
 }
 
 gameState->Render(m_pD3DSprite);

@@ -78,7 +78,7 @@ void MenuMain::Update(float dt)
 	mousePos.x = myInput->GetMousePosX();
 	mousePos.y = myInput->GetMousePosY();
 
-	if(mousePos.x >= 280  && mousePos.x < 440 && mousePos.y > 170 && mousePos.y < 200)
+	if(mousePos.x >= 280  && mousePos.x < 460 && mousePos.y > 170 && mousePos.y < 250)
 	{
 		menuItemSelected = 1;
 	if( musicPlayCounter < 1)
@@ -133,16 +133,9 @@ void MenuMain::Render()
 	
 	m_pD3DSprite->Begin(D3DXSPRITE_ALPHABLEND);
 	DrawBackGround();
-	// Print Main Menu at the top of the screen
-	sprintf(menuPrint,"Ghost Hunter X");
-	SetRect(&m_rect,170,-30,600,500);  
-	option = D3DCOLOR_ARGB(255,0,0,240);
-
-	
-	m_pD3DFont2->DrawTextA(0,menuPrint,-1,&m_rect, DT_CENTER | DT_NOCLIP,option);
 
 	sprintf(menuPrint,"Game Start");
-	SetRect(&m_rect,120,210,600,500);
+	SetRect(&m_rect,120,260,600,550);
 	if(menuItemSelected == 1)
 	 
 		option = D3DCOLOR_ARGB(255,255,0,0);
