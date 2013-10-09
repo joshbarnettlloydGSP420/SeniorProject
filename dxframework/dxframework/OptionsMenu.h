@@ -32,7 +32,7 @@ private:
 	//LONG_PTR eventParam1, eventParam2;
 
 	//HWND*					hwnd;
-
+	RECT		mouseSheetRect;
 
 public:
 	OptionsMenu(void);

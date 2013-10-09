@@ -3,7 +3,10 @@
 #include "Mesh.h"
 #include "HavokCore.h"
 #include "PSystem.h"
-//#include "Gun.h"
+
+using namespace std;
+
+static const float MAX_HIT_TIMER = 3.0f;
 
 // Enum for deciding what Shape the Object is in Havok
 enum HavokPlayerShape
@@ -15,6 +18,7 @@ enum HavokPlayerShape
 };
 
 enum gunType{green, red, blue};
+
 
 class Object_Player
 {
@@ -28,18 +32,39 @@ private:
 	void stateMachineInit();
 
 public:
-	// Variables
+
+struct HavokBullet
+{
+	D3DXVECTOR3					position;
+	D3DXVECTOR3					velocity;
+	hkpRigidBody*				bulletObject;
+	bool						isAlive;
+
+	void Reset()
+	{
+		position = D3DXVECTOR3(-1000, 0, 0);
+		velocity = D3DXVECTOR3(0, 0, 0);
+	}
+
+}bull[12];
+
+	// Base Variables
 	D3DXVECTOR4					position;
 	D3DXVECTOR3					rotation;
 	D3DXVECTOR3					scale;
+
+	// Player Variables
 	int							health;
 	bool						isAlive;
 	bool						wantJump;
+	float						jumpTimer;
+	bool						beenHit;
+	float						hitTimer;
+	
 
 	// Physics
 	float						velUD;
 	float						velLR;
-	float						jumpTimer;
 
 	// Mesh
 	Mesh*						objectMesh;
@@ -63,12 +88,14 @@ public:
 
 	// bullet
 	PSystem*					mPSys;
+	vector<hkpRigidBody*>		bullets;
+	vector<D3DXVECTOR3>			bulletPosition;
 
 	// Constructor, Destructor, and Methods
 	Object_Player();
 	~Object_Player(void);
 
-	void Update(float deltaTime,D3DXVECTOR3 eyePos);
+	void Update(float deltaTime, D3DXVECTOR3 eyePos, D3DXVECTOR3 lookAt, hkpWorld* world);
 
 	void convertPosition();
 
@@ -76,12 +103,17 @@ public:
 
 	void createHavokObject(hkpWorld* world);
 
-	void characterInputOutput();
+	void createBulletHavokObject(hkpWorld* world, D3DXVECTOR3 bulletPos, short bulletNum);
+
+	void characterInputOutput(D3DXVECTOR3 lookAt);
 
 	void gunShot();
 
 	void changeGunType(gunType type);
 
 	bool collisionCheck(hkpRigidBody* rigidBody);
-};
 
+	void getBulletPos(hkpWorld* world, float deltaTime);
+
+	void hitInvulTimer(float deltaTime);
+};

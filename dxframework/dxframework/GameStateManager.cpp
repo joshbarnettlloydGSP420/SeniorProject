@@ -23,15 +23,18 @@ void GameStateManager::Init( HWND* wndHandle,  D3DPRESENT_PARAMETERS* D3dpp, HIN
 	// Create a new menu
 	mainMenu = new MenuMain();
 	mainMenu->Init( input, m_pD3DDevice );
-
 	
-	// Set the active game state to the Main Menu
+	// intialize video
+	InitVideo(L"SplashScreenMovie.wmv");
+	
+	// Set the active game state 
 	activeGameState = MAIN_MENU;
 }
 
 void GameStateManager::Update( float dt )
 {
 	input->getInput();
+	
 	switch ( activeGameState )
 	{
 		///////////////////////////////////////////////////////////////////////
@@ -47,8 +50,8 @@ void GameStateManager::Update( float dt )
 		{
 			
 			// Call the main menu and return menu selection
-			mainMenu->Update();
-			
+			mainMenu->Update(dt);
+			input->Update();
 			switch ( mainMenu->GetState() )
 			{
 			case 1:	// Quit
@@ -64,7 +67,6 @@ void GameStateManager::Update( float dt )
 					// create a new options menu
 					optionsMenu = new OptionsMenu();
 					optionsMenu->Init( input, m_pD3DDevice, hwnd, D3Dpp);
-
 					// switch the game state to the options menu
 					activeGameState = OPTIONS_MENU;
 					break;
@@ -89,7 +91,7 @@ void GameStateManager::Update( float dt )
 		{
 			// Add optionsMenu update function
 			optionsMenu->Update();
-
+			input->Update();
 			switch ( optionsMenu->GetState() )
 			{
 			case 1: // Exit to main menu
@@ -123,7 +125,7 @@ void GameStateManager::Update( float dt )
 	case GAME:
 		{
 			// Game's update function
-			hud->Update( dt );
+			hud->Update( dt,  getHudBulletCounter());
 
 			if (input->keyPress(DIK_P))
 			{
@@ -133,6 +135,19 @@ void GameStateManager::Update( float dt )
 
 				activeGameState = PAUSE_MENU;
 			}
+			//stuff to update the hud's bullet color
+			if (input->keyPress(DIK_1))
+			{
+				hud->setColor(g);
+			}
+			if (input->keyPress(DIK_2))
+			{
+				hud->setColor(b);
+			}
+			if (input->keyPress(DIK_3))
+			{
+				hud->setColor(p);	
+			}
 
 			break;
 		}
@@ -141,7 +156,7 @@ void GameStateManager::Update( float dt )
 		{
 			// Pause menu Update
 			pauseMenu->Update();
-
+			input->Update();
 			switch ( pauseMenu->GetState() )
 			{
 			case 1: // Resume Game
@@ -182,7 +197,22 @@ void GameStateManager::Update( float dt )
 			}
 			break;
 		}
-
+		case INTRO:
+		{
+			videoControl->Run();
+		videoEvent->GetEvent(&evCode, &eventParam1, &eventParam2,0);
+		if(input->keyPress(DIK_E) ||  (evCode == EC_COMPLETE))
+		{
+			activeGameState = MAIN_MENU;
+			videoControl->Stop();
+			videoWindow->put_Visible(OAFALSE);
+			videoWindow->put_Owner((OAHWND)hwnd);
+			SAFE_RELEASE(videoControl);
+			SAFE_RELEASE(videoEvent);
+			SAFE_RELEASE(videoGraph);
+		}
+		}
+		break;
 	}
 }
 
@@ -218,7 +248,7 @@ void GameStateManager::Render(ID3DXSprite* sprite)
 	case GAME:
 		{
 			// Render the game
-			hud->Render(m_pD3DDevice,sprite);
+			hud->Render(m_pD3DDevice, sprite, hud->getColor());
 			break;
 		}
 		///////////////////////////////////////////////////////////////////////
@@ -256,4 +286,46 @@ void GameStateManager::onLostDevice()
 		optionsMenu->onLostDevice();
 	else if ( mainMenu )
 		mainMenu->onLostDevice();
+}
+
+
+void GameStateManager::InitVideo(LPCWSTR vidName)
+{
+	CoInitialize(NULL); 
+
+	CoCreateInstance( CLSID_FilterGraph, NULL,
+		CLSCTX_INPROC_SERVER, IID_IGraphBuilder,
+		(void**)&videoGraph);
+
+	videoGraph->QueryInterface(IID_IMediaControl,
+		(void**)&videoControl);
+
+	videoGraph->QueryInterface(IID_IMediaEvent,
+		(void**)&videoEvent);
+
+	// building a filter graph for our video
+	videoGraph->RenderFile(vidName, NULL);
+
+	//video window
+	videoControl->QueryInterface(IID_IVideoWindow,
+		(void**)&videoWindow);
+
+	// setup the window
+	videoWindow->put_Owner((OAHWND)hwnd);
+
+	// Set the style
+	videoWindow->put_WindowStyle(WS_CHILD | WS_CLIPSIBLINGS | WS_VISIBLE);
+
+	// Obtain the size of the window
+	RECT WinRect;
+	GetClientRect(*hwnd, &WinRect);
+
+	// Set the video size to the size of the window
+	videoWindow->SetWindowPosition(WinRect.left, WinRect.top, 
+		WinRect.right, WinRect.bottom);
+}
+
+void GameStateManager::setHudBulletCounter(int bCounter)
+{
+	this->bCounter = bCounter;
 }

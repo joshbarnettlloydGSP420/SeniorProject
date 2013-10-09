@@ -3,6 +3,8 @@
 
 OptionsMenu::OptionsMenu(void)
 {
+	mousePos.x = 0.0f;
+	mousePos.y = 0.0f;
 }
 
 
@@ -37,8 +39,25 @@ bool OptionsMenu::Init(InputManager* input, IDirect3DDevice9* m_pD3DDevice, HWND
 		D3DX_DEFAULT, D3DCOLOR_XRGB(255, 0, 255), 
 		&m_imageInfo, 0, &backgroundTexture);
 
+		// Create Mouse sprite
+	D3DXCreateTextureFromFileEx(m_pD3DDevice, L"cursor.png",0,0,0,0,D3DFMT_UNKNOWN, D3DPOOL_MANAGED, D3DX_DEFAULT, 
+		D3DX_DEFAULT, D3DCOLOR_XRGB(255, 0, 255), 
+		&m_cursorInfo, 0, &mouseTexture);
+	SetRect(&mouseSheetRect, 7, 4, 24, 30);
+
 	// set back ground position
 	backGroundPos = D3DXVECTOR3(0,0,0);
+
+	// Load sound effects
+	MenuMusic = SoundLoader::GetInstance()->LoadBGM("MainMenuMusic.ogg");
+	AudioManager::GetInstance()->PlayBGM(*MenuMusic);
+	AudioManager::GetInstance()->SetBGMVolume(1.0f);
+
+	
+	MenuBeep = SoundLoader::GetInstance()->Load(false,false ,"MenuBeep2.mp3");
+	AudioManager::GetInstance()->SetSFXVolume(1.0f);
+	// sound played counter
+	musicPlayCounter = 0;
 
 	videoInit = false;
 	return true;
@@ -46,16 +65,42 @@ bool OptionsMenu::Init(InputManager* input, IDirect3DDevice9* m_pD3DDevice, HWND
 
 void OptionsMenu::Update()
 {
+	BaseMenu::Update();
 	myInput->getInput();
+	myInput->Update();
+	mousePos.x = myInput->GetMousePosX();
+	mousePos.y = myInput->GetMousePosY();
 
+	if(mousePos.x >= 290  && mousePos.x < 420 && mousePos.y > 280 && mousePos.y < 300)
+	{
+			menuItemSelected = 1;
+		if( musicPlayCounter < 1)
+		AudioManager::GetInstance()->PlaySFX(*MenuBeep);
+		musicPlayCounter++;
+	}
+	
+	
+	else if(mousePos.x >= 240  && mousePos.x < 465 && mousePos.y > 450 && mousePos.y < 460)
+	{
+		menuItemSelected = 2;
+		if( musicPlayCounter < 1)
+		AudioManager::GetInstance()->PlaySFX(*MenuBeep);
+		musicPlayCounter++;
+	}
+	else
+		musicPlayCounter = 0;
+
+	
 	if ( videoInit == false)
 	{
 		if (myInput->keyPress( DIK_UP))
 		{
+			AudioManager::GetInstance()->PlaySFX(*MenuBeep);
 			menuItemSelected--;
 		}
 		else if ( myInput->keyPress( DIK_DOWN))
 		{
+			AudioManager::GetInstance()->PlaySFX(*MenuBeep);
 			menuItemSelected++;
 		}
 	}
@@ -70,11 +115,13 @@ void OptionsMenu::Update()
 		PostQuitMessage(0);
 	}
 
-	if ( myInput->keyPress(DIK_RETURN))
+	if ( myInput->keyPress(DIK_RETURN) || myInput->isButtonDown(0))
 	{
 		if ( menuItemSelected == 1)
+		{
 			optionsState = o_CREDITS;
-		//menuItemSelected == 1;
+		}
+		
 		else if ( menuItemSelected == 2)
 		{
 			optionsState = o_QUIT_TO_MAIN;
@@ -84,7 +131,7 @@ void OptionsMenu::Update()
 	if ( optionsState == 2)
 	{
 		//optionsState = o_CREDITS;
-
+		
 		InitVideo(L"SplashScreenMovie.wmv");
 		videoInit = true;
 		videoControl->Run();
@@ -94,12 +141,11 @@ void OptionsMenu::Update()
 	{
 		videoEvent->GetEvent(&evCode, &eventParam1, &eventParam2, 0);
 		// wait for the video to finish, or wait until the user hits Enter/Return Key
-		if(myInput->keyPress( DIK_SPACE) || (evCode == EC_COMPLETE) )
+		if(myInput->keyPress( DIK_BACK) || (evCode == EC_COMPLETE))
 		{
 			optionsState = o_OPTIONS_MENU;
-
 			DestroyVideo();
-
+			
 			videoInit = false;
 		}
 	}
@@ -144,7 +190,8 @@ void OptionsMenu::Render()
 			option = D3DCOLOR_ARGB(255,0,0,255);
 		m_pD3DFont->DrawTextA(0,menuPrint,-1,&m_rect, DT_CENTER | DT_NOCLIP,option);
 
-
+		m_pD3DSprite->Draw(mouseTexture, &mouseSheetRect,&D3DXVECTOR3(0,0,0),&D3DXVECTOR3(myInput->GetMousePosX(),myInput->GetMousePosY(),0),D3DCOLOR_ARGB(255, 255, 255, 255));
+	
 		m_pD3DSprite->End();
 }
 
@@ -196,7 +243,7 @@ void OptionsMenu::DestroyVideo()
 
 void OptionsMenu::DrawBackground()
 {
-	m_pD3DSprite->Begin(D3DXSPRITE_ALPHABLEND);
+	
 	D3DXMATRIX identity;
 	D3DXMatrixIdentity(&identity);
 	m_pD3DSprite->SetTransform(&identity);
@@ -206,7 +253,7 @@ void OptionsMenu::DrawBackground()
 
 	D3DXMATRIX T, S;
 	D3DXMatrixTranslation(&T,  backGroundPos.x, - backGroundPos.y, - backGroundPos.z);
-	D3DXMatrixScaling(&S, 2.7f, 3.0f, 0.0f);
+	D3DXMatrixScaling(&S, 1.0f, 1.2f, 0.0f);
 	m_pD3DSprite->SetTransform(&(S*T));
 
 	// Draw the background sprite.

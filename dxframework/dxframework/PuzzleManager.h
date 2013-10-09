@@ -17,6 +17,7 @@
 #include <iostream>
 
 // probably necessary includes
+#include "DirectXFramework.h"
 #include "SoundEffect.h"
 #include "SoundLoader.h"
 #include "AudioManager.h"
@@ -24,7 +25,7 @@
 
 class PuzzleManager
 {
-private:
+protected:
 	// some basic variables that may come in handy depending on puzzles made
 
 	// tracks puzzles complete
@@ -43,6 +44,9 @@ public:
 
 	// update checks for completion of the puzzle. For example, if 4 of 4 torches are lit, return the bool
 	virtual void Update(void);
+
+	// if puzzles render objects
+	virtual void Render(void);
 
 	// simple method for confirmed puzzle completion
 	void isPuzzleComplete(void)

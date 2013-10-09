@@ -58,6 +58,9 @@
     <Filter Include="Header Files\Devices">
       <UniqueIdentifier>{e07fdf1f-22ef-4582-be9a-76402131e0d7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resource Files\Models\Base_Objects">
+      <UniqueIdentifier>{854a1f9b-9807-4dbc-bfcc-c024b4622092}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="winMain.cpp">
@@ -70,9 +73,6 @@
       <Filter>Source Files\Objects\Enemy</Filter>
     </ClCompile>
     <ClCompile Include="Enemy_Base.cpp">
-      <Filter>Source Files\Objects\Enemy</Filter>
-    </ClCompile>
-    <ClCompile Include="Enemy_BlueGhost.cpp">
       <Filter>Source Files\Objects\Enemy</Filter>
     </ClCompile>
     <ClCompile Include="Enemy_Flee.cpp">
@@ -153,20 +153,38 @@
     <ClCompile Include="Vertex.cpp">
       <Filter>Source Files\Game</Filter>
     </ClCompile>
-    <ClCompile Include="AudioManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="SoundEffect.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="SoundLoader.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Enemy_Align.cpp">
       <Filter>Source Files\Objects\Enemy</Filter>
     </ClCompile>
     <ClCompile Include="Enemy_Face.cpp">
       <Filter>Source Files\Objects\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="AudioManager.cpp">
+      <Filter>Source Files\Audio / FMOD</Filter>
+    </ClCompile>
+    <ClCompile Include="SoundEffect.cpp">
+      <Filter>Source Files\Audio / FMOD</Filter>
+    </ClCompile>
+    <ClCompile Include="SoundLoader.cpp">
+      <Filter>Source Files\Audio / FMOD</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy_PurpleGhost.cpp">
+      <Filter>Source Files\Objects\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="EntityManager.cpp">
+      <Filter>Source Files\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy_SpawnMiniGhost.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy_Arrive.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="FourTorchPuzzle.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Chandelier.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -177,9 +195,6 @@
       <Filter>Header Files\Objects\Enemy</Filter>
     </ClInclude>
     <ClInclude Include="Enemy_Base.h">
-      <Filter>Header Files\Objects\Enemy</Filter>
-    </ClInclude>
-    <ClInclude Include="Enemy_BlueGhost.h">
       <Filter>Header Files\Objects\Enemy</Filter>
     </ClInclude>
     <ClInclude Include="Enemy_Flee.h">
@@ -236,9 +251,6 @@
     <ClInclude Include="HavokCore.h">
       <Filter>Header Files\Game</Filter>
     </ClInclude>
-    <ClInclude Include="Gun.h">
-      <Filter>Header Files\Objects</Filter>
-    </ClInclude>
     <ClInclude Include="PSystem.h">
       <Filter>Header Files\Objects</Filter>
     </ClInclude>
@@ -260,25 +272,49 @@
     <ClInclude Include="Vertex.h">
       <Filter>Header Files\Game</Filter>
     </ClInclude>
-    <ClInclude Include="AudioManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="SoundEffect.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="SoundLoader.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Utilities.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Enemy_Align.h">
       <Filter>Header Files\Objects\Enemy</Filter>
     </ClInclude>
     <ClInclude Include="Enemy_Face.h">
       <Filter>Header Files\Objects\Enemy</Filter>
     </ClInclude>
+    <ClInclude Include="AudioManager.h">
+      <Filter>Header Files\Audio / FMOD</Filter>
+    </ClInclude>
+    <ClInclude Include="SoundEffect.h">
+      <Filter>Header Files\Audio / FMOD</Filter>
+    </ClInclude>
+    <ClInclude Include="SoundLoader.h">
+      <Filter>Header Files\Audio / FMOD</Filter>
+    </ClInclude>
+    <ClInclude Include="Utilities.h">
+      <Filter>Header Files\Audio / FMOD</Filter>
+    </ClInclude>
+    <ClInclude Include="Gun.h">
+      <Filter>Header Files\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy_PurpleGhost.h">
+      <Filter>Header Files\Objects\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="EntityManager.h">
+      <Filter>Header Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy_SpawnMiniGhost.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy_Arrive.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy_Render.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="PuzzleManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FourTorchPuzzle.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Chandelier.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -363,6 +399,33 @@
     </None>
     <None Include="bolt4blue.dds">
       <Filter>Resource Files\Texture</Filter>
+    </None>
+    <None Include="CandleStick.X">
+      <Filter>Resource Files\Models\Base_Objects</Filter>
+    </None>
+    <None Include="Chair.X">
+      <Filter>Resource Files\Models\Base_Objects</Filter>
+    </None>
+    <None Include="counter.X">
+      <Filter>Resource Files\Models\Base_Objects</Filter>
+    </None>
+    <None Include="counterIsland.X">
+      <Filter>Resource Files\Models\Base_Objects</Filter>
+    </None>
+    <None Include="Cup.X">
+      <Filter>Resource Files\Models\Base_Objects</Filter>
+    </None>
+    <None Include="sinkCounter.X">
+      <Filter>Resource Files\Models\Base_Objects</Filter>
+    </None>
+    <None Include="Table.X">
+      <Filter>Resource Files\Models\Base_Objects</Filter>
+    </None>
+    <None Include="Fridge.X">
+      <Filter>Resource Files\Models\Base_Objects</Filter>
+    </None>
+    <None Include="Piano.X">
+      <Filter>Resource Files\Models\Base_Objects</Filter>
     </None>
   </ItemGroup>
 </Project>

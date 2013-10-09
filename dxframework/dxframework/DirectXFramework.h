@@ -19,11 +19,17 @@
 #include "Vertex.h"
 #include "GameStateManager.h"
 #include "RenderObject.h"
-#include "Enemy_Base.h"
-#include "Enemy_BlueGhost.h"
+#include "Enemy_PurpleGhost.h"
 #include "Enemy_YellowGhost.h"
 #include "Enemy_GreenGhost.h"
 #include "Enemy_RedGhost.h"
+#include "EntityManager.h"
+#include "AudioManager.h"
+#include "SoundLoader.h"
+
+// puzzles
+#include "FourTorchPuzzle.h"
+
 
 // Macro to release COM objects fast and safely
 #define SAFE_RELEASE(x) if(x){x->Release(); x = 0;}
@@ -46,7 +52,7 @@ class CDirectXFramework
 	IDirect3D9*					m_pD3DObject;	// Direct3D 9 Object
 	//IDirect3DDevice9*			m_pD3DDevice;	// Direct3D 9 Device
 	D3DCAPS9					m_D3DCaps;		// Device Capabilities
-
+		D3DPRESENT_PARAMETERS D3Dpp;
 	//////////////////////////////////////////////////////////////////////////
 	// Screen Variables														//
 	//////////////////////////////////////////////////////////////////////////
@@ -66,6 +72,9 @@ class CDirectXFramework
 	GameStateManager*				gameState;
 
 
+	// soundEffect
+	SoundEffect*					gunSFX;
+	SoundEffect*					changeBullet;
 	//////////////////////////////////////////////////////////////////////////
 	// Camera																//
 	//////////////////////////////////////////////////////////////////////////
@@ -81,6 +90,7 @@ class CDirectXFramework
 		D3DXVECTOR3				pos;
 		D3DXVECTOR3				norm;
 		D3DXVECTOR2				uv;
+
 	}tempPos;
 
 	//////////////////////////////////////////////////////////////////////////
@@ -206,14 +216,33 @@ class CDirectXFramework
 	Object_Player*					Player;
 	gunType							type;
 
+	//Object_Base*					bookCases[4];
+	Object_Base*					piano[2];
+	//Object_Base*					sinkCounter[2];
+	//Object_Base*					normalCounter[4];
+	Object_Base*					fridge;
+	//Object_Base*					islandCounter[4];
+	Object_Base*					table[4];
+	Object_Base*					candleStick[4];
+	Object_Base*					chair[8];
+
+	// puzzle objects
+	Object_Base*					torch;
+
+
+
 	//////////////////////////////////////////////////////////////////////////
 	// Enemies																//
 	//////////////////////////////////////////////////////////////////////////
-	/*Enemy_Base*				redGhost;
-	Enemy_Base*				blueGhost;
-	Enemy_Base*				yellowGhost;
-	Enemy_Base*				greenGhost;*/
-	Enemy_Base*				baseGhost;
+	Enemy_YellowGhost*				yellowGhost;
+	Enemy_RedGhost*					redGhost;
+	Enemy_PurpleGhost*				purpleGhost;
+	Enemy_GreenGhost*				greenGhost;
+
+	//////////////////////////////////////////////////////////////////////////
+	// Entity Manager														//
+	//////////////////////////////////////////////////////////////////////////
+	EntityManager*					entityMan;
 
 public:
 
@@ -237,6 +266,10 @@ public:
 	void UpdateCamera(float dt);
 
 	void playerControls(float dt);
+
+	void renderObject(Object_Base* object, D3DXVECTOR3 offset);
+
+	void collisions(float dt);
 };
 
 extern CDirectXFramework gd3dApp;
