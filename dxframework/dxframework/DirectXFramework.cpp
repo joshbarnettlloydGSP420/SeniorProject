@@ -533,17 +533,17 @@ void CDirectXFramework::Update(float dt)
 			redGhost->Update( dt, Player->position);
 			//redGhost->BulletCollision( bulletColor );
 		}
-		else if( redGhost->GetIsDead() == true && purpleGhost->GetIsDead() == false)
+		//else if( redGhost->GetIsDead() == true && purpleGhost->GetIsDead() == false)
 		{
 			purpleGhost->Update( dt, Player->position);
 			//purpleGhost->BulletCollision( bulletColor );
 		}
-		else if ( purpleGhost->GetIsDead() == true && greenGhost->GetIsDead() == false)
+		//else if ( purpleGhost->GetIsDead() == true && greenGhost->GetIsDead() == false)
 		{
 			greenGhost->Update( dt, Player->position);
 			//greenGhost->BulletCollision( bulletColor );
 		}
-		 else if ( greenGhost->GetIsDead() == true && yellowGhost->GetIsDead() == false)
+		 //else if ( greenGhost->GetIsDead() == true && yellowGhost->GetIsDead() == false)
 		{
 			yellowGhost->Update( dt, Player->position);
 			//yellowGhost->BulletCollision( bulletColor );
@@ -721,11 +721,11 @@ if(gameState->activeGameState == GAME)
 	// when one ghost is dead then the next one renders
 	if ( redGhost->GetIsDead() == false)
 		redGhost->Render( m_hWnd, viewMat, projMat);
-	else if( redGhost->GetIsDead() == true && purpleGhost->GetIsDead() == false)
+	//else if( redGhost->GetIsDead() == true && purpleGhost->GetIsDead() == false)
 		purpleGhost->Render( m_hWnd, viewMat, projMat);
-	else if ( purpleGhost->GetIsDead() == true && greenGhost->GetIsDead() == false)
+	//else if ( purpleGhost->GetIsDead() == true && greenGhost->GetIsDead() == false)
 		greenGhost->Render( m_hWnd, viewMat, projMat);
-	else if ( greenGhost->GetIsDead() == true && yellowGhost->GetIsDead() == false)
+	//else if ( greenGhost->GetIsDead() == true && yellowGhost->GetIsDead() == false)
 		yellowGhost->Render( m_hWnd, viewMat, projMat);
 
 	Player->mPSys->draw(m_hWnd, eyePos, viewMat * projMat); // bullet draw

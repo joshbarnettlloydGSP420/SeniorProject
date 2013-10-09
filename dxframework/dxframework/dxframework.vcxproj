@@ -140,7 +140,6 @@
     <ClInclude Include="Enemy_Movement.h" />
     <ClInclude Include="Enemy_PurpleGhost.h" />
     <ClInclude Include="Enemy_RedGhost.h" />
-    <ClInclude Include="Enemy_Render.h" />
     <ClInclude Include="Enemy_Seek.h" />
     <ClInclude Include="Enemy_SpawnMiniGhost.h" />
     <ClInclude Include="Enemy_Wander.h" />

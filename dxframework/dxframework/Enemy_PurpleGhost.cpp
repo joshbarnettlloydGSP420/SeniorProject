@@ -35,7 +35,6 @@ void Enemy_PurpleGhost::Init(IDirect3DDevice9* m_pD3DDevice, RenderObject* m_pRe
 
 	// set the initial state of the enemy
 	State = Wander;
-	miniGhostInitialized = false;
 	attackInitialized = false;
 
 	// Initialize the 3D model of the enemy.
@@ -48,8 +47,6 @@ void Enemy_PurpleGhost::Init(IDirect3DDevice9* m_pD3DDevice, RenderObject* m_pRe
 
 	// create 3D mesh from .x file
 	render->LoadMesh( meshName, &objectMesh);
-
-	miniGhostInitialized = false;
 }
 
 // if the enemy is hit with a bullet
