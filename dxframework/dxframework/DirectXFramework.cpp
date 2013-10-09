@@ -44,7 +44,7 @@ void CDirectXFramework::Init(HWND& hWnd, HINSTANCE& hInst, bool bWindowed)
 	ZeroMemory(&D3Dpp, sizeof(D3Dpp));						// NULL the structure's memory
 
 	D3Dpp.hDeviceWindow					= hWnd;																		// Handle to the focus window
-	D3Dpp.Windowed						= bWindowed;																// Windowed or Full-screen boolean
+	D3Dpp.Windowed						=  bWindowed;																// Windowed or Full-screen boolean
 	D3Dpp.AutoDepthStencilFormat		= D3DFMT_D24S8;																// Format of depth/stencil buffer, 24 bit depth, 8 bit stencil
 	D3Dpp.EnableAutoDepthStencil		= TRUE;																		// Enables Z-Buffer (Depth Buffer)
 	D3Dpp.BackBufferCount				= 1;																		// Change if need of > 1 is required at a later date
@@ -218,7 +218,7 @@ void CDirectXFramework::Init(HWND& hWnd, HINSTANCE& hInst, bool bWindowed)
 		D3DX_DEFAULT, D3DCOLOR_XRGB(255, 0, 255), 
 		&m_imageInfo, 0, &m_pTexture[0]);
 
-	D3DXCreateTextureFromFileEx(m_pD3DDevice, L"test.tga", 0, 0, 0, 0,
+	D3DXCreateTextureFromFileEx(m_pD3DDevice, L"TitleLogo.png", 853, 480, 0, 0,
 		D3DFMT_UNKNOWN, D3DPOOL_MANAGED, D3DX_DEFAULT, 
 		D3DX_DEFAULT, D3DCOLOR_XRGB(255, 0, 255), 
 		&m_imageInfo, 0, &m_pTexture[1]);
@@ -277,6 +277,7 @@ void CDirectXFramework::Init(HWND& hWnd, HINSTANCE& hInst, bool bWindowed)
 	fridge->scale = D3DXVECTOR3(1.0f, 3.0f, 1.0f);
 	fridge->position = D3DXVECTOR4(-3.6f, 7.0f, 7.5f, 0.0f);
 
+<<<<<<< HEAD
 	// load torch object
 	torch = new Object_Base();
 	torch->shape = BOX;
@@ -284,6 +285,8 @@ void CDirectXFramework::Init(HWND& hWnd, HINSTANCE& hInst, bool bWindowed)
 	torch->scale = D3DXVECTOR3(1.0f, 3.0f, 1.0f);
 	torch->position = D3DXVECTOR4(-12.4f, 1.8f, 0.0f, 0.0f);
 
+=======
+>>>>>>> origin/master
 	//for(short i = 0; i < ARRAYSIZE(islandCounter); ++i)
 	//{
 	//	islandCounter[i] = new Object_Base();
@@ -388,6 +391,7 @@ void CDirectXFramework::Init(HWND& hWnd, HINSTANCE& hInst, bool bWindowed)
 
 	for(short i = 0; i < ARRAYSIZE(chair); ++i)
 	loadMesh(L"Chair.X", &chair[i]->objectMesh);
+<<<<<<< HEAD
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Load Meshes for puzzles																				 //
@@ -395,6 +399,8 @@ void CDirectXFramework::Init(HWND& hWnd, HINSTANCE& hInst, bool bWindowed)
 
 	// torches for FourTorchPuzzle
 	loadMesh(L"Candlestick.X", &torch->objectMesh);
+=======
+>>>>>>> origin/master
 	
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -472,6 +478,12 @@ void CDirectXFramework::Init(HWND& hWnd, HINSTANCE& hInst, bool bWindowed)
 	purpleGhost->CreateHavokObject(havok->getWorld());
 	yellowGhost->CreateHavokObject(havok->getWorld());
 	greenGhost->CreateHavokObject(havok->getWorld());
+<<<<<<< HEAD
+=======
+
+	eventMan = new EventManager();
+	eventMan->Init();
+>>>>>>> origin/master
 	
 	havok->getWorld()->unlock();
 
@@ -481,7 +493,11 @@ void CDirectXFramework::Init(HWND& hWnd, HINSTANCE& hInst, bool bWindowed)
 	
 	//Gamestate
 	gameState = new GameStateManager();
+<<<<<<< HEAD
 	gameState->Init(&m_hWnd,&D3Dpp,hInst,m_pD3DDevice);
+=======
+	gameState->Init(m_hWnd,&D3Dpp,hInst,m_pD3DDevice);
+>>>>>>> origin/master
 
 	// Entity Manager
 	entityMan = new EntityManager();
@@ -493,7 +509,11 @@ void CDirectXFramework::Init(HWND& hWnd, HINSTANCE& hInst, bool bWindowed)
 	}
 
 	fridge->scale = D3DXVECTOR3(0.0050f, 0.0050f, 0.0050f);
+<<<<<<< HEAD
 
+=======
+	videoIsPlaying = false;
+>>>>>>> origin/master
 	
 }
 
@@ -515,6 +535,12 @@ void CDirectXFramework::Update(float dt)
 		// Player Update
 		Player->Update(dt, eyePos, lookAt, havok->getWorld());
 
+<<<<<<< HEAD
+=======
+		//minimap player position init
+		gameState->setPlayerPosition(Player->position);
+		
+>>>>>>> origin/master
 		// Object Updates
 		Mansion->Update(dt);
 
@@ -531,6 +557,7 @@ void CDirectXFramework::Update(float dt)
 
 		for(short i = 0; i < ARRAYSIZE(chair); ++i)
 			chair[i]->Update(dt);
+<<<<<<< HEAD
 
 
 		// Enemies update
@@ -555,6 +582,37 @@ void CDirectXFramework::Update(float dt)
 		{
 			yellowGhost->Update( dt, Player->position);
 			//yellowGhost->BulletCollision( bulletColor );
+=======
+
+
+		// Enemies update
+		// Check to make sure they aren't dead before running the updates
+
+		if ( redGhost->GetIsDead() == false)
+		{
+			redGhost->Update( dt, Player->position);
+			//redGhost->BulletCollision( bulletColor );
+		}
+		//else if( redGhost->GetIsDead() == true && purpleGhost->GetIsDead() == false)
+		{
+			purpleGhost->Update( dt, Player->position);
+			//purpleGhost->BulletCollision( bulletColor );
+		}
+		//else if ( purpleGhost->GetIsDead() == true && greenGhost->GetIsDead() == false)
+		{
+			greenGhost->Update( dt, Player->position);
+			//greenGhost->BulletCollision( bulletColor );
+		}
+		 //else if ( greenGhost->GetIsDead() == true && yellowGhost->GetIsDead() == false)
+		{
+			yellowGhost->Update( dt, Player->position);
+			//yellowGhost->BulletCollision( bulletColor );
+		}
+
+		if(eventMan->checkForPlayer(Player))
+		{
+			bool touch = true;
+>>>>>>> origin/master
 		}
 			
 		havok->getWorld()->unlock();
@@ -569,6 +627,10 @@ void CDirectXFramework::Update(float dt)
 
 void CDirectXFramework::Render(float dt)
 {
+	if(gameState->optionsMenu != NULL)
+		videoIsPlaying = gameState->optionsMenu->GetVideoPlaying();
+	if(videoIsPlaying)
+		return;
 	// If the device was not created successfully, return
 	if(!m_pD3DDevice)
 		return;
@@ -590,6 +652,14 @@ void CDirectXFramework::Render(float dt)
 	D3DXMatrixIdentity(&scaleMat);
 	D3DXMatrixIdentity(&worldMat);
 	D3DXMatrixIdentity(&transMat);
+	
+	if(gameState->activeGameState == MAIN_MENU)
+	{
+	// Draw the texture with the sprite object
+	m_pD3DSprite->Draw(m_pTexture[1], 0, &D3DXVECTOR3(m_imageInfo.Width * 0.5f, 
+		m_imageInfo.Height * 0.5f, 0.0f), &D3DXVECTOR3(415, 115,0),
+		D3DCOLOR_ARGB(255, 255, 255, 255));
+	}
 
 if(gameState->activeGameState == GAME)
 {
@@ -720,11 +790,19 @@ if(gameState->activeGameState == GAME)
 	// when one ghost is dead then the next one renders
 	if ( redGhost->GetIsDead() == false)
 		redGhost->Render( m_hWnd, viewMat, projMat);
+<<<<<<< HEAD
 	else if( redGhost->GetIsDead() == true && purpleGhost->GetIsDead() == false)
 		purpleGhost->Render( m_hWnd, viewMat, projMat);
 	else if ( purpleGhost->GetIsDead() == true && greenGhost->GetIsDead() == false)
 		greenGhost->Render( m_hWnd, viewMat, projMat);
 	else if ( greenGhost->GetIsDead() == true && yellowGhost->GetIsDead() == false)
+=======
+	//else if( redGhost->GetIsDead() == true && purpleGhost->GetIsDead() == false)
+		purpleGhost->Render( m_hWnd, viewMat, projMat);
+	//else if ( purpleGhost->GetIsDead() == true && greenGhost->GetIsDead() == false)
+		greenGhost->Render( m_hWnd, viewMat, projMat);
+	//else if ( greenGhost->GetIsDead() == true && yellowGhost->GetIsDead() == false)
+>>>>>>> origin/master
 		yellowGhost->Render( m_hWnd, viewMat, projMat);
 
 	Player->mPSys->draw(m_hWnd, eyePos, viewMat * projMat); // bullet draw
@@ -772,10 +850,7 @@ if(gameState->activeGameState == GAME)
 
 
 
-	// Draw the texture with the sprite object
-	//m_pD3DSprite->Draw(m_pTexture[1], 0, &D3DXVECTOR3(m_imageInfo.Width * 0.5f, 
-	//	m_imageInfo.Height * 0.5f, 0.0f), 0,
-	//	D3DCOLOR_ARGB(255, 255, 255, 255));
+	
 }
 
 gameState->Render(m_pD3DSprite);
@@ -791,14 +866,22 @@ gameState->Render(m_pD3DSprite);
 	GetWindowRect(m_hWnd, &rect);
 	int width = rect.right - rect.left;
 	int height = rect.bottom - rect.top;
+	int currentRoom = eventMan->currentRoom;
 
 	// Draw Text, using DT_TOP, DT_RIGHT for placement in the top right of the
 	// screen.  DT_NOCLIP can improve speed of text rendering, but allows text
 	// to be drawn outside of the rect specified to draw text in.
-	/*char debugMessage[256];
-	sprintf( debugMessage, "X: %f\nY: %f\nZ: %f", 
-		eyePos.x, eyePos.y, eyePos.z );*/
+	char debugMessage[256];
+	sprintf(debugMessage, "CurrentRoom: %d", 
+		currentRoom);
 
+<<<<<<< HEAD
+=======
+	m_pD3DFont->DrawTextA(0, debugMessage, -1, &rect, 
+                  DT_TOP | DT_LEFT | DT_NOCLIP, 
+                  D3DCOLOR_ARGB(255, 255, 255, 255));
+
+>>>>>>> origin/master
 
 	// EndScene, and Present the back buffer to the display buffer
 	m_pD3DDevice->EndScene();
@@ -1012,6 +1095,7 @@ void CDirectXFramework::playerControls(float dt)
 			Player->changeGunType(type);
 		}
 	}
+<<<<<<< HEAD
 
 	//reload reset bullets 
 	if( m_pDInput->keyPress(DIK_R))
@@ -1019,6 +1103,15 @@ void CDirectXFramework::playerControls(float dt)
 		Player->mPSys->setBulletCounter(0);
 		gameState->setHudBulletCounter(Player->mPSys->GetBulletCounter());
 
+=======
+
+	//reload reset bullets 
+	if( m_pDInput->keyPress(DIK_R))
+	{
+		Player->mPSys->setBulletCounter(0);
+		gameState->setHudBulletCounter(Player->mPSys->GetBulletCounter());
+
+>>>>>>> origin/master
 		for(int i = 0; i < ARRAYSIZE(Player->bull); i++)
 		{
 			Player->bull[i].Reset();

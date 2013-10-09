@@ -104,7 +104,11 @@
     <ClCompile Include="Enemy_Wander.cpp" />
     <ClCompile Include="Enemy_YellowGhost.cpp" />
     <ClCompile Include="EntityManager.cpp" />
+<<<<<<< HEAD
     <ClCompile Include="FourTorchPuzzle.cpp" />
+=======
+    <ClCompile Include="EventManager.cpp" />
+>>>>>>> origin/master
     <ClCompile Include="GameStateManager.cpp" />
     <ClCompile Include="Gun.cpp" />
     <ClCompile Include="HavokCore.cpp" />
@@ -148,7 +152,11 @@
     <ClInclude Include="Enemy_Wander.h" />
     <ClInclude Include="Enemy_YellowGhost.h" />
     <ClInclude Include="EntityManager.h" />
+<<<<<<< HEAD
     <ClInclude Include="FourTorchPuzzle.h" />
+=======
+    <ClInclude Include="EventManager.h" />
+>>>>>>> origin/master
     <ClInclude Include="GameStateManager.h" />
     <ClInclude Include="Gun.h" />
     <ClInclude Include="HavokCore.h" />

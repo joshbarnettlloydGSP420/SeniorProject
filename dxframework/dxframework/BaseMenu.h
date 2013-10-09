@@ -60,7 +60,11 @@ protected:
 	D3DXVECTOR3			backGroundPos;		// position  for background sprite
 	RECT				mouseSheetRect;		// for mouse sprite
 	int					musicPlayCounter;
+<<<<<<< HEAD
 	
+=======
+	int					mouseCounter;
+>>>>>>> origin/master
 	////////////////////////////////////////////////////////////////////////
 	// DirectShow COM Object Creation
 	////////////////////////////////////////////////////////////////////////
@@ -71,7 +75,7 @@ protected:
 	//HRESULT                *isVideoDone;
 	long evCode;
 	LONG_PTR eventParam1, eventParam2;
-	HWND*					hwnd;
+	HWND					hwnd;
 	////////////////////////////////////////////////////////////////////////
 	// Istance of gameState
 	////////////////////////////////////////////////////////////////////////

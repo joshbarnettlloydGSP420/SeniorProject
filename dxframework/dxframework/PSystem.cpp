@@ -95,12 +95,21 @@ void PSystem::setWorldMtx(const D3DXMATRIX& world)
 }
 
 void PSystem::setBulletCounter( int bulletCounter)
+<<<<<<< HEAD
 {
 	this->bulletCounter = bulletCounter;
 }
 
 void PSystem::addParticle(D3DXVECTOR3 pos, D3DXVECTOR3 iPos, D3DXVECTOR3 look)
 {
+=======
+{
+	this->bulletCounter = bulletCounter;
+}
+
+void PSystem::addParticle(D3DXVECTOR3 pos, D3DXVECTOR3 iPos, D3DXVECTOR3 look)
+{
+>>>>>>> origin/master
 	if(bulletCounter < 12)
 	{
 		if( mDeadParticles.size() > 0)
@@ -116,6 +125,12 @@ void PSystem::addParticle(D3DXVECTOR3 pos, D3DXVECTOR3 iPos, D3DXVECTOR3 look)
 	}
 
 	bulletCounter++;
+<<<<<<< HEAD
+=======
+
+	if(bulletCounter > 12)
+		bulletCounter = 12;
+>>>>>>> origin/master
 }
 
 
