@@ -123,20 +123,10 @@ void CDirectXFramework::Init(HWND& hWnd, HINSTANCE& hInst, bool bWindowed)
 	changeBullet = SoundLoader::GetInstance()->Load(false,false,"gun-cocking-01.wav");
 	AudioManager::GetInstance()->SetSFXVolume(1.0f);
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
-// Creating Enemies																						 //
+// Initialize level manager																						 //
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	redGhost = new Enemy_RedGhost();
-	redGhost->Init(m_pD3DDevice, render);
-
-	purpleGhost = new Enemy_PurpleGhost();
-	purpleGhost->Init(m_pD3DDevice, render);
-
-	greenGhost = new Enemy_GreenGhost();
-	greenGhost->Init(m_pD3DDevice, render);
-
-	yellowGhost = new Enemy_YellowGhost();
-	yellowGhost->Init(m_pD3DDevice, render);
+	levelManager.Init();
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Creating Light																						 //
@@ -453,11 +443,7 @@ void CDirectXFramework::Init(HWND& hWnd, HINSTANCE& hInst, bool bWindowed)
 	for(short i = 0; i < ARRAYSIZE(chair); ++i)
 		chair[i]->createHavokObject(havok->getWorld());
 
-	// enemies
-	redGhost->CreateHavokObject(havok->getWorld());
-	purpleGhost->CreateHavokObject(havok->getWorld());
-	yellowGhost->CreateHavokObject(havok->getWorld());
-	greenGhost->CreateHavokObject(havok->getWorld());
+	/// TODO: Level Manager Havok stuff - Heather
 
 	eventMan = new EventManager();
 	eventMan->Init();
@@ -524,31 +510,6 @@ void CDirectXFramework::Update(float dt)
 		for(short i = 0; i < ARRAYSIZE(chair); ++i)
 			chair[i]->Update(dt);
 
-
-		// Enemies update
-		// Check to make sure they aren't dead before running the updates
-
-		if ( redGhost->GetIsDead() == false)
-		{
-			redGhost->Update( dt, Player->position);
-			//redGhost->BulletCollision( bulletColor );
-		}
-		//else if( redGhost->GetIsDead() == true && purpleGhost->GetIsDead() == false)
-		{
-			purpleGhost->Update( dt, Player->position);
-			//purpleGhost->BulletCollision( bulletColor );
-		}
-		//else if ( purpleGhost->GetIsDead() == true && greenGhost->GetIsDead() == false)
-		{
-			greenGhost->Update( dt, Player->position);
-			//greenGhost->BulletCollision( bulletColor );
-		}
-		 //else if ( greenGhost->GetIsDead() == true && yellowGhost->GetIsDead() == false)
-		{
-			yellowGhost->Update( dt, Player->position);
-			//yellowGhost->BulletCollision( bulletColor );
-		}
-
 		if(eventMan->checkForPlayer(Player))
 		{
 			bool touch = true;
@@ -556,7 +517,7 @@ void CDirectXFramework::Update(float dt)
 			
 		havok->getWorld()->unlock();
 
-
+		levelManager.Update( dt );
 		UpdateCamera(dt);
 		playerControls(dt);
 	}
@@ -717,16 +678,8 @@ if(gameState->activeGameState == GAME)
 	for(short i = 0; i < ARRAYSIZE(chair); ++i)
 		renderObject(chair[i], D3DXVECTOR3(0.0f, -7.5f, 0.5f));
 
-	// Render the ghosts
-	// when one ghost is dead then the next one renders
-	if ( redGhost->GetIsDead() == false)
-		redGhost->Render( m_hWnd, viewMat, projMat);
-	//else if( redGhost->GetIsDead() == true && purpleGhost->GetIsDead() == false)
-		purpleGhost->Render( m_hWnd, viewMat, projMat);
-	//else if ( purpleGhost->GetIsDead() == true && greenGhost->GetIsDead() == false)
-		greenGhost->Render( m_hWnd, viewMat, projMat);
-	//else if ( greenGhost->GetIsDead() == true && yellowGhost->GetIsDead() == false)
-		yellowGhost->Render( m_hWnd, viewMat, projMat);
+	levelManager.Render( viewMat, projMat);
+
 
 	Player->mPSys->draw(m_hWnd, eyePos, viewMat * projMat); // bullet draw
 
@@ -1157,51 +1110,5 @@ void CDirectXFramework::collisions(float dt)
 { 
 	hkReal deltaTime = dt;
 	hkVector4 Force = hkVector4(5.0f, 3.0f, 5.0f);
-
-	// Ghosts hitting the player
-	if(entityMan->enemyVsPlayer(dt, redGhost, Player) && redGhost->GetIsDead() == false)
-	{
-		Player->health -= 20;
-		Player->hitTimer = 0.0f;
-	}
-
-	if(entityMan->enemyVsPlayer(dt, purpleGhost, Player) && purpleGhost->GetIsDead() == false)
-	{
-		Player->health -= 20;
-		Player->hitTimer = 0.0f;
-	}
-
-	if(entityMan->enemyVsPlayer(dt, greenGhost, Player) && greenGhost->GetIsDead() == false)
-	{
-		Player->health -= 20;
-		Player->hitTimer = 0.0f;
-	}
-
-	if(entityMan->enemyVsPlayer(dt, yellowGhost, Player) && yellowGhost->GetIsDead() == false)
-	{
-		Player->health -= 20;
-		Player->hitTimer = 0.0f;
-	}
-
-	// Bullets hitting Enemies
-	if(entityMan->enemyVsBullet(dt, redGhost, Player) && redGhost->GetIsDead() == false && type == red)
-	{
-		redGhost->SetHealth(redGhost->GetHealth() - 20);
-	}
-
-	if(entityMan->enemyVsBullet(dt, purpleGhost, Player) && purpleGhost->GetIsDead() == false && type == blue )
-	{
-		purpleGhost->SetHealth(purpleGhost->GetHealth() - 20);
-	}
-
-	if(entityMan->enemyVsBullet(dt, greenGhost, Player) && greenGhost->GetIsDead() == false && type == green)
-	{
-		greenGhost->SetHealth(greenGhost->GetHealth() - 20);
-	}
-
-	if(entityMan->enemyVsBullet(dt, yellowGhost, Player) && yellowGhost->GetIsDead() == false)
-	{
-		yellowGhost->SetHealth(yellowGhost->GetHealth() - 20);
-	}
 
 }
