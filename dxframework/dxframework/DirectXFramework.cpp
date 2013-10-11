@@ -506,6 +506,7 @@ void CDirectXFramework::Update(float dt)
 
 		//minimap player position init
 		gameState->setPlayerPosition(Player->position);
+		gameState->setEnemyPosition(redGhost->GetPosition());
 		
 		// Object Updates
 		Mansion->Update(dt);
@@ -845,6 +846,8 @@ void CDirectXFramework::Shutdown()
 
 	// 3DObject
 	SAFE_RELEASE(m_pD3DObject)
+
+	SAFE_RELEASE(gameTitle)
 	//*************************************************************************
 
 }
@@ -981,8 +984,12 @@ void CDirectXFramework::playerControls(float dt)
 	}												   |
 	delay -= dt;									   |*/	
 
+	if(Player->mPSys->GetBulletCounter() >= 12)
+		Player->setCanShoot(false);
 	if( m_pDInput->isButtonDown(0) && delay <= 0.0f)
 	{
+		if(Player->getCanShoot() == true)
+		{
 		delay = 0.3f;
 		AudioManager::GetInstance()->PlaySFX(*gunSFX);
 		Player->mPSys->addParticle(eyePos, eyePos, lookAt);
@@ -990,8 +997,10 @@ void CDirectXFramework::playerControls(float dt)
 		D3DXVec3Normalize(&Player->bull[Player->mPSys->GetBulletCounter() - 1].velocity, &(eyePos - lookAt));
 		//Player->createBulletHavokObject(havok->getWorld(), D3DXVECTOR3(20, -120, 0.0f), 0);
 		gameState->setHudBulletCounter(Player->mPSys->GetBulletCounter());
+		}
 	}
 	delay -= dt;
+	
 
 	// Bullet Controls
 
@@ -1028,6 +1037,7 @@ void CDirectXFramework::playerControls(float dt)
 	if( m_pDInput->keyPress(DIK_R))
 	{
 		Player->mPSys->setBulletCounter(0);
+		Player->setCanShoot(true);
 		gameState->setHudBulletCounter(Player->mPSys->GetBulletCounter());
 
 		for(int i = 0; i < ARRAYSIZE(Player->bull); i++)

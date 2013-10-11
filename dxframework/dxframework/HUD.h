@@ -14,7 +14,7 @@
 // Macro to release COM objects fast and safely
 #define SAFE_RELEASE(x) if(x){x->Release(); x = 0;}
 
-enum colorSwitch{g, b, p};
+enum colorSwitch{g, b, p, y};
 enum numberSwitch{zero, one, two, three, four, five, six, seven, eight, nine, ten, eleven, twelve};
 
 class HUD
@@ -67,6 +67,7 @@ private:
 	IDirect3DTexture9* greenAmmoTexture;
 	IDirect3DTexture9* blueAmmoTexture;
 	IDirect3DTexture9* redAmmoTexture;
+	IDirect3DTexture9* yellowAmmoTexture;
 
 	// HUD numbers
 	IDirect3DTexture9* zeroTexture;
@@ -97,7 +98,7 @@ private:
 		D3DXVECTOR3 position;
 	}
 	hudPosition, healthPosition, shieldPosition, ammoPosition, bulletPosition, numberPosition, blackBar1Position, blackBar2Position,
-		minimapDotPosition, minimapPosition;
+		minimapDotPosition, minimapPosition, tabPosition, minimapEnemyDotPosition;
 
 	//hud position variables, the health/shield bars will be dependant on hud pos
 	D3DXVECTOR3 hudLocation;
@@ -108,6 +109,11 @@ private:
 	IDirect3DTexture9*  minimapBackgroundTexture;
 	RECT				minimapSheetRect;
 	bool				mapOn;
+	RECT				mapTabSheetRect;
+	IDirect3DTexture9*	minimapTabTexture;
+	
+	IDirect3DTexture9* minimapEnemyDotTexture;
+
 	/************** END OF MINIMAP *******/
 
 public:
@@ -116,8 +122,8 @@ public:
 
 	void Init(IDirect3DDevice9* device);
 
-	void Update(float dt, int counter, D3DXVECTOR4 playerPosition);
-
+	void Update(float dt, int counter, D3DXVECTOR4 playerPosition, D3DXVECTOR4 enemyPosition);
+	
 	void Render(IDirect3DDevice9* device, ID3DXSprite* sprite, int colorSwitch);
 
 	void Shutdown();
@@ -136,5 +142,7 @@ public:
 
 	void miniMapOn(bool mapOn);
 	bool getMiniMapOn(){return mapOn;}
+
+
 };
 

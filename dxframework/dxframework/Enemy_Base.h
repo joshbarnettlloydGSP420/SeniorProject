@@ -89,6 +89,7 @@ public:
 	bool			GetIsDead() { return isDead; };
 	hkpRigidBody*	GetHavokbody() { return rigidBody; };
 	void			ChangeState( StateType NewState) { State = NewState; };
+	D3DXVECTOR4		GetPosition(){ return movement->GetPosition(); };
 
 	// Havok
 	void CreateBodyObject(hkpWorld* world);
