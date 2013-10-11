@@ -38,7 +38,7 @@ class GameStateManager
 private:
 	// Needed Variables
 	IDirect3DDevice9*		m_pD3DDevice;
-	 HWND*					hwnd;
+	 HWND					hwnd;
 	D3DPRESENT_PARAMETERS*	D3Dpp;
 	HWND*					hWnd;
 	bool*					bWindowed;
@@ -49,11 +49,13 @@ private:
 	// Create variables to classes
 	InputManager*			input;
 	MenuMain*				mainMenu;
-	OptionsMenu*			optionsMenu;
 	PauseMenu*				pauseMenu;
 	HUD*					hud;
 	//Game*					game;
 	int					bCounter;
+	D3DXVECTOR4			playerPosition;
+	D3DXVECTOR4			enemyPosition;
+
 
 	////////////////////////////////////////////////////////////////////////
 	// DirectShow COM Object Creation
@@ -69,13 +71,16 @@ private:
 	
 
 public:
+
+	OptionsMenu*			optionsMenu;
+
 	// Create a GAME_STATE variable
 	GAME_STATE	activeGameState;
 
 	GameStateManager(void);
 	~GameStateManager(void);
 
-	void Init(HWND* wndHandle,  D3DPRESENT_PARAMETERS* D3dpp, HINSTANCE hInst, IDirect3DDevice9* device);
+	void Init(HWND wndHandle,  D3DPRESENT_PARAMETERS* D3dpp, HINSTANCE hInst, IDirect3DDevice9* device);
 	void Update( float dt);
 	void Render(ID3DXSprite* sprite);
 
@@ -85,5 +90,13 @@ public:
 
 	void setHudBulletCounter(int bCounter);
 	int getHudBulletCounter(){return bCounter;}
+
+	//minimap player position
+	void setPlayerPosition(D3DXVECTOR4 playerPosition);
+	D3DXVECTOR4 getPlayerPosition(){return playerPosition;}
+
+	void setEnemyPosition(D3DXVECTOR4 enemyPosition);
+	D3DXVECTOR4 getEnemyPosition(){return enemyPosition;}
+
 };
 

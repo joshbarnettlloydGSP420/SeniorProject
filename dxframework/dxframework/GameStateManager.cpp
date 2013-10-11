@@ -3,6 +3,7 @@
 
 GameStateManager::GameStateManager(void)
 {
+	optionsMenu = NULL;
 }
 
 
@@ -10,7 +11,7 @@ GameStateManager::~GameStateManager(void)
 {
 }
 
-void GameStateManager::Init( HWND* wndHandle,  D3DPRESENT_PARAMETERS* D3dpp, HINSTANCE hInst, IDirect3DDevice9* device)
+void GameStateManager::Init( HWND wndHandle,  D3DPRESENT_PARAMETERS* D3dpp, HINSTANCE hInst, IDirect3DDevice9* device)
 {
 	m_pD3DDevice = device;
 	hwnd = wndHandle;
@@ -18,7 +19,7 @@ void GameStateManager::Init( HWND* wndHandle,  D3DPRESENT_PARAMETERS* D3dpp, HIN
 
 	// Create a new input manager
 	input = new InputManager();
-	input->init(hInst, *hwnd);
+	input->init(hInst, hwnd);
 
 	// Create a new menu
 	mainMenu = new MenuMain();
@@ -52,6 +53,7 @@ void GameStateManager::Update( float dt )
 			// Call the main menu and return menu selection
 			mainMenu->Update(dt);
 			input->Update();
+
 			switch ( mainMenu->GetState() )
 			{
 			case 1:	// Quit
@@ -98,6 +100,7 @@ void GameStateManager::Update( float dt )
 				{
 					// delete the options menu
 					delete optionsMenu;
+					optionsMenu = NULL;
 
 					// Create a new menu
 					mainMenu = new MenuMain();
@@ -125,7 +128,7 @@ void GameStateManager::Update( float dt )
 	case GAME:
 		{
 			// Game's update function
-			hud->Update( dt,  getHudBulletCounter());
+			hud->Update( dt,  getHudBulletCounter(), getPlayerPosition(), getEnemyPosition());
 
 			if (input->keyPress(DIK_P))
 			{
@@ -135,6 +138,7 @@ void GameStateManager::Update( float dt )
 
 				activeGameState = PAUSE_MENU;
 			}
+		
 			//stuff to update the hud's bullet color
 			if (input->keyPress(DIK_1))
 			{
@@ -148,7 +152,13 @@ void GameStateManager::Update( float dt )
 			{
 				hud->setColor(p);	
 			}
-
+			if (input->keyPress(DIK_M) || input->keyPress(DIK_TAB))
+			{
+				if(hud->getMiniMapOn() == true)
+				hud->miniMapOn(false);	
+				else if(hud->getMiniMapOn() == false)
+				hud->miniMapOn(true);	
+			}
 			break;
 		}
 		///////////////////////////////////////////////////////////////////////
@@ -318,7 +328,7 @@ void GameStateManager::InitVideo(LPCWSTR vidName)
 
 	// Obtain the size of the window
 	RECT WinRect;
-	GetClientRect(*hwnd, &WinRect);
+	GetClientRect(hwnd, &WinRect);
 
 	// Set the video size to the size of the window
 	videoWindow->SetWindowPosition(WinRect.left, WinRect.top, 
@@ -328,4 +338,13 @@ void GameStateManager::InitVideo(LPCWSTR vidName)
 void GameStateManager::setHudBulletCounter(int bCounter)
 {
 	this->bCounter = bCounter;
+}
+
+void GameStateManager::setPlayerPosition(D3DXVECTOR4 playerPosition)
+{
+	this->playerPosition = playerPosition;
+}
+void GameStateManager::setEnemyPosition(D3DXVECTOR4 enemyPosition)
+{
+	this->enemyPosition = enemyPosition;
 }

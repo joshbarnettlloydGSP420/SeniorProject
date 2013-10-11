@@ -90,13 +90,15 @@ void InputManager::getInput()
 		mouseDevice->Acquire();
 	}
 
-	keyboardDevice->GetDeviceState(sizeof(UCHAR[256]), (LPVOID)keyState);
+	hr = keyboardDevice->GetDeviceState(sizeof(UCHAR[256]), (LPVOID)keyState);
 	if (FAILED (hr))
 	{
 		// try and reacquire the input device
 		keyboardDevice->Acquire();
 	}
 }
+
+
 
 int InputManager::getMouseMovingX() 
 {
@@ -178,7 +180,7 @@ void InputManager::Update()
 	if(DIERR_INPUTLOST == mouseDevice->GetDeviceState(sizeof(mouseState),
 		                                       (LPVOID)&mouseState))
  {
- mouseDevice->Acquire();
+ //mouseDevice->Acquire();
  }
 	
 	mouseX += mouseState.lX;
@@ -208,4 +210,12 @@ int  InputManager::GetMousePosY()
 int  InputManager::GetMousePosZ()
 {
 	return mouseZ;
+}
+
+void InputManager::SetMouseDevice(bool mouse)
+{
+	if( mouse)
+		mouseDevice->Acquire();
+	else
+		mouseDevice->Unacquire();
 }

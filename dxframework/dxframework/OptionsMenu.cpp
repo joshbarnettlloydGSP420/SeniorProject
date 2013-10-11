@@ -12,7 +12,7 @@ OptionsMenu::~OptionsMenu(void)
 {
 }
 
-bool OptionsMenu::Init(InputManager* input, IDirect3DDevice9* m_pD3DDevice, HWND* wndHandle, D3DPRESENT_PARAMETERS* D3dpp)
+bool OptionsMenu::Init(InputManager* input, IDirect3DDevice9* m_pD3DDevice, HWND wndHandle, D3DPRESENT_PARAMETERS* D3dpp)
 {
 	BaseMenu::Init( input, m_pD3DDevice );
 	hwnd = wndHandle;
@@ -58,8 +58,10 @@ bool OptionsMenu::Init(InputManager* input, IDirect3DDevice9* m_pD3DDevice, HWND
 	AudioManager::GetInstance()->SetSFXVolume(1.0f);
 	// sound played counter
 	musicPlayCounter = 0;
+	mouseCounter = 0;
 
 	videoInit = false;
+	videoPlaying = false;
 	return true;
 }
 
@@ -120,6 +122,7 @@ void OptionsMenu::Update()
 		if ( menuItemSelected == 1)
 		{
 			optionsState = o_CREDITS;
+			
 		}
 		
 		else if ( menuItemSelected == 2)
@@ -127,11 +130,10 @@ void OptionsMenu::Update()
 			optionsState = o_QUIT_TO_MAIN;
 		}
 	}
-
+	
 	if ( optionsState == 2)
 	{
-		//optionsState = o_CREDITS;
-		
+		videoPlaying = true;
 		InitVideo(L"SplashScreenMovie.wmv");
 		videoInit = true;
 		videoControl->Run();
@@ -143,17 +145,23 @@ void OptionsMenu::Update()
 		// wait for the video to finish, or wait until the user hits Enter/Return Key
 		if(myInput->keyPress( DIK_BACK) || (evCode == EC_COMPLETE))
 		{
+			
 			optionsState = o_OPTIONS_MENU;
 			DestroyVideo();
-			
 			videoInit = false;
+			videoPlaying = false;
+			
 		}
 	}
+	else
+		myInput->SetMouseDevice(true);
 
 }
 
 void OptionsMenu::Render()
 {
+	if(videoInit)
+		return;
 	// Call the base menu's render method to initialize some variables
 	BaseMenu::Render();
 
@@ -224,11 +232,15 @@ void OptionsMenu::InitVideo(LPCWSTR vidName)
 
 	// Obtain the size of the window
 	RECT WinRect;
-	GetClientRect(*hwnd, &WinRect);
+	GetClientRect(hwnd, &WinRect);
+	//GetWindowRect(hwnd, &WinRect);
 
 	// Set the video size to the size of the window
+
 	videoWindow->SetWindowPosition(WinRect.left, WinRect.top, 
 		WinRect.right, WinRect.bottom);
+
+	videoWindow->put_Visible(OATRUE);
 }
 
 void OptionsMenu::DestroyVideo()

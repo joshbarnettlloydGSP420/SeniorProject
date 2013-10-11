@@ -13,10 +13,8 @@
 #include "Enemy_Align.h"
 #include "Enemy_Face.h"
 
-#include "Enemy_SpawnMiniGhost.h"
-
 // The states that the enemy can be in
-enum StateType{Wander, Arrive, Flee, Attack, Defence };
+enum StateType{Wander, Arrive, Flee, Attack };
 enum GhostColor{ RedGhost = 1, PurpleGhost, GreenGhost, YellowGhost };
 
 class Enemy_Base
@@ -50,10 +48,6 @@ protected:
 
 	Enemy_Face			face;
 	Enemy_Align			align;
-
-	// MiniGhost variables
-	Enemy_SpawnMiniGhost miniGhost;
-	bool				 miniGhostInitialized;
 
 	// attack variable
 	bool				 attackInitialized;
@@ -95,6 +89,7 @@ public:
 	bool			GetIsDead() { return isDead; };
 	hkpRigidBody*	GetHavokbody() { return rigidBody; };
 	void			ChangeState( StateType NewState) { State = NewState; };
+	D3DXVECTOR4		GetPosition(){ return movement->GetPosition(); };
 
 	// Havok
 	void CreateBodyObject(hkpWorld* world);

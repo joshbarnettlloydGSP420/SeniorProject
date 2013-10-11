@@ -23,6 +23,7 @@
 #include "Enemy_YellowGhost.h"
 #include "Enemy_GreenGhost.h"
 #include "Enemy_RedGhost.h"
+#include "EventManager.h"
 #include "EntityManager.h"
 #include "AudioManager.h"
 #include "SoundLoader.h"
@@ -54,7 +55,7 @@ class CDirectXFramework
 	//////////////////////////////////////////////////////////////////////////
 	bool						m_bFullscreen;
 	bool						FPSDisplay;
-
+	bool						videoIsPlaying;
 	int							screenWidth;
 	int							screenHeight;
 
@@ -196,6 +197,7 @@ class CDirectXFramework
 	IDirect3DTexture9*				m_pTexture[10];		// Texture Object for a sprite
 	D3DXIMAGE_INFO					m_imageInfo;		// File details of a texture
 
+	IDirect3DTexture9*				gameTitle;
 	//////////////////////////////////////////////////////////////////////////
 	// Havok																//
 	//////////////////////////////////////////////////////////////////////////
@@ -233,9 +235,10 @@ class CDirectXFramework
 	Enemy_GreenGhost*				greenGhost;
 
 	//////////////////////////////////////////////////////////////////////////
-	// Entity Manager														//
+	// Game Managers														//
 	//////////////////////////////////////////////////////////////////////////
 	EntityManager*					entityMan;
+	EventManager*					eventMan;
 
 public:
 

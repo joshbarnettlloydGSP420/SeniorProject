@@ -61,37 +61,34 @@
     <Filter Include="Resource Files\Models\Base_Objects">
       <UniqueIdentifier>{854a1f9b-9807-4dbc-bfcc-c024b4622092}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Objects\Enemy\Attacks">
+      <UniqueIdentifier>{56e7277c-61a4-40c7-89ed-54fb99b2c310}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Objects\Enemy\Defence">
+      <UniqueIdentifier>{481897a1-5f81-49a0-ac2a-aaa56e2ca294}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Objects\Enemy\Ghosts">
+      <UniqueIdentifier>{e3ea09f1-2d52-47f0-97f0-848af15b0bb1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Objects\Enemy\Movements">
+      <UniqueIdentifier>{93677e4f-5956-4480-9d14-2bbc713e4f53}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Objects\Enemy\Attacks">
+      <UniqueIdentifier>{f8123df2-b39f-4db1-954a-010a3a0e92c6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Objects\Enemy\Defence">
+      <UniqueIdentifier>{1eeb9a0b-e6cb-464a-959e-c8a0f0c944b5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Objects\Enemy\Movements">
+      <UniqueIdentifier>{b118c141-df18-4ecd-944c-f92c0fe7867a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Objects\Enemy\Ghosts">
+      <UniqueIdentifier>{1c39b273-4379-49bd-886c-0c873eb7a30a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="winMain.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Enemy_Attack.cpp">
-      <Filter>Source Files\Objects\Enemy</Filter>
-    </ClCompile>
-    <ClCompile Include="Enemy_YellowGhost.cpp">
-      <Filter>Source Files\Objects\Enemy</Filter>
-    </ClCompile>
-    <ClCompile Include="Enemy_Base.cpp">
-      <Filter>Source Files\Objects\Enemy</Filter>
-    </ClCompile>
-    <ClCompile Include="Enemy_Flee.cpp">
-      <Filter>Source Files\Objects\Enemy</Filter>
-    </ClCompile>
-    <ClCompile Include="Enemy_GreenGhost.cpp">
-      <Filter>Source Files\Objects\Enemy</Filter>
-    </ClCompile>
-    <ClCompile Include="Enemy_Movement.cpp">
-      <Filter>Source Files\Objects\Enemy</Filter>
-    </ClCompile>
-    <ClCompile Include="Enemy_RedGhost.cpp">
-      <Filter>Source Files\Objects\Enemy</Filter>
-    </ClCompile>
-    <ClCompile Include="Enemy_Seek.cpp">
-      <Filter>Source Files\Objects\Enemy</Filter>
-    </ClCompile>
-    <ClCompile Include="Enemy_Wander.cpp">
-      <Filter>Source Files\Objects\Enemy</Filter>
     </ClCompile>
     <ClCompile Include="Object_Player.cpp">
       <Filter>Source Files\Objects</Filter>
@@ -115,9 +112,6 @@
       <Filter>Source Files\Game</Filter>
     </ClCompile>
     <ClCompile Include="GameStateManager.cpp">
-      <Filter>Source Files\Game</Filter>
-    </ClCompile>
-    <ClCompile Include="HUD.cpp">
       <Filter>Source Files\Game</Filter>
     </ClCompile>
     <ClCompile Include="Mesh.cpp">
@@ -153,12 +147,6 @@
     <ClCompile Include="Vertex.cpp">
       <Filter>Source Files\Game</Filter>
     </ClCompile>
-    <ClCompile Include="Enemy_Align.cpp">
-      <Filter>Source Files\Objects\Enemy</Filter>
-    </ClCompile>
-    <ClCompile Include="Enemy_Face.cpp">
-      <Filter>Source Files\Objects\Enemy</Filter>
-    </ClCompile>
     <ClCompile Include="AudioManager.cpp">
       <Filter>Source Files\Audio / FMOD</Filter>
     </ClCompile>
@@ -168,47 +156,59 @@
     <ClCompile Include="SoundLoader.cpp">
       <Filter>Source Files\Audio / FMOD</Filter>
     </ClCompile>
-    <ClCompile Include="Enemy_PurpleGhost.cpp">
-      <Filter>Source Files\Objects\Enemy</Filter>
-    </ClCompile>
     <ClCompile Include="EntityManager.cpp">
       <Filter>Source Files\Game</Filter>
     </ClCompile>
+    <ClCompile Include="Enemy_Align.cpp">
+      <Filter>Source Files\Objects\Enemy\Movements</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy_Attack.cpp">
+      <Filter>Source Files\Objects\Enemy\Attacks</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy_Base.cpp">
+      <Filter>Source Files\Objects\Enemy\Ghosts</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy_Face.cpp">
+      <Filter>Source Files\Objects\Enemy\Movements</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy_Flee.cpp">
+      <Filter>Source Files\Objects\Enemy\Movements</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy_GreenGhost.cpp">
+      <Filter>Source Files\Objects\Enemy\Ghosts</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy_PurpleGhost.cpp">
+      <Filter>Source Files\Objects\Enemy\Ghosts</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy_RedGhost.cpp">
+      <Filter>Source Files\Objects\Enemy\Ghosts</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy_YellowGhost.cpp">
+      <Filter>Source Files\Objects\Enemy\Ghosts</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy_Movement.cpp">
+      <Filter>Source Files\Objects\Enemy\Movements</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy_Seek.cpp">
+      <Filter>Source Files\Objects\Enemy\Movements</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy_Wander.cpp">
+      <Filter>Source Files\Objects\Enemy\Movements</Filter>
+    </ClCompile>
     <ClCompile Include="Enemy_SpawnMiniGhost.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Objects\Enemy\Defence</Filter>
     </ClCompile>
     <ClCompile Include="Enemy_Arrive.cpp">
+      <Filter>Source Files\Objects\Enemy\Movements</Filter>
+    </ClCompile>
+    <ClCompile Include="HUD.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="EventManager.cpp">
+      <Filter>Source Files\Game</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Enemy_Attack.h">
-      <Filter>Header Files\Objects\Enemy</Filter>
-    </ClInclude>
-    <ClInclude Include="Enemy_YellowGhost.h">
-      <Filter>Header Files\Objects\Enemy</Filter>
-    </ClInclude>
-    <ClInclude Include="Enemy_Base.h">
-      <Filter>Header Files\Objects\Enemy</Filter>
-    </ClInclude>
-    <ClInclude Include="Enemy_Flee.h">
-      <Filter>Header Files\Objects\Enemy</Filter>
-    </ClInclude>
-    <ClInclude Include="Enemy_GreenGhost.h">
-      <Filter>Header Files\Objects\Enemy</Filter>
-    </ClInclude>
-    <ClInclude Include="Enemy_Movement.h">
-      <Filter>Header Files\Objects\Enemy</Filter>
-    </ClInclude>
-    <ClInclude Include="Enemy_RedGhost.h">
-      <Filter>Header Files\Objects\Enemy</Filter>
-    </ClInclude>
-    <ClInclude Include="Enemy_Seek.h">
-      <Filter>Header Files\Objects\Enemy</Filter>
-    </ClInclude>
-    <ClInclude Include="Enemy_Wander.h">
-      <Filter>Header Files\Objects\Enemy</Filter>
-    </ClInclude>
     <ClInclude Include="Object_Base.h">
       <Filter>Header Files\Objects</Filter>
     </ClInclude>
@@ -234,9 +234,6 @@
       <Filter>Header Files\Game</Filter>
     </ClInclude>
     <ClInclude Include="GameStateManager.h">
-      <Filter>Header Files\Game</Filter>
-    </ClInclude>
-    <ClInclude Include="HUD.h">
       <Filter>Header Files\Game</Filter>
     </ClInclude>
     <ClInclude Include="Mesh.h">
@@ -266,12 +263,6 @@
     <ClInclude Include="Vertex.h">
       <Filter>Header Files\Game</Filter>
     </ClInclude>
-    <ClInclude Include="Enemy_Align.h">
-      <Filter>Header Files\Objects\Enemy</Filter>
-    </ClInclude>
-    <ClInclude Include="Enemy_Face.h">
-      <Filter>Header Files\Objects\Enemy</Filter>
-    </ClInclude>
     <ClInclude Include="AudioManager.h">
       <Filter>Header Files\Audio / FMOD</Filter>
     </ClInclude>
@@ -287,20 +278,56 @@
     <ClInclude Include="Gun.h">
       <Filter>Header Files\Objects</Filter>
     </ClInclude>
-    <ClInclude Include="Enemy_PurpleGhost.h">
-      <Filter>Header Files\Objects\Enemy</Filter>
-    </ClInclude>
     <ClInclude Include="EntityManager.h">
       <Filter>Header Files\Game</Filter>
     </ClInclude>
+    <ClInclude Include="Enemy_Attack.h">
+      <Filter>Header Files\Objects\Enemy\Attacks</Filter>
+    </ClInclude>
     <ClInclude Include="Enemy_SpawnMiniGhost.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Objects\Enemy\Defence</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy_Align.h">
+      <Filter>Header Files\Objects\Enemy\Movements</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy_Face.h">
+      <Filter>Header Files\Objects\Enemy\Movements</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy_Flee.h">
+      <Filter>Header Files\Objects\Enemy\Movements</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy_Movement.h">
+      <Filter>Header Files\Objects\Enemy\Movements</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy_Seek.h">
+      <Filter>Header Files\Objects\Enemy\Movements</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy_Wander.h">
+      <Filter>Header Files\Objects\Enemy\Movements</Filter>
     </ClInclude>
     <ClInclude Include="Enemy_Arrive.h">
+      <Filter>Header Files\Objects\Enemy\Movements</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy_Base.h">
+      <Filter>Header Files\Objects\Enemy\Ghosts</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy_YellowGhost.h">
+      <Filter>Header Files\Objects\Enemy\Ghosts</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy_GreenGhost.h">
+      <Filter>Header Files\Objects\Enemy\Ghosts</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy_PurpleGhost.h">
+      <Filter>Header Files\Objects\Enemy\Ghosts</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy_RedGhost.h">
+      <Filter>Header Files\Objects\Enemy\Ghosts</Filter>
+    </ClInclude>
+    <ClInclude Include="HUD.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Enemy_Render.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="EventManager.h">
+      <Filter>Header Files\Game</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

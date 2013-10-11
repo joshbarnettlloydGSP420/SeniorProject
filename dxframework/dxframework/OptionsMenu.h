@@ -4,9 +4,10 @@
 
 #pragma comment( lib, "D3dx9.lib")
 
-
 class OptionsMenu : public BaseMenu
 {
+
+	 
 private:
 	////////////////////////////////////////////////////////////////////////
 	// Options Menu specific enum
@@ -20,6 +21,7 @@ private:
 
 	} optionsState;
 	bool videoInit;
+	
 	//////////////////////////////////////////////////////////////////////////
 	//// DirectShow COM Object Creation
 	//////////////////////////////////////////////////////////////////////////
@@ -37,8 +39,8 @@ private:
 public:
 	OptionsMenu(void);
 	~OptionsMenu(void);
-
-	bool Init(InputManager* input, IDirect3DDevice9* m_pD3DDevice, HWND* wndHandle, D3DPRESENT_PARAMETERS* D3dpp);
+	 bool videoPlaying;
+	bool Init(InputManager* input, IDirect3DDevice9* m_pD3DDevice, HWND wndHandle, D3DPRESENT_PARAMETERS* D3dpp);
 	void Update(void);
 	void Render();
 	void DrawBackground();
@@ -49,4 +51,6 @@ public:
 	// Accessors and Mutators
 	int GetState() { return optionsState; };
 	void ResetState( int newState ) { optionsState = o_OPTIONS_MENU; };
+
+	bool GetVideoPlaying(){ return videoPlaying; };	
 };
