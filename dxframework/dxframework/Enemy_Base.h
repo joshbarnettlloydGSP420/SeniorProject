@@ -10,6 +10,7 @@
 #include "Mesh.h"
 #include "PSystem.h"
 #include "Object_Player.h"
+#include "Level_Base.h"
 
 #include "Enemy_Align.h"
 #include "Enemy_Face.h"
@@ -86,6 +87,7 @@ public:
 	void Update( float dt, Object_Player* player);
 	void Render(HWND hwnd, D3DXMATRIX veiwMat, D3DXMATRIX projMat);
 	virtual void BulletCollision( float dt, Object_Player* player, gunType bulletColor);
+	void OuterWallCollision( float dt, Level_Base* currentRoom );
 
 	// Havok
 	void CreateBodyObject(hkpWorld* world);

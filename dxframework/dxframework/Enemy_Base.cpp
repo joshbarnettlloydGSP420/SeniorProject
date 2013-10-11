@@ -205,6 +205,16 @@ void Enemy_Base::PlayerCollision( float dt)
 	}
 }
 
+
+void Enemy_Base::OuterWallCollision( float dt, Level_Base* currentRoom )
+{
+	hkAabb enemy;
+
+	rigidBody->getCollidable()->getShape()->getAabb( rigidBody->getTransform(), 0.0f, enemy);
+
+	// TODO: get all rooms to return which room
+}
+
 //void Enemy_Base::HavokMovement()
 //{
 //	hkpCharacterInput input;

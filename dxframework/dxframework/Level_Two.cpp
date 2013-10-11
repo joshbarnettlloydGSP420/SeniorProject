@@ -13,6 +13,10 @@ Level_Two::~Level_Two(void)
 // Kitchen Level
 void Level_Two::Init( IDirect3DDevice9* m_pD3DDevice, RenderObject* m_pRender)
 {
+	// kitchen positions
+	Kitchen.roomPos = D3DXVECTOR3(1.0f, 0.0f, 27.0f);
+	Kitchen.roomSize = D3DXVECTOR3(21.5f, 20.0f, 22.0f);
+	
 	// set the constraints for the enemy spawn points
 	// low values
 	x1 = -20;
@@ -28,7 +32,7 @@ void Level_Two::Init( IDirect3DDevice9* m_pD3DDevice, RenderObject* m_pRender)
 		enemies[i] = new Enemy_GreenGhost();
 		enemies[i]->Init( m_pD3DDevice, m_pRender);
 
-		
+
 		float x = RandomBinomial( x1, x2);
 		float z = RandomBinomial( z1, z2);
 
@@ -45,4 +49,31 @@ void Level_Two::Init( IDirect3DDevice9* m_pD3DDevice, RenderObject* m_pRender)
 		// set their positions randomly in the KITCHEN
 		enemies[i]->SetPosition( D3DXVECTOR4( x, 0, z, 0));
 	}
+
+	InitRooms();
+}
+
+void Level_Two::InitRooms()
+{
+	hkpRigidBody* rigidBody;
+	hkpRigidBodyCinfo bodyInfo;
+
+	Kitchen.enemiesDead = false;
+	Kitchen.puzzleSolved = false;
+	Kitchen.playerInRoom = false;
+
+	// Box Parameters
+	hkVector4 halfExtents(hkVector4(Kitchen.roomSize.x, Kitchen.roomSize.y, Kitchen.roomSize.z, 0.0f));
+
+	// Create Box Based on Parameters
+	hkpBoxShape* boxShape = new hkpBoxShape(halfExtents);
+
+	// Set The Object's Properties
+	bodyInfo.m_shape = boxShape;
+	bodyInfo.m_position.set(Kitchen.roomPos.x, Kitchen.roomPos.y, Kitchen.roomPos.z);
+
+	// Create Rigid Body
+	rigidBody = new hkpRigidBody(bodyInfo);
+
+	rigidBody->getCollidable()->getShape()->getAabb(rigidBody->getTransform(), 0.0f, Kitchen.boundingArea);
 }

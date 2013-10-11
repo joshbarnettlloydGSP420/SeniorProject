@@ -14,6 +14,5 @@ public:
 
 	// accessors and mutators
 	void SetEnemyCount( int newEnemyCount ){ enemyCount = newEnemyCount; };
-
 };
 

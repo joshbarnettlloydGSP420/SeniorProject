@@ -22,6 +22,7 @@ void Level_Manager::Init(IDirect3DDevice9* m_pD3DDevice, RenderObject* m_pRender
 	tutorial->Init( device, render);
 
 	level = Tutorial;
+	levelCount = 5;
 
 }
 
@@ -71,7 +72,7 @@ void Level_Manager::Update( float dt, Object_Player* player, gunType bulletColor
 			//if ()
 			//{
 			//	levelThree = new LevelThree();
-			//	levelTwo->Init( device, render);
+			//	levelThree->Init( device, render);
 			//	if ( levelTwo != NULL )
 			//		delete levelTwo;
 			//	level = Three;
@@ -112,7 +113,18 @@ void Level_Manager::Update( float dt, Object_Player* player, gunType bulletColor
 		}
 	case FiveBeyond:
 		{
+
 			levels5Beyond[levelCount]->Update( dt, player, bulletColor);
+
+			// TODO:  if the enemies are killed go to the next level
+			if ()
+			{
+				levels5Beyond[levelCount] = new Level_Beyond5();
+				levels5Beyond[levelCount]->Init( device, render);
+				if ( levels5Beyond[levelCount-1] != NULL )
+					delete levels5Beyond[levelCount-1];
+				levelCount++;
+			}
 			break;
 		}
 	};
@@ -124,26 +136,32 @@ void Level_Manager::Render(HWND hwnd, D3DXMATRIX veiwMat, D3DXMATRIX projMat)
 	{
 	case Tutorial:
 		{
+			tutorial->Render( hwnd, veiwMat, projMat);
 			break;
 		}
 	case One:
 		{
+			levelOne->Render( hwnd, veiwMat, projMat);
 			break;
 		}
 	case Two:
 		{
+			levelTwo->Render( hwnd, veiwMat, projMat);
 			break;
 		}
 	case Three:
 		{
+			levelThree->Render( hwnd, veiwMat, projMat);
 			break;
 		}
 	case Four:
 		{
+			levelFour->Render( hwnd, veiwMat, projMat);
 			break;
 		}
 	case FiveBeyond:
 		{
+			levels5Beyond[levelCount]->Render( hwnd, veiwMat, projMat);
 			break;
 		}
 	};

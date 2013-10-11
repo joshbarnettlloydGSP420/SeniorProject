@@ -13,6 +13,10 @@ Level_One::~Level_One(void)
 // Dining Room Level
 void Level_One::Init( IDirect3DDevice9* m_pD3DDevice, RenderObject* m_pRender)
 {
+	// Room positions
+	Diningroom.roomPos = D3DXVECTOR3(44.0f, 0.0f, 7.5f);
+	Diningroom.roomSize = D3DXVECTOR3(21.5, 20.0f, 42.0f);
+
 	// set the constraints for the enemy spawn points
 	// low values
 	x1 = 22.5;
@@ -34,4 +38,31 @@ void Level_One::Init( IDirect3DDevice9* m_pD3DDevice, RenderObject* m_pRender)
 		// set their positions randomly in the DINING ROOM
 		enemies[i]->SetPosition( D3DXVECTOR4( x, 0, z, 0));
 	}
+
+	InitRooms();
+}
+
+void Level_One::InitRooms()
+{
+	hkpRigidBody* rigidBody;
+	hkpRigidBodyCinfo bodyInfo;
+
+	Diningroom.enemiesDead = false;
+	Diningroom.puzzleSolved = false;
+	Diningroom.playerInRoom = false;
+
+	// Box Parameters
+	hkVector4 halfExtents(hkVector4(Diningroom.roomSize.x, Diningroom.roomSize.y, Diningroom.roomSize.z, 0.0f));
+
+	// Create Box Based on Parameters
+	hkpBoxShape* boxShape = new hkpBoxShape(halfExtents);
+
+	// Set The Object's Properties
+	bodyInfo.m_shape = boxShape;
+	bodyInfo.m_position.set(Diningroom.roomPos.x, Diningroom.roomPos.y, Diningroom.roomPos.z);
+
+	// Create Rigid Body
+	rigidBody = new hkpRigidBody(bodyInfo);
+
+	rigidBody->getCollidable()->getShape()->getAabb(rigidBody->getTransform(), 0.0f, Diningroom.boundingArea);
 }
