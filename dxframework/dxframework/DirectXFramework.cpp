@@ -241,8 +241,8 @@ void CDirectXFramework::Init(HWND& hWnd, HINSTANCE& hInst, bool bWindowed)
 	Player->shape = CAPSULE;
 
 	Mansion = new Object_Base();
-	Mansion->position = D3DXVECTOR4(0.0f, 0.0f, 10.0f, 0.0f);
-	Mansion->scale = D3DXVECTOR3( 0.75f, 0.75f, 0.75f);
+	Mansion->position = D3DXVECTOR4(0.0f, 0.0f, 0.0f, 0.0f);
+	Mansion->scale = D3DXVECTOR3(0.20f, 0.20f, 0.20f);
 	Mansion->shape = BOX;
 	Mansion->weight = UNMOVABLE;
 
@@ -357,7 +357,7 @@ void CDirectXFramework::Init(HWND& hWnd, HINSTANCE& hInst, bool bWindowed)
 
 	// Load Test Mesh
 	loadMesh(L"FlippedY.X", &Player->objectMesh);
-	loadMesh(L"RoomWithWalls.X", &Mansion->objectMesh); 
+	loadMesh(L"houseTextured.X", &Mansion->objectMesh); 
 
 	for(short i = 0; i < ARRAYSIZE(piano); ++i)
 	loadMesh(L"Piano.X", &piano[i]->objectMesh);
@@ -432,12 +432,14 @@ void CDirectXFramework::Init(HWND& hWnd, HINSTANCE& hInst, bool bWindowed)
 	// House Objects
 	for(short i = 0; i < ARRAYSIZE(piano); ++i)
 		piano[i]->createHavokObject(havok->getWorld());
+	
 
 	//for(short i = 0; i < ARRAYSIZE(sinkCounter); ++i)
 	//	sinkCounter[i]->createHavokObject(havok->getWorld());
 
 	//for(short i = 0; i < ARRAYSIZE(normalCounter); ++i)
 	//	normalCounter[i]->createHavokObject(havok->getWorld());
+
 
 		fridge->createHavokObject(havok->getWorld());
 
@@ -652,46 +654,7 @@ if(gameState->activeGameState == GAME)
 	fx[0]->End();
 
 
-	fx[0]->SetTechnique(hTech[0]);
-
-	numPasses = 0;
-	fx[0]->Begin(&numPasses, 0);
-
-	for(UINT i = 0; i < numPasses; ++i)
-	{
-		fx[0]->BeginPass(i);
-
-		// Mesh Matrix
-		D3DXMatrixScaling(&scaleMat, Mansion->scale.x, Mansion->scale.y, Mansion->scale.z);
-        D3DXMatrixRotationYawPitchRoll(&rotMat, 0.0f, 0.0f, 0.0f);
-		D3DXMatrixTranslation(&transMat, Mansion->position.x, Mansion->position.y - 5.0f, Mansion->position.z - 8.25f);
-		D3DXMatrixMultiply(&scaleMat, &scaleMat, &rotMat);
-		D3DXMatrixMultiply(&worldMat, &scaleMat, &transMat);
-
-		D3DXMatrixInverse(&invTransMat, 0, &worldMat);
-		D3DXMatrixTranspose(&invTransMat, &invTransMat);
-
-		D3DXMATRIX wvp = worldMat * viewMat * projMat;
-		D3DXMATRIX wvpit;
-		D3DXMatrixInverse(&wvpit, 0, &wvp);
-		D3DXMatrixTranspose(&wvpit, &wvpit);
-
-		fx[0]->SetMatrix("WVP", &wvp);
-		fx[0]->SetMatrix("WVPIT", &wvpit);
-		fx[0]->SetMatrix("World", &worldMat);
-		fx[0]->SetMatrix("View", &viewMat);
-		fx[0]->SetMatrix("Projection", &projMat);
-		fx[0]->SetMatrix("WorldInverseTranspose", &invTransMat);
-
-		
-			fx[0]->SetTexture("gTexture", m_pTexture[0]);
-			fx[0]->CommitChanges();
-			Mansion->objectMesh->p_Mesh->DrawSubset(0);
-
-
-		fx[0]->EndPass();
-	}
-	fx[0]->End();
+	renderObject(Mansion, D3DXVECTOR3(7.5f, -5.0f, -67.5f));
 
 	// Object Renders
 	for(short i = 0; i < ARRAYSIZE(piano); ++i)
@@ -1111,7 +1074,7 @@ void CDirectXFramework::renderObject(Object_Base* object, D3DXVECTOR3 offset)
 
 		// Mesh Matrix
 		D3DXMatrixScaling(&scaleMat, object->scale.x, object->scale.y, object->scale.z);
-		D3DXMatrixRotationYawPitchRoll(&rotMat, 0.0f, 0.0f, 0.0f);
+		D3DXMatrixRotationYawPitchRoll(&rotMat, object->rotation.x, object->rotation.y, object->rotation.z);
 		D3DXMatrixTranslation(&transMat, object->position.x + offset.x, object->position.y + offset.y, object->position.z + offset.z);
 		D3DXMatrixMultiply(&scaleMat, &scaleMat, &rotMat);
 		D3DXMatrixMultiply(&worldMat, &scaleMat, &transMat);

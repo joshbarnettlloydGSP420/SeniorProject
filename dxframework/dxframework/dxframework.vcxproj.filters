@@ -201,10 +201,10 @@
     <ClCompile Include="Enemy_Arrive.cpp">
       <Filter>Source Files\Objects\Enemy\Movements</Filter>
     </ClCompile>
-    <ClCompile Include="HUD.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="EventManager.cpp">
+      <Filter>Source Files\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="HUD.cpp">
       <Filter>Source Files\Game</Filter>
     </ClCompile>
   </ItemGroup>
@@ -323,10 +323,10 @@
     <ClInclude Include="Enemy_RedGhost.h">
       <Filter>Header Files\Objects\Enemy\Ghosts</Filter>
     </ClInclude>
-    <ClInclude Include="HUD.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="EventManager.h">
+      <Filter>Header Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="HUD.h">
       <Filter>Header Files\Game</Filter>
     </ClInclude>
   </ItemGroup>
@@ -438,6 +438,9 @@
     </None>
     <None Include="Piano.X">
       <Filter>Resource Files\Models\Base_Objects</Filter>
+    </None>
+    <None Include="houseTextured.X">
+      <Filter>Resource Files\Models</Filter>
     </None>
   </ItemGroup>
 </Project>

@@ -192,6 +192,7 @@
     <None Include="Headgear.dds" />
     <None Include="Helmet.dds" />
     <None Include="House.X" />
+    <None Include="houseTextured.X" />
     <None Include="Metal_Texture.jpg" />
     <None Include="Pack.dds" />
     <None Include="Parallax.fx" />

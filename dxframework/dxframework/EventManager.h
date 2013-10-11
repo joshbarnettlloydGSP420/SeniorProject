@@ -38,6 +38,9 @@ struct Room
 	D3DXVECTOR3	roomPos;
 	D3DXVECTOR3	roomSize;
 
+	D3DXVECTOR3 door1Pos;
+	D3DXVECTOR3 door2Pos;
+
 	// Enemies
 	int			remainingEnemies;
 };
