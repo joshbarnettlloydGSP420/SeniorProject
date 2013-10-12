@@ -31,6 +31,8 @@ private:
 	// create an Level Enum variable
 	Level				level;
 
+	// create a enemy count for the 5+ levels
+	float				enemyCount;
 public:
 	Level_Manager(void);
 	~Level_Manager(void);

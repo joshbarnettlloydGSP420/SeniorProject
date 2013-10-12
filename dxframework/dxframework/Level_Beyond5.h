@@ -6,6 +6,12 @@ private:
 	int enemyCount;
 	short randColor;
 
+	// constraints for the house, when looking from the imaginary front door.
+	float		backWall;
+	float		frontWall;
+	float		leftWall;
+	float		rightWall;
+
 public:
 	Level_Beyond5(void);
 	~Level_Beyond5(void);
@@ -14,5 +20,6 @@ public:
 
 	// accessors and mutators
 	void SetEnemyCount( int newEnemyCount ){ enemyCount = newEnemyCount; };
+
 };
 

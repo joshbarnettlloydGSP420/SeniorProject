@@ -13,9 +13,12 @@ Level_One::~Level_One(void)
 // Dining Room Level
 void Level_One::Init( IDirect3DDevice9* m_pD3DDevice, RenderObject* m_pRender)
 {
-	// Room positions
-	Diningroom.roomPos = D3DXVECTOR3(44.0f, 0.0f, 7.5f);
-	Diningroom.roomSize = D3DXVECTOR3(21.5, 20.0f, 42.0f);
+	// initialize the leveled cleared to false
+	levelCleared = false;
+
+	// dining Room positions
+	Diningroom->roomPos = D3DXVECTOR3(44.0f, 0.0f, 7.5f);
+	Diningroom->roomSize = D3DXVECTOR3(21.5, 20.0f, 42.0f);
 
 	// set the constraints for the enemy spawn points
 	// low values
@@ -26,6 +29,7 @@ void Level_One::Init( IDirect3DDevice9* m_pD3DDevice, RenderObject* m_pRender)
 	x2 = 65;
 	z2 = 49;
 
+	enemies.clear();
 	// create 4 GREEN ghosts to appear 
 	for ( int i = 0; i < 4; ++i)
 	{
@@ -44,25 +48,27 @@ void Level_One::Init( IDirect3DDevice9* m_pD3DDevice, RenderObject* m_pRender)
 
 void Level_One::InitRooms()
 {
+	Diningroom = new Room();
+
 	hkpRigidBody* rigidBody;
 	hkpRigidBodyCinfo bodyInfo;
 
-	Diningroom.enemiesDead = false;
-	Diningroom.puzzleSolved = false;
-	Diningroom.playerInRoom = false;
+	enemiesDead = false;
+	puzzleSolved = false;
+	Diningroom->playerInRoom = false;
 
 	// Box Parameters
-	hkVector4 halfExtents(hkVector4(Diningroom.roomSize.x, Diningroom.roomSize.y, Diningroom.roomSize.z, 0.0f));
+	hkVector4 halfExtents(hkVector4(Diningroom->roomSize.x, Diningroom->roomSize.y, Diningroom->roomSize.z, 0.0f));
 
 	// Create Box Based on Parameters
 	hkpBoxShape* boxShape = new hkpBoxShape(halfExtents);
 
 	// Set The Object's Properties
 	bodyInfo.m_shape = boxShape;
-	bodyInfo.m_position.set(Diningroom.roomPos.x, Diningroom.roomPos.y, Diningroom.roomPos.z);
+	bodyInfo.m_position.set(Diningroom->roomPos.x, Diningroom->roomPos.y, Diningroom->roomPos.z);
 
 	// Create Rigid Body
 	rigidBody = new hkpRigidBody(bodyInfo);
 
-	rigidBody->getCollidable()->getShape()->getAabb(rigidBody->getTransform(), 0.0f, Diningroom.boundingArea);
+	rigidBody->getCollidable()->getShape()->getAabb(rigidBody->getTransform(), 0.0f, Diningroom->boundingArea);
 }

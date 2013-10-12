@@ -10,14 +10,14 @@
 #include "Mesh.h"
 #include "PSystem.h"
 #include "Object_Player.h"
-#include "Level_Base.h"
+#include "Room.h"
 
 #include "Enemy_Align.h"
 #include "Enemy_Face.h"
 
 // The states that the enemy can be in
-enum StateType{Wander, Arrive, Flee, Attack };
-enum GhostColor{ RedGhost = 1, PurpleGhost, GreenGhost, YellowGhost };
+enum StateType { Wander = 0, Arrive = 1, Flee = 2, Attack = 3, PosAdjust = 4 };
+enum GhostColor { RedGhost = 1, PurpleGhost = 2, GreenGhost = 3, YellowGhost = 4};
 
 class Enemy_Base
 {
@@ -29,6 +29,9 @@ protected:
 	short				attackSpeed;
 	float				attackRange;
 	float				wanderRange;
+
+	// center of room variable
+	D3DXVECTOR4			centerOfRoom;
 	
 	// Rendering Variables
 	RenderObject*		render;
@@ -87,7 +90,7 @@ public:
 	void Update( float dt, Object_Player* player);
 	void Render(HWND hwnd, D3DXMATRIX veiwMat, D3DXMATRIX projMat);
 	virtual void BulletCollision( float dt, Object_Player* player, gunType bulletColor);
-	void OuterWallCollision( float dt, Level_Base* currentRoom );
+	void RoomWallCollision( float dt, Room* currentRoom );
 
 	// Havok
 	void CreateBodyObject(hkpWorld* world);

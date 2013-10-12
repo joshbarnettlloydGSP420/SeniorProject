@@ -5,7 +5,6 @@
 #include <vector>
 #include "Object_Base.h"
 #include "Object_Player.h"
-#include "Enemy_Base.h"
 
 class EntityManager
 {
@@ -13,9 +12,7 @@ public:
 
 	// Variables
 	std::vector<Object_Base*>		v_baseObjects;
-	std::vector<Enemy_Base*>		v_Enemy_Base;
 
-	int								numEmemies;
 	int								numObjects;
 
 	EntityManager(void);
@@ -26,8 +23,8 @@ public:
 
 	bool objVsBullet(float deltaTime, Object_Base* object, Object_Player* player);
 	bool objVsPlayer(float deltaTime, Object_Base* object, Object_Player* player);
-	bool enemyVsBullet(float deltaTime, Enemy_Base* enemy, Object_Player* player);
-	bool enemyVsPlayer(float deltaTime, Enemy_Base* enemy, Object_Player* player);
+	//bool enemyVsBullet(float deltaTime, Enemy_Base* enemy, Object_Player* player);
+	//bool enemyVsPlayer(float deltaTime, Enemy_Base* enemy, Object_Player* player);
 
 	/*void addEnemyObject(Enemy_Base* Enemy);
 	void addBaseObject(Object_Base* Object);*/

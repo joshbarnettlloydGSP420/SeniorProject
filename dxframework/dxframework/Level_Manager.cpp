@@ -21,9 +21,10 @@ void Level_Manager::Init(IDirect3DDevice9* m_pD3DDevice, RenderObject* m_pRender
 	tutorial = new Level_Tutorial();
 	tutorial->Init( device, render);
 
+	// set the level variables
 	level = Tutorial;
 	levelCount = 5;
-
+	enemyCount = 10;
 }
 
 void Level_Manager::Update( float dt, Object_Player* player, gunType bulletColor)
@@ -35,95 +36,99 @@ void Level_Manager::Update( float dt, Object_Player* player, gunType bulletColor
 			// update the tutorial
 			tutorial->Update( dt, player, bulletColor );
 
-			// TODO:  if the tutorial is done then switch to level one
-			// the door is open is the switch
-
-			// if ()
-			// {
-			//		levelOne = new Level_One();
-			//		levelOne->Init( device, render);
-			//		if( tutorial != NULL )
-			//			delete tutorial;
-			//		level = One;
-			//	}
+			// if the tutorial is done then switch to level one
+			if ( tutorial->LeveledClear() == true )
+			 {
+					levelOne = new Level_One();
+					levelOne->Init( device, render);
+					if( tutorial != NULL )
+						delete tutorial;
+					level = One;
+				}
 			break;
 		}
 	case One:
 		{
+			// update level one
 			levelOne->Update( dt, player, bulletColor);
 
-			// TODO: if the enemies are killed and the door is open go to level 2
-			//if ()
-			//{
-			//	levelTwo = new LevelTwo();
-			//	levelTwo->Init( device, render);
-			//	if ( levelOne != NULL )
-			//		delete levelOne;
-			//	level = Two;
-			//}
+			// if the tutorial is done then switch to level two
+			if ( levelOne->LeveledClear() == true )
+			{
+				levelTwo = new Level_Two();
+				levelTwo->Init( device, render);
+				if ( levelOne != NULL )
+					delete levelOne;
+				level = Two;
+			}
 			break;
 		}
 	case Two:
 		{
+			// update level two
 			levelTwo->Update( dt, player, bulletColor);
 
-			// TODO:  if the enemies are killed and the door is open go to level 3
-
-			//if ()
-			//{
-			//	levelThree = new LevelThree();
-			//	levelThree->Init( device, render);
-			//	if ( levelTwo != NULL )
-			//		delete levelTwo;
-			//	level = Three;
-			//}
+			// if the tutorial is done then switch to level three
+			if ( levelTwo->LeveledClear() == true )
+			{
+				levelThree = new Level_Three();
+				levelThree->Init( device, render);
+				if ( levelTwo != NULL )
+					delete levelTwo;
+				level = Three;
+			}
 			break;
 		}
 	case Three:
 		{
+			// update level three
 			levelThree->Update( dt, player, bulletColor);
 
-			// TODO: if the enemies are killed and the door is open go to level 4
-
-			//if ()
-			//{
-			//	levelFour = new LevelFour();
-			//	levelFour->Init( device, render);
-			//	if ( levelThree != NULL)
-			//		delete LevelThree;
-			//	level = Four;
-			//}
+			// if the tutorial is done then switch to level four
+			if ( levelThree->LeveledClear() == true )
+			{
+				levelFour = new Level_Four();
+				levelFour->Init( device, render);
+				if ( levelThree != NULL)
+					delete levelThree;
+				level = Four;
+			}
 			break;
 		}
 	case Four:
 		{
+			// update level four
 			levelFour->Update( dt, player, bulletColor);
 
-			// TODO:  if the enemies are killed go to level 5
-
-			//if ()
-			//{
-			//	levels5Beyond[levelCount] = new Level_Beyond5();
-			//	levels5Beyond[levelCount]->Init( device, render);
-			//	if ( levelFour != NULL)
-			//		delete levelFour;
-			//	level = FiveBeyond;
-			//}
+			// if the tutorial is done then switch to level five
+			if ( levelFour->LeveledClear() == true )
+			{
+				levels5Beyond[levelCount] = new Level_Beyond5();
+				levels5Beyond[levelCount]->SetEnemyCount( enemyCount );
+				levels5Beyond[levelCount]->Init( device, render);
+				if ( levelFour != NULL)
+					delete levelFour;
+				level = FiveBeyond;
+			}
 			break;
 		}
 	case FiveBeyond:
 		{
-
+			// update current level
 			levels5Beyond[levelCount]->Update( dt, player, bulletColor);
 
-			// TODO:  if the enemies are killed go to the next level
-			if ()
+			// if the enemies are killed go to the next level
+			if ( levels5Beyond[levelCount]->LeveledClear() == true )
 			{
+				// increase the level count and the amount of enemies
+				levelCount++;
+				enemyCount += 3;
 				levels5Beyond[levelCount] = new Level_Beyond5();
+				levels5Beyond[levelCount]->SetEnemyCount( enemyCount );
 				levels5Beyond[levelCount]->Init( device, render);
+
 				if ( levels5Beyond[levelCount-1] != NULL )
 					delete levels5Beyond[levelCount-1];
-				levelCount++;
 			}
 			break;
 		}

@@ -13,9 +13,12 @@ Level_Four::~Level_Four(void)
 // Foyer Level
 void Level_Four::Init( IDirect3DDevice9* m_pD3DDevice, RenderObject* m_pRender)
 {
+	// initialize the leveled cleared to false
+	levelCleared = false;
+
 	// foyer posiitons
-	Foyer.roomPos = D3DXVECTOR3(1.0f, 0.0f, -18.0f);
-	Foyer.roomSize = D3DXVECTOR3(21.5f, 20.0f, 22.0f);
+	Foyer->roomPos = D3DXVECTOR3(1.0f, 0.0f, -18.0f);
+	Foyer->roomSize = D3DXVECTOR3(21.5f, 20.0f, 22.0f);
 
 	// set the constraints for the enemy spawn points
 	// low values
@@ -40,8 +43,8 @@ void Level_Four::Init( IDirect3DDevice9* m_pD3DDevice, RenderObject* m_pRender)
 	enemies[1] = new Enemy_RedGhost();
 	enemies[1]->Init( m_pD3DDevice, m_pRender);
 
-	float x = RandomBinomial( x1, x2);
-	float z = RandomBinomial( z1, z2);
+	x = RandomBinomial( x1, x2);
+	z = RandomBinomial( z1, z2);
 
 	// set their positions randomly in the FOYER
 	enemies[1]->SetPosition( D3DXVECTOR4( x, 0, z, 0));
@@ -50,8 +53,8 @@ void Level_Four::Init( IDirect3DDevice9* m_pD3DDevice, RenderObject* m_pRender)
 	enemies[2] = new Enemy_PurpleGhost();
 	enemies[2]->Init( m_pD3DDevice, m_pRender);
 
-	float x = RandomBinomial( x1, x2);
-	float z = RandomBinomial( z1, z2);
+	x = RandomBinomial( x1, x2);
+	z = RandomBinomial( z1, z2);
 
 	// set their positions randomly in the FOYER
 	enemies[2]->SetPosition( D3DXVECTOR4( x, 0, z, 0));
@@ -60,8 +63,8 @@ void Level_Four::Init( IDirect3DDevice9* m_pD3DDevice, RenderObject* m_pRender)
 	enemies[3] = new Enemy_YellowGhost();
 	enemies[3]->Init( m_pD3DDevice, m_pRender);
 
-	float x = RandomBinomial( x1, x2);
-	float z = RandomBinomial( z1, z2);
+	x = RandomBinomial( x1, x2);
+	z = RandomBinomial( z1, z2);
 
 	// set their positions randomly in the FOYER
 	enemies[3]->SetPosition( D3DXVECTOR4( x, 0, z, 0));
@@ -69,26 +72,28 @@ void Level_Four::Init( IDirect3DDevice9* m_pD3DDevice, RenderObject* m_pRender)
 
 void Level_Four::InitRooms()
 {
+	Foyer = new Room();
+
 	hkpRigidBody* rigidBody;
 	hkpRigidBodyCinfo bodyInfo;
 
-	Foyer.enemiesDead = false;
-	Foyer.puzzleSolved = true;;
-	Foyer.playerInRoom = false;
+	enemiesDead = false;
+	puzzleSolved = true;;
+	Foyer->playerInRoom = false;
 
 	// Box Parameters
-	hkVector4 halfExtents(hkVector4(Foyer.roomSize.x, Foyer.roomSize.y, Foyer.roomSize.z, 0.0f));
+	hkVector4 halfExtents(hkVector4(Foyer->roomSize.x, Foyer->roomSize.y, Foyer->roomSize.z, 0.0f));
 
 	// Create Box Based on Parameters
 	hkpBoxShape* boxShape = new hkpBoxShape(halfExtents);
 
 	// Set The Object's Properties
 	bodyInfo.m_shape = boxShape;
-	bodyInfo.m_position.set(Foyer.roomPos.x, Foyer.roomPos.y, Foyer.roomPos.z);
+	bodyInfo.m_position.set(Foyer->roomPos.x, Foyer->roomPos.y, Foyer->roomPos.z);
 	bodyInfo.m_motionType = hkpMotion::MOTION_FIXED;
 
 	// Create Rigid Body
 	rigidBody = new hkpRigidBody(bodyInfo);
 
-	rigidBody->getCollidable()->getShape()->getAabb(rigidBody->getTransform(), 0.0f, Foyer.boundingArea);
+	rigidBody->getCollidable()->getShape()->getAabb(rigidBody->getTransform(), 0.0f, Foyer->boundingArea);
 }

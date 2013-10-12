@@ -16,6 +16,9 @@ Level_Beyond5::~Level_Beyond5(void)
 // Entire House
 void Level_Beyond5::Init( IDirect3DDevice9* m_pD3DDevice, RenderObject* m_pRender)
 {
+	// initialize the leveled cleared to false
+	levelCleared = false;
+
 	// set the constraints for the enemy spawn points
 	// low values
 	x1 = -60;

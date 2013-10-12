@@ -120,6 +120,16 @@ void Enemy_Base::UpdateState(StateType CurrentState, float dt)
 				ChangeState( Flee );
 			break;
 		}
+	//	If the enemy is close to the wall then seek center of room to adjust  /////
+	case PosAdjust:
+		{
+			arrive.GetSteering( movement, centerOfRoom);
+
+			// if the enemy is close to the center then begin to wander
+			if ((sqrt(( player->position.x * player->position.x) + ( player->position.z * player->position.z))) >= 15 )
+				ChangeState( Wander );
+			break;
+		}
 	};
 }
 
@@ -201,18 +211,27 @@ void Enemy_Base::PlayerCollision( float dt)
 			player->health -= 20;
 			player->hitTimer = 0.0f;
 		}
-
 	}
 }
 
-
-void Enemy_Base::OuterWallCollision( float dt, Level_Base* currentRoom )
+// Collision with the walls
+void Enemy_Base::RoomWallCollision( float dt, Room* currentRoom )
 {
-	hkAabb enemy;
+	hkAabb enemyBoundingBox;
 
-	rigidBody->getCollidable()->getShape()->getAabb( rigidBody->getTransform(), 0.0f, enemy);
+	rigidBody->getCollidable()->getShape()->getAabb( rigidBody->getTransform(), 0.0f, enemyBoundingBox);
 
-	// TODO: get all rooms to return which room
+	// if the bounding box of the enemy is overlapping the wall bounding box
+	if ( enemyBoundingBox.overlaps( currentRoom->boundingArea))
+	{
+		// find the center of the room
+		centerOfRoom.x = (currentRoom->roomSize.x/2) + currentRoom->roomPos.x;
+		centerOfRoom.z = ( currentRoom->roomSize.z/2) + currentRoom->roomPos.z;
+
+		// then have the ghost switch to seek out the middle of the room
+		ChangeState( PosAdjust );
+
+	}
 }
 
 //void Enemy_Base::HavokMovement()

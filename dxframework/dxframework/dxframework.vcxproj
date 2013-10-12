@@ -176,6 +176,7 @@
     <ClInclude Include="PauseMenu.h" />
     <ClInclude Include="PSystem.h" />
     <ClInclude Include="RenderObject.h" />
+    <ClInclude Include="Room.h" />
     <ClInclude Include="SoundEffect.h" />
     <ClInclude Include="SoundLoader.h" />
     <ClInclude Include="Utilities.h" />

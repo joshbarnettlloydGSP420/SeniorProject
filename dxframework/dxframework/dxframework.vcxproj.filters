@@ -389,6 +389,9 @@
     <ClInclude Include="Level_Beyond5.h">
       <Filter>Header Files\Game\LevelHandlers\Levels</Filter>
     </ClInclude>
+    <ClInclude Include="Room.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="GirRobot.X">

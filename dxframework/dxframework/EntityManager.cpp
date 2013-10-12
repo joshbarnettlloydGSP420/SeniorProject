@@ -61,55 +61,55 @@ bool EntityManager::objVsPlayer(float deltaTime, Object_Base* object, Object_Pla
 	return false;
 }
 
-bool EntityManager::enemyVsBullet(float deltaTime, Enemy_Base* enemy, Object_Player* player)
-{
-	hkAabb aabbBase;
-	hkAabb aabbOut;
-
-	// Enemy Hits Bullets
-	for(short i = 0; i < ARRAYSIZE(player->bull); ++i)
-	{
-		// Object Hit Bullets
-		for(short i = 0; i < ARRAYSIZE(player->bull); ++i)
-		{
-			enemy->GetHavokbody()->getCollidable()->getShape()->getAabb(enemy->GetHavokbody()->getTransform(), 0.4f, aabbOut);
-			player->bull[i].bulletObject->getCollidable()->getShape()->getAabb(player->bull[i].bulletObject->getTransform(), 0.4f, aabbBase);
-
-
-			if(aabbBase.overlaps(aabbOut))
-			{
-				return true;
-			}
-
-		}
-
-	}
-
-	return false;
-}
-
-bool EntityManager::enemyVsPlayer(float deltaTime, Enemy_Base* enemy,  Object_Player* player)
-{
-	hkAabb aabbBase;
-	hkAabb aabbOut;
-
-	// Enemy Hits Player
-	if(!player->beenHit)
-	{
-
-		enemy->GetHavokbody()->getCollidable()->getShape()->getAabb(enemy->GetHavokbody()->getTransform(), 0.4f, aabbOut);
-		player->objectBody->getRigidBody()->getCollidable()->getShape()->getAabb(player->objectBody->getRigidBody()->getTransform(), 0.4f, aabbBase);
-
-
-		if(aabbBase.overlaps(aabbOut))
-		{
-			return true;
-		}
-
-	}
-
-	return false;
-}
+//bool EntityManager::enemyVsBullet(float deltaTime, Enemy_Base* enemy, Object_Player* player)
+//{
+//	hkAabb aabbBase;
+//	hkAabb aabbOut;
+//
+//	// Enemy Hits Bullets
+//	for(short i = 0; i < ARRAYSIZE(player->bull); ++i)
+//	{
+//		// Object Hit Bullets
+//		for(short i = 0; i < ARRAYSIZE(player->bull); ++i)
+//		{
+//			enemy->GetHavokbody()->getCollidable()->getShape()->getAabb(enemy->GetHavokbody()->getTransform(), 0.4f, aabbOut);
+//			player->bull[i].bulletObject->getCollidable()->getShape()->getAabb(player->bull[i].bulletObject->getTransform(), 0.4f, aabbBase);
+//
+//
+//			if(aabbBase.overlaps(aabbOut))
+//			{
+//				return true;
+//			}
+//
+//		}
+//
+//	}
+//
+//	return false;
+//}
+//
+//bool EntityManager::enemyVsPlayer(float deltaTime, Enemy_Base* enemy,  Object_Player* player)
+//{
+//	hkAabb aabbBase;
+//	hkAabb aabbOut;
+//
+//	// Enemy Hits Player
+//	if(!player->beenHit)
+//	{
+//
+//		enemy->GetHavokbody()->getCollidable()->getShape()->getAabb(enemy->GetHavokbody()->getTransform(), 0.4f, aabbOut);
+//		player->objectBody->getRigidBody()->getCollidable()->getShape()->getAabb(player->objectBody->getRigidBody()->getTransform(), 0.4f, aabbBase);
+//
+//
+//		if(aabbBase.overlaps(aabbOut))
+//		{
+//			return true;
+//		}
+//
+//	}
+//
+//	return false;
+//}
 
 //void EntityManager::addEnemyObject(Enemy_Base* Enemy)
 //{
