@@ -85,6 +85,18 @@
     <Filter Include="Header Files\Objects\Enemy\Ghosts">
       <UniqueIdentifier>{1c39b273-4379-49bd-886c-0c873eb7a30a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Game\LevelHandlers">
+      <UniqueIdentifier>{a28e10cd-35e6-460b-a4f1-08a4e2a28c14}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Game\LevelHandlers">
+      <UniqueIdentifier>{f637567f-d15c-4685-bfd8-401280eaeb7f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Game\LevelHandlers\Levels">
+      <UniqueIdentifier>{48a73139-f8aa-4ee6-ae4c-d539a34f66a4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Game\LevelHandlers\Levels">
+      <UniqueIdentifier>{a6e04cbb-12ed-41a2-811b-8986d5117958}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="winMain.cpp">
@@ -201,11 +213,35 @@
     <ClCompile Include="Enemy_Arrive.cpp">
       <Filter>Source Files\Objects\Enemy\Movements</Filter>
     </ClCompile>
-    <ClCompile Include="HUD.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="EventManager.cpp">
       <Filter>Source Files\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="HUD.cpp">
+      <Filter>Source Files\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Level_Base.cpp">
+      <Filter>Source Files\Game\LevelHandlers\Levels</Filter>
+    </ClCompile>
+    <ClCompile Include="Level_Two.cpp">
+      <Filter>Source Files\Game\LevelHandlers\Levels</Filter>
+    </ClCompile>
+    <ClCompile Include="Level_Four.cpp">
+      <Filter>Source Files\Game\LevelHandlers\Levels</Filter>
+    </ClCompile>
+    <ClCompile Include="Level_One.cpp">
+      <Filter>Source Files\Game\LevelHandlers\Levels</Filter>
+    </ClCompile>
+    <ClCompile Include="Level_Three.cpp">
+      <Filter>Source Files\Game\LevelHandlers\Levels</Filter>
+    </ClCompile>
+    <ClCompile Include="Level_Tutorial.cpp">
+      <Filter>Source Files\Game\LevelHandlers\Levels</Filter>
+    </ClCompile>
+    <ClCompile Include="Level_Manager.cpp">
+      <Filter>Source Files\Game\LevelHandlers</Filter>
+    </ClCompile>
+    <ClCompile Include="Level_Beyond5.cpp">
+      <Filter>Source Files\Game\LevelHandlers\Levels</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -323,11 +359,38 @@
     <ClInclude Include="Enemy_RedGhost.h">
       <Filter>Header Files\Objects\Enemy\Ghosts</Filter>
     </ClInclude>
-    <ClInclude Include="HUD.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="EventManager.h">
       <Filter>Header Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="HUD.h">
+      <Filter>Header Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Level_Two.h">
+      <Filter>Header Files\Game\LevelHandlers\Levels</Filter>
+    </ClInclude>
+    <ClInclude Include="Level_Base.h">
+      <Filter>Header Files\Game\LevelHandlers\Levels</Filter>
+    </ClInclude>
+    <ClInclude Include="Level_Four.h">
+      <Filter>Header Files\Game\LevelHandlers\Levels</Filter>
+    </ClInclude>
+    <ClInclude Include="Level_One.h">
+      <Filter>Header Files\Game\LevelHandlers\Levels</Filter>
+    </ClInclude>
+    <ClInclude Include="Level_Three.h">
+      <Filter>Header Files\Game\LevelHandlers\Levels</Filter>
+    </ClInclude>
+    <ClInclude Include="Level_Tutorial.h">
+      <Filter>Header Files\Game\LevelHandlers\Levels</Filter>
+    </ClInclude>
+    <ClInclude Include="Level_Manager.h">
+      <Filter>Header Files\Game\LevelHandlers</Filter>
+    </ClInclude>
+    <ClInclude Include="Level_Beyond5.h">
+      <Filter>Header Files\Game\LevelHandlers\Levels</Filter>
+    </ClInclude>
+    <ClInclude Include="Room.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
