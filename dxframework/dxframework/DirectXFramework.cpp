@@ -357,7 +357,7 @@ void CDirectXFramework::Init(HWND& hWnd, HINSTANCE& hInst, bool bWindowed)
 
 	// Load Test Mesh
 	loadMesh(L"FlippedY.X", &Player->objectMesh);
-	loadMesh(L"RoomWithWalls.X", &Mansion->objectMesh); 
+	loadMesh(L"kwexport.X", &Mansion->objectMesh); 
 
 	for(short i = 0; i < ARRAYSIZE(piano); ++i)
 	loadMesh(L"Piano.X", &piano[i]->objectMesh);
