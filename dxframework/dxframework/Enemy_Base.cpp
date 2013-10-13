@@ -26,7 +26,8 @@ Enemy_Base::Enemy_Base(void)
 // Destructor
 Enemy_Base::~Enemy_Base(void)
 {
-	//delete movement;
+	if ( movement == NULL )
+		delete movement;
 }
 
 // Initialize all the variables for the enemies

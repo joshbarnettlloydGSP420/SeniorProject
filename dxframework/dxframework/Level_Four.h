@@ -8,5 +8,7 @@ public:
 
 	void Init( IDirect3DDevice9* m_pD3DDevice, RenderObject* m_pRender);
 	void InitRooms();
+
+	void SetEnemyCount( float enemyCount);
 };
 

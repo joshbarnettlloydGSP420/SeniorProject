@@ -138,39 +138,41 @@ void EventManager::createRooms()
 //		rigidBody->getCollidable()->getShape()->getAabb(rigidBody->getTransform(), 0.0f, Kitchen.boundingArea);
 //	}
 //	bool candybar;
-//}
-//
-//bool EventManager::checkForPlayer(Object_Player* Player)
-//{
-//	hkAabb player;
-//
-//	Player->objectBody->getRigidBody()->getCollidable()->getShape()->getAabb(Player->objectBody->getRigidBody()->getTransform(), 0.0f, player);
-//
-//	if(Foyer.boundingArea.overlaps(player))
-//	{
-//		currentRoom = FOYER;
-//		return true;
-//	}
-//
-//	if(Ballroom.boundingArea.overlaps(player))
-//	{
-//		currentRoom = BALLROOM;
-//		return true;
-//	}
-//
-//
-//	if(Diningroom.boundingArea.overlaps(player))
-//	{
-//		currentRoom = DININGROOM;
-//		return true;
-//	}
-//
-//	if(Kitchen.boundingArea.overlaps(player))
-//	{
-//		currentRoom = KITCHEN;
-//		return true;
-//	}
-//
-//	currentRoom = BLAH;
-//	return false;
+}
+
+bool EventManager::checkForPlayer(Object_Player* Player)
+{
+	/*hkAabb player;
+
+	Player->objectBody->getRigidBody()->getCollidable()->getShape()->getAabb(Player->objectBody->getRigidBody()->getTransform(), 0.0f, player);
+
+	if(Foyer.boundingArea.overlaps(player))
+	{
+		currentRoom = FOYER;
+		return true;
+	}
+
+	if(Ballroom.boundingArea.overlaps(player))
+	{
+		currentRoom = BALLROOM;
+		return true;
+	}
+
+
+	if(Diningroom.boundingArea.overlaps(player))
+	{
+		currentRoom = DININGROOM;
+		return true;
+	}
+
+	if(Kitchen.boundingArea.overlaps(player))
+	{
+		currentRoom = KITCHEN;
+		return true;
+	}
+
+	currentRoom = BLAH;
+	return false;*/
+
+	return false;
 }

@@ -71,19 +71,19 @@ void Enemy_PurpleGhost::BulletCollision( float dt, Object_Player* player, gunTyp
 			// if the bullet has collision with the enemy then take appropriate action.
 			if(aabbBase.overlaps(aabbOut))
 			{
-				// if the bullet is the opposite color as the ghost then lose health
-				if ( bulletColor == yellow )
-					health -= 10;
-				// else if the bullet is the same color then gain health
-				else if ( bulletColor == purple )
-					health += 20;
-				// else if other colors then gain health
-				else
-					health += 10;
+				//// if the bullet is the opposite color as the ghost then lose health
+				//if ( bulletColor == yellow )
+				//	health -= 10;
+				//// else if the bullet is the same color then gain health
+				//else if ( bulletColor == purple )
+				//	health += 20;
+				//// else if other colors then gain health
+				//else
+				//	health += 10;
 
-				// if health is greater than 200 set it to a max of 200
-				if ( health > 200 )
-					health = 200;
+				//// if health is greater than 200 set it to a max of 200
+				//if ( health > 200 )
+				//	health = 200;
 			}
 
 		}

@@ -8,10 +8,9 @@ Level_Base::Level_Base(void)
 
 Level_Base::~Level_Base(void)
 {
-}
+	for ( int i = 0; i < enemies.size(); ++i)
+		delete enemies[i];
 
-void Level_Base::Init(IDirect3DDevice9* m_pD3DDevice, RenderObject* m_pRender)
-{
 }
 
 void Level_Base::Update( float dt, Object_Player* player, gunType bulletColor)
