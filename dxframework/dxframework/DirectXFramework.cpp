@@ -489,6 +489,7 @@ void CDirectXFramework::Update(float dt)
 
 		//minimap player position init
 		gameState->setPlayerPosition(Player->position);
+		//gameState->setEnemyPosition(redGhost->GetPosition());
 		
 		// Object Updates
 		Mansion->Update(dt);
