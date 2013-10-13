@@ -90,7 +90,7 @@ void InputManager::getInput()
 		mouseDevice->Acquire();
 	}
 
-	hr = keyboardDevice->GetDeviceState(sizeof(UCHAR[256]), (LPVOID)keyState);
+	keyboardDevice->GetDeviceState(sizeof(UCHAR[256]), (LPVOID)keyState);
 	if (FAILED (hr))
 	{
 		// try and reacquire the input device

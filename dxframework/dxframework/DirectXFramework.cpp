@@ -44,7 +44,7 @@ void CDirectXFramework::Init(HWND& hWnd, HINSTANCE& hInst, bool bWindowed)
 	ZeroMemory(&D3Dpp, sizeof(D3Dpp));						// NULL the structure's memory
 
 	D3Dpp.hDeviceWindow					= hWnd;																		// Handle to the focus window
-	D3Dpp.Windowed						=  bWindowed;																// Windowed or Full-screen boolean
+	D3Dpp.Windowed						= bWindowed;																// Windowed or Full-screen boolean
 	D3Dpp.AutoDepthStencilFormat		= D3DFMT_D24S8;																// Format of depth/stencil buffer, 24 bit depth, 8 bit stencil
 	D3Dpp.EnableAutoDepthStencil		= TRUE;																		// Enables Z-Buffer (Depth Buffer)
 	D3Dpp.BackBufferCount				= 1;																		// Change if need of > 1 is required at a later date
@@ -203,7 +203,7 @@ void CDirectXFramework::Init(HWND& hWnd, HINSTANCE& hInst, bool bWindowed)
 		D3DX_DEFAULT, D3DCOLOR_XRGB(255, 0, 255), 
 		&m_imageInfo, 0, &m_pTexture[0]);
 
-	D3DXCreateTextureFromFileEx(m_pD3DDevice, L"TitleLogo.png", 853, 480, 0, 0,
+	D3DXCreateTextureFromFileEx(m_pD3DDevice, L"test.tga", 0, 0, 0, 0,
 		D3DFMT_UNKNOWN, D3DPOOL_MANAGED, D3DX_DEFAULT, 
 		D3DX_DEFAULT, D3DCOLOR_XRGB(255, 0, 255), 
 		&m_imageInfo, 0, &m_pTexture[1]);
@@ -489,7 +489,6 @@ void CDirectXFramework::Update(float dt)
 
 		//minimap player position init
 		gameState->setPlayerPosition(Player->position);
-		gameState->setEnemyPosition(redGhost->GetPosition());
 		
 		// Object Updates
 		Mansion->Update(dt);
@@ -551,14 +550,6 @@ void CDirectXFramework::Render(float dt)
 	D3DXMatrixIdentity(&scaleMat);
 	D3DXMatrixIdentity(&worldMat);
 	D3DXMatrixIdentity(&transMat);
-	
-	if(gameState->activeGameState == MAIN_MENU)
-	{
-	// Draw the texture with the sprite object
-	m_pD3DSprite->Draw(m_pTexture[1], 0, &D3DXVECTOR3(m_imageInfo.Width * 0.5f, 
-		m_imageInfo.Height * 0.5f, 0.0f), &D3DXVECTOR3(415, 115,0),
-		D3DCOLOR_ARGB(255, 255, 255, 255));
-	}
 
 if(gameState->activeGameState == GAME)
 {
@@ -735,7 +726,10 @@ if(gameState->activeGameState == GAME)
 
 
 
-	
+	// Draw the texture with the sprite object
+	//m_pD3DSprite->Draw(m_pTexture[1], 0, &D3DXVECTOR3(m_imageInfo.Width * 0.5f, 
+	//	m_imageInfo.Height * 0.5f, 0.0f), 0,
+	//	D3DCOLOR_ARGB(255, 255, 255, 255));
 }
 
 gameState->Render(m_pD3DSprite);
@@ -799,8 +793,6 @@ void CDirectXFramework::Shutdown()
 
 	// 3DObject
 	SAFE_RELEASE(m_pD3DObject)
-
-	SAFE_RELEASE(gameTitle)
 	//*************************************************************************
 
 }
@@ -937,12 +929,8 @@ void CDirectXFramework::playerControls(float dt)
 	}												   |
 	delay -= dt;									   |*/	
 
-	if(Player->mPSys->GetBulletCounter() >= 12)
-		Player->setCanShoot(false);
 	if( m_pDInput->isButtonDown(0) && delay <= 0.0f)
 	{
-		if(Player->getCanShoot() == true)
-		{
 		delay = 0.3f;
 		AudioManager::GetInstance()->PlaySFX(*gunSFX);
 		Player->mPSys->addParticle(eyePos, eyePos, lookAt);
@@ -950,10 +938,8 @@ void CDirectXFramework::playerControls(float dt)
 		D3DXVec3Normalize(&Player->bull[Player->mPSys->GetBulletCounter() - 1].velocity, &(eyePos - lookAt));
 		//Player->createBulletHavokObject(havok->getWorld(), D3DXVECTOR3(20, -120, 0.0f), 0);
 		gameState->setHudBulletCounter(Player->mPSys->GetBulletCounter());
-		}
 	}
 	delay -= dt;
-	
 
 	// Bullet Controls
 
@@ -990,7 +976,6 @@ void CDirectXFramework::playerControls(float dt)
 	if( m_pDInput->keyPress(DIK_R))
 	{
 		Player->mPSys->setBulletCounter(0);
-		Player->setCanShoot(true);
 		gameState->setHudBulletCounter(Player->mPSys->GetBulletCounter());
 
 		for(int i = 0; i < ARRAYSIZE(Player->bull); i++)
