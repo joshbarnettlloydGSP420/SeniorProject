@@ -89,6 +89,7 @@ public:
 	virtual void Init(IDirect3DDevice9* m_pD3DDevice, RenderObject* m_pRender);
 	void Update( float dt, Object_Player* player);
 	void Render(HWND hwnd, D3DXMATRIX veiwMat, D3DXMATRIX projMat);
+	bool CollisionDetection(hkpRigidBody* playerBody);
 	virtual void BulletCollision( float dt, Object_Player* player, gunType bulletColor);
 	void RoomWallCollision( float dt, Room* currentRoom );
 
