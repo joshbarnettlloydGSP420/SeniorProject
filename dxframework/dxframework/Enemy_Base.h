@@ -89,7 +89,7 @@ public:
 	virtual void Init(IDirect3DDevice9* m_pD3DDevice, RenderObject* m_pRender);
 	void Update( float dt, Object_Player* player);
 	void Render(HWND hwnd, D3DXMATRIX veiwMat, D3DXMATRIX projMat);
-<<<<<<< HEAD
+
 	bool CollisionDetection(hkpRigidBody* playerBody);
 
 	// Accessors and mutators
@@ -99,10 +99,10 @@ public:
 	hkpRigidBody*	GetHavokbody() { return rigidBody; };
 	void			ChangeState( StateType NewState) { State = NewState; };
 	D3DXVECTOR4		GetPosition(){ return movement->GetPosition(); };
-=======
+
 	virtual void BulletCollision( float dt, Object_Player* player, gunType bulletColor);
 	void RoomWallCollision( float dt, Room* currentRoom );
->>>>>>> origin/m_Heather_Working
+
 
 	// Havok
 	void CreateBodyObject(hkpWorld* world);
@@ -111,13 +111,7 @@ public:
 	void HavokMovement();
 	void HavokBodyUpdate();
 
-	// Accessors and mutators
-	void			SetHealth( short newHealth ) {health = newHealth; };
-	short			GetHealth() { return health; };
-	bool			GetIsDead() { return isDead; };
-	hkpRigidBody*	GetHavokbody() { return rigidBody; };
-	void			ChangeState( StateType NewState) { State = NewState; };
-	void			SetPosition( D3DXVECTOR4 newPos) { movement->setPosition( newPos); };
+	
 
 };
 
