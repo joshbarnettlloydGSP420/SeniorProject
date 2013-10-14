@@ -258,6 +258,8 @@ public:
 
 	void createGroundBox(hkpWorld* world, float scaleX, float scaleY, float scaleZ, float posX, float posY, float posZ);
 
+	void createRamp(hkpWorld* world, float scaleX, float scaleY, float scaleZ, float posX, float posY, float posZ);
+
 	void UpdateCamera(float dt);
 
 	void playerControls(float dt);

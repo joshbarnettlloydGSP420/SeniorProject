@@ -237,11 +237,11 @@ void CDirectXFramework::Init(HWND& hWnd, HINSTANCE& hInst, bool bWindowed)
 // Object Inits																							 //
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 	Player = new Object_Player();
-	Player->position = D3DXVECTOR4(0.0f, 5.0f, -8.0f, 0.0f);
+	Player->position = D3DXVECTOR4(0.0f, 5.0f, -8.5f, 0.0f);
 	Player->shape = CAPSULE;
 
 	Mansion = new Object_Base();
-	Mansion->position = D3DXVECTOR4(65.0f, 0.0f, 5.0f, 0.0f);
+	Mansion->position = D3DXVECTOR4(61.75f, 0.0f, 8.5f, 0.0f);
 	Mansion->scale = D3DXVECTOR3(0.20f, 0.20f, 0.20f);
 	Mansion->shape = BOX;
 	Mansion->weight = UNMOVABLE;
@@ -251,10 +251,11 @@ void CDirectXFramework::Init(HWND& hWnd, HINSTANCE& hInst, bool bWindowed)
 		piano[i] = new Object_Base();
 		piano[i]->shape = BOX;
 		piano[i]->weight = UNMOVABLE;
-		piano[i]->scale = D3DXVECTOR3(3.0f, 3.0f, 3.0f);
+		piano[i]->scale = D3DXVECTOR3(4.0f, 4.0f, 4.0f);
 	}
 
-	piano[0]->position = D3DXVECTOR4(-54.0f, 1.8f, 45.0f, 0.0f);
+	piano[0]->position = D3DXVECTOR4(-56.0f, 3.0f, 47.0f, 0.0f);
+	piano[0]->rotation = D3DXVECTOR3(10.0f, 0.0f, 0.0f);
 	piano[1]->position = D3DXVECTOR4(-12.4f, 1.8f, 0.0f, 0.0f);
 
 	//for(short i = 0; i < ARRAYSIZE(sinkCounter); ++i)
@@ -415,19 +416,23 @@ void CDirectXFramework::Init(HWND& hWnd, HINSTANCE& hInst, bool bWindowed)
 
 	// Mansion
 	createGroundBox(havok->getWorld(), 85.0f, 2.0f, 50.0f, 0.0f, 0.0f, 10.0f);		// Floor
-	createGroundBox(havok->getWorld(), 100.0f, 20.0f, 2.0f, 0.0f, 0.0f, -35.0f);	// Front
-	createGroundBox(havok->getWorld(), 100.0f, 20.0f, 2.0f, 0.0f, 0.0f, 49.0f);		// Back
-	createGroundBox(havok->getWorld(), 2.0f, 20.0f, 50.0f, 65.0f, 0.0f, 10.0f);		// Right
-	createGroundBox(havok->getWorld(), 2.0f, 20.0f, 50.0f, -60.0f, 0.0f, 10.0f);	// Left
-	createGroundBox(havok->getWorld(), 22.5f, 20.0f, 1.0f, 2.0f, 0.0f, 4.5f);		// Middle
+	createGroundBox(havok->getWorld(), 100.0f, 20.0f, 2.0f, 0.0f, 0.0f, -40.0f);	// Front
+	createGroundBox(havok->getWorld(), 100.0f, 20.0f, 2.0f, 0.0f, 0.0f, 62.5f);		// Back
+	createGroundBox(havok->getWorld(), 2.0f, 20.0f, 50.0f, 71.5f, 0.0f, 10.0f);		// Right
+	createGroundBox(havok->getWorld(), 2.0f, 20.0f, 50.0f, -67.5f, 0.0f, 10.0f);	// Left
+	createGroundBox(havok->getWorld(), 22.5f, 5.0f, 1.5f, 2.0f, 15.0f, 14.0f);		// Middle Top
+	createGroundBox(havok->getWorld(), 8.0f, 5.0f, 1.5f, 13.0f, 5.0f, 14.0f);		// Middle Right
+	createGroundBox(havok->getWorld(), 8.0f, 5.0f, 1.5f, -10.0f, 5.0f, 14.0f);		// Middle Left
 	createGroundBox(havok->getWorld(), 2.0f, 5.0f, 50.0f, -20.0f, 15.0f, 10.0f);	// Left Inside Top
 	createGroundBox(havok->getWorld(), 2.0f, 5.0f, 50.0f, 22.5f, 15.0f, 10.0f);		// Right Inside Top
-	createGroundBox(havok->getWorld(), 2.0f, 10.0f, 22.0f, -20.0f, 5.0f, 2.5f);		// Middle Left Inside
-	createGroundBox(havok->getWorld(), 2.0f, 10.0f, 22.0f, 22.5f, 5.0f, 2.5f);		// Middle Right Inside
-	createGroundBox(havok->getWorld(), 2.0f, 10.0f, 7.5f, -20.0f, 5.0f, 41.0f);		// Top Left Inside 
-	createGroundBox(havok->getWorld(), 2.0f, 10.0f, 7.5f, 22.5f, 5.0f, 41.0f);		// Top Right Inside
+	createGroundBox(havok->getWorld(), 2.0f, 10.0f, 24.0f, -20.0f, 5.0f, 2.5f);		// Middle Left Inside
+	createGroundBox(havok->getWorld(), 2.0f, 10.0f, 24.0f, 22.5f, 5.0f, 2.5f);		// Middle Right Inside
+	createGroundBox(havok->getWorld(), 2.0f, 10.0f, 16.0f, -20.0f, 5.0f, 43.0f);	// Top Left Inside 
+	createGroundBox(havok->getWorld(), 2.0f, 10.0f, 16.0f, 22.5f, 5.0f, 43.0f);		// Top Right Inside
 	createGroundBox(havok->getWorld(), 2.0f, 10.0f, 7.5f, -20.0f, 5.0f, -37.5f);	// Bottom Left Inside 
 	createGroundBox(havok->getWorld(), 2.0f, 10.0f, 7.5f, 22.5f, 5.0f, -37.5f);		// Bottom Right Inside
+
+	createRamp(havok->getWorld(), 5.0f, 5.0f, 5.0f, 0.0f, 20.0f, 0.0f);
 
 	// House Objects
 	for(short i = 0; i < ARRAYSIZE(piano); ++i)
@@ -882,6 +887,47 @@ void CDirectXFramework::createGroundBox(hkpWorld* world, float scaleX, float sca
 	// Remove reference and add the rigidbody to the world
 	world->addEntity(rigidBody)->removeReference();
 
+}
+
+void CDirectXFramework::createRamp(hkpWorld* world, float scaleX, float scaleY, float scaleZ, float posX, float posY, float posZ)
+{
+
+
+			float vertices[] = {
+				-0.5f, -0.5f,  0.0f, 0.0f, // v0
+				0.5f, -0.5f,  0.0f, 0.0f, // v1
+				0.0f,  0.5f,  0.0f, 0.0f, // v2
+			};
+
+			hkReal convexRadius = 0.5f;
+			hkpTriangleShape* triangleShape = new hkpTriangleShape( convexRadius );
+
+			int index = 0;
+			for (int i = 0; i < 3; i++)
+			{
+				static_cast<hkpTriangleShape*>(triangleShape)->setVertex(i, hkVector4(vertices[index], vertices[index + 1], vertices[index + 2]));
+				index = index + 4;
+			}
+
+	//// Create a ground area
+	//hkVector4 halfExtents(scaleX, scaleY, scaleZ);
+	//hkpTriangleShape* triangleShape = new hkpTriangleShape(halfExtents, halfExtents, halfExtents, 0.05f);
+
+	// Set its properties
+	hkpRigidBodyCinfo ci;
+	ci.m_shape = triangleShape;
+	ci.m_position = hkVector4(posX, posY, posZ);
+	ci.m_motionType = hkpMotion::MOTION_FIXED;
+	ci.m_friction = 1.0f;
+
+	// Create the rigid body
+	hkpRigidBody* rigidBody = new hkpRigidBody(ci);
+
+	// No longer need the reference on the boxShape, as the rigidBody now owns it
+	triangleShape->removeReference();
+
+	// Remove reference and add the rigidbody to the world
+	world->addEntity(rigidBody)->removeReference();
 }
 
 void CDirectXFramework::UpdateCamera(float dt)
