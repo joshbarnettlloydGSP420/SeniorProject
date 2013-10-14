@@ -253,6 +253,8 @@ public:
 	void renderObject(Object_Base* object, D3DXVECTOR3 offset);
 
 	void collisions(float dt);
+
+	void createRamp(hkpWorld* world, float scaleX, float scaleY, float scaleZ, float posX, float posY, float posZ);
 };
 
 extern CDirectXFramework gd3dApp;

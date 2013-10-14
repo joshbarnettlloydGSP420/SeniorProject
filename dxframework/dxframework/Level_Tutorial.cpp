@@ -10,10 +10,15 @@ Level_Tutorial::~Level_Tutorial(void)
 {
 }
 
+// Foyer level
 void Level_Tutorial::Init( IDirect3DDevice9* m_pD3DDevice, RenderObject* m_pRender, hkpWorld* world )
 {
 	// initialize the leveled cleared to false
 	levelCleared = false;
+
+	Foyer->roomPos = D3DXVECTOR3(1.0f, 0.0f, -14.0f);
+	Foyer->roomSize = D3DXVECTOR3(21.5f, 20.0f, 26.0f);
+
 
 	InitRooms();
 }

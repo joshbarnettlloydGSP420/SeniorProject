@@ -17,8 +17,9 @@ void Level_Two::Init( IDirect3DDevice9* m_pD3DDevice, RenderObject* m_pRender, h
 	levelCleared = false;
 
 	// kitchen positions
-	Kitchen->roomPos = D3DXVECTOR3(1.0f, 0.0f, 27.0f);
-	Kitchen->roomSize = D3DXVECTOR3(21.5f, 20.0f, 22.0f);
+	Kitchen->roomPos = D3DXVECTOR3(1.0f, 0.0f, 35.0f);
+	Kitchen->roomSize = D3DXVECTOR3(21.5f, 20.0f, 26.0f);
+
 	
 	// set the constraints for the enemy spawn points
 	// low values

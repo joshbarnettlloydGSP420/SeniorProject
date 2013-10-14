@@ -17,8 +17,9 @@ void Level_Three::Init( IDirect3DDevice9* m_pD3DDevice, RenderObject* m_pRender,
 	levelCleared = false;
 
 	// ball room positions
-	Ballroom->roomPos = D3DXVECTOR3(-42.0f, 0.0f, 7.5f);
-	Ballroom->roomSize = D3DXVECTOR3(21.5, 20.0f, 42.0f);
+	Ballroom->roomPos = D3DXVECTOR3(-44.0f, 0.0f, 10.0f);
+	Ballroom->roomSize = D3DXVECTOR3(23.5, 20.0f, 50.0f);
+
 
 	// set the constraints for the enemy spawn points
 	// low values

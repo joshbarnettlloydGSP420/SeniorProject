@@ -17,8 +17,9 @@ void Level_Four::Init( IDirect3DDevice9* m_pD3DDevice, RenderObject* m_pRender, 
 	levelCleared = false;
 
 	// foyer posiitons
-	Foyer->roomPos = D3DXVECTOR3(1.0f, 0.0f, -18.0f);
-	Foyer->roomSize = D3DXVECTOR3(21.5f, 20.0f, 22.0f);
+	Foyer->roomPos = D3DXVECTOR3(1.0f, 0.0f, -14.0f);
+	Foyer->roomSize = D3DXVECTOR3(21.5f, 20.0f, 26.0f);
+
 
 	// set the constraints for the enemy spawn points
 	// low values

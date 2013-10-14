@@ -241,7 +241,7 @@ void CDirectXFramework::Init(HWND& hWnd, HINSTANCE& hInst, bool bWindowed)
 
 	piano[0]->position = D3DXVECTOR4(-56.0f, 3.0f, 47.0f, 0.0f);
 	piano[0]->rotation = D3DXVECTOR3(10.0f, 0.0f, 0.0f);
-	piano[1]->position = D3DXVECTOR4(-12.4f, 1.8f, 0.0f, 0.0f);
+	piano[1]->position = D3DXVECTOR4(-12.4f, -10.8f, 0.0f, 0.0f);
 
 	//for(short i = 0; i < ARRAYSIZE(sinkCounter); ++i)
 	//{
@@ -416,6 +416,11 @@ void CDirectXFramework::Init(HWND& hWnd, HINSTANCE& hInst, bool bWindowed)
 	createGroundBox(havok->getWorld(), 2.0f, 10.0f, 16.0f, 22.5f, 5.0f, 43.0f);		// Top Right Inside
 	createGroundBox(havok->getWorld(), 2.0f, 10.0f, 7.5f, -20.0f, 5.0f, -37.5f);	// Bottom Left Inside 
 	createGroundBox(havok->getWorld(), 2.0f, 10.0f, 7.5f, 22.5f, 5.0f, -37.5f);		// Bottom Right Inside
+	createGroundBox(havok->getWorld(), 20.0f, 1.0f, 5.0f, 0.0f, 10.0f, 10.0f);		// Foyer Second Floor
+
+	createRamp(havok->getWorld(), 5.0f, 5.0f, 5.0f, -14.0f, 0.5f, -2.0f);			// Left Stairs
+	createRamp(havok->getWorld(), 5.0f, 5.0f, 5.0f, 14.0f, 0.5f, -2.0f);			// Right Stairs
+
 
 	// House Objects
 	for(short i = 0; i < ARRAYSIZE(piano); ++i)
@@ -526,8 +531,7 @@ void CDirectXFramework::Update(float dt)
 		UpdateCamera(dt);
 		playerControls(dt);
 	}
-	else
-		gameState->Update(dt);
+	gameState->Update(dt);
 }
 
 void CDirectXFramework::Render(float dt)
@@ -1019,6 +1023,59 @@ void CDirectXFramework::playerControls(float dt)
 	else if(Player->rotation.x <= 0.0f)
 		Player->rotation.x = 360.0f;
 }
+
+ void CDirectXFramework::createRamp(hkpWorld* world, float scaleX, float scaleY, float scaleZ, float posX, float posY, float posZ)
+ {
+ 
+	// Create a ground area
+	hkVector4 Vertex1(-scaleX, scaleY, 0.0f);
+	hkVector4 Vertex2(-scaleX, 0.0f, 0.0f);
+	hkVector4 Vertex3(scaleX, 0.0f, 0.0f);
+	hkpTriangleShape* triangleShape1 = new hkpTriangleShape(Vertex1, Vertex2, Vertex3, 5.0f);
+
+	// Create a ground area
+	Vertex1 = hkVector4(-scaleX, scaleY, scaleZ);
+	Vertex2 = hkVector4(-scaleX, 0.0f, scaleZ);
+	Vertex3 = hkVector4(scaleX, 0.0f, scaleZ);
+	hkpTriangleShape* triangleShape2 = new hkpTriangleShape(Vertex1, Vertex2, Vertex3, 5.0f);
+
+	// Set its properties
+	hkpRigidBodyCinfo ci;
+	// Rotation
+	hkRotation rotation;
+	rotation.setAxisAngle(hkVector4(0.0, -1.0, 0.0), -90 * ( D3DX_PI / 180 ));
+
+	hkTransform transform;
+	transform.setIdentity();
+	transform.setRotation(rotation);
+	ci.setTransform(transform);
+
+	ci.m_shape = triangleShape1;
+	ci.m_position = hkVector4(posX, posY, posZ);
+	ci.m_motionType = hkpMotion::MOTION_FIXED;
+	ci.m_friction = 1.0f;
+
+	// Create the rigid body
+	hkpRigidBody* rigidBody1 = new hkpRigidBody(ci);
+
+	ci.m_shape = triangleShape2;
+ 	ci.m_position = hkVector4(posX, posY, posZ);
+ 	ci.m_motionType = hkpMotion::MOTION_FIXED;
+ 	ci.m_friction = 1.0f;
+ 
+ 	// Create the rigid body
+	hkpRigidBody* rigidBody2 = new hkpRigidBody(ci);
+
+	// No longer need the reference on the boxShape, as the rigidBody now owns it
+	triangleShape1->removeReference();
+	triangleShape2->removeReference();
+
+ 	// Remove reference and add the rigidbody to the world
+	world->addEntity(rigidBody1)->removeReference();
+	world->addEntity(rigidBody2)->removeReference();
+
+ }
+
 
 void CDirectXFramework::renderObject(Object_Base* object, D3DXVECTOR3 offset)
 {
