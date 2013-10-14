@@ -27,8 +27,7 @@ void Level_One::Init( IDirect3DDevice9* m_pD3DDevice, RenderObject* m_pRender, h
 	x2 = 65;
 	z2 = 49;
 
-	//enemies.clear();
-	enemies.resize( 5 );
+	enemies.resize( 4 );
 	// create 4 GREEN ghosts to appear 
 	for ( int i = 0; i < 4; ++i)
 	{

@@ -226,8 +226,8 @@ void CDirectXFramework::Init(HWND& hWnd, HINSTANCE& hInst, bool bWindowed)
 	Player->shape = CAPSULE;
 
 	Mansion = new Object_Base();
-	Mansion->position = D3DXVECTOR4(0.0f, 0.0f, 10.0f, 0.0f);
-	Mansion->scale = D3DXVECTOR3( 0.75f, 0.75f, 0.75f);
+	Mansion->position = D3DXVECTOR4(61.75f, 0.0f, 8.5f, 0.0f);
+	Mansion->scale = D3DXVECTOR3(0.20f, 0.20f, 0.20f);
 	Mansion->shape = BOX;
 	Mansion->weight = UNMOVABLE;
 
@@ -236,10 +236,11 @@ void CDirectXFramework::Init(HWND& hWnd, HINSTANCE& hInst, bool bWindowed)
 		piano[i] = new Object_Base();
 		piano[i]->shape = BOX;
 		piano[i]->weight = UNMOVABLE;
-		piano[i]->scale = D3DXVECTOR3(3.0f, 3.0f, 3.0f);
+		piano[i]->scale = D3DXVECTOR3(4.0f, 4.0f, 4.0f);
 	}
 
-	piano[0]->position = D3DXVECTOR4(-54.0f, 1.8f, 45.0f, 0.0f);
+	piano[0]->position = D3DXVECTOR4(-56.0f, 3.0f, 47.0f, 0.0f);
+	piano[0]->rotation = D3DXVECTOR3(10.0f, 0.0f, 0.0f);
 	piano[1]->position = D3DXVECTOR4(-12.4f, 1.8f, 0.0f, 0.0f);
 
 	//for(short i = 0; i < ARRAYSIZE(sinkCounter); ++i)
@@ -400,17 +401,19 @@ void CDirectXFramework::Init(HWND& hWnd, HINSTANCE& hInst, bool bWindowed)
 
 	// Mansion
 	createGroundBox(havok->getWorld(), 85.0f, 2.0f, 50.0f, 0.0f, 0.0f, 10.0f);		// Floor
-	createGroundBox(havok->getWorld(), 100.0f, 20.0f, 2.0f, 0.0f, 0.0f, -35.0f);	// Front
-	createGroundBox(havok->getWorld(), 100.0f, 20.0f, 2.0f, 0.0f, 0.0f, 49.0f);		// Back
-	createGroundBox(havok->getWorld(), 2.0f, 20.0f, 50.0f, 65.0f, 0.0f, 10.0f);		// Right
-	createGroundBox(havok->getWorld(), 2.0f, 20.0f, 50.0f, -60.0f, 0.0f, 10.0f);	// Left
-	createGroundBox(havok->getWorld(), 22.5f, 20.0f, 1.0f, 2.0f, 0.0f, 4.5f);		// Middle
+	createGroundBox(havok->getWorld(), 100.0f, 20.0f, 2.0f, 0.0f, 0.0f, -40.0f);	// Front
+	createGroundBox(havok->getWorld(), 100.0f, 20.0f, 2.0f, 0.0f, 0.0f, 62.5f);		// Back
+	createGroundBox(havok->getWorld(), 2.0f, 20.0f, 50.0f, 71.5f, 0.0f, 10.0f);		// Right
+	createGroundBox(havok->getWorld(), 2.0f, 20.0f, 50.0f, -67.5f, 0.0f, 10.0f);	// Left
+	createGroundBox(havok->getWorld(), 22.5f, 5.0f, 1.5f, 2.0f, 15.0f, 14.0f);		// Middle Top
+	createGroundBox(havok->getWorld(), 8.0f, 5.0f, 1.5f, 13.0f, 5.0f, 14.0f);		// Middle Right
+	createGroundBox(havok->getWorld(), 8.0f, 5.0f, 1.5f, -10.0f, 5.0f, 14.0f);		// Middle Left
 	createGroundBox(havok->getWorld(), 2.0f, 5.0f, 50.0f, -20.0f, 15.0f, 10.0f);	// Left Inside Top
 	createGroundBox(havok->getWorld(), 2.0f, 5.0f, 50.0f, 22.5f, 15.0f, 10.0f);		// Right Inside Top
-	createGroundBox(havok->getWorld(), 2.0f, 10.0f, 22.0f, -20.0f, 5.0f, 2.5f);		// Middle Left Inside
-	createGroundBox(havok->getWorld(), 2.0f, 10.0f, 22.0f, 22.5f, 5.0f, 2.5f);		// Middle Right Inside
-	createGroundBox(havok->getWorld(), 2.0f, 10.0f, 7.5f, -20.0f, 5.0f, 41.0f);		// Top Left Inside 
-	createGroundBox(havok->getWorld(), 2.0f, 10.0f, 7.5f, 22.5f, 5.0f, 41.0f);		// Top Right Inside
+	createGroundBox(havok->getWorld(), 2.0f, 10.0f, 24.0f, -20.0f, 5.0f, 2.5f);		// Middle Left Inside
+	createGroundBox(havok->getWorld(), 2.0f, 10.0f, 24.0f, 22.5f, 5.0f, 2.5f);		// Middle Right Inside
+	createGroundBox(havok->getWorld(), 2.0f, 10.0f, 16.0f, -20.0f, 5.0f, 43.0f);	// Top Left Inside 
+	createGroundBox(havok->getWorld(), 2.0f, 10.0f, 16.0f, 22.5f, 5.0f, 43.0f);		// Top Right Inside
 	createGroundBox(havok->getWorld(), 2.0f, 10.0f, 7.5f, -20.0f, 5.0f, -37.5f);	// Bottom Left Inside 
 	createGroundBox(havok->getWorld(), 2.0f, 10.0f, 7.5f, 22.5f, 5.0f, -37.5f);		// Bottom Right Inside
 
@@ -615,46 +618,7 @@ if(gameState->activeGameState == GAME)
 	fx[0]->End();
 
 
-	fx[0]->SetTechnique(hTech[0]);
-
-	numPasses = 0;
-	fx[0]->Begin(&numPasses, 0);
-
-	for(UINT i = 0; i < numPasses; ++i)
-	{
-		fx[0]->BeginPass(i);
-
-		// Mesh Matrix
-		D3DXMatrixScaling(&scaleMat, Mansion->scale.x, Mansion->scale.y, Mansion->scale.z);
-        D3DXMatrixRotationYawPitchRoll(&rotMat, 0.0f, 0.0f, 0.0f);
-		D3DXMatrixTranslation(&transMat, Mansion->position.x, Mansion->position.y - 5.0f, Mansion->position.z - 8.25f);
-		D3DXMatrixMultiply(&scaleMat, &scaleMat, &rotMat);
-		D3DXMatrixMultiply(&worldMat, &scaleMat, &transMat);
-
-		D3DXMatrixInverse(&invTransMat, 0, &worldMat);
-		D3DXMatrixTranspose(&invTransMat, &invTransMat);
-
-		D3DXMATRIX wvp = worldMat * viewMat * projMat;
-		D3DXMATRIX wvpit;
-		D3DXMatrixInverse(&wvpit, 0, &wvp);
-		D3DXMatrixTranspose(&wvpit, &wvpit);
-
-		fx[0]->SetMatrix("WVP", &wvp);
-		fx[0]->SetMatrix("WVPIT", &wvpit);
-		fx[0]->SetMatrix("World", &worldMat);
-		fx[0]->SetMatrix("View", &viewMat);
-		fx[0]->SetMatrix("Projection", &projMat);
-		fx[0]->SetMatrix("WorldInverseTranspose", &invTransMat);
-
-		
-			fx[0]->SetTexture("gTexture", m_pTexture[0]);
-			fx[0]->CommitChanges();
-			Mansion->objectMesh->p_Mesh->DrawSubset(0);
-
-
-		fx[0]->EndPass();
-	}
-	fx[0]->End();
+	renderObject(Mansion, D3DXVECTOR3( 7.5f, -5.0, -67.5));
 
 	// render the levels and the enemies
 	levelManager.Render( m_hWnd, viewMat, projMat);

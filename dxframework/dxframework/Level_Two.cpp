@@ -34,6 +34,7 @@ void Level_Two::Init( IDirect3DDevice9* m_pD3DDevice, RenderObject* m_pRender, h
 	{
 		enemies[i] = new Enemy_GreenGhost();
 		enemies[i]->Init( m_pD3DDevice, m_pRender);
+		enemies[i]->CreateHavokObject( world );
 
 
 		float x = RandomBinomial( x1, x2);
