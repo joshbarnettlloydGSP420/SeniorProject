@@ -142,7 +142,6 @@ void EventManager::createRooms()
 
 		rigidBody->getCollidable()->getShape()->getAabb(rigidBody->getTransform(), 0.0f, Kitchen.boundingArea);
 	}
-	bool candybar;
 }
 
 bool EventManager::checkForPlayer(Object_Player* Player)

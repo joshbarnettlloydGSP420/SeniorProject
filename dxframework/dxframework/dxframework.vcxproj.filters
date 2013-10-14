@@ -85,6 +85,12 @@
     <Filter Include="Header Files\Objects\Enemy\Ghosts">
       <UniqueIdentifier>{1c39b273-4379-49bd-886c-0c873eb7a30a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resource Files\Texture\Dwarf">
+      <UniqueIdentifier>{f0a15093-b911-48db-b540-83dfa08d9fae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Texture\House">
+      <UniqueIdentifier>{c1fcefec-9452-4652-841c-d4202450b150}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="winMain.cpp">
@@ -201,10 +207,10 @@
     <ClCompile Include="Enemy_Arrive.cpp">
       <Filter>Source Files\Objects\Enemy\Movements</Filter>
     </ClCompile>
-    <ClCompile Include="HUD.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="EventManager.cpp">
+      <Filter>Source Files\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="HUD.cpp">
       <Filter>Source Files\Game</Filter>
     </ClCompile>
   </ItemGroup>
@@ -323,10 +329,10 @@
     <ClInclude Include="Enemy_RedGhost.h">
       <Filter>Header Files\Objects\Enemy\Ghosts</Filter>
     </ClInclude>
-    <ClInclude Include="HUD.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="EventManager.h">
+      <Filter>Header Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="HUD.h">
       <Filter>Header Files\Game</Filter>
     </ClInclude>
   </ItemGroup>
@@ -346,27 +352,6 @@
     <None Include="Metal_Texture.jpg">
       <Filter>Resource Files\Texture</Filter>
     </None>
-    <None Include="Armor.dds">
-      <Filter>Resource Files\Texture</Filter>
-    </None>
-    <None Include="Body.dds">
-      <Filter>Resource Files\Texture</Filter>
-    </None>
-    <None Include="DwarfHead.dds">
-      <Filter>Resource Files\Texture</Filter>
-    </None>
-    <None Include="Headgear.dds">
-      <Filter>Resource Files\Texture</Filter>
-    </None>
-    <None Include="Helmet.dds">
-      <Filter>Resource Files\Texture</Filter>
-    </None>
-    <None Include="Pack.dds">
-      <Filter>Resource Files\Texture</Filter>
-    </None>
-    <None Include="Weapons.dds">
-      <Filter>Resource Files\Texture</Filter>
-    </None>
     <None Include="Dwarf.x">
       <Filter>Resource Files\Models</Filter>
     </None>
@@ -377,9 +362,6 @@
       <Filter>Resource Files\Shaders</Filter>
     </None>
     <None Include="..\..\..\Gun\Gun\bolt2.xcf">
-      <Filter>Resource Files\Texture</Filter>
-    </None>
-    <None Include="..\..\..\Gun\Gun\blend_hm1.dds">
       <Filter>Resource Files\Texture</Filter>
     </None>
     <None Include="..\..\..\Gun\Gun\bolt.dds">
@@ -438,6 +420,72 @@
     </None>
     <None Include="Piano.X">
       <Filter>Resource Files\Models\Base_Objects</Filter>
+    </None>
+    <None Include="houseTextured.X">
+      <Filter>Resource Files\Models</Filter>
+    </None>
+    <None Include="completedHouseFile.X">
+      <Filter>Resource Files\Models</Filter>
+    </None>
+    <None Include="Armor.dds">
+      <Filter>Resource Files\Texture\Dwarf</Filter>
+    </None>
+    <None Include="Weapons.dds">
+      <Filter>Resource Files\Texture\Dwarf</Filter>
+    </None>
+    <None Include="..\..\..\Gun\Gun\blend_hm1.dds">
+      <Filter>Resource Files\Texture\Dwarf</Filter>
+    </None>
+    <None Include="Body.dds">
+      <Filter>Resource Files\Texture\Dwarf</Filter>
+    </None>
+    <None Include="DwarfHead.dds">
+      <Filter>Resource Files\Texture\Dwarf</Filter>
+    </None>
+    <None Include="Headgear.dds">
+      <Filter>Resource Files\Texture\Dwarf</Filter>
+    </None>
+    <None Include="Helmet.dds">
+      <Filter>Resource Files\Texture\Dwarf</Filter>
+    </None>
+    <None Include="Pack.dds">
+      <Filter>Resource Files\Texture\Dwarf</Filter>
+    </None>
+    <None Include="Ballroom_Wall_D.png">
+      <Filter>Resource Files\Texture\House</Filter>
+    </None>
+    <None Include="BallroomFloor_D.png">
+      <Filter>Resource Files\Texture\House</Filter>
+    </None>
+    <None Include="Ceiling_White_D.png">
+      <Filter>Resource Files\Texture\House</Filter>
+    </None>
+    <None Include="DiningRoomFloor_D.png">
+      <Filter>Resource Files\Texture\House</Filter>
+    </None>
+    <None Include="DiningRoomWall_D.png">
+      <Filter>Resource Files\Texture\House</Filter>
+    </None>
+    <None Include="DoorwaysANDRailings_D.png">
+      <Filter>Resource Files\Texture\House</Filter>
+    </None>
+    <None Include="FirstFloor_D.png">
+      <Filter>Resource Files\Texture\House</Filter>
+    </None>
+    <None Include="FoyerFloor_D.png">
+      <Filter>Resource Files\Texture\House</Filter>
+    </None>
+    <None Include="FoyerWalls_D.png">
+      <Filter>Resource Files\Texture\House</Filter>
+    </None>
+    <None Include="Kitchen_D.png">
+      <Filter>Resource Files\Texture\House</Filter>
+    </None>
+    <None Include="KitchenTile_D.png">
+      <Filter>Resource Files\Texture\House</Filter>
+    </None>
+    <None Include="UpStairs_D.png">
+      <Filter>Resource Files\Texture\House</Filter>
     </None>
   </ItemGroup>
 </Project>

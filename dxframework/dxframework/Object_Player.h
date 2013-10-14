@@ -60,7 +60,6 @@ struct HavokBullet
 	float						jumpTimer;
 	bool						beenHit;
 	float						hitTimer;
-	bool						canShoot;
 	
 
 	// Physics
@@ -117,7 +116,4 @@ struct HavokBullet
 	void getBulletPos(hkpWorld* world, float deltaTime);
 
 	void hitInvulTimer(float deltaTime);
-
-	void setCanShoot(bool canShoot);
-	bool getCanShoot(){return canShoot;}
 };

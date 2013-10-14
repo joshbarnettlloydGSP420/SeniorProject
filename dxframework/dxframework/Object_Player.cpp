@@ -31,7 +31,7 @@ Object_Player::Object_Player()
 	changeGunType(type);
 
 	mPSys->setWorldMtx(psysWorld);         
-	canShoot = true;
+
 }
 
 
@@ -379,9 +379,4 @@ void Object_Player::hitInvulTimer(float deltaTime)
 	{
 		beenHit = false;
 	}
-}
-
-void Object_Player::setCanShoot(bool canShoot)
-{
-	this->canShoot = canShoot;
 }

@@ -197,7 +197,6 @@ class CDirectXFramework
 	IDirect3DTexture9*				m_pTexture[10];		// Texture Object for a sprite
 	D3DXIMAGE_INFO					m_imageInfo;		// File details of a texture
 
-	IDirect3DTexture9*				gameTitle;
 	//////////////////////////////////////////////////////////////////////////
 	// Havok																//
 	//////////////////////////////////////////////////////////////////////////

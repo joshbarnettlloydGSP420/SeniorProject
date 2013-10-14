@@ -6,6 +6,7 @@ Object_Base::Object_Base(void)
 	objectMesh = new Mesh();
 	position = D3DXVECTOR4(0.0f, 0.0f, 0.0f, 0.0f);
 	scale = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
+	rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 
 	mass = 5.0f;
 
