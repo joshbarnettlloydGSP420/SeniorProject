@@ -92,7 +92,9 @@ void Enemy_Base::UpdateState(StateType CurrentState, float dt)
 			arrive.GetSteering( movement, player->position);
 			// if in attack range of player then attack
 			if ((sqrt(( player->position.x * player->position.x) + ( player->position.z * player->position.z))) < attackRange )
-				ChangeState( Attack );
+			{
+				//ChangeState( Attack );
+			}
 
 			// if player is out of range then wander
 			else if ((sqrt(( player->position.x * player->position.x) + ( player->position.z * player->position.z))) >= wanderRange )
