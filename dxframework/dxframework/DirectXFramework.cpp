@@ -241,7 +241,7 @@ void CDirectXFramework::Init(HWND& hWnd, HINSTANCE& hInst, bool bWindowed)
 	Player->shape = CAPSULE;
 
 	Mansion = new Object_Base();
-	Mansion->position = D3DXVECTOR4(0.0f, 0.0f, 0.0f, 0.0f);
+	Mansion->position = D3DXVECTOR4(65.0f, 0.0f, 5.0f, 0.0f);
 	Mansion->scale = D3DXVECTOR3(0.20f, 0.20f, 0.20f);
 	Mansion->shape = BOX;
 	Mansion->weight = UNMOVABLE;
@@ -357,7 +357,7 @@ void CDirectXFramework::Init(HWND& hWnd, HINSTANCE& hInst, bool bWindowed)
 
 	// Load Test Mesh
 	loadMesh(L"FlippedY.X", &Player->objectMesh);
-	loadMesh(L"houseTextured.X", &Mansion->objectMesh); 
+	loadMesh(L"completedHouseFile.X", &Mansion->objectMesh); 
 
 	for(short i = 0; i < ARRAYSIZE(piano); ++i)
 	loadMesh(L"Piano.X", &piano[i]->objectMesh);
