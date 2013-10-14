@@ -19,20 +19,17 @@ void EventManager::spawnEnemies()
 void EventManager::Init()
 {
 	// Set Rooms Positions, Scale, then create them
-	Foyer.roomPos = D3DXVECTOR3(1.0f, 0.0f, -18.0f);
-	Foyer.roomSize = D3DXVECTOR3(21.5f, 20.0f, 22.0f);
+	Foyer.roomPos = D3DXVECTOR3(1.0f, 0.0f, -14.0f);
+	Foyer.roomSize = D3DXVECTOR3(21.5f, 20.0f, 26.0f);
 	
+	Ballroom.roomPos = D3DXVECTOR3(-44.0f, 0.0f, 10.0f);
+	Ballroom.roomSize = D3DXVECTOR3(23.5, 20.0f, 50.0f);
 	
-	Ballroom.roomPos = D3DXVECTOR3(-42.0f, 0.0f, 7.5f);
-	Ballroom.roomSize = D3DXVECTOR3(21.5, 20.0f, 42.0f);
+	Diningroom.roomPos = D3DXVECTOR3(46.0f, 0.0f, 10.0f);
+	Diningroom.roomSize = D3DXVECTOR3(23.5, 20.0f, 50.0f);
 	
-	
-	Diningroom.roomPos = D3DXVECTOR3(44.0f, 0.0f, 7.5f);
-	Diningroom.roomSize = D3DXVECTOR3(21.5, 20.0f, 42.0f);
-	
-	
-	Kitchen.roomPos = D3DXVECTOR3(1.0f, 0.0f, 27.0f);
-	Kitchen.roomSize = D3DXVECTOR3(21.5f, 20.0f, 22.0f);
+	Kitchen.roomPos = D3DXVECTOR3(1.0f, 0.0f, 35.0f);
+	Kitchen.roomSize = D3DXVECTOR3(21.5f, 20.0f, 26.0f);
 
 	createRooms();
 }
