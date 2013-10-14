@@ -1,6 +1,5 @@
 #include "FourTorchPuzzle.h"
 
-
 FourTorchPuzzle::FourTorchPuzzle()
 {
 
@@ -16,8 +15,7 @@ void FourTorchPuzzle::Initialize(void)
 {
 	TorchNumber = 4;
 
-
-
+	
 	// Code for rendering torches
 
 

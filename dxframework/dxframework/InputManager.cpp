@@ -55,7 +55,7 @@ bool InputManager::init(HINSTANCE hInst, HWND wndHandle)
 	if FAILED(mouseDevice->SetDataFormat(&c_dfDIMouse2))
 		return FALSE; 
 
-    if FAILED(mouseDevice->SetCooperativeLevel(wndHandle, DISCL_FOREGROUND | DISCL_EXCLUSIVE))
+    if FAILED(mouseDevice->SetCooperativeLevel(wndHandle, DISCL_FOREGROUND | DISCL_NONEXCLUSIVE))
         return FALSE; 
 		
     if FAILED(mouseDevice->Acquire())
@@ -90,7 +90,7 @@ void InputManager::getInput()
 		mouseDevice->Acquire();
 	}
 
-	keyboardDevice->GetDeviceState(sizeof(UCHAR[256]), (LPVOID)keyState);
+	hr = keyboardDevice->GetDeviceState(sizeof(UCHAR[256]), (LPVOID)keyState);
 	if (FAILED (hr))
 	{
 		// try and reacquire the input device

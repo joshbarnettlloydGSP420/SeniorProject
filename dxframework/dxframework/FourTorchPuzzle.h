@@ -1,7 +1,7 @@
 #pragma once
 
-#include "PuzzleManager.h"
-
+#include "Object_Base.h"
+#include "EntityManager.h"
 
 class FourTorchPuzzle
 {
@@ -12,6 +12,8 @@ private:
 	bool TorchLit;
 	
 public:
+	Object_Base* Torches[4];
+
 	FourTorchPuzzle();
 	~FourTorchPuzzle();
 
@@ -20,7 +22,5 @@ public:
 	void Update(void);
 
 	void Render(void);
-
-
 };
 

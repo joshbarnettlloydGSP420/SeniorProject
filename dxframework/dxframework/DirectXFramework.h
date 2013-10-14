@@ -27,6 +27,8 @@
 #include "EntityManager.h"
 #include "AudioManager.h"
 #include "SoundLoader.h"
+#include "FourTorchPuzzle.h"
+
 
 // Macro to release COM objects fast and safely
 #define SAFE_RELEASE(x) if(x){x->Release(); x = 0;}
@@ -197,7 +199,6 @@ class CDirectXFramework
 	IDirect3DTexture9*				m_pTexture[10];		// Texture Object for a sprite
 	D3DXIMAGE_INFO					m_imageInfo;		// File details of a texture
 
-	IDirect3DTexture9*				gameTitle;
 	//////////////////////////////////////////////////////////////////////////
 	// Havok																//
 	//////////////////////////////////////////////////////////////////////////
@@ -224,8 +225,10 @@ class CDirectXFramework
 	Object_Base*					candleStick[4];
 	Object_Base*					chair[8];
 
-
-
+	// Puzzle objects
+	FourTorchPuzzle* Puzzle_FT;
+	
+	
 	//////////////////////////////////////////////////////////////////////////
 	// Enemies																//
 	//////////////////////////////////////////////////////////////////////////
