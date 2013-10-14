@@ -94,11 +94,9 @@ void InputManager::getInput()
 	if (FAILED (hr))
 	{
 		// try and reacquire the input device
-		keyboardDevice->Acquire();
+		//keyboardDevice->Acquire();
 	}
 }
-
-
 
 int InputManager::getMouseMovingX() 
 {

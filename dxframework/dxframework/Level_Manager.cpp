@@ -18,11 +18,14 @@ void Level_Manager::Init(IDirect3DDevice9* m_pD3DDevice, RenderObject* m_pRender
 	havokWorld = world;
 
 	// initialize the first level
-	tutorial = new Level_Tutorial();
-	tutorial->Init( device, render);
+	//tutorial = new Level_Tutorial();
+	//tutorial->Init( device, render);
+
+	levelOne = new Level_One();
+	levelOne->Init( device, render, world);
 
 	// set the level variables
-	level = Tutorial;
+	level = One;
 	levelCount = 5;
 	enemyCount = 10;
 }
@@ -33,19 +36,19 @@ void Level_Manager::Update( float dt, Object_Player* player, gunType bulletColor
 	{
 	case Tutorial:
 		{
-			// update the tutorial
-			tutorial->Update( dt, player, bulletColor );
+			//// update the tutorial
+			//tutorial->Update( dt, player, bulletColor );
 
-			// if the tutorial is done then switch to level one
-			if ( tutorial->LeveledClear() == true )
-			 {
-					levelOne = new Level_One();
-					levelOne->Init( device, render);
-					if( tutorial != NULL )
-						delete tutorial;
-					level = One;
-				}
-			break;
+			//// if the tutorial is done then switch to level one
+			//if ( tutorial->LeveledClear() == true )
+			// {
+			//		levelOne = new Level_One();
+			//		levelOne->Init( device, render);
+			//		if( tutorial != NULL )
+			//			delete tutorial;
+			//		level = One;
+			//	}
+			//break;
 		}
 	case One:
 		{
@@ -56,7 +59,7 @@ void Level_Manager::Update( float dt, Object_Player* player, gunType bulletColor
 			if ( levelOne->LeveledClear() == true )
 			{
 				levelTwo = new Level_Two();
-				levelTwo->Init( device, render);
+				levelTwo->Init( device, render, havokWorld);
 				if ( levelOne != NULL )
 					delete levelOne;
 				level = Two;
@@ -72,7 +75,7 @@ void Level_Manager::Update( float dt, Object_Player* player, gunType bulletColor
 			if ( levelTwo->LeveledClear() == true )
 			{
 				levelThree = new Level_Three();
-				levelThree->Init( device, render);
+				levelThree->Init( device, render, havokWorld);
 				if ( levelTwo != NULL )
 					delete levelTwo;
 				level = Three;
@@ -88,7 +91,7 @@ void Level_Manager::Update( float dt, Object_Player* player, gunType bulletColor
 			if ( levelThree->LeveledClear() == true )
 			{
 				levelFour = new Level_Four();
-				levelFour->Init( device, render);
+				levelFour->Init( device, render, havokWorld);
 				if ( levelThree != NULL)
 					delete levelThree;
 				level = Four;
@@ -105,7 +108,7 @@ void Level_Manager::Update( float dt, Object_Player* player, gunType bulletColor
 			{
 				levels5Beyond[levelCount] = new Level_Beyond5();
 				levels5Beyond[levelCount]->SetEnemyCount( enemyCount );
-				levels5Beyond[levelCount]->Init( device, render);
+				levels5Beyond[levelCount]->Init( device, render, havokWorld);
 				if ( levelFour != NULL)
 					delete levelFour;
 				level = FiveBeyond;
@@ -125,7 +128,7 @@ void Level_Manager::Update( float dt, Object_Player* player, gunType bulletColor
 				enemyCount += 3;
 				levels5Beyond[levelCount] = new Level_Beyond5();
 				levels5Beyond[levelCount]->SetEnemyCount( enemyCount );
-				levels5Beyond[levelCount]->Init( device, render);
+				levels5Beyond[levelCount]->Init( device, render, havokWorld);
 
 				if ( levels5Beyond[levelCount-1] != NULL )
 					delete levels5Beyond[levelCount-1];
@@ -141,7 +144,7 @@ void Level_Manager::Render(HWND hwnd, D3DXMATRIX veiwMat, D3DXMATRIX projMat)
 	{
 	case Tutorial:
 		{
-			tutorial->Render( hwnd, veiwMat, projMat);
+			//tutorial->Render( hwnd, veiwMat, projMat);
 			break;
 		}
 	case One:

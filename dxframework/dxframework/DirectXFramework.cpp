@@ -342,7 +342,7 @@ void CDirectXFramework::Init(HWND& hWnd, HINSTANCE& hInst, bool bWindowed)
 
 	// Load Test Mesh
 	loadMesh(L"FlippedY.X", &Player->objectMesh);
-	loadMesh(L"RoomWithWalls.X", &Mansion->objectMesh); 
+	loadMesh(L"completedHouseFile.X", &Mansion->objectMesh); 
 
 	for(short i = 0; i < ARRAYSIZE(piano); ++i)
 	loadMesh(L"Piano.X", &piano[i]->objectMesh);
@@ -443,6 +443,7 @@ void CDirectXFramework::Init(HWND& hWnd, HINSTANCE& hInst, bool bWindowed)
 	eventMan = new EventManager();
 	eventMan->Init();
 
+	// initialize the levels and the enemies
 	levelManager.Init( m_pD3DDevice, render, havok->getWorld());
 	
 	havok->getWorld()->unlock();
@@ -476,6 +477,7 @@ HWND CDirectXFramework::getMainWnd()
 
 void CDirectXFramework::Update(float dt)
 {
+
 	if(gameState->activeGameState == GAME)
 	{
 		m_pDInput->Update();
@@ -513,6 +515,7 @@ void CDirectXFramework::Update(float dt)
 			bool touch = true;
 		}
 
+		// update the levels and the enemies
 		levelManager.Update( dt, Player, type);
 			
 		havok->getWorld()->unlock();
@@ -520,8 +523,8 @@ void CDirectXFramework::Update(float dt)
 		UpdateCamera(dt);
 		playerControls(dt);
 	}
-
-	gameState->Update(dt);
+	else
+		gameState->Update(dt);
 }
 
 void CDirectXFramework::Render(float dt)
@@ -653,6 +656,7 @@ if(gameState->activeGameState == GAME)
 	}
 	fx[0]->End();
 
+	// render the levels and the enemies
 	levelManager.Render( m_hWnd, viewMat, projMat);
 
 	// Object Renders

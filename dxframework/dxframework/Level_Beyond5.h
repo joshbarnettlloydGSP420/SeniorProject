@@ -16,7 +16,7 @@ public:
 	Level_Beyond5(void);
 	~Level_Beyond5(void);
 
-	void Init( IDirect3DDevice9* m_pD3DDevice, RenderObject* m_pRender);
+	void Init( IDirect3DDevice9* m_pD3DDevice, RenderObject* m_pRender, hkpWorld* world );
 	void InitRooms() { 0; };
 };
 

@@ -7,6 +7,7 @@
 #include "Enemy_Base.h"
 #include "RenderObject.h"
 #include "Room.h"
+#include "HavokCore.h"
 
 #include <vector>
 #include <random>
@@ -57,7 +58,7 @@ public:
 	Level_Base(void);
 	~Level_Base(void);
 
-	virtual void Init( IDirect3DDevice9* m_pD3DDevice, RenderObject* m_pRender) = 0;
+	virtual void Init( IDirect3DDevice9* m_pD3DDevice, RenderObject* m_pRender, hkpWorld* world ) = 0;
 	virtual void InitRooms() = 0;
 	void SetEnemyCount( float newEnemyCount ){ enemyCount = newEnemyCount; };
 	void Update( float dt, Object_Player* player, gunType bulletColor);

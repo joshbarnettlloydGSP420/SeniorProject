@@ -83,7 +83,7 @@ void Enemy_Base::UpdateState(StateType CurrentState, float dt)
 			
 			// if player is in range then seek player
 			if ((sqrt(( player->position.x * player->position.x) + ( player->position.z * player->position.z))) < wanderRange )
-				//ChangeState( Arrive );
+				ChangeState( Arrive );
 			break;
 		}
 	//	Seek out player		////////////////////////////////////////////////////////
@@ -187,7 +187,7 @@ void Enemy_Base::CreateHavokObject(hkpWorld* world)
 void Enemy_Base::HavokBodyUpdate()
 {
 	// set the havok position to the enemies position
-	hkVector4 havokPos = hkVector4(movement->GetPosition().x, movement->GetPosition().y, movement->GetPosition().z, 0.0f);
+	hkVector4 havokPos = hkVector4(movement->GetPosition().x, movement->GetPosition().y, movement->GetPosition().z, 0.0);
 	rigidBody->setPosition(havokPos);
 }
 

@@ -8,7 +8,7 @@ Level_Base::Level_Base(void)
 
 Level_Base::~Level_Base(void)
 {
-	for ( int i = 0; i < enemies.size(); ++i)
+	for ( int i = 0; i < enemies.size(); i++)
 		delete enemies[i];
 
 }
@@ -16,7 +16,7 @@ Level_Base::~Level_Base(void)
 void Level_Base::Update( float dt, Object_Player* player, gunType bulletColor)
 {
 	// Update all the ghosts that are created
-	for ( int i = 0; i < enemies.size(); ++i)
+	for ( int i = 1; i < enemies.size() - 1; i++)
 	{
 		// if the enemy is not dead then update and check for bullet collision
 		if ( enemies[i]->GetIsDead() == false)
@@ -63,7 +63,7 @@ void Level_Base::Update( float dt, Object_Player* player, gunType bulletColor)
 void Level_Base::Render(HWND hwnd, D3DXMATRIX veiwMat, D3DXMATRIX projMat)
 {
 	// Render all of the ghosts if they are not dead
-	for ( int i = 0; i < enemies.size(); ++i)
+	for ( int i = 1; i < enemies.size() - 1; i++)
 	{
 		if ( enemies[i]->GetIsDead() == false)
 		{

@@ -11,7 +11,7 @@ Level_Four::~Level_Four(void)
 }
 
 // Foyer Level
-void Level_Four::Init( IDirect3DDevice9* m_pD3DDevice, RenderObject* m_pRender)
+void Level_Four::Init( IDirect3DDevice9* m_pD3DDevice, RenderObject* m_pRender, hkpWorld* world )
 {
 	// initialize the leveled cleared to false
 	levelCleared = false;
@@ -32,6 +32,7 @@ void Level_Four::Init( IDirect3DDevice9* m_pD3DDevice, RenderObject* m_pRender)
 	// create 1 GREEN ghosts to appear 
 	enemies[0] = new Enemy_GreenGhost();
 	enemies[0]->Init( m_pD3DDevice, m_pRender);
+	enemies[0]->CreateHavokObject( world );
 
 	float x = RandomBinomial( x1, x2);
 	float z = RandomBinomial( z1, z2);
@@ -42,6 +43,7 @@ void Level_Four::Init( IDirect3DDevice9* m_pD3DDevice, RenderObject* m_pRender)
 	// create 1 RED ghosts to appear 
 	enemies[1] = new Enemy_RedGhost();
 	enemies[1]->Init( m_pD3DDevice, m_pRender);
+	enemies[1]->CreateHavokObject( world );
 
 	x = RandomBinomial( x1, x2);
 	z = RandomBinomial( z1, z2);
@@ -52,6 +54,7 @@ void Level_Four::Init( IDirect3DDevice9* m_pD3DDevice, RenderObject* m_pRender)
 	// create 1 PURPLE ghosts to appear 
 	enemies[2] = new Enemy_PurpleGhost();
 	enemies[2]->Init( m_pD3DDevice, m_pRender);
+	enemies[2]->CreateHavokObject( world );
 
 	x = RandomBinomial( x1, x2);
 	z = RandomBinomial( z1, z2);
@@ -62,6 +65,7 @@ void Level_Four::Init( IDirect3DDevice9* m_pD3DDevice, RenderObject* m_pRender)
 	// create 1 YELLOW ghosts to appear 
 	enemies[3] = new Enemy_YellowGhost();
 	enemies[3]->Init( m_pD3DDevice, m_pRender);
+	enemies[3]->CreateHavokObject( world );
 
 	x = RandomBinomial( x1, x2);
 	z = RandomBinomial( z1, z2);

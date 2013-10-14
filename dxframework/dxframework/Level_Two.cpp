@@ -11,7 +11,7 @@ Level_Two::~Level_Two(void)
 }
 
 // Kitchen Level
-void Level_Two::Init( IDirect3DDevice9* m_pD3DDevice, RenderObject* m_pRender)
+void Level_Two::Init( IDirect3DDevice9* m_pD3DDevice, RenderObject* m_pRender, hkpWorld* world )
 {
 	// initialize the leveled cleared to false
 	levelCleared = false;

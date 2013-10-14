@@ -11,14 +11,12 @@ Level_One::~Level_One(void)
 }
 
 // Dining Room Level
-void Level_One::Init( IDirect3DDevice9* m_pD3DDevice, RenderObject* m_pRender)
+void Level_One::Init( IDirect3DDevice9* m_pD3DDevice, RenderObject* m_pRender, hkpWorld* world )
 {
 	// initialize the leveled cleared to false
 	levelCleared = false;
 
-	// dining Room positions
-	Diningroom->roomPos = D3DXVECTOR3(44.0f, 0.0f, 7.5f);
-	Diningroom->roomSize = D3DXVECTOR3(21.5, 20.0f, 42.0f);
+	InitRooms();
 
 	// set the constraints for the enemy spawn points
 	// low values
@@ -29,12 +27,14 @@ void Level_One::Init( IDirect3DDevice9* m_pD3DDevice, RenderObject* m_pRender)
 	x2 = 65;
 	z2 = 49;
 
-	enemies.clear();
+	//enemies.clear();
+	enemies.resize( 5 );
 	// create 4 GREEN ghosts to appear 
 	for ( int i = 0; i < 4; ++i)
 	{
 		enemies[i] = new Enemy_GreenGhost();
 		enemies[i]->Init( m_pD3DDevice, m_pRender);
+		enemies[i]->CreateHavokObject( world );
 
 		float x = RandomBinomial( x1, x2);
 		float z = RandomBinomial( z1, z2);
@@ -42,13 +42,15 @@ void Level_One::Init( IDirect3DDevice9* m_pD3DDevice, RenderObject* m_pRender)
 		// set their positions randomly in the DINING ROOM
 		enemies[i]->SetPosition( D3DXVECTOR4( x, 0, z, 0));
 	}
-
-	InitRooms();
 }
 
 void Level_One::InitRooms()
 {
 	Diningroom = new Room();
+
+	// dining Room positions
+	Diningroom->roomPos = D3DXVECTOR3(44.0f, 0.0f, 7.5f);
+	Diningroom->roomSize = D3DXVECTOR3(21.5, 20.0f, 42.0f);
 
 	hkpRigidBody* rigidBody;
 	hkpRigidBodyCinfo bodyInfo;

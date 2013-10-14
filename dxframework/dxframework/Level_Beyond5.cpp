@@ -14,7 +14,7 @@ Level_Beyond5::~Level_Beyond5(void)
 }
 
 // Entire House
-void Level_Beyond5::Init( IDirect3DDevice9* m_pD3DDevice, RenderObject* m_pRender)
+void Level_Beyond5::Init( IDirect3DDevice9* m_pD3DDevice, RenderObject* m_pRender, hkpWorld* world )
 {
 	// initialize the leveled cleared to false
 	levelCleared = false;

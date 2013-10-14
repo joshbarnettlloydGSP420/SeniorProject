@@ -41,7 +41,7 @@ void Enemy_GreenGhost::Init(IDirect3DDevice9* m_pD3DDevice, RenderObject* m_pRen
 	// Initialize the 3D model of the enemy.
 	textureName = L"GreenGhostTexture.jpg";
 	textureNumber = GreenGhost;
-	meshName = L"GreenGhost.x";
+	meshName = L"RedGhost.x";
 
 	// Create the texture
 	render->LoadTexture( textureName, textureNumber);

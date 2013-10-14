@@ -11,7 +11,7 @@ Level_Three::~Level_Three(void)
 }
 
 // Ball Room Level
-void Level_Three::Init( IDirect3DDevice9* m_pD3DDevice, RenderObject* m_pRender)
+void Level_Three::Init( IDirect3DDevice9* m_pD3DDevice, RenderObject* m_pRender, hkpWorld* world )
 {
 	// initialize the leveled cleared to false
 	levelCleared = false;
@@ -34,6 +34,7 @@ void Level_Three::Init( IDirect3DDevice9* m_pD3DDevice, RenderObject* m_pRender)
 	{
 		enemies[i] = new Enemy_PurpleGhost();
 		enemies[i]->Init( m_pD3DDevice, m_pRender);
+		enemies[i]->CreateHavokObject( world );
 
 		float x = RandomBinomial( x1, x2);
 		float z = RandomBinomial( z1, z2);
@@ -45,6 +46,7 @@ void Level_Three::Init( IDirect3DDevice9* m_pD3DDevice, RenderObject* m_pRender)
 	// create 1 RED ghost
 	enemies[2] = new Enemy_PurpleGhost();
 	enemies[2]->Init( m_pD3DDevice, m_pRender);
+	enemies[2]->CreateHavokObject( world );
 
 	float x = RandomBinomial( x1, x2);
 	float z = RandomBinomial( z1, z2);
@@ -55,6 +57,7 @@ void Level_Three::Init( IDirect3DDevice9* m_pD3DDevice, RenderObject* m_pRender)
 	// create 1 GREEN ghost
 	enemies[3] = new Enemy_PurpleGhost();
 	enemies[3]->Init( m_pD3DDevice, m_pRender);
+	enemies[3]->CreateHavokObject( world );
 
 	x = RandomBinomial( x1, x2);
 	z = RandomBinomial( z1, z2);
