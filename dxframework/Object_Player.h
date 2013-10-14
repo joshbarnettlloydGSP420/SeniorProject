@@ -91,6 +91,8 @@ struct HavokBullet
 	vector<hkpRigidBody*>		bullets;
 	vector<D3DXVECTOR3>			bulletPosition;
 
+	PSystem*					mPSysFire;
+
 	bool						canShoot;
 
 	// Constructor, Destructor, and Methods

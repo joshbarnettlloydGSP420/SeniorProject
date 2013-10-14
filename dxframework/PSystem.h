@@ -46,6 +46,19 @@ public:
 	void setBulletCounter( int bulletCounter);
 	int GetBulletCounter(){return bulletCounter;}
 
+	void SetType(int t)
+	{
+		switch(t)
+		{
+		case 0:
+			type = gun;
+			break;
+		case 1:
+			type = fire;
+			break;
+		}
+	}
+
 protected:
 	// In practice, some sort of ID3DXEffect and IDirect3DTexture9 manager should
 	// be used so that you do not duplicate effects/textures by having several
@@ -71,7 +84,10 @@ protected:
 	int bulletCounter;
 
 	std::vector<Particle> mParticles;
-	std::vector<Particle*> mDeadParticles; 
+	std::vector<Particle*> mDeadParticles;
+
+private:
+	enum Type{gun = 0, fire = 1}type;
 };
 
 #endif // P_SYSTEM

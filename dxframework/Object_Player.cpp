@@ -1,5 +1,6 @@
 #include "Object_Player.h"
 #include "Gun.h"
+#include "Fire.h"
 
 Object_Player::Object_Player()
 {
@@ -24,16 +25,23 @@ Object_Player::Object_Player()
 	
 	psysBox.maxPt = D3DXVECTOR3(INFINITY, INFINITY, INFINITY);
 	psysBox.minPt = D3DXVECTOR3(-INFINITY, -INFINITY, -INFINITY);
-	
+
 	// Accelerate due to gravity.  However, since the bullets travel at 
 	// such a high velocity, the effect of gravity of not really observed.
 	gunType type = green;
 	changeGunType(type);
 
-	mPSys->setWorldMtx(psysWorld);     
+	mPSys->setWorldMtx(psysWorld);   
+
 
 	canShoot = true;
 
+	mPSysFire = new FireRing(L"sprinkler.fx", "SprinklerTech", L"torch.dds", D3DXVECTOR3(0.0f, 0.0f, 0.0f), psysBox, 35, 0.0025f);
+	
+	// set the type for the fire only
+	// type defaults to gun type
+	mPSysFire->SetType(1);
+	
 }
 
 
@@ -50,6 +58,8 @@ void Object_Player::Update(float deltaTime, D3DXVECTOR3 eyePos, D3DXVECTOR3 look
 
 	//gun update
 	mPSys->update(deltaTime, eyePos, lookAt);
+	mPSysFire->update(deltaTime, eyePos, lookAt);
+
 
 	hitInvulTimer(deltaTime);
 

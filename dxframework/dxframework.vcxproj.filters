@@ -329,6 +329,9 @@
     <ClInclude Include="EventManager.h">
       <Filter>Header Files\Game</Filter>
     </ClInclude>
+    <ClInclude Include="Fire.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="GirRobot.X">

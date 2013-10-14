@@ -738,6 +738,7 @@ if(gameState->activeGameState == GAME)
 		yellowGhost->Render( m_hWnd, viewMat, projMat);
 
 	Player->mPSys->draw(m_hWnd, eyePos, viewMat * projMat); // bullet draw
+	Player->mPSysFire->draw(m_hWnd, eyePos, viewMat * projMat);
 
 	//////////////////////////////////////////////////////////////////////////
 	// Draw 2D sprites

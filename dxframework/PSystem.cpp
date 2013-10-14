@@ -60,6 +60,7 @@ PSystem::PSystem(const LPCWSTR fxName,
 		0, D3DPOOL_DEFAULT, &mVB, 0));
 
 	bulletCounter = 0;
+	type = gun;
 }
 
 PSystem::~PSystem()
@@ -101,7 +102,30 @@ void PSystem::setBulletCounter( int bulletCounter)
 
 void PSystem::addParticle(D3DXVECTOR3 pos, D3DXVECTOR3 iPos, D3DXVECTOR3 look)
 {
-	if(bulletCounter < 12)
+	//decide which particles are going to be used with each object, either a gun or fire
+	if(type == gun)
+	{
+		if(bulletCounter < 12)
+		{
+			if( mDeadParticles.size() > 0)
+			{
+				// Reinitialize a particle.
+				Particle* p = mDeadParticles.back();
+				initParticle(*p, pos, iPos, look);
+
+				// No longer dead.
+				mDeadParticles.pop_back();
+				mAliveParticles.push_back(p);
+			}
+		}
+
+		bulletCounter++;
+
+		if(bulletCounter > 12)
+			bulletCounter = 12;
+	}
+
+	if(type == fire)
 	{
 		if( mDeadParticles.size() > 0)
 		{
@@ -114,11 +138,6 @@ void PSystem::addParticle(D3DXVECTOR3 pos, D3DXVECTOR3 iPos, D3DXVECTOR3 look)
 			mAliveParticles.push_back(p);
 		}
 	}
-
-	bulletCounter++;
-
-	if(bulletCounter > 12)
-		bulletCounter = 12;
 }
 
 

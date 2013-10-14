@@ -146,6 +146,7 @@
     <ClInclude Include="Enemy_YellowGhost.h" />
     <ClInclude Include="EntityManager.h" />
     <ClInclude Include="EventManager.h" />
+    <ClInclude Include="Fire.h" />
     <ClInclude Include="GameStateManager.h" />
     <ClInclude Include="Gun.h" />
     <ClInclude Include="HavokCore.h" />
