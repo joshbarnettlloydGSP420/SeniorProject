@@ -46,10 +46,10 @@ void FourTorchPuzzle::Init( Object_Player* Player, RenderObject* renderer, hkpWo
 	}
 
 	// torch positions
-	Torches[0]->position = D3DXVECTOR4(17.7f, 3.0f, -21.6f, 0.0f); // northeast corner
-	Torches[1]->position = D3DXVECTOR4(17.7f, 3.0f, -34.75f, 0.0f); // southeast corner // 23.7
-	Torches[2]->position = D3DXVECTOR4(-10.0f, 3.0f, -21.6f, 0.0f); // northwest corner // -16
-	Torches[3]->position = D3DXVECTOR4(-10.0f, 3.0f, -34.7f, 0.0f); // southwest corner
+	Torches[0]->position = D3DXVECTOR4(19.7f, 6.0f, -21.6f, 0.0f); // northeast corner 23.7f, 3.0f, -21.6f, 0.0f
+	Torches[1]->position = D3DXVECTOR4(19.7f, 6.0f, -34.75f, 0.0f); // southeast corner 23.7f, 3.0f, -34.75f, 0.0f
+	Torches[2]->position = D3DXVECTOR4(-16.0f, 6.0f, -21.6f, 0.0f); // northwest corner -16.0f, 3.0f, -21.6f, 0.0f
+	Torches[3]->position = D3DXVECTOR4(-16.0f, 6.0f, -34.75f, 0.0f); // southwest corner -16.0f, 3.0f, -34.7f, 0.0f
 
 	/*Puzzle_FT->fireSystem1->	*/
 
