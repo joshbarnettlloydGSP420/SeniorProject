@@ -130,6 +130,61 @@ void RenderObject::Render3DObject(D3DXVECTOR4 position, Mesh* objectMesh, D3DXMA
 	fx[0]->End();
 }
 
+void RenderObject::Render_Object(Object_Base* object, D3DXVECTOR3 offset, D3DXMATRIX	viewMat, D3DXMATRIX projMat)
+{
+	fx[0]->SetTechnique(hTech[0]);
+
+	UINT numPasses = 0;
+	fx[0]->Begin(&numPasses, 0);
+
+	for(UINT i = 0; i < numPasses; ++i)
+	{
+		fx[0]->BeginPass(i);
+
+		// Mesh Matrix
+		D3DXMatrixScaling(&scaleMat, object->scale.x, object->scale.y, object->scale.z);
+		D3DXMatrixRotationYawPitchRoll(&rotMat, object->rotation.x, object->rotation.y, object->rotation.z);
+		D3DXMatrixTranslation(&transMat, object->position.x + offset.x, object->position.y + offset.y, object->position.z + offset.z);
+		D3DXMatrixMultiply(&scaleMat, &scaleMat, &rotMat);
+		D3DXMatrixMultiply(&worldMat, &scaleMat, &transMat);
+		//D3DXMatrixMultiply(&worldMat, &scaleMat, &transMat);
+
+		D3DXMatrixInverse(&invTransMat, 0, &worldMat);
+		D3DXMatrixTranspose(&invTransMat, &invTransMat);
+
+		D3DXMATRIX wvp = worldMat * viewMat * projMat;
+		D3DXMATRIX wvpit;
+		D3DXMatrixInverse(&wvpit, 0, &wvp);
+		D3DXMatrixTranspose(&wvpit, &wvpit);
+
+		fx[0]->SetMatrix("WVP", &wvp);
+		fx[0]->SetMatrix("WVPIT", &wvpit);
+		fx[0]->SetMatrix("World", &worldMat);
+		fx[0]->SetMatrix("View", &viewMat);
+		fx[0]->SetMatrix("Projection", &projMat);
+		fx[0]->SetMatrix("WorldInverseTranspose", &invTransMat);
+
+		for( short e = 0; e < object->objectMesh->numMaterials; ++e )
+		{
+			if(object->objectMesh->textures[e] != NULL)
+			{
+				fx[0]->SetTexture("gTexture", object->objectMesh->textures[e]);
+				fx[0]->CommitChanges();
+				object->objectMesh->p_Mesh->DrawSubset(e);
+			}
+			else
+			{
+				fx[0]->SetTexture("gTexture", m_pTexture[10]);
+				fx[0]->CommitChanges();
+				object->objectMesh->p_Mesh->DrawSubset(e);
+			}
+		}
+
+		fx[0]->EndPass();
+	}
+	fx[0]->End();
+}
+
 void RenderObject::Render2DSprite(int textureNum )
 {
 	// Set Transform

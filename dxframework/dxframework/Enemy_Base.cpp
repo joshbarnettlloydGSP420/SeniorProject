@@ -26,7 +26,8 @@ Enemy_Base::Enemy_Base(void)
 // Destructor
 Enemy_Base::~Enemy_Base(void)
 {
-	//delete movement;
+	if ( movement == NULL )
+		delete movement;
 }
 
 // Initialize all the variables for the enemies
@@ -48,9 +49,9 @@ void Enemy_Base::Init(IDirect3DDevice9* m_pD3DDevice, RenderObject* renderObject
 }
 
 // Update the enemy
-void Enemy_Base::Update( float dt, D3DXVECTOR4 playerPosition)
+void Enemy_Base::Update( float dt, Object_Player* player)
 { 
-	playerPos = playerPosition;
+	this->player = player;
 
 	// if health is less than 0 then enemy is dead
 	if ( health <= 0)
@@ -65,6 +66,9 @@ void Enemy_Base::Update( float dt, D3DXVECTOR4 playerPosition)
 
 	// update the havok movement
 	HavokBodyUpdate();
+
+	// check for player collision
+	PlayerCollision( dt );
 }
 
 // Change the state of the enemy based on current actions in the game
@@ -78,29 +82,31 @@ void Enemy_Base::UpdateState(StateType CurrentState, float dt)
 			wander.GetSteering( movement);
 			
 			// if player is in range then seek player
-			if ((sqrt(( playerPos.x * playerPos.x) + ( playerPos.z * playerPos.z))) < wanderRange )
-				//ChangeState( Arrive );
+			if ((sqrt(( player->position.x * player->position.x) + ( player->position.z * player->position.z))) < wanderRange )
+				ChangeState( Arrive );
 			break;
 		}
 	//	Seek out player		////////////////////////////////////////////////////////
 	case Arrive:
 		{
-			arrive.GetSteering( movement, playerPos);
+			arrive.GetSteering( movement, player->position);
 			// if in attack range of player then attack
-			if ((sqrt(( playerPos.x * playerPos.x) + ( playerPos.z * playerPos.z))) < attackRange )
-				ChangeState( Attack );
+			if ((sqrt(( player->position.x * player->position.x) + ( player->position.z * player->position.z))) < attackRange )
+			{
+				//ChangeState( Attack );
+			}
 
 			// if player is out of range then wander
-			else if ((sqrt(( playerPos.x * playerPos.x) + ( playerPos.z * playerPos.z))) >= wanderRange )
+			else if ((sqrt(( player->position.x * player->position.x) + ( player->position.z * player->position.z))) >= wanderRange )
 				ChangeState( Wander );
 			break;
 		}
 	//	Flee from player	////////////////////////////////////////////////////////
 	case Flee:
 		{
-			flee.GetSteering( movement, playerPos );
+			flee.GetSteering( movement, player->position );
 			// if out of range of player then wander
-			if ((sqrt(( playerPos.x * playerPos.x) + ( playerPos.z * playerPos.z))) >= wanderRange )
+			if ((sqrt(( player->position.x * player->position.x) + ( player->position.z * player->position.z))) >= wanderRange )
 				ChangeState( Wander );
 			break;
 		}
@@ -110,11 +116,21 @@ void Enemy_Base::UpdateState(StateType CurrentState, float dt)
 			// set the velocity
 			attack.SetSpeed( attackSpeed );
 			// update the attack to fire at the player
-			attack.Update( dt, movement, playerPos);
+			attack.Update( dt, movement, player->position);
 
 			// if health is low then flee
 			if ( health < 40 )
 				ChangeState( Flee );
+			break;
+		}
+	//	If the enemy is close to the wall then seek center of room to adjust  /////
+	case PosAdjust:
+		{
+			arrive.GetSteering( movement, centerOfRoom);
+
+			// if the enemy is close to the center then begin to wander
+			if ((sqrt(( player->position.x * player->position.x) + ( player->position.z * player->position.z))) >= 15 )
+				ChangeState( Wander );
 			break;
 		}
 	};
@@ -134,39 +150,7 @@ void Enemy_Base::Render(HWND hwnd, D3DXMATRIX veiwMat, D3DXMATRIX projMat)
 	render->Render3DObject( D3DXVECTOR4(movement->GetPosition().x, movement->GetPosition().y - 10.0f, movement->GetPosition().z, movement->GetPosition().w), objectMesh, veiwMat, projMat, textureNumber);
 }
 
-//void Enemy_Base::CreateBodyObject(hkpWorld* world)
-//{
-//	// Create a ridid body that can move dynamically about the scene.
-//	hkpCharacterRigidBodyCinfo	bodyInfo;
-//
-//	// Capsule Parameters
-//	hkVector4	vertexA(0.0f, 1.0f, 0.0f, 0);		// Top
-//	hkVector4	vertexB(0.0f, -1.0f, 0.0f, 0);		// Bottom
-//	hkReal		radius	=	1.0f;					// Radius
-//
-//	// Create Capsule Based on Parameters
-//	hkpCapsuleShape* capsuleShape = new hkpCapsuleShape(vertexA, vertexB, radius);
-//
-//	// Set The Object's Properties
-//	bodyInfo.m_shape = capsuleShape;
-//	bodyInfo.m_position.set(movement->GetPosition().x, movement->GetPosition().y, movement->GetPosition().z, 0.0f);
-//	bodyInfo.m_mass = 5.0f;
-//
-//	// Calculate Mass Properties
-//	hkMassProperties massProperties;
-//
-//	hkpInertiaTensorComputer::computeShapeVolumeMassProperties(bodyInfo.m_shape, bodyInfo.m_mass, massProperties);
-//	
-//	// Create Rigid Body
-//	rigidBody = new hkpCharacterRigidBody(bodyInfo);
-//
-//	// Add Rigid Body to the World
-//	world->addEntity(rigidBody->getRigidBody());
-//
-//	// No longer need the reference on the shape, as the rigidbody owns it now
-//	capsuleShape->removeReference();
-//}
-
+// Create 
 void Enemy_Base::CreateHavokObject(hkpWorld* world)
 {
 	// Create a temp body info
@@ -199,6 +183,58 @@ void Enemy_Base::CreateHavokObject(hkpWorld* world)
 
 	// Add Rigid Body to the World
 	world->addEntity(rigidBody);
+}
+
+// Updates the enemies havok body
+void Enemy_Base::HavokBodyUpdate()
+{
+	// set the havok position to the enemies position
+	hkVector4 havokPos = hkVector4(movement->GetPosition().x, movement->GetPosition().y, movement->GetPosition().z, 0.0);
+	rigidBody->setPosition(havokPos);
+}
+
+// Checks for collision against the player
+void Enemy_Base::PlayerCollision( float dt)
+{
+	// collision variables
+	hkAabb aabbBase;
+	hkAabb aabbOut;
+
+	// Enemy Hits Player
+	if(!player->beenHit)
+	{
+		// get the aabb bounding box of the ghost
+		rigidBody->getCollidable()->getShape()->getAabb(rigidBody->getTransform(), 0.4f, aabbOut);
+		// get the aabb bounding box of the player
+		player->objectBody->getRigidBody()->getCollidable()->getShape()->getAabb(player->objectBody->getRigidBody()->getTransform(), 0.4f, aabbBase);
+
+		// check the bounding boxes against each other to see if there is collision
+		if(aabbBase.overlaps(aabbOut))
+		{
+			player->health -= 20;
+			player->hitTimer = 0.0f;
+		}
+	}
+}
+
+// Collision with the walls
+void Enemy_Base::RoomWallCollision( float dt, Room* currentRoom )
+{
+	hkAabb enemyBoundingBox;
+
+	rigidBody->getCollidable()->getShape()->getAabb( rigidBody->getTransform(), 0.0f, enemyBoundingBox);
+
+	// if the bounding box of the enemy is overlapping the wall bounding box
+	if ( enemyBoundingBox.overlaps( currentRoom->boundingArea))
+	{
+		// find the center of the room
+		centerOfRoom.x = (currentRoom->roomSize.x/2) + currentRoom->roomPos.x;
+		centerOfRoom.z = ( currentRoom->roomSize.z/2) + currentRoom->roomPos.z;
+
+		// then have the ghost switch to seek out the middle of the room
+		ChangeState( PosAdjust );
+
+	}
 }
 
 //void Enemy_Base::HavokMovement()
@@ -235,24 +271,35 @@ void Enemy_Base::CreateHavokObject(hkpWorld* world)
 //	rigidBody->setLinearVelocity(output.m_velocity, 1.0f / 60.0f);
 //}
 
-bool Enemy_Base::CollisionDetection(hkpRigidBody* playerBody)
-{
-	hkAabb aabbBase;
-	hkAabb aabbOut;
-
-	playerBody->getCollidable()->getShape()->getAabb(playerBody->getTransform(), 0.4f, aabbOut);
-	rigidBody->getCollidable()->getShape()->getAabb(rigidBody->getTransform(), 0.4f, aabbBase);
-
-	if(aabbBase.overlaps(aabbOut))
-	{
-		return true;
-	}
-
-	return false;
-}
-
-void Enemy_Base::HavokBodyUpdate()
-{
-	hkVector4 havokPos = hkVector4(movement->GetPosition().x, movement->GetPosition().y, movement->GetPosition().z, 0.0f);
-	rigidBody->setPosition(havokPos);
-}
+//void Enemy_Base::CreateBodyObject(hkpWorld* world)
+//{
+//	// Create a ridid body that can move dynamically about the scene.
+//	hkpCharacterRigidBodyCinfo	bodyInfo;
+//
+//	// Capsule Parameters
+//	hkVector4	vertexA(0.0f, 1.0f, 0.0f, 0);		// Top
+//	hkVector4	vertexB(0.0f, -1.0f, 0.0f, 0);		// Bottom
+//	hkReal		radius	=	1.0f;					// Radius
+//
+//	// Create Capsule Based on Parameters
+//	hkpCapsuleShape* capsuleShape = new hkpCapsuleShape(vertexA, vertexB, radius);
+//
+//	// Set The Object's Properties
+//	bodyInfo.m_shape = capsuleShape;
+//	bodyInfo.m_position.set(movement->GetPosition().x, movement->GetPosition().y, movement->GetPosition().z, 0.0f);
+//	bodyInfo.m_mass = 5.0f;
+//
+//	// Calculate Mass Properties
+//	hkMassProperties massProperties;
+//
+//	hkpInertiaTensorComputer::computeShapeVolumeMassProperties(bodyInfo.m_shape, bodyInfo.m_mass, massProperties);
+//	
+//	// Create Rigid Body
+//	rigidBody = new hkpCharacterRigidBody(bodyInfo);
+//
+//	// Add Rigid Body to the World
+//	world->addEntity(rigidBody->getRigidBody());
+//
+//	// No longer need the reference on the shape, as the rigidbody owns it now
+//	capsuleShape->removeReference();
+//}

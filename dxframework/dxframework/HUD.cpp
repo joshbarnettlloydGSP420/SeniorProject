@@ -256,8 +256,8 @@ void HUD::Update(float dt, int counter, D3DXVECTOR4 playerPosition)
 	else if(counter == 12)
 		number = zero;
 
-	minimapDotPosition.position.x = (playerPosition.x * 1.3f) + 686;
-	minimapDotPosition.position.y = (-1 * playerPosition.z * 1.2f ) + 78;
+	minimapDotPosition.position.x = (playerPosition.x * 1.14f) + 685;
+	minimapDotPosition.position.y = (-1 * playerPosition.z * 1.0f ) + 79;
 	minimapDotPosition.position.z = 0.0f;
 }
 
