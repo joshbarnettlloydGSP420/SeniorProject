@@ -4,6 +4,7 @@
 #include <d3dx9.h>
 
 #include "Object_Player.h"
+#include "Object_Base.h"
 
 // Macro to release COM objects fast and safely
 #define SAFE_RELEASE(x) if(x){x->Release(); x = 0;}
@@ -119,6 +120,7 @@ public:
 	void LoadMesh( LPCWSTR fileName, Mesh** meshObject);
 	void LoadShaderEffects(LPCWSTR fileName, int fxNum );
 	void Render3DObject(D3DXVECTOR4 position, Mesh* ObjectMesh, D3DXMATRIX	viewMat, D3DXMATRIX projMat, int textureNum);
+	void Render_Object(Object_Base* object, D3DXVECTOR3 offset, D3DXMATRIX	viewMat, D3DXMATRIX projMat);
 	void Render2DSprite(int textureNum);
 
 	void MaterialSettings();

@@ -8,6 +8,7 @@
 #include "RenderObject.h"
 #include "Room.h"
 #include "HavokCore.h"
+#include "torches.h"
 
 #include <vector>
 #include <random>
@@ -53,6 +54,10 @@ protected:
 
 	int			enemyCount;
 
+	// Puzzle objects
+	FourTorchPuzzle*				Puzzle_FT;
+	int								level;
+
 	
 public:
 	Level_Base(void);
@@ -60,12 +65,14 @@ public:
 
 	virtual void Init( IDirect3DDevice9* m_pD3DDevice, RenderObject* m_pRender, hkpWorld* world ) = 0;
 	virtual void InitRooms() = 0;
+	virtual void InitPuzzle( Object_Player* Player, RenderObject* m_pRender, hkpWorld* world) = 0;
 	void SetEnemyCount( float newEnemyCount ){ enemyCount = newEnemyCount; };
-	void Update( float dt, Object_Player* player, gunType bulletColor);
-	void Render(HWND hwnd, D3DXMATRIX veiwMat, D3DXMATRIX projMat);
+	void Update( float dt, Object_Player* player, gunType bulletColor, D3DXVECTOR3 eyePos, D3DXVECTOR3 lookAt);
+	void Render(HWND hwnd, D3DXMATRIX veiwMat, D3DXMATRIX projMat, D3DXVECTOR3 eyePos);
 
 	bool LeveledClear(){ return levelCleared; };
 
 	float RandomBinomial( float min, float max);
+
 
 };

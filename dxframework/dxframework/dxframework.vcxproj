@@ -128,6 +128,7 @@
     <ClCompile Include="RenderObject.cpp" />
     <ClCompile Include="SoundEffect.cpp" />
     <ClCompile Include="SoundLoader.cpp" />
+    <ClCompile Include="torches.cpp" />
     <ClCompile Include="Vertex.cpp" />
     <ClCompile Include="winMain.cpp" />
   </ItemGroup>
@@ -154,6 +155,7 @@
     <ClInclude Include="Enemy_YellowGhost.h" />
     <ClInclude Include="EntityManager.h" />
     <ClInclude Include="EventManager.h" />
+    <ClInclude Include="Fire.h" />
     <ClInclude Include="GameStateManager.h" />
     <ClInclude Include="Gun.h" />
     <ClInclude Include="HavokCore.h" />
@@ -179,6 +181,7 @@
     <ClInclude Include="Room.h" />
     <ClInclude Include="SoundEffect.h" />
     <ClInclude Include="SoundLoader.h" />
+    <ClInclude Include="torches.h" />
     <ClInclude Include="Utilities.h" />
     <ClInclude Include="Vertex.h" />
   </ItemGroup>
@@ -218,6 +221,7 @@
     <None Include="Table.X" />
     <None Include="TestShader.txt" />
     <None Include="ToonColored.fx" />
+    <None Include="Torch.X" />
     <None Include="Weapons.dds" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

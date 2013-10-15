@@ -452,7 +452,7 @@ void CDirectXFramework::Init(HWND& hWnd, HINSTANCE& hInst, bool bWindowed)
 	eventMan->Init();
 
 	// initialize the levels and the enemies
-	levelManager.Init( m_pD3DDevice, render, havok->getWorld());
+	levelManager.Init( m_pD3DDevice, render, havok->getWorld(), Player);
 	
 	havok->getWorld()->unlock();
 
@@ -524,7 +524,7 @@ void CDirectXFramework::Update(float dt)
 		}
 
 		// update the levels and the enemies
-		levelManager.Update( dt, Player, type);
+		levelManager.Update( dt, Player, type, eyePos, lookAt);
 			
 		havok->getWorld()->unlock();
 
@@ -625,7 +625,7 @@ if(gameState->activeGameState == GAME)
 	renderObject(Mansion, D3DXVECTOR3( 7.5f, -5.0, -67.5));
 
 	// render the levels and the enemies
-	levelManager.Render( m_hWnd, viewMat, projMat);
+	levelManager.Render( m_hWnd, viewMat, projMat, eyePos);
 
 	// Object Renders
 	for(short i = 0; i < ARRAYSIZE(piano); ++i)
@@ -651,7 +651,7 @@ if(gameState->activeGameState == GAME)
 	for(short i = 0; i < ARRAYSIZE(chair); ++i)
 		renderObject(chair[i], D3DXVECTOR3(0.0f, -7.5f, 0.5f));
 
-	levelManager.Render( m_hWnd, viewMat, projMat);
+	levelManager.Render( m_hWnd, viewMat, projMat, eyePos);
 
 
 	Player->mPSys->draw(m_hWnd, eyePos, viewMat * projMat); // bullet draw

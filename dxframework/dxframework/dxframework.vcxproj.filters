@@ -243,6 +243,9 @@
     <ClCompile Include="Level_Beyond5.cpp">
       <Filter>Source Files\Game\LevelHandlers\Levels</Filter>
     </ClCompile>
+    <ClCompile Include="torches.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Object_Base.h">
@@ -390,6 +393,12 @@
       <Filter>Header Files\Game\LevelHandlers\Levels</Filter>
     </ClInclude>
     <ClInclude Include="Room.h">
+      <Filter>Header Files\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="torches.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Fire.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -501,6 +510,9 @@
     </None>
     <None Include="Piano.X">
       <Filter>Resource Files\Models\Base_Objects</Filter>
+    </None>
+    <None Include="Torch.X">
+      <Filter>Resource Files\Models</Filter>
     </None>
   </ItemGroup>
 </Project>

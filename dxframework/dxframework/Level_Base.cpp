@@ -13,7 +13,7 @@ Level_Base::~Level_Base(void)
 
 }
 
-void Level_Base::Update( float dt, Object_Player* player, gunType bulletColor)
+void Level_Base::Update( float dt, Object_Player* player, gunType bulletColor, D3DXVECTOR3 eyePos, D3DXVECTOR3 lookAt)
 {
 	// Update all the ghosts that are created
 	for ( int i = 0; i < enemies.size(); i++)
@@ -58,9 +58,40 @@ void Level_Base::Update( float dt, Object_Player* player, gunType bulletColor)
 	// if enemies are dead and puzzle is solved then the level is cleared
 	if ( enemiesDead == true && puzzleSolved == true )
 		levelCleared = true;
+
+	// switch to update the puzzles
+	switch( level )
+	{
+	case 0:
+		{
+			// Torch Puzzle Update
+			Puzzle_FT->Update( dt, eyePos, lookAt );
+			break;
+		}
+	case 1:
+		{
+			// Chandelier Puzzle Update
+			break;
+		}
+	case 2:
+		{
+			// Cup puzzle Update
+			break;
+		}
+	case 3:
+		{
+			// Piano Puzzle update
+			break;
+		}
+	default:
+		{
+			// don't update any puzzles
+			break;
+		}
+	}
 }
 
-void Level_Base::Render(HWND hwnd, D3DXMATRIX veiwMat, D3DXMATRIX projMat)
+void Level_Base::Render(HWND hwnd, D3DXMATRIX veiwMat, D3DXMATRIX projMat, D3DXVECTOR3 eyePos)
 {
 	// Render all of the ghosts if they are not dead
 	for ( int i = 0; i < enemies.size(); i++)
@@ -68,6 +99,37 @@ void Level_Base::Render(HWND hwnd, D3DXMATRIX veiwMat, D3DXMATRIX projMat)
 		if ( enemies[i]->GetIsDead() == false)
 		{
 			enemies[i]->Render( hwnd, veiwMat, projMat);
+		}
+	}
+
+	// switch to render the puzzles
+	switch( level )
+	{
+	case 0:
+		{
+			// Torch Puzzle render
+			Puzzle_FT->Render( hwnd, eyePos, veiwMat, projMat);
+			break;
+		}
+	case 1:
+		{
+			// Chandelier Puzzle render
+			break;
+		}
+	case 2:
+		{
+			// Cup puzzle render
+			break;
+		}
+	case 3:
+		{
+			// Piano Puzzle render
+			break;
+		}
+	default:
+		{
+			// Don't render any puzzles
+			break;
 		}
 	}
 }
