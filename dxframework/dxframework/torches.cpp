@@ -3,7 +3,7 @@
 
 FourTorchPuzzle::FourTorchPuzzle()
 {
-	
+
 	D3DXMatrixIdentity(&psysFireWorld);
 
 	psysFireBox.maxPt = D3DXVECTOR3(INFINITY, INFINITY, INFINITY);
@@ -69,7 +69,11 @@ void FourTorchPuzzle::Init( Object_Player* Player, RenderObject* renderer, hkpWo
 	for(short i = 0; i < ARRAYSIZE(Torches); ++i)
 		Torches[i]->scale = D3DXVECTOR3(5.1050f, 5.1050f, 5.1050f);
 
-	//render->SetScale( D3DXVECTOR4(5.1050f, 5.1050f, 5.1050f, 0.0));
+	for(short i = 0; i < ARRAYSIZE(Torches); ++i)
+		TorchLit[i] = false;
+
+	allTorchesLit = false;
+
 }
 
 void FourTorchPuzzle::Update(float deltaTime, D3DXVECTOR3 eyePos, D3DXVECTOR3 lookAt)
@@ -80,29 +84,67 @@ void FourTorchPuzzle::Update(float deltaTime, D3DXVECTOR3 eyePos, D3DXVECTOR3 lo
 	//{ TorchesLit +=1;
 	// TorchLit = true; }
 
-	fireSystem1->setPosition(Torches[0]->getPosition());
-	fireSystem2->setPosition(Torches[1]->getPosition());
-	fireSystem3->setPosition(Torches[2]->getPosition());
-	fireSystem4->setPosition(Torches[3]->getPosition());
+	if ( TorchLit[0] == true )
+	{
+		fireSystem1->setPosition(Torches[0]->getPosition());
+		fireSystem1->update(deltaTime, eyePos, lookAt);
+	}
+	if ( TorchLit[1] == true )
+	{
+		fireSystem2->setPosition(Torches[1]->getPosition());
+		fireSystem2->update(deltaTime, eyePos, lookAt);
+	}
 
-	// also need to change unlit torch to lit
-	fireSystem1->update(deltaTime, eyePos, lookAt);
-	fireSystem2->update(deltaTime, eyePos, lookAt);
-	fireSystem3->update(deltaTime, eyePos, lookAt);
-	fireSystem4->update(deltaTime, eyePos, lookAt);
+	if ( TorchLit[2] == true )
+	{
+		fireSystem3->setPosition(Torches[2]->getPosition());
+		fireSystem3->update(deltaTime, eyePos, lookAt);
+	}
+
+	if ( TorchLit[3] == true )
+	{
+		fireSystem4->setPosition(Torches[3]->getPosition());
+		fireSystem4->update(deltaTime, eyePos, lookAt);
+	}
+
+	if ( TorchLit[0] == true && TorchLit[1] == true&& TorchLit[2] == true&& TorchLit[3] == true)
+		allTorchesLit = true;
 }
 
 void FourTorchPuzzle::Render(HWND hWnd, D3DXVECTOR3 eyePos, D3DXMATRIX viewMat,D3DXMATRIX projMat)
 {
-
+	if ( TorchLit[0] == true )
 	fireSystem1->draw(hWnd, eyePos, viewMat * projMat);
+	if ( TorchLit[1] == true )
 	fireSystem2->draw(hWnd, eyePos, viewMat * projMat);
+	if ( TorchLit[2] == true )
 	fireSystem3->draw(hWnd, eyePos, viewMat * projMat);
+	if ( TorchLit[3] == true )
 	fireSystem4->draw(hWnd, eyePos, viewMat * projMat);
 
 	for(short i = 0; i < ARRAYSIZE(Torches); ++i)
 		render->Render_Object( Torches[i], D3DXVECTOR3(1.0f, -3.0f, 0.3f), viewMat, projMat);
-		//render->Render3DObject( Torches[i]->position, Torches[i]->objectMesh, viewMat, projMat, 10);
 }
 
 // TODO: add collision stuff
+void FourTorchPuzzle::BulletCollision( float dt, Object_Player* player, gunType bulletColor)
+{
+	hkAabb aabbBase;
+	hkAabb aabbOut;
+
+	// Object Hit Bullets
+	if ( bulletColor == red )
+	{
+		for(short i = 0; i < ARRAYSIZE(Torches); ++i)
+		{
+			Torches[i]->rigidBody->getCollidable()->getShape()->getAabb(Torches[i]->rigidBody->getTransform(), 0.4f, aabbOut);
+			player->bull[i].bulletObject->getCollidable()->getShape()->getAabb(player->bull[i].bulletObject->getTransform(), 0.4f, aabbBase);
+
+			if(aabbBase.overlaps(aabbOut))
+			{
+				// when hit set to true
+				TorchLit[i] = true;
+			}
+		}
+	}
+}

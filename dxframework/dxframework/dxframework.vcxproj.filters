@@ -244,7 +244,7 @@
       <Filter>Source Files\Game\LevelHandlers\Levels</Filter>
     </ClCompile>
     <ClCompile Include="torches.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Objects</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -396,10 +396,10 @@
       <Filter>Header Files\Objects</Filter>
     </ClInclude>
     <ClInclude Include="torches.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Objects</Filter>
     </ClInclude>
     <ClInclude Include="Fire.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Objects</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

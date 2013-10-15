@@ -225,7 +225,7 @@ class CDirectXFramework
 	//////////////////////////////////////////////////////////////////////////
 	EntityManager*					entityMan;
 	EventManager*					eventMan;
-	Level_Manager					levelManager;
+	Level_Manager*					levelManager;
 
 public:
 

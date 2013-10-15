@@ -58,6 +58,6 @@ void Level_Tutorial::InitRooms()
 
 void Level_Tutorial::InitPuzzle( Object_Player* Player, RenderObject* m_pRender, hkpWorld* world)
 {
-
+	// Initialize the puzzle
 	Puzzle_FT->Init( Player, m_pRender, world);
 }

@@ -57,7 +57,6 @@ protected:
 	// Puzzle objects
 	FourTorchPuzzle*				Puzzle_FT;
 	int								level;
-
 	
 public:
 	Level_Base(void);
@@ -73,6 +72,4 @@ public:
 	bool LeveledClear(){ return levelCleared; };
 
 	float RandomBinomial( float min, float max);
-
-
 };

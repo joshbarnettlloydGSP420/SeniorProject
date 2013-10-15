@@ -51,14 +51,6 @@ void Level_Base::Update( float dt, Object_Player* player, gunType bulletColor, D
 			enemies.erase( enemies.begin() + i );
 	}
 
-	// if there are no enemies in the vector list then set to dead
-	if ( enemies.empty() == true )
-		enemiesDead = true;
-
-	// if enemies are dead and puzzle is solved then the level is cleared
-	if ( enemiesDead == true && puzzleSolved == true )
-		levelCleared = true;
-
 	// switch to update the puzzles
 	switch( level )
 	{
@@ -66,6 +58,8 @@ void Level_Base::Update( float dt, Object_Player* player, gunType bulletColor, D
 		{
 			// Torch Puzzle Update
 			Puzzle_FT->Update( dt, eyePos, lookAt );
+			Puzzle_FT->BulletCollision( dt, player, bulletColor);
+			puzzleSolved = Puzzle_FT->GetAllTorchLit();
 			break;
 		}
 	case 1:
@@ -89,6 +83,14 @@ void Level_Base::Update( float dt, Object_Player* player, gunType bulletColor, D
 			break;
 		}
 	}
+
+	// if there are no enemies in the vector list then set to dead
+	if ( enemies.empty() == true )
+		enemiesDead = true;
+
+	// if enemies are dead and puzzle is solved then the level is cleared
+	if ( enemiesDead == true && puzzleSolved == true )
+		levelCleared = true;
 }
 
 void Level_Base::Render(HWND hwnd, D3DXMATRIX veiwMat, D3DXMATRIX projMat, D3DXVECTOR3 eyePos)

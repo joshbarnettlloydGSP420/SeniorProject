@@ -15,7 +15,8 @@ private:
 	// torch variables
 	int TorchNumber;
 	int TorchesLit;
-	bool TorchLit;
+	bool TorchLit[4];
+	bool allTorchesLit;
 	
 	// particle variables
 	AABB psysFireBox;
@@ -39,4 +40,9 @@ public:
 	void Update(float deltaTime, D3DXVECTOR3 eyePos, D3DXVECTOR3 lookAt);
 
 	void Render(HWND hWnd, D3DXVECTOR3 eyePos,D3DXMATRIX viewMat, D3DXMATRIX projMat);
+
+	void BulletCollision( float dt, Object_Player* player, gunType bulletColor);
+
+	bool GetAllTorchLit() { return allTorchesLit; };
+
 };

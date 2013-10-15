@@ -452,7 +452,8 @@ void CDirectXFramework::Init(HWND& hWnd, HINSTANCE& hInst, bool bWindowed)
 	eventMan->Init();
 
 	// initialize the levels and the enemies
-	levelManager.Init( m_pD3DDevice, render, havok->getWorld(), Player);
+	levelManager = new Level_Manager();
+	levelManager->Init( m_pD3DDevice, render, havok->getWorld(), Player);
 	
 	havok->getWorld()->unlock();
 
@@ -524,7 +525,7 @@ void CDirectXFramework::Update(float dt)
 		}
 
 		// update the levels and the enemies
-		levelManager.Update( dt, Player, type, eyePos, lookAt);
+		levelManager->Update( dt, Player, type, eyePos, lookAt);
 			
 		havok->getWorld()->unlock();
 
@@ -568,64 +569,8 @@ if(gameState->activeGameState == GAME)
 	m_pD3DDevice->SetIndices(mesh_ib);
 	m_pD3DDevice->SetVertexDeclaration(d3dVertexDecl);
 
-	fx[0]->SetTechnique(hTech[0]);
-
-	UINT numPasses = 0;
-	fx[0]->Begin(&numPasses, 0);
-
-	for(UINT i = 0; i < numPasses; ++i)
-	{
-		fx[0]->BeginPass(i);
-
-		D3DXMatrixRotationY(&rotMat, D3DXToRadian(Player->rotation.x));
-
-		D3DXVECTOR3 tempPos = D3DXVECTOR3(0.0f, 0.0f, -15.0f);
-
-		D3DXVec3Normalize(&tempPos, &tempPos);
-
-		D3DXVec3TransformCoord(&tempPos, &tempPos, &rotMat);
-
-		// Mesh Matrix
-		D3DXMatrixScaling(&scaleMat, 0.04f, 0.04f, 0.0f);
-
-		//D3DXMatrixRotationYawPitchRoll(&rotMat, Player->rotation.x, Player->rotation.y, Player->rotation.z);
-		//D3DXMatrixRotationYawPitchRoll(&rotMat, , 0.0f, 0.0f);
-		D3DXMatrixTranslation(&transMat, Player->position.x + (tempPos.x * 2) - 0.5f, Player->position.y + tempPos.y - 5.0f, Player->position.z + (tempPos.z * 2) - 0.5f); //x-1.55 is the value for gun to be directly in the center of the camera
-		D3DXMatrixMultiply(&scaleMat, &scaleMat, &rotMat);
-		D3DXMatrixMultiply(&worldMat, &scaleMat, &transMat);
-		//D3DXMatrixMultiply(&worldMat, &scaleMat, &transMat);
-
-		D3DXMatrixInverse(&invTransMat, 0, &worldMat);
-		D3DXMatrixTranspose(&invTransMat, &invTransMat);
-
-		D3DXMATRIX wvp = worldMat * viewMat * projMat;
-		D3DXMATRIX wvpit;
-		D3DXMatrixInverse(&wvpit, 0, &wvp);
-		D3DXMatrixTranspose(&wvpit, &wvpit);
-
-		fx[0]->SetMatrix("WVP", &wvp);
-		fx[0]->SetMatrix("WVPIT", &wvpit);
-		fx[0]->SetMatrix("World", &worldMat);
-		fx[0]->SetMatrix("View", &viewMat);
-		fx[0]->SetMatrix("Projection", &projMat);
-		fx[0]->SetMatrix("WorldInverseTranspose", &invTransMat);
-
-		for( short e = 0; e < Player->objectMesh->numMaterials; ++e )
-		{
-			fx[0]->SetTexture("gTexture", Player->objectMesh->textures[e]);
-			fx[0]->CommitChanges();
-			Player->objectMesh->p_Mesh->DrawSubset(e);
-		}
-
-		fx[0]->EndPass();
-	}
-	fx[0]->End();
-
 
 	renderObject(Mansion, D3DXVECTOR3( 7.5f, -5.0, -67.5));
-
-	// render the levels and the enemies
-	levelManager.Render( m_hWnd, viewMat, projMat, eyePos);
 
 	// Object Renders
 	for(short i = 0; i < ARRAYSIZE(piano); ++i)
@@ -651,8 +596,8 @@ if(gameState->activeGameState == GAME)
 	for(short i = 0; i < ARRAYSIZE(chair); ++i)
 		renderObject(chair[i], D3DXVECTOR3(0.0f, -7.5f, 0.5f));
 
-	levelManager.Render( m_hWnd, viewMat, projMat, eyePos);
-
+	// render the levels and the enemies
+	levelManager->Render( m_hWnd, viewMat, projMat, eyePos);
 
 	Player->mPSys->draw(m_hWnd, eyePos, viewMat * projMat); // bullet draw
 
