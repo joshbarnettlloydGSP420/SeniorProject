@@ -295,9 +295,9 @@ void HUD::Render(IDirect3DDevice9* device, ID3DXSprite* sprite, int colorSwitch)
 	//	
 	
 	sprite->Draw(blackBarTexture, &blackBarSheetRect, &D3DXVECTOR3(0,0,0), &blackBar1Position.position, D3DCOLOR_ARGB(255, 255, 255, 255));
-	sprite->Draw(blackBarTexture, &blackBarSheetRect, &D3DXVECTOR3(0,0,0), &blackBar2Position.position, D3DCOLOR_ARGB(255, 255, 255, 255));	
+	//sprite->Draw(blackBarTexture, &blackBarSheetRect, &D3DXVECTOR3(0,0,0), &blackBar2Position.position, D3DCOLOR_ARGB(255, 255, 255, 255));	
 	sprite->Draw(healthTexture, &healthSheetRect, &D3DXVECTOR3(0,0,0), &healthPosition.position, D3DCOLOR_ARGB(255, 255, 255, 255));
-	sprite->Draw(shieldTexture, &shieldSheetRect, &D3DXVECTOR3(0,0,0), &shieldPosition.position, D3DCOLOR_ARGB(255, 255, 255, 255));	
+	//sprite->Draw(shieldTexture, &shieldSheetRect, &D3DXVECTOR3(0,0,0), &shieldPosition.position, D3DCOLOR_ARGB(255, 255, 255, 255));	
 	sprite->Draw(hudTexture, &hudSheetRect, &D3DXVECTOR3(0,0,0), &hudPosition.position, D3DCOLOR_ARGB(255, 255, 255, 255));
 	sprite->Draw(ammoTexture, &ammoSheetRect, &D3DXVECTOR3(0,0,0), &ammoPosition.position, D3DCOLOR_ARGB(255, 255, 255, 255));
 	switch(color)
