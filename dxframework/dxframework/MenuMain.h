@@ -16,7 +16,7 @@ private:
 		m_GAME			= 3,
 	} menuState;
 
-	
+	IDirect3DTexture9*				mainMenuLogo;
 
 public:
 	MenuMain();

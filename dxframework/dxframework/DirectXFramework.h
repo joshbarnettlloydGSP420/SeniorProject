@@ -19,10 +19,7 @@
 #include "Vertex.h"
 #include "GameStateManager.h"
 #include "RenderObject.h"
-#include "Enemy_PurpleGhost.h"
-#include "Enemy_YellowGhost.h"
-#include "Enemy_GreenGhost.h"
-#include "Enemy_RedGhost.h"
+#include "Level_Manager.h"
 #include "EventManager.h"
 #include "EntityManager.h"
 #include "AudioManager.h"
@@ -33,7 +30,7 @@
 
 
 // Enums
-enum GhostTextures{ Red, Yellow, Green, Blue };
+enum GhostTextures{ Red, Yellow, Green, Purple };
 
 class CDirectXFramework
 {
@@ -223,21 +220,12 @@ class CDirectXFramework
 	Object_Base*					candleStick[4];
 	Object_Base*					chair[8];
 
-
-
-	//////////////////////////////////////////////////////////////////////////
-	// Enemies																//
-	//////////////////////////////////////////////////////////////////////////
-	Enemy_YellowGhost*				yellowGhost;
-	Enemy_RedGhost*					redGhost;
-	Enemy_PurpleGhost*				purpleGhost;
-	Enemy_GreenGhost*				greenGhost;
-
 	//////////////////////////////////////////////////////////////////////////
 	// Game Managers														//
 	//////////////////////////////////////////////////////////////////////////
 	EntityManager*					entityMan;
 	EventManager*					eventMan;
+	Level_Manager*					levelManager;
 
 public:
 
@@ -265,6 +253,8 @@ public:
 	void renderObject(Object_Base* object, D3DXVECTOR3 offset);
 
 	void collisions(float dt);
+
+	void createRamp(hkpWorld* world, float scaleX, float scaleY, float scaleZ, float posX, float posY, float posZ);
 };
 
 extern CDirectXFramework gd3dApp;

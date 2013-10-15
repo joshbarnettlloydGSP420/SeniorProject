@@ -10,6 +10,7 @@ Enemy_GreenGhost::~Enemy_GreenGhost(void)
 {
 }
 
+// Initialize the green ghost
 void Enemy_GreenGhost::Init(IDirect3DDevice9* m_pD3DDevice, RenderObject* m_pRender)
 {
 	// call the enemy base init
@@ -40,7 +41,7 @@ void Enemy_GreenGhost::Init(IDirect3DDevice9* m_pD3DDevice, RenderObject* m_pRen
 	// Initialize the 3D model of the enemy.
 	textureName = L"GreenGhostTexture.jpg";
 	textureNumber = GreenGhost;
-	meshName = L"GreenGhost.x";
+	meshName = L"RedGhost.x";
 
 	// Create the texture
 	render->LoadTexture( textureName, textureNumber);
@@ -49,30 +50,44 @@ void Enemy_GreenGhost::Init(IDirect3DDevice9* m_pD3DDevice, RenderObject* m_pRen
 	render->LoadMesh( meshName, &objectMesh);
 }
 
-// if the enemy is hit with a bullet
-void Enemy_GreenGhost::BulletCollision( LPCSTR bulletColor )
+// check to see if the enemy is hit with a bullet
+void Enemy_GreenGhost::BulletCollision( float dt, Object_Player* player, gunType bulletColor)
 {
-	// if the bullet is the same color as the ghost then lose health
-	if ( bulletColor == "Green" )
-		health -= 20;
-	// else if the bullet is the opposite color then gain health and create mini ghosts
-	else if ( bulletColor == "Red" )
-	{
-		health += 10;
-		//ChangeState( Defence );
-	}
-	// else if other colors then gain more health and increase attackSpeed
-	else
-	{
-		health += 20;
-		
-		if ( attackSpeed <= 40 )
-			attackSpeed += 5;
-		else
-			attackSpeed = 40;
-	}
+	// collision variables
+	hkAabb aabbBase;
+	hkAabb aabbOut;
 
-	// if health is greater than 200 set it to a max of 200
-	if ( health > 200 )
-		health = 200;
+
+	// Enemy Hits Bullets
+	for(short i = 0; i < ARRAYSIZE(player->bull); ++i)
+	{
+		// Object Hit Bullets
+		for(short i = 0; i < ARRAYSIZE(player->bull); ++i)
+		{
+			// get the aabb bounding box of the ghost
+			rigidBody->getCollidable()->getShape()->getAabb(rigidBody->getTransform(), 0.4f, aabbOut);
+			// get the aabb bounding box of the player
+			player->bull[i].bulletObject->getCollidable()->getShape()->getAabb(player->bull[i].bulletObject->getTransform(), 0.4f, aabbBase);
+				
+			// if the bullet has collision with the enemy then take appropriate action.
+			if(aabbBase.overlaps(aabbOut))
+			{
+				// if the bullet is the opposite color as the ghost then lose health
+				if ( bulletColor == red )
+					health -= 10;
+				// else if the bullet is the same color then gain health
+				else if ( bulletColor == green )
+					health += 20;
+				// else if other colors then gain health
+				else
+					health += 10;
+
+				// if health is greater than 200 set it to a max of 200
+				if ( health > 200 )
+					health = 200;
+			}
+
+		}
+
+	}
 }

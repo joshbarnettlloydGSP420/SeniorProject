@@ -44,7 +44,7 @@ void CDirectXFramework::Init(HWND& hWnd, HINSTANCE& hInst, bool bWindowed)
 	ZeroMemory(&D3Dpp, sizeof(D3Dpp));						// NULL the structure's memory
 
 	D3Dpp.hDeviceWindow					= hWnd;																		// Handle to the focus window
-	D3Dpp.Windowed						=  bWindowed;																// Windowed or Full-screen boolean
+	D3Dpp.Windowed						= bWindowed;																// Windowed or Full-screen boolean
 	D3Dpp.AutoDepthStencilFormat		= D3DFMT_D24S8;																// Format of depth/stencil buffer, 24 bit depth, 8 bit stencil
 	D3Dpp.EnableAutoDepthStencil		= TRUE;																		// Enables Z-Buffer (Depth Buffer)
 	D3Dpp.BackBufferCount				= 1;																		// Change if need of > 1 is required at a later date
@@ -122,21 +122,6 @@ void CDirectXFramework::Init(HWND& hWnd, HINSTANCE& hInst, bool bWindowed)
 	changeBullet = new SoundEffect();
 	changeBullet = SoundLoader::GetInstance()->Load(false,false,"gun-cocking-01.wav");
 	AudioManager::GetInstance()->SetSFXVolume(1.0f);
-///////////////////////////////////////////////////////////////////////////////////////////////////////////
-// Creating Enemies																						 //
-///////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-	redGhost = new Enemy_RedGhost();
-	redGhost->Init(m_pD3DDevice, render);
-
-	purpleGhost = new Enemy_PurpleGhost();
-	purpleGhost->Init(m_pD3DDevice, render);
-
-	greenGhost = new Enemy_GreenGhost();
-	greenGhost->Init(m_pD3DDevice, render);
-
-	yellowGhost = new Enemy_YellowGhost();
-	yellowGhost->Init(m_pD3DDevice, render);
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Creating Light																						 //
@@ -241,7 +226,7 @@ void CDirectXFramework::Init(HWND& hWnd, HINSTANCE& hInst, bool bWindowed)
 	Player->shape = CAPSULE;
 
 	Mansion = new Object_Base();
-	Mansion->position = D3DXVECTOR4(65.0f, 0.0f, 5.0f, 0.0f);
+	Mansion->position = D3DXVECTOR4(61.75f, 0.0f, 8.5f, 0.0f);
 	Mansion->scale = D3DXVECTOR3(0.20f, 0.20f, 0.20f);
 	Mansion->shape = BOX;
 	Mansion->weight = UNMOVABLE;
@@ -251,11 +236,12 @@ void CDirectXFramework::Init(HWND& hWnd, HINSTANCE& hInst, bool bWindowed)
 		piano[i] = new Object_Base();
 		piano[i]->shape = BOX;
 		piano[i]->weight = UNMOVABLE;
-		piano[i]->scale = D3DXVECTOR3(3.0f, 3.0f, 3.0f);
+		piano[i]->scale = D3DXVECTOR3(4.0f, 4.0f, 4.0f);
 	}
 
-	piano[0]->position = D3DXVECTOR4(-54.0f, 1.8f, 45.0f, 0.0f);
-	piano[1]->position = D3DXVECTOR4(-12.4f, 1.8f, 0.0f, 0.0f);
+	piano[0]->position = D3DXVECTOR4(-56.0f, 3.0f, 47.0f, 0.0f);
+	piano[0]->rotation = D3DXVECTOR3(10.0f, 0.0f, 0.0f);
+	piano[1]->position = D3DXVECTOR4(-12.4f, -10.8f, 0.0f, 0.0f);
 
 	//for(short i = 0; i < ARRAYSIZE(sinkCounter); ++i)
 	//{
@@ -415,31 +401,36 @@ void CDirectXFramework::Init(HWND& hWnd, HINSTANCE& hInst, bool bWindowed)
 
 	// Mansion
 	createGroundBox(havok->getWorld(), 85.0f, 2.0f, 50.0f, 0.0f, 0.0f, 10.0f);		// Floor
-	createGroundBox(havok->getWorld(), 100.0f, 20.0f, 2.0f, 0.0f, 0.0f, -35.0f);	// Front
-	createGroundBox(havok->getWorld(), 100.0f, 20.0f, 2.0f, 0.0f, 0.0f, 49.0f);		// Back
-	createGroundBox(havok->getWorld(), 2.0f, 20.0f, 50.0f, 65.0f, 0.0f, 10.0f);		// Right
-	createGroundBox(havok->getWorld(), 2.0f, 20.0f, 50.0f, -60.0f, 0.0f, 10.0f);	// Left
-	createGroundBox(havok->getWorld(), 22.5f, 20.0f, 1.0f, 2.0f, 0.0f, 4.5f);		// Middle
+	createGroundBox(havok->getWorld(), 100.0f, 20.0f, 2.0f, 0.0f, 0.0f, -40.0f);	// Front
+	createGroundBox(havok->getWorld(), 100.0f, 20.0f, 2.0f, 0.0f, 0.0f, 62.5f);		// Back
+	createGroundBox(havok->getWorld(), 2.0f, 20.0f, 50.0f, 71.5f, 0.0f, 10.0f);		// Right
+	createGroundBox(havok->getWorld(), 2.0f, 20.0f, 50.0f, -67.5f, 0.0f, 10.0f);	// Left
+	createGroundBox(havok->getWorld(), 22.5f, 5.0f, 1.5f, 2.0f, 15.0f, 14.0f);		// Middle Top
+	createGroundBox(havok->getWorld(), 8.0f, 5.0f, 1.5f, 13.0f, 5.0f, 14.0f);		// Middle Right
+	createGroundBox(havok->getWorld(), 8.0f, 5.0f, 1.5f, -10.0f, 5.0f, 14.0f);		// Middle Left
 	createGroundBox(havok->getWorld(), 2.0f, 5.0f, 50.0f, -20.0f, 15.0f, 10.0f);	// Left Inside Top
 	createGroundBox(havok->getWorld(), 2.0f, 5.0f, 50.0f, 22.5f, 15.0f, 10.0f);		// Right Inside Top
-	createGroundBox(havok->getWorld(), 2.0f, 10.0f, 22.0f, -20.0f, 5.0f, 2.5f);		// Middle Left Inside
-	createGroundBox(havok->getWorld(), 2.0f, 10.0f, 22.0f, 22.5f, 5.0f, 2.5f);		// Middle Right Inside
-	createGroundBox(havok->getWorld(), 2.0f, 10.0f, 7.5f, -20.0f, 5.0f, 41.0f);		// Top Left Inside 
-	createGroundBox(havok->getWorld(), 2.0f, 10.0f, 7.5f, 22.5f, 5.0f, 41.0f);		// Top Right Inside
+	createGroundBox(havok->getWorld(), 2.0f, 10.0f, 24.0f, -20.0f, 5.0f, 2.5f);		// Middle Left Inside
+	createGroundBox(havok->getWorld(), 2.0f, 10.0f, 24.0f, 22.5f, 5.0f, 2.5f);		// Middle Right Inside
+	createGroundBox(havok->getWorld(), 2.0f, 10.0f, 16.0f, -20.0f, 5.0f, 43.0f);	// Top Left Inside 
+	createGroundBox(havok->getWorld(), 2.0f, 10.0f, 16.0f, 22.5f, 5.0f, 43.0f);		// Top Right Inside
 	createGroundBox(havok->getWorld(), 2.0f, 10.0f, 7.5f, -20.0f, 5.0f, -37.5f);	// Bottom Left Inside 
 	createGroundBox(havok->getWorld(), 2.0f, 10.0f, 7.5f, 22.5f, 5.0f, -37.5f);		// Bottom Right Inside
+	createGroundBox(havok->getWorld(), 20.0f, 1.0f, 5.0f, 0.0f, 10.0f, 10.0f);		// Foyer Second Floor
+
+	createRamp(havok->getWorld(), 5.0f, 5.0f, 5.0f, -14.0f, 0.5f, -2.0f);			// Left Stairs
+	createRamp(havok->getWorld(), 5.0f, 5.0f, 5.0f, 14.0f, 0.5f, -2.0f);			// Right Stairs
+
 
 	// House Objects
 	for(short i = 0; i < ARRAYSIZE(piano); ++i)
 		piano[i]->createHavokObject(havok->getWorld());
-	
 
 	//for(short i = 0; i < ARRAYSIZE(sinkCounter); ++i)
 	//	sinkCounter[i]->createHavokObject(havok->getWorld());
 
 	//for(short i = 0; i < ARRAYSIZE(normalCounter); ++i)
 	//	normalCounter[i]->createHavokObject(havok->getWorld());
-
 
 		fridge->createHavokObject(havok->getWorld());
 
@@ -455,14 +446,14 @@ void CDirectXFramework::Init(HWND& hWnd, HINSTANCE& hInst, bool bWindowed)
 	for(short i = 0; i < ARRAYSIZE(chair); ++i)
 		chair[i]->createHavokObject(havok->getWorld());
 
-	// enemies
-	redGhost->CreateHavokObject(havok->getWorld());
-	purpleGhost->CreateHavokObject(havok->getWorld());
-	yellowGhost->CreateHavokObject(havok->getWorld());
-	greenGhost->CreateHavokObject(havok->getWorld());
+	/// TODO: Level Manager Havok stuff - Heather
 
 	eventMan = new EventManager();
 	eventMan->Init();
+
+	// initialize the levels and the enemies
+	levelManager = new Level_Manager();
+	levelManager->Init( m_pD3DDevice, render, havok->getWorld(), Player);
 	
 	havok->getWorld()->unlock();
 
@@ -495,6 +486,7 @@ HWND CDirectXFramework::getMainWnd()
 
 void CDirectXFramework::Update(float dt)
 {
+
 	if(gameState->activeGameState == GAME)
 	{
 		m_pDInput->Update();
@@ -508,6 +500,7 @@ void CDirectXFramework::Update(float dt)
 
 		//minimap player position init
 		gameState->setPlayerPosition(Player->position);
+		//gameState->setEnemyPosition(redGhost->GetPosition());
 		
 		// Object Updates
 		Mansion->Update(dt);
@@ -526,43 +519,19 @@ void CDirectXFramework::Update(float dt)
 		for(short i = 0; i < ARRAYSIZE(chair); ++i)
 			chair[i]->Update(dt);
 
-
-		// Enemies update
-		// Check to make sure they aren't dead before running the updates
-
-		if ( redGhost->GetIsDead() == false)
-		{
-			redGhost->Update( dt, Player->position);
-			//redGhost->BulletCollision( bulletColor );
-		}
-		//else if( redGhost->GetIsDead() == true && purpleGhost->GetIsDead() == false)
-		{
-			purpleGhost->Update( dt, Player->position);
-			//purpleGhost->BulletCollision( bulletColor );
-		}
-		//else if ( purpleGhost->GetIsDead() == true && greenGhost->GetIsDead() == false)
-		{
-			greenGhost->Update( dt, Player->position);
-			//greenGhost->BulletCollision( bulletColor );
-		}
-		 //else if ( greenGhost->GetIsDead() == true && yellowGhost->GetIsDead() == false)
-		{
-			yellowGhost->Update( dt, Player->position);
-			//yellowGhost->BulletCollision( bulletColor );
-		}
-
 		if(eventMan->checkForPlayer(Player))
 		{
 			bool touch = true;
 		}
+
+		// update the levels and the enemies
+		levelManager->Update( dt, Player, type, eyePos, lookAt);
 			
 		havok->getWorld()->unlock();
-
 
 		UpdateCamera(dt);
 		playerControls(dt);
 	}
-
 	gameState->Update(dt);
 }
 
@@ -600,61 +569,8 @@ if(gameState->activeGameState == GAME)
 	m_pD3DDevice->SetIndices(mesh_ib);
 	m_pD3DDevice->SetVertexDeclaration(d3dVertexDecl);
 
-	fx[0]->SetTechnique(hTech[0]);
 
-	UINT numPasses = 0;
-	fx[0]->Begin(&numPasses, 0);
-
-	for(UINT i = 0; i < numPasses; ++i)
-	{
-		fx[0]->BeginPass(i);
-
-		D3DXMatrixRotationY(&rotMat, D3DXToRadian(Player->rotation.x));
-
-		D3DXVECTOR3 tempPos = D3DXVECTOR3(0.0f, 0.0f, -15.0f);
-
-		D3DXVec3Normalize(&tempPos, &tempPos);
-
-		D3DXVec3TransformCoord(&tempPos, &tempPos, &rotMat);
-
-		// Mesh Matrix
-		D3DXMatrixScaling(&scaleMat, 0.04f, 0.04f, 0.0f);
-
-		//D3DXMatrixRotationYawPitchRoll(&rotMat, Player->rotation.x, Player->rotation.y, Player->rotation.z);
-		//D3DXMatrixRotationYawPitchRoll(&rotMat, , 0.0f, 0.0f);
-		D3DXMatrixTranslation(&transMat, Player->position.x + (tempPos.x * 2) - 0.5f, Player->position.y + tempPos.y - 5.0f, Player->position.z + (tempPos.z * 2) - 0.5f); //x-1.55 is the value for gun to be directly in the center of the camera
-		D3DXMatrixMultiply(&scaleMat, &scaleMat, &rotMat);
-		D3DXMatrixMultiply(&worldMat, &scaleMat, &transMat);
-		//D3DXMatrixMultiply(&worldMat, &scaleMat, &transMat);
-
-		D3DXMatrixInverse(&invTransMat, 0, &worldMat);
-		D3DXMatrixTranspose(&invTransMat, &invTransMat);
-
-		D3DXMATRIX wvp = worldMat * viewMat * projMat;
-		D3DXMATRIX wvpit;
-		D3DXMatrixInverse(&wvpit, 0, &wvp);
-		D3DXMatrixTranspose(&wvpit, &wvpit);
-
-		fx[0]->SetMatrix("WVP", &wvp);
-		fx[0]->SetMatrix("WVPIT", &wvpit);
-		fx[0]->SetMatrix("World", &worldMat);
-		fx[0]->SetMatrix("View", &viewMat);
-		fx[0]->SetMatrix("Projection", &projMat);
-		fx[0]->SetMatrix("WorldInverseTranspose", &invTransMat);
-
-		for( short e = 0; e < Player->objectMesh->numMaterials; ++e )
-		{
-			fx[0]->SetTexture("gTexture", Player->objectMesh->textures[e]);
-			fx[0]->CommitChanges();
-			Player->objectMesh->p_Mesh->DrawSubset(e);
-		}
-
-		fx[0]->EndPass();
-	}
-	fx[0]->End();
-
-
-	renderObject(Mansion, D3DXVECTOR3(7.5f, -5.0f, -67.5f));
+	renderObject(Mansion, D3DXVECTOR3( 7.5f, -5.0, -67.5));
 
 	// Object Renders
 	for(short i = 0; i < ARRAYSIZE(piano); ++i)
@@ -680,16 +596,8 @@ if(gameState->activeGameState == GAME)
 	for(short i = 0; i < ARRAYSIZE(chair); ++i)
 		renderObject(chair[i], D3DXVECTOR3(0.0f, -7.5f, 0.5f));
 
-	// Render the ghosts
-	// when one ghost is dead then the next one renders
-	if ( redGhost->GetIsDead() == false)
-		redGhost->Render( m_hWnd, viewMat, projMat);
-	//else if( redGhost->GetIsDead() == true && purpleGhost->GetIsDead() == false)
-		purpleGhost->Render( m_hWnd, viewMat, projMat);
-	//else if ( purpleGhost->GetIsDead() == true && greenGhost->GetIsDead() == false)
-		greenGhost->Render( m_hWnd, viewMat, projMat);
-	//else if ( greenGhost->GetIsDead() == true && yellowGhost->GetIsDead() == false)
-		yellowGhost->Render( m_hWnd, viewMat, projMat);
+	// render the levels and the enemies
+	levelManager->Render( m_hWnd, viewMat, projMat, eyePos);
 
 	Player->mPSys->draw(m_hWnd, eyePos, viewMat * projMat); // bullet draw
 
@@ -755,14 +663,14 @@ gameState->Render(m_pD3DSprite);
 	GetWindowRect(m_hWnd, &rect);
 	int width = rect.right - rect.left;
 	int height = rect.bottom - rect.top;
-	int currentRoom = eventMan->currentRoom;
+	//int currentRoom = eventMan->currentRoom;
 
 	// Draw Text, using DT_TOP, DT_RIGHT for placement in the top right of the
 	// screen.  DT_NOCLIP can improve speed of text rendering, but allows text
 	// to be drawn outside of the rect specified to draw text in.
 	char debugMessage[256];
-	sprintf(debugMessage, "CurrentRoom: %d", 
-		currentRoom);
+	//sprintf(debugMessage, "CurrentRoom: %d", 
+		//currentRoom);
 
 	m_pD3DFont->DrawTextA(0, debugMessage, -1, &rect, 
                   DT_TOP | DT_LEFT | DT_NOCLIP, 
@@ -1061,6 +969,59 @@ void CDirectXFramework::playerControls(float dt)
 		Player->rotation.x = 360.0f;
 }
 
+ void CDirectXFramework::createRamp(hkpWorld* world, float scaleX, float scaleY, float scaleZ, float posX, float posY, float posZ)
+ {
+ 
+	// Create a ground area
+	hkVector4 Vertex1(-scaleX, scaleY, 0.0f);
+	hkVector4 Vertex2(-scaleX, 0.0f, 0.0f);
+	hkVector4 Vertex3(scaleX, 0.0f, 0.0f);
+	hkpTriangleShape* triangleShape1 = new hkpTriangleShape(Vertex1, Vertex2, Vertex3, 5.0f);
+
+	// Create a ground area
+	Vertex1 = hkVector4(-scaleX, scaleY, scaleZ);
+	Vertex2 = hkVector4(-scaleX, 0.0f, scaleZ);
+	Vertex3 = hkVector4(scaleX, 0.0f, scaleZ);
+	hkpTriangleShape* triangleShape2 = new hkpTriangleShape(Vertex1, Vertex2, Vertex3, 5.0f);
+
+	// Set its properties
+	hkpRigidBodyCinfo ci;
+	// Rotation
+	hkRotation rotation;
+	rotation.setAxisAngle(hkVector4(0.0, -1.0, 0.0), -90 * ( D3DX_PI / 180 ));
+
+	hkTransform transform;
+	transform.setIdentity();
+	transform.setRotation(rotation);
+	ci.setTransform(transform);
+
+	ci.m_shape = triangleShape1;
+	ci.m_position = hkVector4(posX, posY, posZ);
+	ci.m_motionType = hkpMotion::MOTION_FIXED;
+	ci.m_friction = 1.0f;
+
+	// Create the rigid body
+	hkpRigidBody* rigidBody1 = new hkpRigidBody(ci);
+
+	ci.m_shape = triangleShape2;
+ 	ci.m_position = hkVector4(posX, posY, posZ);
+ 	ci.m_motionType = hkpMotion::MOTION_FIXED;
+ 	ci.m_friction = 1.0f;
+ 
+ 	// Create the rigid body
+	hkpRigidBody* rigidBody2 = new hkpRigidBody(ci);
+
+	// No longer need the reference on the boxShape, as the rigidBody now owns it
+	triangleShape1->removeReference();
+	triangleShape2->removeReference();
+
+ 	// Remove reference and add the rigidbody to the world
+	world->addEntity(rigidBody1)->removeReference();
+	world->addEntity(rigidBody2)->removeReference();
+
+ }
+
+
 void CDirectXFramework::renderObject(Object_Base* object, D3DXVECTOR3 offset)
 {
 	fx[0]->SetTechnique(hTech[0]);
@@ -1074,7 +1035,7 @@ void CDirectXFramework::renderObject(Object_Base* object, D3DXVECTOR3 offset)
 
 		// Mesh Matrix
 		D3DXMatrixScaling(&scaleMat, object->scale.x, object->scale.y, object->scale.z);
-		D3DXMatrixRotationYawPitchRoll(&rotMat, object->rotation.x, object->rotation.y, object->rotation.z);
+		D3DXMatrixRotationYawPitchRoll(&rotMat, 0.0f, 0.0f, 0.0f);
 		D3DXMatrixTranslation(&transMat, object->position.x + offset.x, object->position.y + offset.y, object->position.z + offset.z);
 		D3DXMatrixMultiply(&scaleMat, &scaleMat, &rotMat);
 		D3DXMatrixMultiply(&worldMat, &scaleMat, &transMat);
@@ -1120,51 +1081,5 @@ void CDirectXFramework::collisions(float dt)
 { 
 	hkReal deltaTime = dt;
 	hkVector4 Force = hkVector4(5.0f, 3.0f, 5.0f);
-
-	// Ghosts hitting the player
-	if(entityMan->enemyVsPlayer(dt, redGhost, Player) && redGhost->GetIsDead() == false)
-	{
-		Player->health -= 20;
-		Player->hitTimer = 0.0f;
-	}
-
-	if(entityMan->enemyVsPlayer(dt, purpleGhost, Player) && purpleGhost->GetIsDead() == false)
-	{
-		Player->health -= 20;
-		Player->hitTimer = 0.0f;
-	}
-
-	if(entityMan->enemyVsPlayer(dt, greenGhost, Player) && greenGhost->GetIsDead() == false)
-	{
-		Player->health -= 20;
-		Player->hitTimer = 0.0f;
-	}
-
-	if(entityMan->enemyVsPlayer(dt, yellowGhost, Player) && yellowGhost->GetIsDead() == false)
-	{
-		Player->health -= 20;
-		Player->hitTimer = 0.0f;
-	}
-
-	// Bullets hitting Enemies
-	if(entityMan->enemyVsBullet(dt, redGhost, Player) && redGhost->GetIsDead() == false && type == red)
-	{
-		redGhost->SetHealth(redGhost->GetHealth() - 20);
-	}
-
-	if(entityMan->enemyVsBullet(dt, purpleGhost, Player) && purpleGhost->GetIsDead() == false && type == blue )
-	{
-		purpleGhost->SetHealth(purpleGhost->GetHealth() - 20);
-	}
-
-	if(entityMan->enemyVsBullet(dt, greenGhost, Player) && greenGhost->GetIsDead() == false && type == green)
-	{
-		greenGhost->SetHealth(greenGhost->GetHealth() - 20);
-	}
-
-	if(entityMan->enemyVsBullet(dt, yellowGhost, Player) && yellowGhost->GetIsDead() == false)
-	{
-		yellowGhost->SetHealth(yellowGhost->GetHealth() - 20);
-	}
 
 }
