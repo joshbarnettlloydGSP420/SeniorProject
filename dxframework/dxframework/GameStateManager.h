@@ -14,6 +14,7 @@
 
 
 
+
 enum GAME_STATE
 {
 	QUIT			= 0,

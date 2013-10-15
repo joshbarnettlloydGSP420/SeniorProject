@@ -85,17 +85,11 @@
     <Filter Include="Header Files\Objects\Enemy\Ghosts">
       <UniqueIdentifier>{1c39b273-4379-49bd-886c-0c873eb7a30a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Game\LevelHandlers">
-      <UniqueIdentifier>{a28e10cd-35e6-460b-a4f1-08a4e2a28c14}</UniqueIdentifier>
+    <Filter Include="Resource Files\Texture\Dwarf">
+      <UniqueIdentifier>{f0a15093-b911-48db-b540-83dfa08d9fae}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Game\LevelHandlers">
-      <UniqueIdentifier>{f637567f-d15c-4685-bfd8-401280eaeb7f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Game\LevelHandlers\Levels">
-      <UniqueIdentifier>{48a73139-f8aa-4ee6-ae4c-d539a34f66a4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Game\LevelHandlers\Levels">
-      <UniqueIdentifier>{a6e04cbb-12ed-41a2-811b-8986d5117958}</UniqueIdentifier>
+    <Filter Include="Resource Files\Texture\House">
+      <UniqueIdentifier>{c1fcefec-9452-4652-841c-d4202450b150}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -219,29 +213,8 @@
     <ClCompile Include="HUD.cpp">
       <Filter>Source Files\Game</Filter>
     </ClCompile>
-    <ClCompile Include="Level_Base.cpp">
-      <Filter>Source Files\Game\LevelHandlers\Levels</Filter>
-    </ClCompile>
-    <ClCompile Include="Level_Two.cpp">
-      <Filter>Source Files\Game\LevelHandlers\Levels</Filter>
-    </ClCompile>
-    <ClCompile Include="Level_Four.cpp">
-      <Filter>Source Files\Game\LevelHandlers\Levels</Filter>
-    </ClCompile>
-    <ClCompile Include="Level_One.cpp">
-      <Filter>Source Files\Game\LevelHandlers\Levels</Filter>
-    </ClCompile>
-    <ClCompile Include="Level_Three.cpp">
-      <Filter>Source Files\Game\LevelHandlers\Levels</Filter>
-    </ClCompile>
-    <ClCompile Include="Level_Tutorial.cpp">
-      <Filter>Source Files\Game\LevelHandlers\Levels</Filter>
-    </ClCompile>
-    <ClCompile Include="Level_Manager.cpp">
-      <Filter>Source Files\Game\LevelHandlers</Filter>
-    </ClCompile>
-    <ClCompile Include="Level_Beyond5.cpp">
-      <Filter>Source Files\Game\LevelHandlers\Levels</Filter>
+    <ClCompile Include="torches.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -365,31 +338,10 @@
     <ClInclude Include="HUD.h">
       <Filter>Header Files\Game</Filter>
     </ClInclude>
-    <ClInclude Include="Level_Two.h">
-      <Filter>Header Files\Game\LevelHandlers\Levels</Filter>
+    <ClInclude Include="Fire.h">
+      <Filter>Header Files\Objects</Filter>
     </ClInclude>
-    <ClInclude Include="Level_Base.h">
-      <Filter>Header Files\Game\LevelHandlers\Levels</Filter>
-    </ClInclude>
-    <ClInclude Include="Level_Four.h">
-      <Filter>Header Files\Game\LevelHandlers\Levels</Filter>
-    </ClInclude>
-    <ClInclude Include="Level_One.h">
-      <Filter>Header Files\Game\LevelHandlers\Levels</Filter>
-    </ClInclude>
-    <ClInclude Include="Level_Three.h">
-      <Filter>Header Files\Game\LevelHandlers\Levels</Filter>
-    </ClInclude>
-    <ClInclude Include="Level_Tutorial.h">
-      <Filter>Header Files\Game\LevelHandlers\Levels</Filter>
-    </ClInclude>
-    <ClInclude Include="Level_Manager.h">
-      <Filter>Header Files\Game\LevelHandlers</Filter>
-    </ClInclude>
-    <ClInclude Include="Level_Beyond5.h">
-      <Filter>Header Files\Game\LevelHandlers\Levels</Filter>
-    </ClInclude>
-    <ClInclude Include="Room.h">
+    <ClInclude Include="torches.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -409,27 +361,6 @@
     <None Include="Metal_Texture.jpg">
       <Filter>Resource Files\Texture</Filter>
     </None>
-    <None Include="Armor.dds">
-      <Filter>Resource Files\Texture</Filter>
-    </None>
-    <None Include="Body.dds">
-      <Filter>Resource Files\Texture</Filter>
-    </None>
-    <None Include="DwarfHead.dds">
-      <Filter>Resource Files\Texture</Filter>
-    </None>
-    <None Include="Headgear.dds">
-      <Filter>Resource Files\Texture</Filter>
-    </None>
-    <None Include="Helmet.dds">
-      <Filter>Resource Files\Texture</Filter>
-    </None>
-    <None Include="Pack.dds">
-      <Filter>Resource Files\Texture</Filter>
-    </None>
-    <None Include="Weapons.dds">
-      <Filter>Resource Files\Texture</Filter>
-    </None>
     <None Include="Dwarf.x">
       <Filter>Resource Files\Models</Filter>
     </None>
@@ -440,9 +371,6 @@
       <Filter>Resource Files\Shaders</Filter>
     </None>
     <None Include="..\..\..\Gun\Gun\bolt2.xcf">
-      <Filter>Resource Files\Texture</Filter>
-    </None>
-    <None Include="..\..\..\Gun\Gun\blend_hm1.dds">
       <Filter>Resource Files\Texture</Filter>
     </None>
     <None Include="..\..\..\Gun\Gun\bolt.dds">
@@ -501,6 +429,75 @@
     </None>
     <None Include="Piano.X">
       <Filter>Resource Files\Models\Base_Objects</Filter>
+    </None>
+    <None Include="houseTextured.X">
+      <Filter>Resource Files\Models</Filter>
+    </None>
+    <None Include="completedHouseFile.X">
+      <Filter>Resource Files\Models</Filter>
+    </None>
+    <None Include="Armor.dds">
+      <Filter>Resource Files\Texture\Dwarf</Filter>
+    </None>
+    <None Include="Weapons.dds">
+      <Filter>Resource Files\Texture\Dwarf</Filter>
+    </None>
+    <None Include="..\..\..\Gun\Gun\blend_hm1.dds">
+      <Filter>Resource Files\Texture\Dwarf</Filter>
+    </None>
+    <None Include="Body.dds">
+      <Filter>Resource Files\Texture\Dwarf</Filter>
+    </None>
+    <None Include="DwarfHead.dds">
+      <Filter>Resource Files\Texture\Dwarf</Filter>
+    </None>
+    <None Include="Headgear.dds">
+      <Filter>Resource Files\Texture\Dwarf</Filter>
+    </None>
+    <None Include="Helmet.dds">
+      <Filter>Resource Files\Texture\Dwarf</Filter>
+    </None>
+    <None Include="Pack.dds">
+      <Filter>Resource Files\Texture\Dwarf</Filter>
+    </None>
+    <None Include="Ballroom_Wall_D.png">
+      <Filter>Resource Files\Texture\House</Filter>
+    </None>
+    <None Include="BallroomFloor_D.png">
+      <Filter>Resource Files\Texture\House</Filter>
+    </None>
+    <None Include="Ceiling_White_D.png">
+      <Filter>Resource Files\Texture\House</Filter>
+    </None>
+    <None Include="DiningRoomFloor_D.png">
+      <Filter>Resource Files\Texture\House</Filter>
+    </None>
+    <None Include="DiningRoomWall_D.png">
+      <Filter>Resource Files\Texture\House</Filter>
+    </None>
+    <None Include="DoorwaysANDRailings_D.png">
+      <Filter>Resource Files\Texture\House</Filter>
+    </None>
+    <None Include="FirstFloor_D.png">
+      <Filter>Resource Files\Texture\House</Filter>
+    </None>
+    <None Include="FoyerFloor_D.png">
+      <Filter>Resource Files\Texture\House</Filter>
+    </None>
+    <None Include="FoyerWalls_D.png">
+      <Filter>Resource Files\Texture\House</Filter>
+    </None>
+    <None Include="Kitchen_D.png">
+      <Filter>Resource Files\Texture\House</Filter>
+    </None>
+    <None Include="KitchenTile_D.png">
+      <Filter>Resource Files\Texture\House</Filter>
+    </None>
+    <None Include="UpStairs_D.png">
+      <Filter>Resource Files\Texture\House</Filter>
+    </None>
+    <None Include="sprinkler.fx">
+      <Filter>Resource Files\Shaders</Filter>
     </None>
   </ItemGroup>
 </Project>

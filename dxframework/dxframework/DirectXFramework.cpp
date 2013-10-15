@@ -44,7 +44,7 @@ void CDirectXFramework::Init(HWND& hWnd, HINSTANCE& hInst, bool bWindowed)
 	ZeroMemory(&D3Dpp, sizeof(D3Dpp));						// NULL the structure's memory
 
 	D3Dpp.hDeviceWindow					= hWnd;																		// Handle to the focus window
-	D3Dpp.Windowed						= bWindowed;																// Windowed or Full-screen boolean
+	D3Dpp.Windowed						=  bWindowed;																// Windowed or Full-screen boolean
 	D3Dpp.AutoDepthStencilFormat		= D3DFMT_D24S8;																// Format of depth/stencil buffer, 24 bit depth, 8 bit stencil
 	D3Dpp.EnableAutoDepthStencil		= TRUE;																		// Enables Z-Buffer (Depth Buffer)
 	D3Dpp.BackBufferCount				= 1;																		// Change if need of > 1 is required at a later date
@@ -122,6 +122,21 @@ void CDirectXFramework::Init(HWND& hWnd, HINSTANCE& hInst, bool bWindowed)
 	changeBullet = new SoundEffect();
 	changeBullet = SoundLoader::GetInstance()->Load(false,false,"gun-cocking-01.wav");
 	AudioManager::GetInstance()->SetSFXVolume(1.0f);
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Creating Enemies																						 //
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	redGhost = new Enemy_RedGhost();
+	redGhost->Init(m_pD3DDevice, render);
+
+	purpleGhost = new Enemy_PurpleGhost();
+	purpleGhost->Init(m_pD3DDevice, render);
+
+	greenGhost = new Enemy_GreenGhost();
+	greenGhost->Init(m_pD3DDevice, render);
+
+	yellowGhost = new Enemy_YellowGhost();
+	yellowGhost->Init(m_pD3DDevice, render);
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Creating Light																						 //
@@ -226,8 +241,8 @@ void CDirectXFramework::Init(HWND& hWnd, HINSTANCE& hInst, bool bWindowed)
 	Player->shape = CAPSULE;
 
 	Mansion = new Object_Base();
-	Mansion->position = D3DXVECTOR4(0.0f, 0.0f, 10.0f, 0.0f);
-	Mansion->scale = D3DXVECTOR3( 0.75f, 0.75f, 0.75f);
+	Mansion->position = D3DXVECTOR4(65.0f, 0.0f, 5.0f, 0.0f);
+	Mansion->scale = D3DXVECTOR3(0.20f, 0.20f, 0.20f);
 	Mansion->shape = BOX;
 	Mansion->weight = UNMOVABLE;
 
@@ -309,6 +324,38 @@ void CDirectXFramework::Init(HWND& hWnd, HINSTANCE& hInst, bool bWindowed)
 	chair[2]->position = D3DXVECTOR4( 51.5f, 6.4f, 24.4, 0.0f);
 	chair[3]->position = D3DXVECTOR4( 46.4f, 6.4f, -0.5, 0.0f);
 
+	// Puzzle Objects
+	Puzzle_FT = new FourTorchPuzzle();
+
+	Puzzle_FT->fireSystem1 = Player->fireSystem1;
+	Puzzle_FT->fireSystem2 = Player->fireSystem2;
+	Puzzle_FT->fireSystem3 = Player->fireSystem3;
+	Puzzle_FT->fireSystem4 = Player->fireSystem4;
+	
+	// Torch
+	for(short i = 0; i < ARRAYSIZE(Puzzle_FT->Torches); ++i)
+	{
+		Puzzle_FT->Torches[i] = new Object_Base();
+		Puzzle_FT->Torches[i]->shape = BOX;
+		Puzzle_FT->Torches[i]->weight = UNMOVABLE;
+		Puzzle_FT->Torches[i]->scale = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
+
+		
+	}
+	// torch positions
+	Puzzle_FT->Torches[0]->position = D3DXVECTOR4(17.7f, 3.0f, -21.6f, 0.0f); // northeast corner
+	Puzzle_FT->Torches[1]->position = D3DXVECTOR4(17.7f, 3.0f, -34.75f, 0.0f); // southeast corner // 23.7
+	Puzzle_FT->Torches[2]->position = D3DXVECTOR4(-10.0f, 3.0f, -21.6f, 0.0f); // northwest corner // -16
+	Puzzle_FT->Torches[3]->position = D3DXVECTOR4(-10.0f, 3.0f, -34.7f, 0.0f); // southwest corner
+
+	/*Puzzle_FT->fireSystem1->	*/
+
+	Puzzle_FT->Torches[0]->rotation = D3DXVECTOR3(1.6f,0.0f,0.0f); // NE
+	Puzzle_FT->Torches[1]->rotation = D3DXVECTOR3(1.6f,0.0f,0.0f); // SE
+	Puzzle_FT->Torches[2]->rotation = D3DXVECTOR3(-1.62f,0.0f,0.0f); // NW
+	Puzzle_FT->Torches[3]->rotation = D3DXVECTOR3(-1.62f,0.0f,0.0f); // SW
+
+	
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Load Shader Effects																					 //
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -342,7 +389,7 @@ void CDirectXFramework::Init(HWND& hWnd, HINSTANCE& hInst, bool bWindowed)
 
 	// Load Test Mesh
 	loadMesh(L"FlippedY.X", &Player->objectMesh);
-	loadMesh(L"RoomWithWalls.X", &Mansion->objectMesh); 
+	loadMesh(L"completedHouseFile.X", &Mansion->objectMesh); 
 
 	for(short i = 0; i < ARRAYSIZE(piano); ++i)
 	loadMesh(L"Piano.X", &piano[i]->objectMesh);
@@ -366,7 +413,11 @@ void CDirectXFramework::Init(HWND& hWnd, HINSTANCE& hInst, bool bWindowed)
 
 	for(short i = 0; i < ARRAYSIZE(chair); ++i)
 	loadMesh(L"Chair.X", &chair[i]->objectMesh);
-	
+
+	for(short i = 0; i < ARRAYSIZE(Puzzle_FT->Torches); ++i)
+	loadMesh(L"Torch.X", &Puzzle_FT->Torches[i]->objectMesh);
+
+		
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Create 3D Mesh From X																				 //
@@ -417,12 +468,14 @@ void CDirectXFramework::Init(HWND& hWnd, HINSTANCE& hInst, bool bWindowed)
 	// House Objects
 	for(short i = 0; i < ARRAYSIZE(piano); ++i)
 		piano[i]->createHavokObject(havok->getWorld());
+	
 
 	//for(short i = 0; i < ARRAYSIZE(sinkCounter); ++i)
 	//	sinkCounter[i]->createHavokObject(havok->getWorld());
 
 	//for(short i = 0; i < ARRAYSIZE(normalCounter); ++i)
 	//	normalCounter[i]->createHavokObject(havok->getWorld());
+
 
 		fridge->createHavokObject(havok->getWorld());
 
@@ -438,12 +491,17 @@ void CDirectXFramework::Init(HWND& hWnd, HINSTANCE& hInst, bool bWindowed)
 	for(short i = 0; i < ARRAYSIZE(chair); ++i)
 		chair[i]->createHavokObject(havok->getWorld());
 
-	/// TODO: Level Manager Havok stuff - Heather
+	for(short i = 0; i < ARRAYSIZE(Puzzle_FT->Torches); ++i)
+		Puzzle_FT->Torches[i]->createHavokObject(havok->getWorld());
+
+	// enemies
+	redGhost->CreateHavokObject(havok->getWorld());
+	purpleGhost->CreateHavokObject(havok->getWorld());
+	yellowGhost->CreateHavokObject(havok->getWorld());
+	greenGhost->CreateHavokObject(havok->getWorld());
 
 	eventMan = new EventManager();
 	eventMan->Init();
-
-	levelManager.Init( m_pD3DDevice, render, havok->getWorld());
 	
 	havok->getWorld()->unlock();
 
@@ -466,6 +524,11 @@ void CDirectXFramework::Init(HWND& hWnd, HINSTANCE& hInst, bool bWindowed)
 
 	fridge->scale = D3DXVECTOR3(0.0050f, 0.0050f, 0.0050f);
 	videoIsPlaying = false;
+
+	for(short i = 0; i < ARRAYSIZE(Puzzle_FT->Torches); ++i)
+	{
+		Puzzle_FT->Torches[i]->scale = D3DXVECTOR3(5.1050f, 5.1050f, 5.1050f);
+	}
 	
 }
 
@@ -486,6 +549,15 @@ void CDirectXFramework::Update(float dt)
 
 		// Player Update
 		Player->Update(dt, eyePos, lookAt, havok->getWorld());
+		Puzzle_FT->fireSystem1->update(dt, eyePos, lookAt);
+		Puzzle_FT->fireSystem2->update(dt, eyePos, lookAt);
+		Puzzle_FT->fireSystem3->update(dt, eyePos, lookAt);
+		Puzzle_FT->fireSystem4->update(dt, eyePos, lookAt);
+		
+		Puzzle_FT->fireSystem1->setPosition(Puzzle_FT->Torches[0]->getPosition());
+		Puzzle_FT->fireSystem2->setPosition(Puzzle_FT->Torches[1]->getPosition());
+		Puzzle_FT->fireSystem3->setPosition(Puzzle_FT->Torches[2]->getPosition());
+		Puzzle_FT->fireSystem4->setPosition(Puzzle_FT->Torches[3]->getPosition());
 
 		//minimap player position init
 		gameState->setPlayerPosition(Player->position);
@@ -507,19 +579,45 @@ void CDirectXFramework::Update(float dt)
 		for(short i = 0; i < ARRAYSIZE(chair); ++i)
 			chair[i]->Update(dt);
 
+
+		// Enemies update
+		// Check to make sure they aren't dead before running the updates
+
+		if ( redGhost->GetIsDead() == false)
+		{
+			redGhost->Update( dt, Player->position);
+			//redGhost->BulletCollision( bulletColor );
+		}
+		//else if( redGhost->GetIsDead() == true && purpleGhost->GetIsDead() == false)
+		{
+			purpleGhost->Update( dt, Player->position);
+			//purpleGhost->BulletCollision( bulletColor );
+		}
+		//else if ( purpleGhost->GetIsDead() == true && greenGhost->GetIsDead() == false)
+		{
+			greenGhost->Update( dt, Player->position);
+			//greenGhost->BulletCollision( bulletColor );
+		}
+		 //else if ( greenGhost->GetIsDead() == true && yellowGhost->GetIsDead() == false)
+		{
+			yellowGhost->Update( dt, Player->position);
+			//yellowGhost->BulletCollision( bulletColor );
+		}
+
 		if(eventMan->checkForPlayer(Player))
 		{
 			bool touch = true;
 		}
-
-		levelManager.Update( dt, Player, type);
 			
 		havok->getWorld()->unlock();
 
+
 		UpdateCamera(dt);
 		playerControls(dt);
-	}
 
+		
+	}
+	//Puzzle_FT->Update(dt, eyePos, lookAt);
 	gameState->Update(dt);
 }
 
@@ -611,48 +709,7 @@ if(gameState->activeGameState == GAME)
 	fx[0]->End();
 
 
-	fx[0]->SetTechnique(hTech[0]);
-
-	numPasses = 0;
-	fx[0]->Begin(&numPasses, 0);
-
-	for(UINT i = 0; i < numPasses; ++i)
-	{
-		fx[0]->BeginPass(i);
-
-		// Mesh Matrix
-		D3DXMatrixScaling(&scaleMat, Mansion->scale.x, Mansion->scale.y, Mansion->scale.z);
-        D3DXMatrixRotationYawPitchRoll(&rotMat, 0.0f, 0.0f, 0.0f);
-		D3DXMatrixTranslation(&transMat, Mansion->position.x, Mansion->position.y - 5.0f, Mansion->position.z - 8.25f);
-		D3DXMatrixMultiply(&scaleMat, &scaleMat, &rotMat);
-		D3DXMatrixMultiply(&worldMat, &scaleMat, &transMat);
-
-		D3DXMatrixInverse(&invTransMat, 0, &worldMat);
-		D3DXMatrixTranspose(&invTransMat, &invTransMat);
-
-		D3DXMATRIX wvp = worldMat * viewMat * projMat;
-		D3DXMATRIX wvpit;
-		D3DXMatrixInverse(&wvpit, 0, &wvp);
-		D3DXMatrixTranspose(&wvpit, &wvpit);
-
-		fx[0]->SetMatrix("WVP", &wvp);
-		fx[0]->SetMatrix("WVPIT", &wvpit);
-		fx[0]->SetMatrix("World", &worldMat);
-		fx[0]->SetMatrix("View", &viewMat);
-		fx[0]->SetMatrix("Projection", &projMat);
-		fx[0]->SetMatrix("WorldInverseTranspose", &invTransMat);
-
-		
-			fx[0]->SetTexture("gTexture", m_pTexture[0]);
-			fx[0]->CommitChanges();
-			Mansion->objectMesh->p_Mesh->DrawSubset(0);
-
-
-		fx[0]->EndPass();
-	}
-	fx[0]->End();
-
-	levelManager.Render( m_hWnd, viewMat, projMat);
+	renderObject(Mansion, D3DXVECTOR3(7.5f, -5.0f, -67.5f));
 
 	// Object Renders
 	for(short i = 0; i < ARRAYSIZE(piano); ++i)
@@ -678,10 +735,30 @@ if(gameState->activeGameState == GAME)
 	for(short i = 0; i < ARRAYSIZE(chair); ++i)
 		renderObject(chair[i], D3DXVECTOR3(0.0f, -7.5f, 0.5f));
 
-	levelManager.Render( m_hWnd, viewMat, projMat);
+	// Puzzle Renders
+	for(short i = 0; i < ARRAYSIZE(Puzzle_FT->Torches); ++i)
+		renderObject(Puzzle_FT->Torches[i], D3DXVECTOR3(1.0f, -3.0f, 0.3f));
 
+	// Render the ghosts
+	// when one ghost is dead then the next one renders
+	if ( redGhost->GetIsDead() == false)
+		redGhost->Render( m_hWnd, viewMat, projMat);
+	//else if( redGhost->GetIsDead() == true && purpleGhost->GetIsDead() == false)
+		purpleGhost->Render( m_hWnd, viewMat, projMat);
+	//else if ( purpleGhost->GetIsDead() == true && greenGhost->GetIsDead() == false)
+		greenGhost->Render( m_hWnd, viewMat, projMat);
+	//else if ( greenGhost->GetIsDead() == true && yellowGhost->GetIsDead() == false)
+		yellowGhost->Render( m_hWnd, viewMat, projMat);
 
 	Player->mPSys->draw(m_hWnd, eyePos, viewMat * projMat); // bullet draw
+	//Player->fireSystem1->draw(m_hWnd, eyePos, viewMat * projMat);
+	//Puzzle_FT->Render(m_hWnd, eyePos, viewMat, projMat);
+	//Puzzle_FT->Render(m_hWnd, eyePos, viewMat, projMat);
+	//Player->fireSystem1->draw(m_hWnd, eyePos, viewMat * projMat);
+	Puzzle_FT->fireSystem1->draw(m_hWnd, eyePos, viewMat * projMat);
+	Puzzle_FT->fireSystem2->draw(m_hWnd, eyePos, viewMat * projMat);
+	Puzzle_FT->fireSystem3->draw(m_hWnd, eyePos, viewMat * projMat);
+	Puzzle_FT->fireSystem4->draw(m_hWnd, eyePos, viewMat * projMat);
 
 	//////////////////////////////////////////////////////////////////////////
 	// Draw 2D sprites
@@ -745,14 +822,14 @@ gameState->Render(m_pD3DSprite);
 	GetWindowRect(m_hWnd, &rect);
 	int width = rect.right - rect.left;
 	int height = rect.bottom - rect.top;
-	//int currentRoom = eventMan->currentRoom;
+	int currentRoom = eventMan->currentRoom;
 
 	// Draw Text, using DT_TOP, DT_RIGHT for placement in the top right of the
 	// screen.  DT_NOCLIP can improve speed of text rendering, but allows text
 	// to be drawn outside of the rect specified to draw text in.
 	char debugMessage[256];
-	//sprintf(debugMessage, "CurrentRoom: %d", 
-		//currentRoom);
+	sprintf(debugMessage, "CurrentRoom: %d", 
+		currentRoom);
 
 	m_pD3DFont->DrawTextA(0, debugMessage, -1, &rect, 
                   DT_TOP | DT_LEFT | DT_NOCLIP, 
@@ -1064,7 +1141,7 @@ void CDirectXFramework::renderObject(Object_Base* object, D3DXVECTOR3 offset)
 
 		// Mesh Matrix
 		D3DXMatrixScaling(&scaleMat, object->scale.x, object->scale.y, object->scale.z);
-		D3DXMatrixRotationYawPitchRoll(&rotMat, 0.0f, 0.0f, 0.0f);
+		D3DXMatrixRotationYawPitchRoll(&rotMat, object->rotation.x, object->rotation.y, object->rotation.z);
 		D3DXMatrixTranslation(&transMat, object->position.x + offset.x, object->position.y + offset.y, object->position.z + offset.z);
 		D3DXMatrixMultiply(&scaleMat, &scaleMat, &rotMat);
 		D3DXMatrixMultiply(&worldMat, &scaleMat, &transMat);
@@ -1110,5 +1187,59 @@ void CDirectXFramework::collisions(float dt)
 { 
 	hkReal deltaTime = dt;
 	hkVector4 Force = hkVector4(5.0f, 3.0f, 5.0f);
+
+	// Ghosts hitting the player
+	if(entityMan->enemyVsPlayer(dt, redGhost, Player) && redGhost->GetIsDead() == false)
+	{
+		Player->health -= 20;
+		Player->hitTimer = 0.0f;
+	}
+
+	if(entityMan->enemyVsPlayer(dt, purpleGhost, Player) && purpleGhost->GetIsDead() == false)
+	{
+		Player->health -= 20;
+		Player->hitTimer = 0.0f;
+	}
+
+	if(entityMan->enemyVsPlayer(dt, greenGhost, Player) && greenGhost->GetIsDead() == false)
+	{
+		Player->health -= 20;
+		Player->hitTimer = 0.0f;
+	}
+
+	if(entityMan->enemyVsPlayer(dt, yellowGhost, Player) && yellowGhost->GetIsDead() == false)
+	{
+		Player->health -= 20;
+		Player->hitTimer = 0.0f;
+	}
+
+	// Bullets hitting Enemies
+	if(entityMan->enemyVsBullet(dt, redGhost, Player) && redGhost->GetIsDead() == false && type == red)
+	{
+		redGhost->SetHealth(redGhost->GetHealth() - 20);
+	}
+
+	if(entityMan->enemyVsBullet(dt, purpleGhost, Player) && purpleGhost->GetIsDead() == false && type == blue )
+	{
+		purpleGhost->SetHealth(purpleGhost->GetHealth() - 20);
+	}
+
+	if(entityMan->enemyVsBullet(dt, greenGhost, Player) && greenGhost->GetIsDead() == false && type == green)
+	{
+		greenGhost->SetHealth(greenGhost->GetHealth() - 20);
+	}
+
+	if(entityMan->enemyVsBullet(dt, yellowGhost, Player) && yellowGhost->GetIsDead() == false)
+	{
+		yellowGhost->SetHealth(yellowGhost->GetHealth() - 20);
+	}
+	
+	for(short i = 0; i < ARRAYSIZE(Puzzle_FT->Torches); ++i)
+	{
+		if(entityMan->objVsBullet(dt, Puzzle_FT->Torches[i], Player) && type == red)
+		{
+			AudioManager::GetInstance()->PlaySFX(*changeBullet);
+		}
+	}
 
 }

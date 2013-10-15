@@ -32,7 +32,11 @@ private:
 	void stateMachineInit();
 
 public:
-
+	PSystem*	fireSystem1;
+	PSystem*	fireSystem2;
+	PSystem*	fireSystem3;
+	PSystem*	fireSystem4;
+	
 struct HavokBullet
 {
 	D3DXVECTOR3					position;

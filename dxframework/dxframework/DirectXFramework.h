@@ -19,18 +19,21 @@
 #include "Vertex.h"
 #include "GameStateManager.h"
 #include "RenderObject.h"
-#include "Level_Manager.h"
+#include "Enemy_PurpleGhost.h"
+#include "Enemy_YellowGhost.h"
+#include "Enemy_GreenGhost.h"
+#include "Enemy_RedGhost.h"
 #include "EventManager.h"
 #include "EntityManager.h"
 #include "AudioManager.h"
 #include "SoundLoader.h"
-
+#include "C:\Users\Sneaky\Desktop\10-14-13 luke and favela trying to merge fire\Luke torches\dxframework\dxframework\torches.h"
 // Macro to release COM objects fast and safely
 #define SAFE_RELEASE(x) if(x){x->Release(); x = 0;}
 
 
 // Enums
-enum GhostTextures{ Red, Yellow, Green, Purple };
+enum GhostTextures{ Red, Yellow, Green, Blue };
 
 class CDirectXFramework
 {
@@ -220,12 +223,23 @@ class CDirectXFramework
 	Object_Base*					candleStick[4];
 	Object_Base*					chair[8];
 
+	// Puzzle objects
+	FourTorchPuzzle*				Puzzle_FT;
+	
+	
+	//////////////////////////////////////////////////////////////////////////
+	// Enemies																//
+	//////////////////////////////////////////////////////////////////////////
+	Enemy_YellowGhost*				yellowGhost;
+	Enemy_RedGhost*					redGhost;
+	Enemy_PurpleGhost*				purpleGhost;
+	Enemy_GreenGhost*				greenGhost;
+
 	//////////////////////////////////////////////////////////////////////////
 	// Game Managers														//
 	//////////////////////////////////////////////////////////////////////////
 	EntityManager*					entityMan;
 	EventManager*					eventMan;
-	Level_Manager					levelManager;
 
 public:
 

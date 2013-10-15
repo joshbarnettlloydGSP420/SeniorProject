@@ -1,5 +1,6 @@
 #include "Object_Player.h"
 #include "Gun.h"
+#include "Fire.h"
 
 Object_Player::Object_Player()
 {
@@ -30,8 +31,17 @@ Object_Player::Object_Player()
 	gunType type = green;
 	changeGunType(type);
 
-	mPSys->setWorldMtx(psysWorld);         
+	mPSys->setWorldMtx(psysWorld);
 
+
+	fireSystem1 = new FireRing(L"sprinkler.fx", "SprinklerTech", L"torch.dds", D3DXVECTOR3(0.0f, 0.0f, 0.0f), psysBox, 35, 0.0025f);
+	fireSystem1->SetType(1);
+	fireSystem2 = new FireRing(L"sprinkler.fx", "SprinklerTech", L"torch.dds", D3DXVECTOR3(0.0f, 0.0f, 0.0f), psysBox, 35, 0.0025f);
+	fireSystem2->SetType(1);
+	fireSystem3 = new FireRing(L"sprinkler.fx", "SprinklerTech", L"torch.dds", D3DXVECTOR3(0.0f, 0.0f, 0.0f), psysBox, 35, 0.0025f);
+	fireSystem3->SetType(1);
+	fireSystem4 = new FireRing(L"sprinkler.fx", "SprinklerTech", L"torch.dds", D3DXVECTOR3(0.0f, 0.0f, 0.0f), psysBox, 35, 0.0025f);
+	fireSystem4->SetType(1);
 }
 
 
