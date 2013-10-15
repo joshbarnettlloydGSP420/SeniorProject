@@ -50,6 +50,11 @@ bool MenuMain::Init(InputManager* input, IDirect3DDevice9*	m_pD3DDevice)
 	D3DXCreateTextureFromFileEx(m_pD3DDevice, L"cursor.png",0,0,0,0,D3DFMT_UNKNOWN, D3DPOOL_MANAGED, D3DX_DEFAULT, 
 		D3DX_DEFAULT, D3DCOLOR_XRGB(255, 0, 255), 
 		&m_cursorInfo, 0, &mouseTexture);
+	
+	D3DXCreateTextureFromFileEx(m_pD3DDevice, L"TitleLogo.png", 853, 480, 0, 0,
+		D3DFMT_UNKNOWN, D3DPOOL_MANAGED, D3DX_DEFAULT, 
+		D3DX_DEFAULT, D3DCOLOR_XRGB(255, 0, 255), 
+		&m_imageInfo, 0, &mainMenuLogo);
 
 	SetRect(&mouseSheetRect, 7, 4, 24, 30); 
 	
@@ -78,7 +83,7 @@ void MenuMain::Update(float dt)
 	mousePos.x = myInput->GetMousePosX();
 	mousePos.y = myInput->GetMousePosY();
 
-	if(mousePos.x >= 280  && mousePos.x < 440 && mousePos.y > 170 && mousePos.y < 200)
+	if(mousePos.x >= 280  && mousePos.x < 440 && mousePos.y > 240 && mousePos.y < 270)
 	{
 		menuItemSelected = 1;
 	if( musicPlayCounter < 1)
@@ -133,16 +138,14 @@ void MenuMain::Render()
 	
 	m_pD3DSprite->Begin(D3DXSPRITE_ALPHABLEND);
 	DrawBackGround();
-	// Print Main Menu at the top of the screen
-	sprintf(menuPrint,"Ghost Hunter X");
-	SetRect(&m_rect,170,-30,600,500);  
-	option = D3DCOLOR_ARGB(255,0,0,240);
-
 	
-	m_pD3DFont2->DrawTextA(0,menuPrint,-1,&m_rect, DT_CENTER | DT_NOCLIP,option);
+	// Draw the texture with the sprite object
+	m_pD3DSprite->Draw(mainMenuLogo, 0, &D3DXVECTOR3(m_imageInfo.Width * 0.5f, 
+		m_imageInfo.Height * 0.5f, 0.0f), &D3DXVECTOR3(415, 115,0),
+		D3DCOLOR_ARGB(255, 255, 255, 255));
 
 	sprintf(menuPrint,"Game Start");
-	SetRect(&m_rect,120,210,600,500);
+	SetRect(&m_rect,120,300,600,590);
 	if(menuItemSelected == 1)
 	 
 		option = D3DCOLOR_ARGB(255,255,0,0);
