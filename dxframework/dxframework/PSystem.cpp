@@ -269,3 +269,7 @@ std::vector<Particle*> PSystem::getmAliveParticles()
 {
 	return mAliveParticles;
 }
+void PSystem::setPosition(D3DXVECTOR4 position)
+{
+	this->position = position;
+}

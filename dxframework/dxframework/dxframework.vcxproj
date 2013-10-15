@@ -110,6 +110,14 @@
     <ClCompile Include="HUD.cpp" />
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="Item.cpp" />
+    <ClCompile Include="Level_Base.cpp" />
+    <ClCompile Include="Level_Beyond5.cpp" />
+    <ClCompile Include="Level_Four.cpp" />
+    <ClCompile Include="Level_Manager.cpp" />
+    <ClCompile Include="Level_One.cpp" />
+    <ClCompile Include="Level_Three.cpp" />
+    <ClCompile Include="Level_Tutorial.cpp" />
+    <ClCompile Include="Level_Two.cpp" />
     <ClCompile Include="MenuMain.cpp" />
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="Object_Base.cpp" />
@@ -120,6 +128,7 @@
     <ClCompile Include="RenderObject.cpp" />
     <ClCompile Include="SoundEffect.cpp" />
     <ClCompile Include="SoundLoader.cpp" />
+    <ClCompile Include="torches.cpp" />
     <ClCompile Include="Vertex.cpp" />
     <ClCompile Include="winMain.cpp" />
   </ItemGroup>
@@ -153,6 +162,14 @@
     <ClInclude Include="HUD.h" />
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="Item.h" />
+    <ClInclude Include="Level_Base.h" />
+    <ClInclude Include="Level_Beyond5.h" />
+    <ClInclude Include="Level_Four.h" />
+    <ClInclude Include="Level_Manager.h" />
+    <ClInclude Include="Level_One.h" />
+    <ClInclude Include="Level_Three.h" />
+    <ClInclude Include="Level_Tutorial.h" />
+    <ClInclude Include="Level_Two.h" />
     <ClInclude Include="MenuMain.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="Object_Base.h" />
@@ -161,8 +178,10 @@
     <ClInclude Include="PauseMenu.h" />
     <ClInclude Include="PSystem.h" />
     <ClInclude Include="RenderObject.h" />
+    <ClInclude Include="Room.h" />
     <ClInclude Include="SoundEffect.h" />
     <ClInclude Include="SoundLoader.h" />
+    <ClInclude Include="torches.h" />
     <ClInclude Include="Utilities.h" />
     <ClInclude Include="Vertex.h" />
   </ItemGroup>
@@ -202,6 +221,7 @@
     <None Include="Table.X" />
     <None Include="TestShader.txt" />
     <None Include="ToonColored.fx" />
+    <None Include="Torch.X" />
     <None Include="Weapons.dds" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

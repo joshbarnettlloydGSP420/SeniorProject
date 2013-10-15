@@ -40,7 +40,7 @@ void Enemy_YellowGhost::Init(IDirect3DDevice9* m_pD3DDevice, RenderObject* m_pRe
 	// Initialize the 3D model of the enemy.
 	textureName = L"YellowGhostTexture.jpg";
 	textureNumber = YellowGhost;
-	meshName = L"YellowGhost.x";
+	meshName = L"RedGhost.x";
 
 	// Create the texture
 	render->LoadTexture( textureName, textureNumber);
@@ -49,30 +49,44 @@ void Enemy_YellowGhost::Init(IDirect3DDevice9* m_pD3DDevice, RenderObject* m_pRe
 	render->LoadMesh( meshName, &objectMesh);
 }
 
-// if the enemy is hit with a bullet
-void Enemy_YellowGhost::BulletCollision( LPCSTR bulletColor )
+// check to see if the enemy is hit with a bullet
+void Enemy_YellowGhost::BulletCollision( float dt, Object_Player* player, gunType bulletColor)
 {
-	// if the bullet is the same color as the ghost then lose health
-	if ( bulletColor == "Yellow" )
-		health -= 20;
-	// else if the bullet is the opposite color then gain health and create mini ghosts
-	else if ( bulletColor == "Purple" )
-	{
-		health += 10;
-		//ChangeState( Defence );
-	}
-	// else if other colors then gain more health and increase attackSpeed
-	else
-	{
-		health += 20;
-		
-		if ( attackSpeed <= 40 )
-			attackSpeed += 5;
-		else
-			attackSpeed = 40;
-	}
+	// collision variables
+	hkAabb aabbBase;
+	hkAabb aabbOut;
 
-	// if health is greater than 200 set it to a max of 200
-	if ( health > 200 )
-		health = 200;
+
+	// Enemy Hits Bullets
+	for(short i = 0; i < ARRAYSIZE(player->bull); ++i)
+	{
+		// Object Hit Bullets
+		for(short i = 0; i < ARRAYSIZE(player->bull); ++i)
+		{
+			// get the aabb bounding box of the ghost
+			rigidBody->getCollidable()->getShape()->getAabb(rigidBody->getTransform(), 0.4f, aabbOut);
+			// get the aabb bounding box of the player
+			player->bull[i].bulletObject->getCollidable()->getShape()->getAabb(player->bull[i].bulletObject->getTransform(), 0.4f, aabbBase);
+				
+			// if the bullet has collision with the enemy then take appropriate action.
+			if(aabbBase.overlaps(aabbOut))
+			{
+				//// if the bullet is the opposite color as the ghost then lose health
+				//if ( bulletColor == purple )
+				//	health -= 10;
+				//// else if the bullet is the same color then gain health
+				//else if ( bulletColor == yellow )
+				//	health += 20;
+				//// else if other colors then gain health
+				//else
+				//	health += 10;
+
+				//// if health is greater than 200 set it to a max of 200
+				//if ( health > 200 )
+				//	health = 200;
+			}
+
+		}
+
+	}
 }

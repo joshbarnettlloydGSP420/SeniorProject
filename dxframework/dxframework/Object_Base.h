@@ -78,5 +78,7 @@ public:
 	void createHavokObject(hkpWorld* world);
 
 	bool collisionCheck(hkpRigidBody* rigidBody); 
+
+	D3DXVECTOR4 getPosition(){return position;}
 };
 

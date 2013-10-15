@@ -59,6 +59,10 @@ public:
 		}
 	}
 
+	D3DXVECTOR4 position;
+	D3DXVECTOR4 getPosition(){return position;}
+	void setPosition(D3DXVECTOR4 position);
+
 protected:
 	// In practice, some sort of ID3DXEffect and IDirect3DTexture9 manager should
 	// be used so that you do not duplicate effects/textures by having several

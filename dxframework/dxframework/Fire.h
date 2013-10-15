@@ -1,4 +1,3 @@
-
 #include <crtdbg.h>
 #include "DirectXFramework.h"
 #include "InputManager.h"
@@ -24,41 +23,7 @@ public:
 
 	void initParticle(Particle& out, D3DXVECTOR3 pos, D3DXVECTOR3 iPos, D3DXVECTOR3 look)
 	{
-		//// Time particle is created relative to the global running
-		//// time of the particle system.
-		//out.initialTime = mTime;
-
-		//// Flare lives for 2-4 seconds.
-		//out.lifeTime   = GetRandomFloat(2.0f, 4.0f);
-
-		//// Initial size in pixels.
-		//out.initialSize  = GetRandomFloat(10.0f, 15.0f);
-
-
-
-		//// Give a very small initial velocity to give the flares
-		//// some randomness.
-		//GetRandomVec(out.initialVelocity);
-
-		//// Scalar value used in vertex shader as an amplitude factor.
-		//out.mass = GetRandomFloat(0.5f, 1.0f);
-
-		//// Start color at 50-100% intensity when born for variation.
-		//out.initialColor = GetRandomFloat(0.5f, 1.0f)*WHITE;
-
-		//// Generate random particle on the ring in polar coordinates:
-		//// random radius and random angle.
-		//float r = GetRandomFloat(10.0f, 14.0f);
-		//float t = GetRandomFloat(0, 2.0f*D3DX_PI);
-
-		//// Convert to Cartesian coordinates.
-		//out.initialPos.x = r*cosf(t);
-		//out.initialPos.y = r*sinf(t);
-
-		//// Random depth value in [-1, 1] (depth of the ring)
-		//out.initialPos.z = GetRandomFloat(-1.0f, 1.0f);
-		// Generate about the origin.
-		out.initialPos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+		out.initialPos = D3DXVECTOR3(getPosition().x, getPosition().y-2, getPosition().z);
  
 		out.initialTime     = mTime;
 		out.lifeTime        = GetRandomFloat(1.0f, 5.0f);
@@ -71,4 +36,5 @@ public:
 		out.initialVelocity.z = GetRandomFloat(-0.5f, 0.5f);
 
 	}
+
 };

@@ -17,7 +17,7 @@ enum HavokPlayerShape
 	PLAYERCAPSULE		=	3		// Havok Capsule
 };
 
-enum gunType{green, red, blue, yellow};
+enum gunType{green, red, blue};
 
 
 class Object_Player
@@ -32,6 +32,10 @@ private:
 	void stateMachineInit();
 
 public:
+	PSystem*	fireSystem1;
+	PSystem*	fireSystem2;
+	PSystem*	fireSystem3;
+	PSystem*	fireSystem4;
 
 struct HavokBullet
 {
@@ -91,10 +95,6 @@ struct HavokBullet
 	vector<hkpRigidBody*>		bullets;
 	vector<D3DXVECTOR3>			bulletPosition;
 
-	PSystem*					mPSysFire;
-
-	bool						canShoot;
-
 	// Constructor, Destructor, and Methods
 	Object_Player();
 	~Object_Player(void);
@@ -120,7 +120,4 @@ struct HavokBullet
 	void getBulletPos(hkpWorld* world, float deltaTime);
 
 	void hitInvulTimer(float deltaTime);
-	
-	void setCanShoot(bool canShoot);
-	bool getCanShoot(){return canShoot;}
 };

@@ -9,15 +9,15 @@
 #include "HavokCore.h"
 #include "Mesh.h"
 #include "PSystem.h"
+#include "Object_Player.h"
+#include "Room.h"
 
 #include "Enemy_Align.h"
 #include "Enemy_Face.h"
 
-#include "Enemy_SpawnMiniGhost.h"
-
 // The states that the enemy can be in
-enum StateType{Wander, Arrive, Flee, Attack, Defence };
-enum GhostColor{ RedGhost = 1, PurpleGhost, GreenGhost, YellowGhost };
+enum StateType { Wander = 0, Arrive = 1, Flee = 2, Attack = 3, PosAdjust = 4 };
+enum GhostColor { RedGhost = 1, PurpleGhost = 2, GreenGhost = 3, YellowGhost = 4};
 
 class Enemy_Base
 {
@@ -29,6 +29,9 @@ protected:
 	short				attackSpeed;
 	float				attackRange;
 	float				wanderRange;
+
+	// center of room variable
+	D3DXVECTOR4			centerOfRoom;
 	
 	// Rendering Variables
 	RenderObject*		render;
@@ -51,10 +54,6 @@ protected:
 	Enemy_Face			face;
 	Enemy_Align			align;
 
-	// MiniGhost variables
-	Enemy_SpawnMiniGhost miniGhost;
-	bool				 miniGhostInitialized;
-
 	// attack variable
 	bool				 attackInitialized;
 
@@ -62,7 +61,7 @@ protected:
 	StateType			State;
 
 	// position of the player
-	D3DXVECTOR4			playerPos;
+	Object_Player*			player;
 
 	// Havok
 	hkpRigidBody*		rigidBody;
@@ -77,25 +76,22 @@ protected:
 	float						velUD;
 	float						velLR;
 
-	// Object_Player*		havokShape;
+	// Object_Player*		havokShape;	
+
+	// Changes the state of the enemy
+	void UpdateState( StateType CurrentState, float dt );
+	void PlayerCollision( float dt);
 
 public:
 	Enemy_Base(void);
 	~Enemy_Base(void);
 
 	virtual void Init(IDirect3DDevice9* m_pD3DDevice, RenderObject* m_pRender);
-	void Update( float dt, D3DXVECTOR4 playerPosition);
-	void UpdateState( StateType CurrentState, float dt );
+	void Update( float dt, Object_Player* player);
 	void Render(HWND hwnd, D3DXMATRIX veiwMat, D3DXMATRIX projMat);
 	bool CollisionDetection(hkpRigidBody* playerBody);
-
-	// Accessors and mutators
-	void			SetHealth( short newHealth ) {health = newHealth; };
-	short			GetHealth() { return health; };
-	bool			GetIsDead() { return isDead; };
-	hkpRigidBody*	GetHavokbody() { return rigidBody; };
-	void			ChangeState( StateType NewState) { State = NewState; };
-	D3DXVECTOR4		GetPosition(){ return movement->GetPosition(); };
+	virtual void BulletCollision( float dt, Object_Player* player, gunType bulletColor) = 0;
+	void RoomWallCollision( float dt, Room* currentRoom );
 
 	// Havok
 	void CreateBodyObject(hkpWorld* world);
@@ -103,6 +99,14 @@ public:
 	void EnemyInputOutput();
 	void HavokMovement();
 	void HavokBodyUpdate();
+
+	// Accessors and mutators
+	void			SetHealth( short newHealth ) {health = newHealth; };
+	short			GetHealth() { return health; };
+	bool			GetIsDead() { return isDead; };
+	hkpRigidBody*	GetHavokbody() { return rigidBody; };
+	void			ChangeState( StateType NewState) { State = NewState; };
+	void			SetPosition( D3DXVECTOR4 newPos) { movement->setPosition( newPos); };
 
 };
 
