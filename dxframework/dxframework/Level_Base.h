@@ -9,6 +9,7 @@
 #include "Room.h"
 #include "HavokCore.h"
 #include "torches.h"
+#include "ScoreManager.h"
 
 #include <vector>
 #include <random>

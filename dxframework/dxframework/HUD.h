@@ -7,6 +7,8 @@
 #include <d3dx9.h>
 #include <stdio.h>
 
+#include "ScoreManager.h"
+
 #pragma comment(lib, "d3d9.lib")
 #pragma comment(lib, "d3dx9.lib")
 #pragma comment(lib, "dxguid.lib")
@@ -14,7 +16,7 @@
 // Macro to release COM objects fast and safely
 #define SAFE_RELEASE(x) if(x){x->Release(); x = 0;}
 
-enum colorSwitch{g, b, p};
+enum colorSwitch{g, b, p, y};
 enum numberSwitch{zero, one, two, three, four, five, six, seven, eight, nine, ten, eleven, twelve};
 
 class HUD
@@ -74,6 +76,7 @@ private:
 	IDirect3DTexture9* greenAmmoTexture;
 	IDirect3DTexture9* blueAmmoTexture;
 	IDirect3DTexture9* redAmmoTexture;
+	IDirect3DTexture9* yellowAmmoTexture;
 
 	// HUD numbers
 	IDirect3DTexture9* zeroTexture;

@@ -82,7 +82,7 @@ void FourTorchPuzzle::Init( Object_Player* Player, RenderObject* renderer, hkpWo
 
 void FourTorchPuzzle::Update(float deltaTime, D3DXVECTOR3 eyePos, D3DXVECTOR3 lookAt)
 {
-	TorchLit[0] == true;
+	TorchLit[0] = true;
 			
 	fireSystem1->setPosition(Torches[0]->getPosition());
 	fireSystem1->update(deltaTime, eyePos, lookAt);		

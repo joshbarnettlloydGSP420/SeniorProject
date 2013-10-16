@@ -6,6 +6,7 @@
 #include "DirectXFramework.h"
 #include <random>
 #include <time.h>
+#include "ScoreManager.h"
 
 using namespace std;
 //////////////////////////////////////////////////////////////////////////
@@ -76,7 +77,9 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	// Init the window
 	InitWindow();
 	AudioManager::GetInstance()->Initialize();
-
+	ScoreManager* score = ScoreManager::Get(); 
+	score->Init();
+	
 	// Use this msg structure to catch window messages
 	MSG msg; 
 	ZeroMemory(&msg, sizeof(msg));
@@ -124,6 +127,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
 	gd3dApp.Shutdown();
 	AudioManager::GetInstance()->Shutdown();
 	AudioManager::DestroyInstance();
+	
 
 	//*************************************************************************
 

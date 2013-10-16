@@ -163,6 +163,11 @@ void HUD::Init(IDirect3DDevice9* device)
 		D3DX_DEFAULT, D3DCOLOR_XRGB(255, 0, 255), 
 		0, 0, &blueAmmoTexture);
 
+	D3DXCreateTextureFromFileExA(device, "yellowAmmoHUD.png", 640, 480, 0, 0,
+		D3DFMT_UNKNOWN, D3DPOOL_MANAGED, D3DX_DEFAULT, 
+		D3DX_DEFAULT, D3DCOLOR_XRGB(255, 0, 255), 
+		0, 0, &yellowAmmoTexture);
+
 	//number textures
 	D3DXCreateTextureFromFileExA(device, "0.png", 640, 480, 0, 0,
 		D3DFMT_UNKNOWN, D3DPOOL_MANAGED, D3DX_DEFAULT, 
@@ -325,6 +330,9 @@ void HUD::Render(IDirect3DDevice9* device, ID3DXSprite* sprite, int colorSwitch)
 	case 2:
 		sprite->Draw(redAmmoTexture, &bulletSheetRect, &D3DXVECTOR3(0,0,0), &bulletPosition.position, D3DCOLOR_ARGB(255, 255, 255, 255));
 		break;
+	case 3:
+		sprite->Draw(yellowAmmoTexture, &bulletSheetRect, &D3DXVECTOR3(0,0,0), &bulletPosition.position, D3DCOLOR_ARGB(255, 255, 255, 255));
+		break;
 	}
 
 	// not sure if this is a good way to do it but this struct will be in charge of changing the number sprite in the hud
@@ -380,10 +388,10 @@ void HUD::Render(IDirect3DDevice9* device, ID3DXSprite* sprite, int colorSwitch)
 
 	}
 	sprite->Flush();
-
+	ScoreManager* score = ScoreManager::Get(); 
 	SetRect(&scoreRect,20,50,100,50);
 	char scoreMessage[30];
-	sprintf(scoreMessage,"Score: %d ", currentScore);
+	sprintf(scoreMessage,"Score: %d ", score->getScore());
 	m_pD3DFont->DrawTextA(0, scoreMessage, -1, &scoreRect, 
                   DT_TOP | DT_LEFT | DT_NOCLIP, 
                   D3DCOLOR_ARGB(255, 255, 255, 255));
@@ -418,6 +426,8 @@ void HUD::Shutdown()
 	SAFE_RELEASE(blackBarTexture)
 	SAFE_RELEASE(minimapDotTexture)
 	SAFE_RELEASE(minimapBackgroundTexture)
+	SAFE_RELEASE(yellowAmmoTexture)
+
 
 	SAFE_RELEASE(oneTexture)
 	SAFE_RELEASE(twoTexture)

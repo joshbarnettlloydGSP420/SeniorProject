@@ -226,7 +226,7 @@ class CDirectXFramework
 	EntityManager*					entityMan;
 	EventManager*					eventMan;
 	Level_Manager*					levelManager;
-
+	int								addScore;
 public:
 
 	CDirectXFramework(void);

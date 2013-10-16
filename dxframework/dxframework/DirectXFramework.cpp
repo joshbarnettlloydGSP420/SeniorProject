@@ -530,7 +530,8 @@ Player = new Object_Player();
 	fridge->scale = D3DXVECTOR3(0.0050f, 0.0050f, 0.0050f);
 	videoIsPlaying = false;
 	Player->setHealth(100);
-	Player->setHealth(Player->getHealth() - 101);
+	//Player->setHealth(Player->getHealth() - 101);
+	addScore = 100;
 
 }
 
@@ -544,8 +545,8 @@ void CDirectXFramework::Update(float dt)
 
 	if(gameState->activeGameState == GAME)
 	{
-	//	if(Player->getHealth() <= 0)
-	//	gameState->activeGameState = LOSESTATE;
+		if(Player->getHealth() <= 0)
+		gameState->activeGameState = LOSESTATE;
 		m_pDInput->Update();
 		havok->stepSimulation(dt);
 

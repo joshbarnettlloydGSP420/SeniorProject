@@ -222,7 +222,7 @@ void Enemy_Base::PlayerCollision( float dt)
 		// check the bounding boxes against each other to see if there is collision
 		if(aabbBase.overlaps(aabbOut))
 		{
-			player->setHealth(player->getHealth() - 20);
+			player->setHealth(player->getHealth() - 10);
 			player->hitTimer = 0.0f;
 		}
 	}

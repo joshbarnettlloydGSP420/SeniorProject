@@ -322,7 +322,7 @@ void Object_Player::changeGunType(gunType type)
 		break;
 
 		case yellow:
-			mPSys = new Gun(L"gun.fx", "GunTech", L"bolt.dds", D3DXVECTOR3(0, 0, 0), psysBox, ARRAYSIZE(bull), -1.0f); //gravity changedd
+			mPSys = new Gun(L"gun.fx", "GunTech", L"bolt5yellow.dds", D3DXVECTOR3(0, 0, 0), psysBox, ARRAYSIZE(bull), -1.0f); //gravity changedd
 		break;
 
 	}

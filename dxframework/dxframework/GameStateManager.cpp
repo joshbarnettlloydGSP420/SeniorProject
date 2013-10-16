@@ -165,6 +165,10 @@ void GameStateManager::Update( float dt, float playerHealth)
 			{
 				hud->setColor(p);	
 			}
+			if (input->keyPress(DIK_4))
+			{
+				hud->setColor(y);	
+			}
 			if (input->keyPress(DIK_M) || input->keyPress(DIK_TAB))
 			{
 				if(hud->getMiniMapOn() == true)
@@ -409,13 +413,13 @@ void GameStateManager::DrawLoseScreen()
 
 	D3DXMATRIX T, S;
 	D3DXMatrixTranslation(&T,  loseScreenPos.x,  loseScreenPos.y,  loseScreenPos.z);
-	D3DXMatrixScaling(&S, 1.0f, 1.0f, 0.0f);
+	D3DXMatrixScaling(&S, 0.8f, 0.6f, 0.0f);
 	m_pD3DSprite->SetTransform(&(S*T));
 
 	// Draw the background sprite.
 	m_pD3DSprite->Draw(loseScreen, 0, 0, 0, D3DCOLOR_XRGB(255, 255, 255));
 	m_pD3DSprite->Flush();
-	D3DXMatrixScaling(&texScaling, 0.6f, 1.4f, 1.0f);
+	D3DXMatrixScaling(&texScaling, 0.6f, 1.0f, 1.0f);
 	m_pD3DDevice->SetTransform(D3DTS_TEXTURE0, &texScaling);
 
 	m_pD3DSprite->End();

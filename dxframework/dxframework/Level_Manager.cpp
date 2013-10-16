@@ -18,24 +18,14 @@ void Level_Manager::Init(IDirect3DDevice9* m_pD3DDevice, RenderObject* m_pRender
 	havokWorld = world;
 
 	// initialize the first level
-	//tutorial = new Level_Tutorial();
-	//tutorial->Init( device, render, havokWorld);
-	//tutorial->InitPuzzle( player, render, world);
-
-	//levelOne = new Level_One();
-	//levelOne->Init( device, render, world);
-	//levelOne->InitPuzzle( player, render, world);
-
-
+	tutorial = new Level_Tutorial();
+	tutorial->Init( device, render, havokWorld);
+	tutorial->InitPuzzle( player, render, world);
 
 	// set the level variables
-	level = FiveBeyond;
+	level = Tutorial;
 	levelCount = 0;
 	enemyCount = 10;
-	levels5Beyond.resize( 30 );
-	levels5Beyond[levelCount] = new Level_Beyond5();
-	levels5Beyond[levelCount]->SetEnemyCount( enemyCount );
-	levels5Beyond[levelCount]->Init( device, render, havokWorld);
 }
 
 void Level_Manager::Update( float dt, Object_Player* player, gunType bulletColor, D3DXVECTOR3 eyePos, D3DXVECTOR3 lookAt)
@@ -118,6 +108,7 @@ void Level_Manager::Update( float dt, Object_Player* player, gunType bulletColor
 			// if the tutorial is done then switch to level five
 			if ( levelFour->LeveledClear() == true )
 			{
+				levels5Beyond.resize( 30 );
 				levels5Beyond[levelCount] = new Level_Beyond5();
 				levels5Beyond[levelCount]->SetEnemyCount( enemyCount );
 				levels5Beyond[levelCount]->Init( device, render, havokWorld);
@@ -138,7 +129,8 @@ void Level_Manager::Update( float dt, Object_Player* player, gunType bulletColor
 			{
 				// increase the level count and the amount of enemies
 				levelCount++;
-				enemyCount += 3;
+				enemyCount += 5;
+				levels5Beyond.resize( 30 );
 				levels5Beyond[levelCount] = new Level_Beyond5();
 				levels5Beyond[levelCount]->SetEnemyCount( enemyCount );
 				levels5Beyond[levelCount]->Init( device, render, havokWorld);

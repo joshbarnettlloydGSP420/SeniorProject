@@ -62,13 +62,22 @@ void Enemy_PurpleGhost::BulletCollision( float dt, Object_Player* player, gunTyp
 			{
 				// if the bullet is the opposite color as the ghost then lose health
 				if ( bulletColor == yellow )
+				{
 					health -= 10;
+					bulletCounter = 5.0 * dt;
+				}
 				// else if the bullet is the same color then gain health
 				else if ( bulletColor == purple )
+				{
 					health += 20;
+					bulletCounter = 5.0 * dt;
+				}
 				// else if other colors then gain health
 				else
+				{
 					health += 10;
+					bulletCounter = 5.0 * dt;
+				}
 
 				// if health is greater than 200 set it to a max of 200
 				if ( health > 200 )

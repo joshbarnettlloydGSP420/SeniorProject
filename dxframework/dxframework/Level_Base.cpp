@@ -48,7 +48,12 @@ void Level_Base::Update( float dt, Object_Player* player, gunType bulletColor, D
 		}
 		// if enemy is dead then erase from vector list
 		else
+		{
+			ScoreManager* score = ScoreManager::Get(); 
+			score->SetScore( score->getScore() + 100 );
+
 			enemies.erase( enemies.begin() + i );
+		}
 	}
 
 	// switch to update the puzzles
