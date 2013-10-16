@@ -92,8 +92,6 @@ private:
 	D3DXMATRIX						rotMat;
 	D3DXMATRIX						scaleMat;
 	D3DXMATRIX						worldMat;
-	//D3DXMATRIX						viewMat;
-	//D3DXMATRIX						projMat;
 	D3DXMATRIX						invTransMat;
 
 	//////////////////////////////////////////////////////////////////////////

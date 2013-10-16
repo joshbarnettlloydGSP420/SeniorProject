@@ -27,19 +27,19 @@ void Level_Base::Update( float dt, Object_Player* player, gunType bulletColor, D
 			// check for wall collisions based on current room
 			if( currentRoom == FOYER )
 			{
-				enemies[i]->RoomWallCollision( dt, Foyer);
+				enemies[i]->RoomWallCollision( dt, x1, x2, z1, z2, Foyer);
 			}
 			else if ( currentRoom == BALLROOM )
 			{
-				enemies[i]->RoomWallCollision( dt, Ballroom );
+				enemies[i]->RoomWallCollision( dt, x1, x2, z1, z2, Ballroom);
 			}
 			else if ( currentRoom == DININGROOM )
 			{
-				enemies[i]->RoomWallCollision( dt, Diningroom );
+				enemies[i]->RoomWallCollision( dt, x1, x2, z1, z2, Diningroom);
 			}
 			else if ( currentRoom == KITCHEN )
 			{
-				enemies[i]->RoomWallCollision( dt, Kitchen );
+				enemies[i]->RoomWallCollision( dt, x1, x2, z1, z2, Kitchen);
 			}
 			else
 			{

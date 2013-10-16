@@ -37,39 +37,7 @@ void Enemy_Attack::Update( float dt, Enemy_Movement* movement, D3DXVECTOR4 playe
 	// if it is 0 then attack
 	else if ( attackTime == 0 )
 	{
-		// face the player
-		//face.GetSteering( movement, movement->GetOrientation(), playerPos);
-
-		// get the direction to the target
-		if ( distance > slowRadius)
-		{
-			targetSpeed = maxSpeed;
-		}
-		else
-		{
-			targetSpeed = maxSpeed * distance / slowRadius;
-		}
-
-		D3DXVECTOR4 targetVelocity = direction;
-		// normalize targetVelocity
-		float length = sqrt((targetVelocity.x * targetVelocity.x) + (targetVelocity.z * targetVelocity.z) + ( targetVelocity.y * targetVelocity.y));
-		targetVelocity.x /= length;
-		targetVelocity.z /= length;
-		targetVelocity.y /= length;
-		targetVelocity *= targetSpeed;
-
-		// acceleration tries to get to the target velocity
-		movement->SetLinear( targetVelocity - movement->GetVelocity());
-		movement->SetLinear( movement->GetLinear() /= TimeToTarget);
-
-		// check if the acceleration is too fast
-		if (sqrt(( movement->GetLinear().x * movement->GetLinear().x) + (movement->GetLinear().y * movement->GetLinear().y) + (movement->GetLinear().z * movement->GetLinear().z)) > maxAcceleration)
-		{
-			movement->NormalizeLinear();
-			movement->SetLinear( movement->GetLinear() * maxAcceleration);
-		}
-
-		movement->SetAngular(0);
+		
 	}
 
 	// after the collision the flee

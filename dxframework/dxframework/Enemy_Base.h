@@ -76,7 +76,8 @@ protected:
 	float						velUD;
 	float						velLR;
 
-	// Object_Player*		havokShape;	
+	// bullet counter
+	float						bulletCounter;
 
 	// Changes the state of the enemy
 	void UpdateState( StateType CurrentState, float dt );
@@ -92,6 +93,7 @@ public:
 	bool CollisionDetection(hkpRigidBody* playerBody);
 	virtual void BulletCollision( float dt, Object_Player* player, gunType bulletColor) = 0;
 	void RoomWallCollision( float dt, Room* currentRoom );
+	void RoomWallCollision( float dt, float x1, float x2, float z1, float z2 , Room* currentRoom );
 
 	// Havok
 	void CreateBodyObject(hkpWorld* world);

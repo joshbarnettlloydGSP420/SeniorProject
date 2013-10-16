@@ -16,11 +16,6 @@ void Level_Three::Init( IDirect3DDevice9* m_pD3DDevice, RenderObject* m_pRender,
 	// initialize the leveled cleared to false
 	levelCleared = false;
 
-	// ball room positions
-	Ballroom->roomPos = D3DXVECTOR3(-44.0f, 0.0f, 10.0f);
-	Ballroom->roomSize = D3DXVECTOR3(23.5, 20.0f, 50.0f);
-
-
 	// set the constraints for the enemy spawn points
 	// low values
 	x1 = -60;
@@ -30,6 +25,7 @@ void Level_Three::Init( IDirect3DDevice9* m_pD3DDevice, RenderObject* m_pRender,
 	x2 = -20;
 	z2 = 49;
 
+	enemies.resize( 4 );
 	// create 2 PURPLE ghosts to appear 
 	for ( int i = 0; i < 2; ++i)
 	{
@@ -45,7 +41,7 @@ void Level_Three::Init( IDirect3DDevice9* m_pD3DDevice, RenderObject* m_pRender,
 	}
 
 	// create 1 RED ghost
-	enemies[2] = new Enemy_PurpleGhost();
+	enemies[2] = new Enemy_RedGhost();
 	enemies[2]->Init( m_pD3DDevice, m_pRender);
 	enemies[2]->CreateHavokObject( world );
 
@@ -56,7 +52,7 @@ void Level_Three::Init( IDirect3DDevice9* m_pD3DDevice, RenderObject* m_pRender,
 	enemies[2]->SetPosition( D3DXVECTOR4( x, 0, z, 0));
 
 	// create 1 GREEN ghost
-	enemies[3] = new Enemy_PurpleGhost();
+	enemies[3] = new Enemy_GreenGhost();
 	enemies[3]->Init( m_pD3DDevice, m_pRender);
 	enemies[3]->CreateHavokObject( world );
 
@@ -67,31 +63,37 @@ void Level_Three::Init( IDirect3DDevice9* m_pD3DDevice, RenderObject* m_pRender,
 	enemies[3]->SetPosition( D3DXVECTOR4( x, 0, z, 0));
 
 	InitRooms();
+	currentRoom = BALLROOM;
+	level = 3;
 }
 
 void Level_Three::InitRooms()
 {
 	Ballroom = new Room();
 
-	hkpRigidBody* rigidBody;
-	hkpRigidBodyCinfo bodyInfo;
+	// ball room positions
+	Ballroom->roomPos = D3DXVECTOR3(-44.0f, 0.0f, 10.0f);
+	Ballroom->roomSize = D3DXVECTOR3(23.5, 20.0f, 50.0f);
+
+	//hkpRigidBody* rigidBody;
+	//hkpRigidBodyCinfo bodyInfo;
 
 	enemiesDead = false;
-	puzzleSolved = false;
-	Ballroom->playerInRoom = false;
+	puzzleSolved = true;
+	//Ballroom->playerInRoom = false;
 
-	// Box Parameters
-	hkVector4 halfExtents(hkVector4(Ballroom->roomSize.x, Ballroom->roomSize.y, Ballroom->roomSize.z, 0.0f));
+	//// Box Parameters
+	//hkVector4 halfExtents(hkVector4(Ballroom->roomSize.x, Ballroom->roomSize.y, Ballroom->roomSize.z, 0.0f));
 
-	// Create Box Based on Parameters
-	hkpBoxShape* boxShape = new hkpBoxShape(halfExtents);
+	//// Create Box Based on Parameters
+	//hkpBoxShape* boxShape = new hkpBoxShape(halfExtents);
 
-	// Set The Object's Properties
-	bodyInfo.m_shape = boxShape;
-	bodyInfo.m_position.set(Ballroom->roomPos.x, Ballroom->roomPos.y, Ballroom->roomPos.z);
+	//// Set The Object's Properties
+	//bodyInfo.m_shape = boxShape;
+	//bodyInfo.m_position.set(Ballroom->roomPos.x, Ballroom->roomPos.y, Ballroom->roomPos.z);
 
-	// Create Rigid Body
-	rigidBody = new hkpRigidBody(bodyInfo);
+	//// Create Rigid Body
+	//rigidBody = new hkpRigidBody(bodyInfo);
 
-	rigidBody->getCollidable()->getShape()->getAabb(rigidBody->getTransform(), 0.0f, Ballroom->boundingArea);
+	//rigidBody->getCollidable()->getShape()->getAabb(rigidBody->getTransform(), 0.0f, Ballroom->boundingArea);
 }

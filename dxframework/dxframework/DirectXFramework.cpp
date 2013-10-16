@@ -933,10 +933,10 @@ void CDirectXFramework::playerControls(float dt)
 	}
 	if( m_pDInput->keyPress(DIK_2) )
 	{
-		if(type != blue)
+		if(type != purple)
 		{
 			AudioManager::GetInstance()->PlaySFX(*changeBullet);
-			type = blue;
+			type = purple;
 			Player->changeGunType(type);
 		}
 	}
@@ -946,6 +946,15 @@ void CDirectXFramework::playerControls(float dt)
 		{
 			AudioManager::GetInstance()->PlaySFX(*changeBullet);
 			type = red;
+			Player->changeGunType(type);
+		}
+	}
+	if( m_pDInput->keyPress(DIK_4) )
+	{
+		if(type !=yellow)
+		{
+			AudioManager::GetInstance()->PlaySFX(*changeBullet);
+			type = yellow;
 			Player->changeGunType(type);
 		}
 	}

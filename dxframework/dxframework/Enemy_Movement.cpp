@@ -41,7 +41,7 @@ void Enemy_Movement::GetNewOrientation()
 {
 	float length = sqrt((velocity.x * velocity.x) + (velocity.z * velocity.z));
 	if ( length > 0)
-		orientation = (float) atan2(-velocity.x, velocity.z);
+		orientation = (float) atan2(velocity.x, velocity.z);
 }
 
 void Enemy_Movement::NormalizeVelocity()
