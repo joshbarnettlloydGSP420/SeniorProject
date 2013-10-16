@@ -47,6 +47,7 @@ void Level_Beyond5::Init( IDirect3DDevice9* m_pD3DDevice, RenderObject* m_pRende
 
 		// initialize the ghost
 		enemies[i]->Init( m_pD3DDevice, m_pRender);
+		enemies[i]->CreateHavokObject( world );
 
 		float x = RandomBinomial( x1, x2);
 		float z = RandomBinomial( z1, z2);
@@ -57,4 +58,17 @@ void Level_Beyond5::Init( IDirect3DDevice9* m_pD3DDevice, RenderObject* m_pRende
 
 	currentRoom = NO_ROOM;
 	level = 5;
+
+	InitRooms();
+}
+
+void Level_Beyond5::InitRooms()
+{
+	House = new Room();
+
+	House->roomPos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	House->roomSize = D3DXVECTOR3(125.0f, 20.0f, 84.0f);
+
+	enemiesDead = false;
+	puzzleSolved = true;
 }

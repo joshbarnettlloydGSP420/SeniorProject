@@ -76,6 +76,8 @@ void Level_Four::Init( IDirect3DDevice9* m_pD3DDevice, RenderObject* m_pRender, 
 
 	// set their positions randomly in the FOYER
 	enemies[3]->SetPosition( D3DXVECTOR4( x, 0, z, 0));
+
+	InitRooms();
 }
 
 void Level_Four::InitRooms()
@@ -90,7 +92,7 @@ void Level_Four::InitRooms()
 	//hkpRigidBodyCinfo bodyInfo;
 
 	enemiesDead = false;
-	puzzleSolved = true;;
+	puzzleSolved = true;
 	//Foyer->playerInRoom = false;
 
 	//// Box Parameters

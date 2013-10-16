@@ -43,7 +43,7 @@ void Level_Base::Update( float dt, Object_Player* player, gunType bulletColor, D
 			}
 			else
 			{
-				// TODO:  bounding box for the house
+				enemies[i]->RoomWallCollision( dt, x1, x2, z1, z2, House );
 			}
 		}
 		// if enemy is dead then erase from vector list

@@ -18,6 +18,6 @@ public:
 
 	void Init( IDirect3DDevice9* m_pD3DDevice, RenderObject* m_pRender, hkpWorld* world );
 	void InitPuzzle( Object_Player* Player, RenderObject* m_pRender, hkpWorld* world) {};
-	void InitRooms() { 0; };
+	void InitRooms();
 };
 

@@ -40,7 +40,7 @@ protected:
 	Room*		Ballroom;
 	Room*		Diningroom;
 	Room*		Kitchen;
-	Room*		House;		// create
+	Room*		House;
 
 	// Current Room Player is in
 	AREA		currentRoom;

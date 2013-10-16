@@ -22,14 +22,20 @@ void Level_Manager::Init(IDirect3DDevice9* m_pD3DDevice, RenderObject* m_pRender
 	//tutorial->Init( device, render, havokWorld);
 	//tutorial->InitPuzzle( player, render, world);
 
-	levelOne = new Level_One();
-	levelOne->Init( device, render, world);
-	levelOne->InitPuzzle( player, render, world);
+	//levelOne = new Level_One();
+	//levelOne->Init( device, render, world);
+	//levelOne->InitPuzzle( player, render, world);
+
+
 
 	// set the level variables
-	level = One;
-	levelCount = 5;
+	level = FiveBeyond;
+	levelCount = 0;
 	enemyCount = 10;
+	levels5Beyond.resize( 30 );
+	levels5Beyond[levelCount] = new Level_Beyond5();
+	levels5Beyond[levelCount]->SetEnemyCount( enemyCount );
+	levels5Beyond[levelCount]->Init( device, render, havokWorld);
 }
 
 void Level_Manager::Update( float dt, Object_Player* player, gunType bulletColor, D3DXVECTOR3 eyePos, D3DXVECTOR3 lookAt)
