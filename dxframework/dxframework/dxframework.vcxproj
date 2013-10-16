@@ -134,6 +134,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AudioManager.h" />
+    <ClInclude Include="BarrierParticles.h" />
     <ClInclude Include="BaseMenu.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="CameraObj.h" />

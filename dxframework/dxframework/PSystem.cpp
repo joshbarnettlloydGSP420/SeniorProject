@@ -138,6 +138,20 @@ void PSystem::addParticle(D3DXVECTOR3 pos, D3DXVECTOR3 iPos, D3DXVECTOR3 look)
 			mAliveParticles.push_back(p);
 		}
 	}
+
+	if(type == barrier)
+	{
+		if( mDeadParticles.size() > 0)
+		{
+			// Reinitialize a particle.
+			Particle* p = mDeadParticles.back();
+			initParticle(*p, pos, iPos, look);
+
+			// No longer dead.
+			mDeadParticles.pop_back();
+			mAliveParticles.push_back(p);
+		}
+	}
 }
 
 

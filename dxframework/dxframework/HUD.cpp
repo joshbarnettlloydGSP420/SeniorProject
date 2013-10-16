@@ -9,7 +9,7 @@ HUD::HUD(void)
 
 	//player hud variables
 	maxHealth = 100;
-	currentHealth = 100;
+	currentHealth = 0;
 	
 	maxShield = 100;
 	currentShield = 100;
@@ -227,7 +227,7 @@ void HUD::Init(IDirect3DDevice9* device)
 
 }
 
-void HUD::Update(float dt, int counter, D3DXVECTOR4 playerPosition)
+void HUD::Update(float dt, int counter, D3DXVECTOR4 playerPosition, float playerHealth)
 {
 	if(counter == 0)
 		number = twelve;
@@ -259,6 +259,9 @@ void HUD::Update(float dt, int counter, D3DXVECTOR4 playerPosition)
 	minimapDotPosition.position.x = (playerPosition.x * 1.14f) + 685;
 	minimapDotPosition.position.y = (-1 * playerPosition.z * 1.0f ) + 79;
 	minimapDotPosition.position.z = 0.0f;
+
+	setHealth(playerHealth);
+	//currentHealth = playerHealth;
 }
 
 void HUD::Render(IDirect3DDevice9* device, ID3DXSprite* sprite, int colorSwitch)

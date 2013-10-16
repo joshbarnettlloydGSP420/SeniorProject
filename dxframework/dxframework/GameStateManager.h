@@ -66,7 +66,7 @@ private:
 	long evCode;
 	LONG_PTR eventParam1, eventParam2;
 	bool					videoRunning;
-	
+	float					playerHealth;
 
 public:
 
@@ -79,7 +79,7 @@ public:
 	~GameStateManager(void);
 
 	void Init(HWND wndHandle,  D3DPRESENT_PARAMETERS* D3dpp, HINSTANCE hInst, IDirect3DDevice9* device);
-	void Update( float dt);
+	void Update( float dt, float playerHealth);
 	void Render(ID3DXSprite* sprite);
 
 	void onResetDevice();
@@ -92,6 +92,10 @@ public:
 	//minimap player position
 	void setPlayerPosition(D3DXVECTOR4 playerPosition);
 	D3DXVECTOR4 getPlayerPosition(){return playerPosition;}
+
+	// health hud health
+	void setPlayerHealth(float playerHealth);
+	float getPlayerHealth(){return playerHealth;}
 
 };
 

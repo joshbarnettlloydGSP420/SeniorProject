@@ -32,6 +32,10 @@ public:
 	PSystem*	fireSystem3; 
 	PSystem*	fireSystem4;
 
+	PSystem*	barrierSystem1;
+	PSystem*	barrierSystem2;
+	PSystem*	barrierSystem3;
+
 	FourTorchPuzzle();
 	~FourTorchPuzzle();
 

@@ -476,7 +476,8 @@ void CDirectXFramework::Init(HWND& hWnd, HINSTANCE& hInst, bool bWindowed)
 
 	fridge->scale = D3DXVECTOR3(0.0050f, 0.0050f, 0.0050f);
 	videoIsPlaying = false;
-	
+	Player->setHealth(100);
+	Player->setHealth(Player->getHealth() - 50);
 }
 
 HWND CDirectXFramework::getMainWnd()
@@ -494,6 +495,8 @@ void CDirectXFramework::Update(float dt)
 
 		havok->getWorld()->lock();
 		collisions(dt);
+
+		gameState->setPlayerHealth(Player->getHealth());
 
 		// Player Update
 		Player->Update(dt, eyePos, lookAt, havok->getWorld());
@@ -532,7 +535,7 @@ void CDirectXFramework::Update(float dt)
 		UpdateCamera(dt);
 		playerControls(dt);
 	}
-	gameState->Update(dt);
+	gameState->Update(dt, Player->getHealth());
 }
 
 void CDirectXFramework::Render(float dt)

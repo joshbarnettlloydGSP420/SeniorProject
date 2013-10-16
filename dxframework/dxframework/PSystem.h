@@ -56,6 +56,9 @@ public:
 		case 1:
 			type = fire;
 			break;
+		case 2:
+			type = barrier;
+			break;
 		}
 	}
 
@@ -91,7 +94,7 @@ protected:
 	std::vector<Particle*> mDeadParticles;
 
 private:
-	enum Type{gun = 0, fire = 1}type;
+	enum Type{gun = 0, fire = 1, barrier = 2}type;
 };
 
 #endif // P_SYSTEM

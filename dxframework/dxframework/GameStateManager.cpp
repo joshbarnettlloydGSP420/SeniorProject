@@ -32,7 +32,7 @@ void GameStateManager::Init( HWND wndHandle,  D3DPRESENT_PARAMETERS* D3dpp, HINS
 	activeGameState = MAIN_MENU;
 }
 
-void GameStateManager::Update( float dt )
+void GameStateManager::Update( float dt, float playerHealth)
 {
 	input->getInput();
 	
@@ -128,7 +128,7 @@ void GameStateManager::Update( float dt )
 	case GAME:
 		{
 			// Game's update function
-			hud->Update( dt,  getHudBulletCounter(), getPlayerPosition());
+			hud->Update( dt,  getHudBulletCounter(), getPlayerPosition(), playerHealth);
 
 			if (input->keyPress(DIK_P))
 			{
@@ -343,4 +343,10 @@ void GameStateManager::setHudBulletCounter(int bCounter)
 void GameStateManager::setPlayerPosition(D3DXVECTOR4 playerPosition)
 {
 	this->playerPosition = playerPosition;
+}
+// health hud health
+	
+void GameStateManager::setPlayerHealth(float playerHealth)
+{
+		this->playerHealth = playerHealth;
 }

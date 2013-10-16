@@ -1,9 +1,11 @@
 #include "Object_Player.h"
 #include "Gun.h"
 #include "Fire.h"
+#include "BarrierParticles.h"
 
 Object_Player::Object_Player()
 {
+
 	objectMesh = new Mesh();
 	position = D3DXVECTOR4(0.0f, 0.0f, 0.0f, 0.0f);
 	scale = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
@@ -41,6 +43,17 @@ Object_Player::Object_Player()
 	fireSystem3->SetType(1);
 	fireSystem4 = new FireRing(L"sprinkler.fx", "SprinklerTech", L"torch.dds", D3DXVECTOR3(0.0f, 0.0f, 0.0f), psysBox, 35, 0.0025f);
 	fireSystem4->SetType(1);
+
+	//trying barrier effects
+	barrierSystem1 = new Barrier(L"firering.fx", "FireRingTech", L"barrierParticles.dds", D3DXVECTOR3(0.0f, 0.9f, 0.0f), psysBox, 600, 0.0025f);
+	barrierSystem1->SetType(2);
+
+	barrierSystem2 = new Barrier(L"firering.fx", "FireRingTech", L"barrierParticles.dds", D3DXVECTOR3(0.0f, 0.9f, 0.0f), psysBox, 600, 0.0025f);
+	barrierSystem2->SetType(2);
+
+	barrierSystem3 = new Barrier(L"firering.fx", "FireRingTech", L"barrierParticles.dds", D3DXVECTOR3(0.0f, 0.9f, 0.0f), psysBox, 600, 0.0025f);
+	barrierSystem3->SetType(2);
+
 }
 
 
@@ -388,4 +401,9 @@ void Object_Player::hitInvulTimer(float deltaTime)
 	{
 		beenHit = false;
 	}
+}
+
+void Object_Player::setHealth(float health)
+{
+	this->health = health;
 }

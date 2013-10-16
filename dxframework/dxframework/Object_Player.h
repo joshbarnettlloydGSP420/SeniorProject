@@ -31,11 +31,17 @@ private:
 	void createCapsuleObject(hkpWorld* world);
 	void stateMachineInit();
 
+	// Player Variables
+	float						health;
 public:
 	PSystem*	fireSystem1;
 	PSystem*	fireSystem2;
 	PSystem*	fireSystem3;
 	PSystem*	fireSystem4;
+
+	PSystem*	barrierSystem1;
+	PSystem*	barrierSystem2;
+	PSystem*	barrierSystem3;
 
 struct HavokBullet
 {
@@ -57,8 +63,7 @@ struct HavokBullet
 	D3DXVECTOR3					rotation;
 	D3DXVECTOR3					scale;
 
-	// Player Variables
-	int							health;
+	
 	bool						isAlive;
 	bool						wantJump;
 	float						jumpTimer;
@@ -120,4 +125,7 @@ struct HavokBullet
 	void getBulletPos(hkpWorld* world, float deltaTime);
 
 	void hitInvulTimer(float deltaTime);
+
+	void setHealth(float health);
+	float getHealth(){return health;}
 };

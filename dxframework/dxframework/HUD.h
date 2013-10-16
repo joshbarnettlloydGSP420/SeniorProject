@@ -116,7 +116,7 @@ public:
 
 	void Init(IDirect3DDevice9* device);
 
-	void Update(float dt, int counter, D3DXVECTOR4 playerPosition);
+	void HUD::Update(float dt, int counter, D3DXVECTOR4 playerPosition, float playerHealth);
 
 	void Render(IDirect3DDevice9* device, ID3DXSprite* sprite, int colorSwitch);
 

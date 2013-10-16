@@ -401,6 +401,9 @@
     <ClInclude Include="Fire.h">
       <Filter>Header Files\Objects</Filter>
     </ClInclude>
+    <ClInclude Include="BarrierParticles.h">
+      <Filter>Header Files\Objects</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="GirRobot.X">
