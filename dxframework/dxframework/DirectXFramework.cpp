@@ -203,7 +203,7 @@ void CDirectXFramework::Init(HWND& hWnd, HINSTANCE& hInst, bool bWindowed)
 		D3DX_DEFAULT, D3DCOLOR_XRGB(255, 0, 255), 
 		&m_imageInfo, 0, &m_pTexture[0]);
 
-	D3DXCreateTextureFromFileEx(m_pD3DDevice, L"test.tga", 0, 0, 0, 0,
+	D3DXCreateTextureFromFileEx(m_pD3DDevice, L"loadingScreen1.png", 0, 0, 0, 0,
 		D3DFMT_UNKNOWN, D3DPOOL_MANAGED, D3DX_DEFAULT, 
 		D3DX_DEFAULT, D3DCOLOR_XRGB(255, 0, 255), 
 		&m_imageInfo, 0, &m_pTexture[1]);
@@ -658,7 +658,7 @@ if(gameState->activeGameState == GAME)
 		renderObject(chair[i], D3DXVECTOR3(0.0f, -7.5f, 0.5f));
 
 	// render the levels and the enemies
-	levelManager->Render( m_hWnd, viewMat, projMat, eyePos);
+	levelManager->Render( m_hWnd, viewMat, projMat, eyePos, m_pD3DSprite, m_pTexture[1]);
 
 	Player->mPSys->draw(m_hWnd, eyePos, viewMat * projMat); // bullet draw
 
@@ -691,6 +691,9 @@ if(gameState->activeGameState == GAME)
 
 	// Set Transform
 
+
+	
+}
 	D3DXMatrixIdentity(&transMat);
 	D3DXMatrixIdentity(&scaleMat);
 	D3DXMatrixIdentity(&rotMat);
@@ -700,16 +703,8 @@ if(gameState->activeGameState == GAME)
 	D3DXMatrixTranslation(&transMat, 0.0f, 0.0f, 0.0f);
 	D3DXMatrixMultiply(&scaleMat, &scaleMat, &rotMat);
 	D3DXMatrixMultiply(&worldMat, &scaleMat, &transMat);
-	// Set Transform for the object m_pD3DSprite
+
 	m_pD3DSprite->SetTransform(&worldMat);
-
-
-
-	// Draw the texture with the sprite object
-	//m_pD3DSprite->Draw(m_pTexture[1], 0, &D3DXVECTOR3(m_imageInfo.Width * 0.5f, 
-	//	m_imageInfo.Height * 0.5f, 0.0f), 0,
-	//	D3DCOLOR_ARGB(255, 255, 255, 255));
-}
 
 gameState->Render(m_pD3DSprite);
 	// End drawing 2D sprites

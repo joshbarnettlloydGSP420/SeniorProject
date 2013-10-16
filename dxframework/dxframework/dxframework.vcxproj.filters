@@ -247,7 +247,7 @@
       <Filter>Source Files\Objects</Filter>
     </ClCompile>
     <ClCompile Include="ScoreManager.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Game</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -408,7 +408,7 @@
       <Filter>Header Files\Objects</Filter>
     </ClInclude>
     <ClInclude Include="ScoreManager.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Game</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -522,6 +522,9 @@
     </None>
     <None Include="Torch.X">
       <Filter>Resource Files\Models</Filter>
+    </None>
+    <None Include="loadingScreen1.png">
+      <Filter>Resource Files\Texture</Filter>
     </None>
   </ItemGroup>
 </Project>

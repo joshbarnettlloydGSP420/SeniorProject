@@ -26,6 +26,7 @@ void Level_Manager::Init(IDirect3DDevice9* m_pD3DDevice, RenderObject* m_pRender
 	level = Tutorial;
 	levelCount = 0;
 	enemyCount = 10;
+	loadingLevel = false;
 }
 
 void Level_Manager::Update( float dt, Object_Player* player, gunType bulletColor, D3DXVECTOR3 eyePos, D3DXVECTOR3 lookAt)
@@ -39,14 +40,14 @@ void Level_Manager::Update( float dt, Object_Player* player, gunType bulletColor
 
 			// if the tutorial is done then switch to level one
 			if ( tutorial->LeveledClear() == true )
-			 {
-					levelOne = new Level_One();
-					levelOne->Init( device, render, havokWorld);
-					levelOne->InitPuzzle( player, render, havokWorld);
-					if( tutorial != NULL )
-						delete tutorial;
-					level = One;
-				}
+			{
+				levelOne = new Level_One();
+				levelOne->Init( device, render, havokWorld);
+				levelOne->InitPuzzle( player, render, havokWorld);
+				if( tutorial != NULL )
+					delete tutorial;
+				level = One;
+			}
 			break;
 		}
 	case One:
@@ -56,7 +57,7 @@ void Level_Manager::Update( float dt, Object_Player* player, gunType bulletColor
 
 			// if the tutorial is done then switch to level two
 			if ( levelOne->LeveledClear() == true )
-			{
+			{	
 				levelTwo = new Level_Two();
 				levelTwo->Init( device, render, havokWorld);
 				//levelTwo->InitPuzzle( player, render, havokWorld);
@@ -74,12 +75,14 @@ void Level_Manager::Update( float dt, Object_Player* player, gunType bulletColor
 			// if the tutorial is done then switch to level three
 			if ( levelTwo->LeveledClear() == true )
 			{
+				loadingLevel = true;
 				levelThree = new Level_Three();
 				levelThree->Init( device, render, havokWorld);
 				//levelThree->InitPuzzle( player, render, havokWorld);
 				if ( levelTwo != NULL )
 					delete levelTwo;
 				level = Three;
+				loadingLevel = false;
 			}
 			break;
 		}
@@ -144,8 +147,9 @@ void Level_Manager::Update( float dt, Object_Player* player, gunType bulletColor
 	};
 }
 
-void Level_Manager::Render(HWND hwnd, D3DXMATRIX veiwMat, D3DXMATRIX projMat, D3DXVECTOR3 eyePos)
+void Level_Manager::Render(HWND hwnd, D3DXMATRIX veiwMat, D3DXMATRIX projMat, D3DXVECTOR3 eyePos, ID3DXSprite* m_pD3DSprite, IDirect3DTexture9* texture )
 {
+
 	switch( level )
 	{
 	case Tutorial:
@@ -179,4 +183,9 @@ void Level_Manager::Render(HWND hwnd, D3DXMATRIX veiwMat, D3DXMATRIX projMat, D3
 			break;
 		}
 	};
+}
+
+bool Level_Manager::getLoadingLevel()
+{
+	return loadingLevel;
 }

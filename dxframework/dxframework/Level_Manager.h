@@ -33,6 +33,7 @@ private:
 
 	// create a enemy count for the 5+ levels
 	float				enemyCount;
+	bool				loadingLevel;
 public:
 	Level_Manager(void);
 	~Level_Manager(void);
@@ -41,6 +42,8 @@ public:
 
 	void Update( float dt, Object_Player* player, gunType bulletColor, D3DXVECTOR3 eyePos, D3DXVECTOR3 lookAt);
 
-	void Render(HWND hwnd, D3DXMATRIX veiwMat, D3DXMATRIX projMat, D3DXVECTOR3 eyePos);
+	void Render(HWND hwnd, D3DXMATRIX veiwMat, D3DXMATRIX projMat, D3DXVECTOR3 eyePos, ID3DXSprite* m_pD3DSprite, IDirect3DTexture9* texture);
+
+	bool getLoadingLevel();
 };
 

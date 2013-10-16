@@ -215,6 +215,7 @@
     <None Include="Headgear.dds" />
     <None Include="Helmet.dds" />
     <None Include="House.X" />
+    <None Include="loadingScreen1.png" />
     <None Include="Metal_Texture.jpg" />
     <None Include="Pack.dds" />
     <None Include="Parallax.fx" />
