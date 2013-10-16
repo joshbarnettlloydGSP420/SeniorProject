@@ -41,6 +41,8 @@ void Level_One::Init( IDirect3DDevice9* m_pD3DDevice, RenderObject* m_pRender, h
 		// set their positions randomly in the DINING ROOM
 		enemies[i]->SetPosition( D3DXVECTOR4( x, 0, z, 0));
 	}
+
+	currentRoom = DININGROOM;
 }
 
 void Level_One::InitRooms()

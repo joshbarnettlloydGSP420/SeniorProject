@@ -21,8 +21,8 @@ void Enemy_YellowGhost::Init(IDirect3DDevice9* m_pD3DDevice, RenderObject* m_pRe
 	isDead = false;
 	health = 200;
 	attackSpeed = 10;
-	attackRange = 50;
-	wanderRange = 100;
+	attackRange = 5;
+	wanderRange = 15;
 
 	// Set the Initial movement variables
 	movement = new Enemy_Movement();

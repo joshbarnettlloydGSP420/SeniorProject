@@ -22,8 +22,8 @@ void Enemy_GreenGhost::Init(IDirect3DDevice9* m_pD3DDevice, RenderObject* m_pRen
 	isDead = false;
 	health = 200;
 	attackSpeed = 10;
-	attackRange = 50;
-	wanderRange = 100;
+	attackRange = 5;
+	wanderRange = 25;
 
 	// Set the Initial movement variables
 	movement = new Enemy_Movement();

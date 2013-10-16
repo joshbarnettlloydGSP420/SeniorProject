@@ -18,15 +18,16 @@ void Level_Manager::Init(IDirect3DDevice9* m_pD3DDevice, RenderObject* m_pRender
 	havokWorld = world;
 
 	// initialize the first level
-	tutorial = new Level_Tutorial();
-	tutorial->Init( device, render, havokWorld);
-	tutorial->InitPuzzle( player, render, world);
+	//tutorial = new Level_Tutorial();
+	//tutorial->Init( device, render, havokWorld);
+	//tutorial->InitPuzzle( player, render, world);
 
-	//levelOne = new Level_One();
-	//levelOne->Init( device, render, world);
+	levelOne = new Level_One();
+	levelOne->Init( device, render, world);
+	levelOne->InitPuzzle( player, render, world);
 
 	// set the level variables
-	level = Tutorial;
+	level = One;
 	levelCount = 5;
 	enemyCount = 10;
 }

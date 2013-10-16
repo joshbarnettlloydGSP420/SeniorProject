@@ -23,6 +23,7 @@ void Level_Tutorial::Init( IDirect3DDevice9* m_pD3DDevice, RenderObject* m_pRend
 	InitRooms();
 	Puzzle_FT = new FourTorchPuzzle();
 	level = 0;
+	currentRoom = FOYER;
 }
 
 void Level_Tutorial::InitRooms()
