@@ -134,7 +134,7 @@ void OptionsMenu::Update()
 	if ( optionsState == 2)
 	{
 		videoPlaying = true;
-		InitVideo(L"SplashScreenMovie.wmv");
+		InitVideo(L"Credit.wmv");
 		videoInit = true;
 		videoControl->Run();
 	}

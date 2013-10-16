@@ -90,6 +90,11 @@ HUD::HUD(void)
 	blackBar1Position.position.y = hudLocation.y + 12;
 	blackBar1Position.position.z = 0.0f;
 
+	// score placement
+	scorePos.position.x = hudLocation.x + 50;
+	scorePos.position.y = hudLocation.y + 12;
+	scorePos.position.z = 0.0f;
+
 	//shield black bar
 	SetRect(&blackBarSheetRect, 32, 2, 242, 29);
 	blackBar2Position.position.x = hudLocation.x + 37;
@@ -222,13 +227,23 @@ void HUD::Init(IDirect3DDevice9* device)
 		D3DX_DEFAULT, D3DCOLOR_XRGB(255, 0, 255), 
 		0, 0, &minimapBackgroundTexture);
 
+		// create a FONT object
+	AddFontResourceEx(L"SanitariumBB.otf", FR_PRIVATE, 0);
+	D3DXCreateFont(device, 30, 0, FW_BOLD, 0, false, 
+		DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, DEFAULT_QUALITY,
+		DEFAULT_PITCH | FF_DONTCARE, TEXT("SanitariumBB"), 
+		&m_pD3DFont);
+
 	//D3DXCreateTextureFromFile(device, "healthHUD.png", &hudTexture);
 	hudOn = true;
+	currentScore = 0;
 
 }
 
 void HUD::Update(float dt, int counter, D3DXVECTOR4 playerPosition)
 {
+	
+
 	if(counter == 0)
 		number = twelve;
 	else if(counter == 1)
@@ -266,6 +281,9 @@ void HUD::Render(IDirect3DDevice9* device, ID3DXSprite* sprite, int colorSwitch)
 
 	if(hudOn)
 	{
+
+
+	
 		/**********************************************************************************************************/
 		/**									EQUATIONS FOR REFLECTING SUBTRACTED HEALTH						***/
 		/**********************************************************************************************************/
@@ -300,6 +318,7 @@ void HUD::Render(IDirect3DDevice9* device, ID3DXSprite* sprite, int colorSwitch)
 	//sprite->Draw(shieldTexture, &shieldSheetRect, &D3DXVECTOR3(0,0,0), &shieldPosition.position, D3DCOLOR_ARGB(255, 255, 255, 255));	
 	sprite->Draw(hudTexture, &hudSheetRect, &D3DXVECTOR3(0,0,0), &hudPosition.position, D3DCOLOR_ARGB(255, 255, 255, 255));
 	sprite->Draw(ammoTexture, &ammoSheetRect, &D3DXVECTOR3(0,0,0), &ammoPosition.position, D3DCOLOR_ARGB(255, 255, 255, 255));
+	
 	switch(color)
 	{
 	case 0:
@@ -365,6 +384,15 @@ void HUD::Render(IDirect3DDevice9* device, ID3DXSprite* sprite, int colorSwitch)
 	}
 
 	}
+
+	sprite->Flush();
+
+	SetRect(&scoreRect,20,50,100,50);
+	char scoreMessage[30];
+	sprintf(scoreMessage,"Score: %d ", currentScore);
+	m_pD3DFont->DrawTextA(0, scoreMessage, -1, &scoreRect, 
+                  DT_TOP | DT_LEFT | DT_NOCLIP, 
+                  D3DCOLOR_ARGB(255, 255, 255, 255));
 }
 
 void HUD::setColor(colorSwitch color)
@@ -385,6 +413,13 @@ void HUD::miniMapOn(bool mapOn)
 {
 	this->mapOn = mapOn;
 }
+
+void HUD::UpdateScore(int addedScore)
+{
+	currentScore += addedScore;
+}
+
+
 void HUD::Shutdown()
 {
 	SAFE_RELEASE(hudTexture)

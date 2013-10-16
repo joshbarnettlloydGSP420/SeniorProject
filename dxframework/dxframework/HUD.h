@@ -20,6 +20,11 @@ enum numberSwitch{zero, one, two, three, four, five, six, seven, eight, nine, te
 class HUD
 {
 private:
+	//////////////////////////////////////////////////////////////////////////
+	// Font Variables														//
+	//////////////////////////////////////////////////////////////////////////
+	ID3DXFont*						m_pD3DFont;			// Font Object
+
 	//player variables
 	float widthHealth;
 	float widthShield;
@@ -35,7 +40,9 @@ private:
 
 	int level;
 	bool hudOn;
-
+	int currentScore;
+	int newScore;
+	int addedScore;
 	char hudPrint[30];
 
 	int score, highScore;
@@ -86,7 +93,7 @@ private:
 	//black bar background
 	IDirect3DTexture9* blackBarTexture;
 	RECT blackBarSheetRect;
-
+	RECT scoreRect;
 
 	//enum vars
 	colorSwitch color;
@@ -97,7 +104,7 @@ private:
 		D3DXVECTOR3 position;
 	}
 	hudPosition, healthPosition, shieldPosition, ammoPosition, bulletPosition, numberPosition, blackBar1Position, blackBar2Position,
-		minimapDotPosition, minimapPosition;
+		minimapDotPosition, minimapPosition, highScorePos, scorePos;
 
 	//hud position variables, the health/shield bars will be dependant on hud pos
 	D3DXVECTOR3 hudLocation;
@@ -136,5 +143,10 @@ public:
 
 	void miniMapOn(bool mapOn);
 	bool getMiniMapOn(){return mapOn;}
+
+	void SetScore(int score);
+	int  getScore(){return score;}
+	void UpdateScore(int addedScore);
+	
 };
 
