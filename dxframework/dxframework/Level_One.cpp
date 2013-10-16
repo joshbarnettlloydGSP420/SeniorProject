@@ -8,6 +8,11 @@ Level_One::Level_One(void)
 
 Level_One::~Level_One(void)
 {
+	if( Diningroom != NULL)
+		delete Diningroom;
+
+	//if ( rigidBody != NULL)
+	//	delete rigidBody;
 }
 
 // Dining Room Level
@@ -27,9 +32,9 @@ void Level_One::Init( IDirect3DDevice9* m_pD3DDevice, RenderObject* m_pRender, h
 	x2 = 65;
 	z2 = 49;
 
-	enemies.resize( 1 );
+	enemies.resize( 4 );
 	// create 4 GREEN ghosts to appear 
-	for ( int i = 0; i < 1; ++i)
+	for ( int i = 0; i < enemies.size(); i++)
 	{
 		enemies[i] = new Enemy_GreenGhost();
 		enemies[i]->Init( m_pD3DDevice, m_pRender);
@@ -41,6 +46,9 @@ void Level_One::Init( IDirect3DDevice9* m_pD3DDevice, RenderObject* m_pRender, h
 		// set their positions randomly in the DINING ROOM
 		enemies[i]->SetPosition( D3DXVECTOR4( x, 0, z, 0));
 	}
+
+	currentRoom = DININGROOM;
+	level = 1;
 }
 
 void Level_One::InitRooms()
@@ -51,25 +59,25 @@ void Level_One::InitRooms()
 	Diningroom->roomPos = D3DXVECTOR3(44.0f, 0.0f, 7.5f);
 	Diningroom->roomSize = D3DXVECTOR3(21.5, 20.0f, 42.0f);
 
-	hkpRigidBody* rigidBody;
-	hkpRigidBodyCinfo bodyInfo;
+	//hkpRigidBody* rigidBody;
+	//hkpRigidBodyCinfo bodyInfo;
 
 	enemiesDead = false;
-	puzzleSolved = false;
-	Diningroom->playerInRoom = false;
+	puzzleSolved = true;				// set to false if puzzle is created
+	//Diningroom->playerInRoom = false;
 
-	// Box Parameters
-	hkVector4 halfExtents(hkVector4(Diningroom->roomSize.x, Diningroom->roomSize.y, Diningroom->roomSize.z, 0.0f));
+	//// Box Parameters
+	//hkVector4 halfExtents(hkVector4(Diningroom->roomSize.x, Diningroom->roomSize.y, Diningroom->roomSize.z, 0.0f));
 
-	// Create Box Based on Parameters
-	hkpBoxShape* boxShape = new hkpBoxShape(halfExtents);
+	//// Create Box Based on Parameters
+	//hkpBoxShape* boxShape = new hkpBoxShape(halfExtents);
 
-	// Set The Object's Properties
-	bodyInfo.m_shape = boxShape;
-	bodyInfo.m_position.set(Diningroom->roomPos.x, Diningroom->roomPos.y, Diningroom->roomPos.z);
+	//// Set The Object's Properties
+	//bodyInfo.m_shape = boxShape;
+	//bodyInfo.m_position.set(Diningroom->roomPos.x, Diningroom->roomPos.y, Diningroom->roomPos.z);
 
-	// Create Rigid Body
-	rigidBody = new hkpRigidBody(bodyInfo);
+	//// Create Rigid Body
+	//rigidBody = new hkpRigidBody(bodyInfo);
 
-	rigidBody->getCollidable()->getShape()->getAabb(rigidBody->getTransform(), 0.0f, Diningroom->boundingArea);
+	//rigidBody->getCollidable()->getShape()->getAabb(rigidBody->getTransform(), 0.0f, Diningroom->boundingArea);
 }

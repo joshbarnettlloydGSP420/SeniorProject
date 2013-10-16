@@ -15,15 +15,6 @@ void Enemy_PurpleGhost::Init(IDirect3DDevice9* m_pD3DDevice, RenderObject* m_pRe
 	// call the enemy base init
 	Enemy_Base::Init(m_pD3DDevice, m_pRender);
 
-
-
-	// initialize the variables
-	isDead = false;
-	health = 200;
-	attackSpeed = 10;
-	attackRange = 50;
-	wanderRange = 100;
-
 	// Set the Initial movement variables
 	movement = new Enemy_Movement();
 	movement->setPosition( D3DXVECTOR4(50, 1.0, 24.4, 0));
@@ -56,37 +47,37 @@ void Enemy_PurpleGhost::BulletCollision( float dt, Object_Player* player, gunTyp
 	hkAabb aabbBase;
 	hkAabb aabbOut;
 
-
-	// Enemy Hits Bullets
-	for(short i = 0; i < ARRAYSIZE(player->bull); ++i)
+	if ( bulletCounter <= 0.0)
 	{
-		// Object Hit Bullets
+		// Enemy Hits Bullets
 		for(short i = 0; i < ARRAYSIZE(player->bull); ++i)
 		{
 			// get the aabb bounding box of the ghost
 			rigidBody->getCollidable()->getShape()->getAabb(rigidBody->getTransform(), 0.4f, aabbOut);
 			// get the aabb bounding box of the player
 			player->bull[i].bulletObject->getCollidable()->getShape()->getAabb(player->bull[i].bulletObject->getTransform(), 0.4f, aabbBase);
-				
+
 			// if the bullet has collision with the enemy then take appropriate action.
 			if(aabbBase.overlaps(aabbOut))
 			{
-				//// if the bullet is the opposite color as the ghost then lose health
-				//if ( bulletColor == yellow )
-				//	health -= 10;
-				//// else if the bullet is the same color then gain health
-				//else if ( bulletColor == purple )
-				//	health += 20;
-				//// else if other colors then gain health
-				//else
-				//	health += 10;
+				// if the bullet is the opposite color as the ghost then lose health
+				if ( bulletColor == yellow )
+					health -= 10;
+				// else if the bullet is the same color then gain health
+				else if ( bulletColor == purple )
+					health += 20;
+				// else if other colors then gain health
+				else
+					health += 10;
 
-				//// if health is greater than 200 set it to a max of 200
-				//if ( health > 200 )
-				//	health = 200;
+				// if health is greater than 200 set it to a max of 200
+				if ( health > 200 )
+					health = 200;
 			}
 
 		}
 
 	}
+	else
+		bulletCounter -= (1 * dt);
 }

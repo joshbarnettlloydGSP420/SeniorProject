@@ -18,15 +18,16 @@ void Level_Manager::Init(IDirect3DDevice9* m_pD3DDevice, RenderObject* m_pRender
 	havokWorld = world;
 
 	// initialize the first level
-	tutorial = new Level_Tutorial();
-	tutorial->Init( device, render, havokWorld);
-	tutorial->InitPuzzle( player, render, world);
+	//tutorial = new Level_Tutorial();
+	//tutorial->Init( device, render, havokWorld);
+	//tutorial->InitPuzzle( player, render, world);
 
-	//levelOne = new Level_One();
-	//levelOne->Init( device, render, world);
+	levelOne = new Level_One();
+	levelOne->Init( device, render, world);
+	levelOne->InitPuzzle( player, render, world);
 
 	// set the level variables
-	level = Tutorial;
+	level = One;
 	levelCount = 5;
 	enemyCount = 10;
 }
@@ -62,7 +63,7 @@ void Level_Manager::Update( float dt, Object_Player* player, gunType bulletColor
 			{
 				levelTwo = new Level_Two();
 				levelTwo->Init( device, render, havokWorld);
-				levelTwo->InitPuzzle( player, render, havokWorld);
+				//levelTwo->InitPuzzle( player, render, havokWorld);
 				if ( levelOne != NULL )
 					delete levelOne;
 				level = Two;
@@ -79,7 +80,7 @@ void Level_Manager::Update( float dt, Object_Player* player, gunType bulletColor
 			{
 				levelThree = new Level_Three();
 				levelThree->Init( device, render, havokWorld);
-				levelThree->InitPuzzle( player, render, havokWorld);
+				//levelThree->InitPuzzle( player, render, havokWorld);
 				if ( levelTwo != NULL )
 					delete levelTwo;
 				level = Three;
@@ -96,7 +97,7 @@ void Level_Manager::Update( float dt, Object_Player* player, gunType bulletColor
 			{
 				levelFour = new Level_Four();
 				levelFour->Init( device, render, havokWorld);
-				levelFour->InitPuzzle( player, render, havokWorld);
+				//levelFour->InitPuzzle( player, render, havokWorld);
 				if ( levelThree != NULL)
 					delete levelThree;
 				level = Four;
@@ -114,7 +115,7 @@ void Level_Manager::Update( float dt, Object_Player* player, gunType bulletColor
 				levels5Beyond[levelCount] = new Level_Beyond5();
 				levels5Beyond[levelCount]->SetEnemyCount( enemyCount );
 				levels5Beyond[levelCount]->Init( device, render, havokWorld);
-				levels5Beyond[levelCount]->InitPuzzle( player, render, havokWorld);
+				//levels5Beyond[levelCount]->InitPuzzle( player, render, havokWorld);
 				if ( levelFour != NULL)
 					delete levelFour;
 				level = FiveBeyond;

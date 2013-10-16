@@ -28,6 +28,7 @@ void Level_Beyond5::Init( IDirect3DDevice9* m_pD3DDevice, RenderObject* m_pRende
 	x2 = 65;
 	z2 = 49;
 
+	enemies.resize( enemyCount );
 	// create random enemies based off of counter
 	for ( int i = 0; i < enemyCount; ++i)
 	{
@@ -53,4 +54,7 @@ void Level_Beyond5::Init( IDirect3DDevice9* m_pD3DDevice, RenderObject* m_pRende
 		// set their positions randomly in the DINING ROOM
 		enemies[0]->SetPosition( D3DXVECTOR4( x, 0, z, 0));
 	}
+
+	currentRoom = NO_ROOM;
+	level = 5;
 }

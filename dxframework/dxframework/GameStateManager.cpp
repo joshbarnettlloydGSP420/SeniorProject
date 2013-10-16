@@ -16,7 +16,7 @@ void GameStateManager::Init( HWND wndHandle,  D3DPRESENT_PARAMETERS* D3dpp, HINS
 	m_pD3DDevice = device;
 	hwnd = wndHandle;
 	D3Dpp = D3dpp;
-
+		D3DXCreateSprite(m_pD3DDevice, &m_pD3DSprite);
 	// Create a new input manager
 	input = new InputManager();
 	input->init(hInst, hwnd);
@@ -30,9 +30,22 @@ void GameStateManager::Init( HWND wndHandle,  D3DPRESENT_PARAMETERS* D3dpp, HINS
 	
 	// Set the active game state 
 	activeGameState = MAIN_MENU;
+
+	D3DXCreateTextureFromFileEx(m_pD3DDevice, L"you win.jpg", 0, 0, 0, 0,
+		D3DFMT_UNKNOWN, D3DPOOL_MANAGED, D3DX_DEFAULT, 
+		D3DX_DEFAULT, D3DCOLOR_XRGB(255, 0, 255), 
+		&m_imageInfo, 0, &winScreen);
+
+	D3DXCreateTextureFromFileEx(m_pD3DDevice, L"loseScreen.png", 0, 0, 0, 0,
+		D3DFMT_UNKNOWN, D3DPOOL_MANAGED, D3DX_DEFAULT, 
+		D3DX_DEFAULT, D3DCOLOR_XRGB(255, 0, 255), 
+		&m_imageInfo, 0, &loseScreen);
+
+	winScreenPos = D3DXVECTOR3(0,0,0);
+	loseScreenPos  = D3DXVECTOR3(0,0,0);
 }
 
-void GameStateManager::Update( float dt )
+void GameStateManager::Update( float dt, float playerHealth)
 {
 	input->getInput();
 	
@@ -128,7 +141,7 @@ void GameStateManager::Update( float dt )
 	case GAME:
 		{
 			// Game's update function
-			hud->Update( dt,  getHudBulletCounter(), getPlayerPosition());
+			hud->Update( dt,  getHudBulletCounter(), getPlayerPosition(), playerHealth);
 
 			if (input->keyPress(DIK_P))
 			{
@@ -222,6 +235,28 @@ void GameStateManager::Update( float dt )
 			SAFE_RELEASE(videoGraph);
 		}
 		}
+		case WINSTATE:
+		{
+			if(input->keyPress(DIK_RETURN))
+			{
+				// initialize a new main menu
+					mainMenu = new MenuMain();
+					mainMenu->Init( input, m_pD3DDevice);
+				activeGameState = MAIN_MENU;
+			}
+			break;
+		}
+	case LOSESTATE:
+		{
+			if(input->keyPress(DIK_RETURN))
+			{
+				// initialize a new main menu
+					mainMenu = new MenuMain();
+					mainMenu->Init( input, m_pD3DDevice);
+				activeGameState = MAIN_MENU;
+			}
+			break;
+		}
 		break;
 	}
 }
@@ -273,6 +308,16 @@ void GameStateManager::Render(ID3DXSprite* sprite)
 		{
 			// Render the Pause menu
 			pauseMenu->Render();
+			break;
+		}
+	case WINSTATE:
+		{
+			DrawWinScreen();
+			break;
+		}
+	case LOSESTATE:
+		{
+			DrawLoseScreen();
 			break;
 		}
 	}
@@ -343,4 +388,60 @@ void GameStateManager::setHudBulletCounter(int bCounter)
 void GameStateManager::setPlayerPosition(D3DXVECTOR4 playerPosition)
 {
 	this->playerPosition = playerPosition;
+}
+// health hud health
+	
+void GameStateManager::setPlayerHealth(float playerHealth)
+{
+		this->playerHealth = playerHealth;
+}
+
+
+void GameStateManager::DrawLoseScreen()
+{
+	m_pD3DSprite->Begin(D3DXSPRITE_ALPHABLEND);
+	D3DXMATRIX identity;
+	D3DXMatrixIdentity(&identity);
+	m_pD3DSprite->SetTransform(&identity);
+	D3DXMATRIX texScaling;
+	D3DXMatrixScaling(&texScaling, 1.0f, 1.0f, 0.0f);
+	m_pD3DDevice->SetTransform(D3DTS_TEXTURE0, &texScaling);
+
+	D3DXMATRIX T, S;
+	D3DXMatrixTranslation(&T,  loseScreenPos.x,  loseScreenPos.y,  loseScreenPos.z);
+	D3DXMatrixScaling(&S, 1.0f, 1.0f, 0.0f);
+	m_pD3DSprite->SetTransform(&(S*T));
+
+	// Draw the background sprite.
+	m_pD3DSprite->Draw(loseScreen, 0, 0, 0, D3DCOLOR_XRGB(255, 255, 255));
+	m_pD3DSprite->Flush();
+	D3DXMatrixScaling(&texScaling, 0.6f, 1.4f, 1.0f);
+	m_pD3DDevice->SetTransform(D3DTS_TEXTURE0, &texScaling);
+
+	m_pD3DSprite->End();
+}
+
+void GameStateManager::DrawWinScreen()
+{
+	m_pD3DSprite->Begin(D3DXSPRITE_ALPHABLEND);
+
+	D3DXMATRIX identity;
+	D3DXMatrixIdentity(&identity);
+	m_pD3DSprite->SetTransform(&identity);
+	D3DXMATRIX texScaling;
+	D3DXMatrixScaling(&texScaling, 1.0f, 1.0f, 0.0f);
+	m_pD3DDevice->SetTransform(D3DTS_TEXTURE0, &texScaling);
+
+	D3DXMATRIX T, S;
+	D3DXMatrixTranslation(&T,  winScreenPos.x,  winScreenPos.y,  winScreenPos.z);
+	D3DXMatrixScaling(&S, 0.8f, 1.2f, 0.0f);
+	m_pD3DSprite->SetTransform(&(S*T));
+
+	// Draw the background sprite.
+	m_pD3DSprite->Draw(winScreen, 0, 0, 0, D3DCOLOR_XRGB(255, 255, 255));
+	m_pD3DSprite->Flush();
+	D3DXMatrixScaling(&texScaling, 1.0f, 1.0f, 1.0f);
+	m_pD3DDevice->SetTransform(D3DTS_TEXTURE0, &texScaling);
+
+	m_pD3DSprite->End();
 }

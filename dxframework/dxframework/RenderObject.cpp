@@ -101,7 +101,7 @@ void RenderObject::Render3DObject(D3DXVECTOR4 position, Mesh* objectMesh, D3DXMA
 
 		// Mesh Matrix
 		D3DXMatrixScaling(&scaleMat, scale.x, scale.y, scale.z);
-		D3DXMatrixRotationYawPitchRoll(&rotMat, 0, 0, 0);
+		D3DXMatrixRotationYawPitchRoll(&rotMat, RotationAsVector.z ,0 , RotationAsVector.x);
 		D3DXMatrixTranslation(&transMat, position.x, position.y, position.z);
 		D3DXMatrixMultiply(&scaleMat, &scaleMat, &rotMat);
 		D3DXMatrixMultiply(&worldMat, &scaleMat, &transMat);

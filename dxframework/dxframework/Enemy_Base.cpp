@@ -8,8 +8,8 @@ Enemy_Base::Enemy_Base(void)
 	isDead = false;
 	health = 200;
 	attackSpeed = 10;
-	attackRange = 25;
-	wanderRange = 75;
+	attackRange = 5;
+	wanderRange = 15;
 
 	// set the initial state of the enemy
 	State = Wander;
@@ -26,8 +26,10 @@ Enemy_Base::Enemy_Base(void)
 // Destructor
 Enemy_Base::~Enemy_Base(void)
 {
-	if ( movement == NULL )
+	if ( movement != NULL )
 		delete movement;
+	if ( objectMesh != NULL)
+		delete objectMesh;
 }
 
 // Initialize all the variables for the enemies
@@ -41,11 +43,20 @@ void Enemy_Base::Init(IDirect3DDevice9* m_pD3DDevice, RenderObject* renderObject
 	velUD = 5.0f;
 	velLR = 5.0f;		
 
+	// initialize the variables
+	isDead = false;
+	health = 200;
+	attackSpeed = 10;
+	attackRange = 5;
+	wanderRange = 30;
+
 	// Create the texture
 	render->LoadTexture( textureName, textureNumber);
 
 	// create 3D mesh from .x file
 	render->LoadMesh( meshName, &objectMesh);
+
+	bulletCounter = 0.0;
 }
 
 // Update the enemy
@@ -76,60 +87,60 @@ void Enemy_Base::UpdateState(StateType CurrentState, float dt)
 {
 	switch( CurrentState )
 	{
-	//	Wander Around Room		/////////////////////////////////////////////////////
+		//	Wander Around Room		/////////////////////////////////////////////////////
 	case Wander:
 		{
 			wander.GetSteering( movement);
-			
+
+			float distance = ( sqrt(pow(( player->position.x - movement->GetPosition().x), 2) + pow(( player->position.z - movement->GetPosition().z), 2)));
+
 			// if player is in range then seek player
-			if ((sqrt(( player->position.x * player->position.x) + ( player->position.z * player->position.z))) < wanderRange )
+			if(( sqrt(pow(( player->position.x - movement->GetPosition().x), 2) + pow(( player->position.z - movement->GetPosition().z), 2))) < wanderRange );
 				ChangeState( Arrive );
 			break;
 		}
-	//	Seek out player		////////////////////////////////////////////////////////
+		//	Seek out player		////////////////////////////////////////////////////////
 	case Arrive:
 		{
 			arrive.GetSteering( movement, player->position);
 			// if in attack range of player then attack
-			if ((sqrt(( player->position.x * player->position.x) + ( player->position.z * player->position.z))) < attackRange )
+			if(( sqrt(pow(( player->position.x - movement->GetPosition().x), 2) + pow(( player->position.z - movement->GetPosition().z), 2))) < attackRange )
 			{
-				//ChangeState( Attack );
+				ChangeState( Flee );
 			}
 
 			// if player is out of range then wander
-			else if ((sqrt(( player->position.x * player->position.x) + ( player->position.z * player->position.z))) >= wanderRange )
+			else if(( sqrt(pow(( player->position.x - movement->GetPosition().x), 2) + pow(( player->position.z - movement->GetPosition().z), 2))) >= wanderRange )
 				ChangeState( Wander );
 			break;
 		}
-	//	Flee from player	////////////////////////////////////////////////////////
+		//	Flee from player	////////////////////////////////////////////////////////
 	case Flee:
 		{
 			flee.GetSteering( movement, player->position );
+			health += ( 1 * dt );
 			// if out of range of player then wander
-			if ((sqrt(( player->position.x * player->position.x) + ( player->position.z * player->position.z))) >= wanderRange )
+			if(( sqrt(pow(( player->position.x - movement->GetPosition().x), 2) + pow(( player->position.z - movement->GetPosition().z), 2))) >= wanderRange )
 				ChangeState( Wander );
 			break;
 		}
-	//	Attack player	////////////////////////////////////////////////////////////
+		//	Attack player	////////////////////////////////////////////////////////////
 	case Attack:
 		{
-			// set the velocity
-			attack.SetSpeed( attackSpeed );
-			// update the attack to fire at the player
-			attack.Update( dt, movement, player->position);
+			// 
 
 			// if health is low then flee
-			if ( health < 40 )
+			if ( health < 80 )
 				ChangeState( Flee );
 			break;
 		}
-	//	If the enemy is close to the wall then seek center of room to adjust  /////
+		//	If the enemy is close to the wall then seek center of room to adjust  /////
 	case PosAdjust:
 		{
 			arrive.GetSteering( movement, centerOfRoom);
 
 			// if the enemy is close to the center then begin to wander
-			if ((sqrt(( player->position.x * player->position.x) + ( player->position.z * player->position.z))) >= 15 )
+			if(( sqrt(pow(( centerOfRoom.x - movement->GetPosition().x), 2) + pow(( centerOfRoom.z - movement->GetPosition().z), 2))) <= 5)
 				ChangeState( Wander );
 			break;
 		}
@@ -139,12 +150,12 @@ void Enemy_Base::UpdateState(StateType CurrentState, float dt)
 // render the enemy
 void Enemy_Base::Render(HWND hwnd, D3DXMATRIX veiwMat, D3DXMATRIX projMat)
 {
-	// has to send in orientation to turn properly
-	render->SetRotation( movement->GetOrientation());
-	//render->SetRotation( movement->GetRotation());
-
 	// set the health based on the scale ( 150 health will = 0.15 scale )
 	render->SetScale(D3DXVECTOR4( 0.15, 0.15, 0.15, 0) );
+
+	// has to send in orientation to turn properly
+	//render->SetRotation( movement->GetOrientation());
+	//render->SetRotation( movement->GetRotation());
 
 	// render the ghost
 	render->Render3DObject( D3DXVECTOR4(movement->GetPosition().x, movement->GetPosition().y - 10.0f, movement->GetPosition().z, movement->GetPosition().w), objectMesh, veiwMat, projMat, textureNumber);
@@ -165,14 +176,14 @@ void Enemy_Base::CreateHavokObject(hkpWorld* world)
 	// Set The Object's Properties
 	bodyInfo.m_shape = sphereShape;
 	bodyInfo.m_position.set(movement->GetPosition().x, movement->GetPosition().y, movement->GetPosition().z, 0.0f);
-	bodyInfo.m_friction = 1.0f;
+	bodyInfo.m_friction = 0.0f;
 	bodyInfo.m_motionType = hkpMotion::MOTION_KEYFRAMED;
 
-	hkReal	mass = 5.0f;
+	hkReal	mass = 0.0f;
 	// Calculate Mass Properties
 	hkMassProperties massProperties;
 	hkpInertiaTensorComputer::computeShapeVolumeMassProperties(sphereShape, mass, massProperties);
-	
+
 	// Set Mass Properties
 
 	// Create Rigid Body
@@ -211,7 +222,7 @@ void Enemy_Base::PlayerCollision( float dt)
 		// check the bounding boxes against each other to see if there is collision
 		if(aabbBase.overlaps(aabbOut))
 		{
-			player->health -= 20;
+			player->setHealth(player->getHealth() - 20);
 			player->hitTimer = 0.0f;
 		}
 	}
@@ -220,86 +231,38 @@ void Enemy_Base::PlayerCollision( float dt)
 // Collision with the walls
 void Enemy_Base::RoomWallCollision( float dt, Room* currentRoom )
 {
-	hkAabb enemyBoundingBox;
+	//hkAabb enemyBoundingBox;
 
-	rigidBody->getCollidable()->getShape()->getAabb( rigidBody->getTransform(), 0.0f, enemyBoundingBox);
+	//rigidBody->getCollidable()->getShape()->getAabb( rigidBody->getTransform(), 0.4f, enemyBoundingBox);
 
-	// if the bounding box of the enemy is overlapping the wall bounding box
-	if ( enemyBoundingBox.overlaps( currentRoom->boundingArea))
-	{
-		// find the center of the room
-		centerOfRoom.x = (currentRoom->roomSize.x/2) + currentRoom->roomPos.x;
-		centerOfRoom.z = ( currentRoom->roomSize.z/2) + currentRoom->roomPos.z;
+	//// find the center of the room
+	//centerOfRoom.x = currentRoom->roomPos.x;
+	//centerOfRoom.z = currentRoom->roomPos.z;
 
-		// then have the ghost switch to seek out the middle of the room
-		ChangeState( PosAdjust );
+	//// if the bounding box of the enemy is overlapping the wall bounding box
+	//if( enemyBoundingBox.overlaps( currentRoom->boundingArea))
+	//{
+	//	// then have the ghost switch to seek out the middle of the room
+	//	ChangeState( PosAdjust );
+	//}
 
-	}
+
 }
 
-//void Enemy_Base::HavokMovement()
-//{
-//	hkpCharacterInput input;
-//	hkpCharacterOutput output;
-//
-//	if(movement->GetPosition().x < rigidBody->getPosition().getComponent(0))
-//		input.m_inputLR += velLR;
-//	else if(movement->GetPosition().x > rigidBody->getPosition().getComponent(0))
-//		input.m_inputLR -= velLR;
-//
-//	if(movement->GetPosition().z < rigidBody->getPosition().getComponent(2))
-//		input.m_inputUD += velUD;
-//	else if(movement->GetPosition().z > rigidBody->getPosition().getComponent(2))
-//		input.m_inputUD -= velUD;
-//
-//	input.m_up = hkVector4(0, 1, 0);
-//	input.m_forward.set(0, 0, 1);
-//
-//	hkStepInfo stepInfo;
-//	stepInfo.m_deltaTime = 1.0f / 60.0f;
-//	stepInfo.m_invDeltaTime = 1.0f / (1.0f / 60.0f);
-//
-//	input.m_stepInfo = stepInfo;
-//	input.m_characterGravity.set(0, -16, 0);
-//	input.m_velocity = rigidBody->getRigidBody()->getLinearVelocity();
-//	input.m_position = rigidBody->getRigidBody()->getPosition();
-//
-//	rigidBody->checkSupport(stepInfo, input.m_surfaceInfo);
-//
-//	context->update(input, output);
-//
-//	rigidBody->setLinearVelocity(output.m_velocity, 1.0f / 60.0f);
-//}
+void Enemy_Base::RoomWallCollision( float dt, float x1, float x2, float z1, float z2, Room* currentRoom )
+{
+	// set center of room
+	centerOfRoom.x = currentRoom->roomPos.x;
+	centerOfRoom.z = currentRoom->roomPos.z;
 
-//void Enemy_Base::CreateBodyObject(hkpWorld* world)
-//{
-//	// Create a ridid body that can move dynamically about the scene.
-//	hkpCharacterRigidBodyCinfo	bodyInfo;
-//
-//	// Capsule Parameters
-//	hkVector4	vertexA(0.0f, 1.0f, 0.0f, 0);		// Top
-//	hkVector4	vertexB(0.0f, -1.0f, 0.0f, 0);		// Bottom
-//	hkReal		radius	=	1.0f;					// Radius
-//
-//	// Create Capsule Based on Parameters
-//	hkpCapsuleShape* capsuleShape = new hkpCapsuleShape(vertexA, vertexB, radius);
-//
-//	// Set The Object's Properties
-//	bodyInfo.m_shape = capsuleShape;
-//	bodyInfo.m_position.set(movement->GetPosition().x, movement->GetPosition().y, movement->GetPosition().z, 0.0f);
-//	bodyInfo.m_mass = 5.0f;
-//
-//	// Calculate Mass Properties
-//	hkMassProperties massProperties;
-//
-//	hkpInertiaTensorComputer::computeShapeVolumeMassProperties(bodyInfo.m_shape, bodyInfo.m_mass, massProperties);
-//	
-//	// Create Rigid Body
-//	rigidBody = new hkpCharacterRigidBody(bodyInfo);
-//
-//	// Add Rigid Body to the World
-//	world->addEntity(rigidBody->getRigidBody());
-//
-//	// No longer need the reference on the shape, as the rigidbody owns it now
-//	capsuleShape->removeReference();
-//}
+	// if the enemy is close to restraints then move back to middle of room
+	if ( movement->GetPosition().x > x2 || movement->GetPosition().x < x1 )
+	{
+		ChangeState( PosAdjust );
+	}
+
+	if ( movement->GetPosition().z > z2 || movement->GetPosition().z < z1 )
+	{
+		ChangeState( PosAdjust );
+	}
+}

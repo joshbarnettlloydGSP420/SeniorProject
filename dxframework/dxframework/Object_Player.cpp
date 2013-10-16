@@ -1,13 +1,15 @@
 #include "Object_Player.h"
 #include "Gun.h"
 #include "Fire.h"
+#include "BarrierParticles.h"
 
 Object_Player::Object_Player()
 {
+
 	objectMesh = new Mesh();
 	position = D3DXVECTOR4(0.0f, 0.0f, 0.0f, 0.0f);
 	scale = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
-	rotation = D3DXVECTOR3(0.0f, 0.15f, 0.0f);
+	rotation = D3DXVECTOR3(0.0f, 0.0f, -0.15f);
 	mass = 5.0f;
 	shape = PLAYERBOX;
 
@@ -41,6 +43,17 @@ Object_Player::Object_Player()
 	fireSystem3->SetType(1);
 	fireSystem4 = new FireRing(L"sprinkler.fx", "SprinklerTech", L"torch.dds", D3DXVECTOR3(0.0f, 0.0f, 0.0f), psysBox, 35, 0.0025f);
 	fireSystem4->SetType(1);
+
+	//trying barrier effects
+	barrierSystem1 = new Barrier(L"firering.fx", "FireRingTech", L"barrierParticles.dds", D3DXVECTOR3(0.0f, 0.9f, 0.0f), psysBox, 600, 0.0025f);
+	barrierSystem1->SetType(2);
+
+	barrierSystem2 = new Barrier(L"firering.fx", "FireRingTech", L"barrierParticles.dds", D3DXVECTOR3(0.0f, 0.9f, 0.0f), psysBox, 600, 0.0025f);
+	barrierSystem2->SetType(2);
+
+	barrierSystem3 = new Barrier(L"firering.fx", "FireRingTech", L"barrierParticles.dds", D3DXVECTOR3(0.0f, 0.9f, 0.0f), psysBox, 600, 0.0025f);
+	barrierSystem3->SetType(2);
+
 }
 
 
@@ -59,11 +72,6 @@ void Object_Player::Update(float deltaTime, D3DXVECTOR3 eyePos, D3DXVECTOR3 look
 	mPSys->update(deltaTime, eyePos, lookAt);
 
 	hitInvulTimer(deltaTime);
-
-	if(jumpTimer < 3.2f)
-	{
-		jumpTimer += deltaTime;
-	}
 }
 
 void Object_Player::convertPosition()
@@ -261,25 +269,13 @@ void Object_Player::characterInputOutput(D3DXVECTOR3 lookAt)
 	input.m_up = hkVector4(0, 1, 0);
 	input.m_forward.set(0.0f, 0.0f, D3DXToRadian(rotation.x));
 	input.m_forward.setRotatedDir(hk_rotation, input.m_forward);
-
-
-	if(wantJump && jumpTimer < 3.2)
-	{
-		input.m_characterGravity.set(0, 16, 0);
-		input.m_wantJump = wantJump;
-	}
-	else
-	{
-		input.m_characterGravity.set(0, -16, 0);
-		input.m_wantJump = false;
-	}
 	
 	hkStepInfo stepInfo;
 	stepInfo.m_deltaTime = 1.0f / 60.0f;
 	stepInfo.m_invDeltaTime = 1.0f / (1.0f / 60.0f);
 
 	input.m_stepInfo = stepInfo;
-	//input.m_characterGravity.set(0, -16, 0);
+	input.m_characterGravity.set(0, -16, 0);
 	input.m_velocity = objectBody->getRigidBody()->getLinearVelocity();
 	input.m_position = objectBody->getRigidBody()->getPosition();
 
@@ -321,9 +317,14 @@ void Object_Player::changeGunType(gunType type)
 		mPSys = new Gun(L"gun.fx", "GunTech", L"bolt4red.dds", D3DXVECTOR3(0, 0, 0), psysBox, ARRAYSIZE(bull), -1.0f); //gravity changed
 		break;
 
-		case blue:
+		case purple:
 		mPSys = new Gun(L"gun.fx", "GunTech", L"bolt3.dds", D3DXVECTOR3(0, 0, 0), psysBox, ARRAYSIZE(bull), -1.0f); //gravity changedd
 		break;
+
+		case yellow:
+			mPSys = new Gun(L"gun.fx", "GunTech", L"bolt.dds", D3DXVECTOR3(0, 0, 0), psysBox, ARRAYSIZE(bull), -1.0f); //gravity changedd
+		break;
+
 	}
 	mPSys->setWorldMtx(psysWorld);
 }
@@ -388,4 +389,9 @@ void Object_Player::hitInvulTimer(float deltaTime)
 	{
 		beenHit = false;
 	}
+}
+
+void Object_Player::setHealth(float health)
+{
+	this->health = health;
 }

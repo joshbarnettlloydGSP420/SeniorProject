@@ -216,9 +216,9 @@ class CDirectXFramework
 	//Object_Base*					normalCounter[4];
 	Object_Base*					fridge;
 	//Object_Base*					islandCounter[4];
-	Object_Base*					table[4];
+	Object_Base*					table[12];
 	Object_Base*					candleStick[4];
-	Object_Base*					chair[8];
+	Object_Base*					chair[20];
 
 	//////////////////////////////////////////////////////////////////////////
 	// Game Managers														//
@@ -255,6 +255,7 @@ public:
 	void collisions(float dt);
 
 	void createRamp(hkpWorld* world, float scaleX, float scaleY, float scaleZ, float posX, float posY, float posZ);
+
 };
 
 extern CDirectXFramework gd3dApp;
