@@ -80,11 +80,6 @@ void Enemy_YellowGhost::BulletCollision( float dt, Object_Player* player, gunTyp
 				}
 			}
 				// else if other colors then gain health
-			else
-			{
-				health += 10;
-				bulletCounter = 5.0 * dt;
-			}
 			
 
 			// if health is greater than 200 set it to a max of 200

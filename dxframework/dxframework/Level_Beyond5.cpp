@@ -33,7 +33,7 @@ void Level_Beyond5::Init( IDirect3DDevice9* m_pD3DDevice, RenderObject* m_pRende
 	for ( int i = 0; i < enemyCount; ++i)
 	{
 		// randomize the enemy color
-		randColor = RandomBinomial( 1, 4 );
+		randColor = RandomBinomial( 1, 5 );
 
 		// create ghost based on random color
 		if ( randColor == 1)

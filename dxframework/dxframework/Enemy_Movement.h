@@ -4,7 +4,7 @@
 #include <d3dx9.h>
 #include <cmath>
 
-CONST float MAX_SPEED = 5.0;
+CONST float MAX_SPEED = 10.0;
 
 class Enemy_Movement
 {
