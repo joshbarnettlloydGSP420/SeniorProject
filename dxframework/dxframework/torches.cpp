@@ -1,6 +1,5 @@
 #include "torches.h"
 #include "Fire.h"
-#include "BarrierParticles.h"
 
 FourTorchPuzzle::FourTorchPuzzle()
 {
@@ -20,15 +19,6 @@ FourTorchPuzzle::FourTorchPuzzle()
 	fireSystem2->SetType(1);
 	fireSystem3->SetType(1);
 	fireSystem4->SetType(1);
-
-	//trying barrier effects
-	barrierSystem1 = new Barrier(L"firering.fx", "FireRingTech", L"barrierParticles.dds", D3DXVECTOR3(0.0f, 0.9f, 0.0f), psysFireBox, 600, 0.0025f);
-	barrierSystem2 = new Barrier(L"firering.fx", "FireRingTech", L"barrierParticles.dds", D3DXVECTOR3(0.0f, 0.9f, 0.0f), psysFireBox, 600, 0.0025f);
-	barrierSystem3 = new Barrier(L"firering.fx", "FireRingTech", L"barrierParticles.dds", D3DXVECTOR3(0.0f, 0.9f, 0.0f), psysFireBox, 600, 0.0025f);
-
-	barrierSystem1->SetType(2);
-	barrierSystem2->SetType(2);
-	barrierSystem3->SetType(2);
 }
 
 
@@ -39,6 +29,9 @@ FourTorchPuzzle::~FourTorchPuzzle()
 
 void FourTorchPuzzle::Init( Object_Player* Player, RenderObject* renderer, hkpWorld* world )
 {
+	TorchFired = new SoundEffect();
+	TorchFired = SoundLoader::GetInstance()->Load(false, false, "OOT_Fire_Ignite.wav");
+
 	render = renderer;
 
 	fireSystem1 = Player->fireSystem1;
@@ -46,26 +39,20 @@ void FourTorchPuzzle::Init( Object_Player* Player, RenderObject* renderer, hkpWo
 	fireSystem3 = Player->fireSystem3;
 	fireSystem4 = Player->fireSystem4;
 
-	barrierSystem1 = Player->barrierSystem1;
-	barrierSystem2 = Player->barrierSystem2;
-	barrierSystem3 = Player->barrierSystem3;
-
-
 	// Torch
 	for(short i = 0; i < ARRAYSIZE(Torches); ++i)
 	{
 		Torches[i] = new Object_Base();
 		Torches[i]->shape = BOX;
 		Torches[i]->weight = UNMOVABLE;
-		Torches[i]->scale = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
+		Torches[i]->scale = D3DXVECTOR3(0.8f, 1.5f, 1.5f);
 	}
 
 	// torch positions
-	Torches[0]->position = D3DXVECTOR4(17.7f, 3.0f, -21.6f, 0.0f); // northeast corner
-	Torches[1]->position = D3DXVECTOR4(17.7f, 3.0f, -34.75f, 0.0f); // southeast corner // 23.7
-	Torches[2]->position = D3DXVECTOR4(-10.0f, 3.0f, -21.6f, 0.0f); // northwest corner // -16
-	Torches[3]->position = D3DXVECTOR4(-10.0f, 3.0f, -34.7f, 0.0f); // southwest corner
-
+	Torches[0]->position = D3DXVECTOR4(20.6f, 6.0f, -17.6f, 0.0f); // northeast corner
+	Torches[1]->position = D3DXVECTOR4(20.6f, 6.0f, -32.4f, 0.0f); // southeast corner // 23.7
+	Torches[2]->position = D3DXVECTOR4(-18.2f, 6.0f, -17.6f, 0.0f); // northwest corner // -16
+	Torches[3]->position = D3DXVECTOR4(-18.2f, 6.0f, -32.4f, 0.0f); // southwest corner
 
 	/*Puzzle_FT->fireSystem1->	*/
 
@@ -90,25 +77,26 @@ void FourTorchPuzzle::Init( Object_Player* Player, RenderObject* renderer, hkpWo
 
 	allTorchesLit = false;
 
+
 }
 
 void FourTorchPuzzle::Update(float deltaTime, D3DXVECTOR3 eyePos, D3DXVECTOR3 lookAt)
 {
-	// code for collision checking
+	TorchLit[0] == true;
+			
+	fireSystem1->setPosition(Torches[0]->getPosition());
+	fireSystem1->update(deltaTime, eyePos, lookAt);		
+	
 
-	//if( red bullet collides with torch)
-	//{ TorchesLit +=1;
-	// TorchLit = true; }
-
-	if ( TorchLit[0] == true )
-	{
-		fireSystem1->setPosition(Torches[0]->getPosition());
-		fireSystem1->update(deltaTime, eyePos, lookAt);
-	}
+	//if ( TorchLit[0] == true )
+	//{		
+	//	fireSystem1->setPosition(Torches[0]->getPosition());
+	//	fireSystem1->update(deltaTime, eyePos, lookAt);		
+	//}
 	if ( TorchLit[1] == true )
-	{
+	{		
 		fireSystem2->setPosition(Torches[1]->getPosition());
-		fireSystem2->update(deltaTime, eyePos, lookAt);
+		fireSystem2->update(deltaTime, eyePos, lookAt);		
 	}
 
 	if ( TorchLit[2] == true )
@@ -125,21 +113,12 @@ void FourTorchPuzzle::Update(float deltaTime, D3DXVECTOR3 eyePos, D3DXVECTOR3 lo
 
 	if ( TorchLit[0] == true && TorchLit[1] == true&& TorchLit[2] == true&& TorchLit[3] == true)
 		allTorchesLit = true;
-
-	// barrier positions
-	//barrierSystem1->setPosition(D3DXVECTOR4(0,0,0,0));
-	barrierSystem1->update(deltaTime, eyePos, lookAt);
-
-	//barrierSystem2->setPosition(D3DXVECTOR4(0,0,0,0));
-	barrierSystem2->update(deltaTime, eyePos, lookAt);
-
-	//barrierSystem3->setPosition(D3DXVECTOR4(0,0,0,0));
-	barrierSystem3->update(deltaTime, eyePos, lookAt);
 }
 
 void FourTorchPuzzle::Render(HWND hWnd, D3DXVECTOR3 eyePos, D3DXMATRIX viewMat,D3DXMATRIX projMat)
 {
-	if ( TorchLit[0] == true )
+	//if ( TorchLit[0] == true )
+	TorchLit[0] == true;
 	fireSystem1->draw(hWnd, eyePos, viewMat * projMat);
 	if ( TorchLit[1] == true )
 	fireSystem2->draw(hWnd, eyePos, viewMat * projMat);
@@ -148,12 +127,13 @@ void FourTorchPuzzle::Render(HWND hWnd, D3DXVECTOR3 eyePos, D3DXMATRIX viewMat,D
 	if ( TorchLit[3] == true )
 	fireSystem4->draw(hWnd, eyePos, viewMat * projMat);
 
-	for(short i = 0; i < ARRAYSIZE(Torches); ++i)
-		render->Render_Object( Torches[i], D3DXVECTOR3(1.0f, -3.0f, 0.3f), viewMat, projMat);
+	//for(short i = 0; i < ARRAYSIZE(Torches); ++i)
+		//render->Render_Object( Torches[i], D3DXVECTOR3(1.0f, -3.0f, 0.3f), viewMat, projMat);
+	render->Render_Object( Torches[0], D3DXVECTOR3(-0.1f, -3.0f, 0.3f), viewMat, projMat);
+	render->Render_Object( Torches[1], D3DXVECTOR3(-0.1f, -3.0f, 0.3f), viewMat, projMat);
+	render->Render_Object( Torches[2], D3DXVECTOR3(-1.0f, -3.0f, 0.3f), viewMat, projMat);
+	render->Render_Object( Torches[3], D3DXVECTOR3(-1.0f, -3.0f, 0.3f), viewMat, projMat);
 
-	barrierSystem1->draw(hWnd, eyePos, viewMat * projMat);
-	//barrierSystem2->draw(hWnd, eyePos, viewMat * projMat);
-    //barrierSystem3->draw(hWnd, eyePos, viewMat * projMat);
 }
 
 // TODO: add collision stuff
@@ -174,6 +154,7 @@ void FourTorchPuzzle::BulletCollision( float dt, Object_Player* player, gunType 
 			{
 				// when hit set to true
 				TorchLit[i] = true;
+				AudioManager::GetInstance()->PlaySFX(*TorchFired);
 			}
 		}
 	}

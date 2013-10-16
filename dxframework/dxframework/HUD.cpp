@@ -96,6 +96,11 @@ HUD::HUD(void)
 	blackBar2Position.position.y = hudLocation.y + 40;
 	blackBar2Position.position.z = 0.0f;
 
+	// score placement
+	scorePos.position.x = hudLocation.x + 50;
+	scorePos.position.y = hudLocation.y + 12;
+	scorePos.position.z = 0.0f;
+
 	/****** minimap *****/
 	SetRect(&minimapDotSheetRect, 302, 223, 312, 233);
 	
@@ -222,9 +227,15 @@ void HUD::Init(IDirect3DDevice9* device)
 		D3DX_DEFAULT, D3DCOLOR_XRGB(255, 0, 255), 
 		0, 0, &minimapBackgroundTexture);
 
+		// create a FONT object
+	AddFontResourceEx(L"SanitariumBB.otf", FR_PRIVATE, 0);
+	D3DXCreateFont(device, 30, 0, FW_BOLD, 0, false, 
+		DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, DEFAULT_QUALITY,
+		DEFAULT_PITCH | FF_DONTCARE, TEXT("SanitariumBB"), 
+		&m_pD3DFont);
 	//D3DXCreateTextureFromFile(device, "healthHUD.png", &hudTexture);
 	hudOn = true;
-
+	currentScore = 0;
 }
 
 void HUD::Update(float dt, int counter, D3DXVECTOR4 playerPosition, float playerHealth)
@@ -368,6 +379,14 @@ void HUD::Render(IDirect3DDevice9* device, ID3DXSprite* sprite, int colorSwitch)
 	}
 
 	}
+	sprite->Flush();
+
+	SetRect(&scoreRect,20,50,100,50);
+	char scoreMessage[30];
+	sprintf(scoreMessage,"Score: %d ", currentScore);
+	m_pD3DFont->DrawTextA(0, scoreMessage, -1, &scoreRect, 
+                  DT_TOP | DT_LEFT | DT_NOCLIP, 
+                  D3DCOLOR_ARGB(255, 255, 255, 255));
 }
 
 void HUD::setColor(colorSwitch color)

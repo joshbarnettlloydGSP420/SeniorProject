@@ -6,6 +6,10 @@
 #include "PSystem.h"
 #include "RenderObject.h"
 
+#include "SoundEffect.h"
+#include "SoundLoader.h"
+#include "AudioManager.h"
+
 
 using namespace std;
 
@@ -17,6 +21,8 @@ private:
 	int TorchesLit;
 	bool TorchLit[4];
 	bool allTorchesLit;
+
+	SoundEffect* TorchFired;
 	
 	// particle variables
 	AABB psysFireBox;
