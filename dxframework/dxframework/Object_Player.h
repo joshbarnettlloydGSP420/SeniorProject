@@ -109,7 +109,7 @@ struct HavokBullet
 
 	void createBulletHavokObject(hkpWorld* world, D3DXVECTOR3 bulletPos, short bulletNum);
 
-	void characterInputOutput(D3DXVECTOR3 lookAt);
+	void characterInputOutput(D3DXVECTOR3 lookAt, float deltaTime);
 
 	void gunShot();
 

@@ -7,7 +7,7 @@ Object_Player::Object_Player()
 	objectMesh = new Mesh();
 	position = D3DXVECTOR4(0.0f, 0.0f, 0.0f, 0.0f);
 	scale = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
-	rotation = D3DXVECTOR3(0.0f, 0.15f, 0.0f);
+	rotation = D3DXVECTOR3(0.0f, 0.0f, -0.15f);
 	mass = 5.0f;
 	shape = PLAYERBOX;
 
@@ -15,6 +15,7 @@ Object_Player::Object_Player()
 	velLR = 0.0f;
 
 	hitTimer = 0.0f;
+	jumpTimer = 0.0f;
 
 	wantJump = false;
 	
@@ -52,7 +53,7 @@ Object_Player::~Object_Player(void)
 void Object_Player::Update(float deltaTime, D3DXVECTOR3 eyePos, D3DXVECTOR3 lookAt, hkpWorld* world)
 {
 	convertPosition();
-	characterInputOutput(lookAt);
+	characterInputOutput(lookAt, deltaTime);
 	getBulletPos(world, deltaTime);
 
 	//gun update
@@ -60,10 +61,6 @@ void Object_Player::Update(float deltaTime, D3DXVECTOR3 eyePos, D3DXVECTOR3 look
 
 	hitInvulTimer(deltaTime);
 
-	if(jumpTimer < 3.2f)
-	{
-		jumpTimer += deltaTime;
-	}
 }
 
 void Object_Player::convertPosition()
@@ -247,7 +244,7 @@ void Object_Player::stateMachineInit()
 
 }
 
-void Object_Player::characterInputOutput(D3DXVECTOR3 lookAt)
+void Object_Player::characterInputOutput(D3DXVECTOR3 lookAt, float deltaTime)
 {
 	hkpCharacterInput input;
 	hkpCharacterOutput output;
@@ -261,25 +258,12 @@ void Object_Player::characterInputOutput(D3DXVECTOR3 lookAt)
 	input.m_up = hkVector4(0, 1, 0);
 	input.m_forward.set(0.0f, 0.0f, D3DXToRadian(rotation.x));
 	input.m_forward.setRotatedDir(hk_rotation, input.m_forward);
-
-
-	if(wantJump && jumpTimer < 3.2)
-	{
-		input.m_characterGravity.set(0, 16, 0);
-		input.m_wantJump = wantJump;
-	}
-	else
-	{
-		input.m_characterGravity.set(0, -16, 0);
-		input.m_wantJump = false;
-	}
 	
 	hkStepInfo stepInfo;
 	stepInfo.m_deltaTime = 1.0f / 60.0f;
 	stepInfo.m_invDeltaTime = 1.0f / (1.0f / 60.0f);
-
+	input.m_characterGravity.set(0, -16, 0);
 	input.m_stepInfo = stepInfo;
-	//input.m_characterGravity.set(0, -16, 0);
 	input.m_velocity = objectBody->getRigidBody()->getLinearVelocity();
 	input.m_position = objectBody->getRigidBody()->getPosition();
 

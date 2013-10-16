@@ -261,7 +261,7 @@ void CDirectXFramework::Init(HWND& hWnd, HINSTANCE& hInst, bool bWindowed)
 	fridge->shape = BOX;
 	fridge->weight = UNMOVABLE;
 	fridge->scale = D3DXVECTOR3(1.0f, 3.0f, 1.0f);
-	fridge->position = D3DXVECTOR4(-3.6f, 7.0f, 7.5f, 0.0f);
+	fridge->position = D3DXVECTOR4(-7.0f, 7.0f, 15.5f, 0.0f);
 
 	//for(short i = 0; i < ARRAYSIZE(islandCounter); ++i)
 	//{
@@ -274,15 +274,23 @@ void CDirectXFramework::Init(HWND& hWnd, HINSTANCE& hInst, bool bWindowed)
 	{
 		table[i] = new Object_Base();
 		table[i]->shape = BOX;
-		table[i]->weight = HEAVY;
+		table[i]->weight = UNMOVABLE;
 		table[i]->scale = D3DXVECTOR3(2.0f, 1.25f, 2.0f);
 	}
 	
 	// Table Position
-	table[0]->position = D3DXVECTOR4(-48.8f, 2.8f, 15.5, 0.0f);
-	table[1]->position = D3DXVECTOR4( -2.4f, 2.8f, 46.2, 0.0f);
-	table[2]->position = D3DXVECTOR4( 51.5f, 2.8f, 24.4, 0.0f);
-	table[3]->position = D3DXVECTOR4( 46.4f, 2.8f, -0.5, 0.0f);
+	table[0]->position = D3DXVECTOR4(-48.8f, 2.5f, 15.5, 0.0f);
+	table[1]->position = D3DXVECTOR4( -2.4f, 2.5f, 46.2, 0.0f);
+	table[2]->position = D3DXVECTOR4( 44.0f, 2.5f, 20.0, 0.0f);
+	table[3]->position = D3DXVECTOR4( 44.0f, 2.5f, 24.0, 0.0f);
+	table[4]->position = D3DXVECTOR4( 44.0f, 2.5f, 28.0, 0.0f);
+	table[5]->position = D3DXVECTOR4( 44.0f, 2.5f, 32.0, 0.0f);
+	table[6]->position = D3DXVECTOR4( 44.0f, 2.5f, 36.0, 0.0f);
+	table[7]->position = D3DXVECTOR4( 44.0f, 2.5f, 40.0, 0.0f);
+	table[8]->position = D3DXVECTOR4( 44.0f, 2.5f, 16.0, 0.0f);
+	table[9]->position = D3DXVECTOR4( 44.0f, 2.5f, 12.0, 0.0f);
+	table[10]->position = D3DXVECTOR4( 44.0f, 2.5f, 8.0, 0.0f);
+	table[11]->position = D3DXVECTOR4( 44.0f, 2.5f, 4.0, 0.0f);
 
 	for(short i = 0; i < ARRAYSIZE(candleStick); ++i)
 	{
@@ -291,11 +299,11 @@ void CDirectXFramework::Init(HWND& hWnd, HINSTANCE& hInst, bool bWindowed)
 		candleStick[i]->weight = LIGHT;
 		candleStick[i]->scale = D3DXVECTOR3(0.50f, 0.50f, 0.50f);
 	}
-	candleStick[0]->position = D3DXVECTOR4(-48.8f, 4.8f, 15.5, 0.0f);
-	candleStick[1]->position = D3DXVECTOR4( -2.4f, 4.8f, 46.2, 0.0f);
-	candleStick[2]->position = D3DXVECTOR4( 51.5f, 4.8f, 24.4, 0.0f);
-	candleStick[3]->position = D3DXVECTOR4( 46.4f, 4.8f, -0.5, 0.0f);
-
+	candleStick[0]->position = D3DXVECTOR4(-48.8f, 12.8f, 15.5f, 0.0f);
+	candleStick[1]->position = D3DXVECTOR4( -2.4f, 12.8f, 46.2f, 0.0f);
+	candleStick[2]->position = D3DXVECTOR4( 44.0f, 12.8f, 32.0f, 0.0f);
+	candleStick[3]->position = D3DXVECTOR4( 44.0f, 12.8f, 12.0f, 0.0f);
+															 
 	for(short i = 0; i < ARRAYSIZE(chair); ++i)
 	{
 		chair[i] = new Object_Base();
@@ -305,10 +313,59 @@ void CDirectXFramework::Init(HWND& hWnd, HINSTANCE& hInst, bool bWindowed)
 	}
 
 	// Chair Positions
-	chair[0]->position = D3DXVECTOR4(-50.8f, 6.4f, 15.5, 0.0f);
-	chair[1]->position = D3DXVECTOR4( -2.4f, 6.4f, 46.2, 0.0f);
-	chair[2]->position = D3DXVECTOR4( 51.5f, 6.4f, 24.4, 0.0f);
-	chair[3]->position = D3DXVECTOR4( 46.4f, 6.4f, -0.5, 0.0f);
+
+	// Ballroom
+	chair[0]->position = D3DXVECTOR4(-54.8f, 10.4f, 15.5f, 0.0f);
+
+	chair[8 ]->position = D3DXVECTOR4(-60.0f, 10.4f,  8.2f, 0.0f);
+	chair[9 ]->position = D3DXVECTOR4(-60.0f, 10.4f,  4.4f, 0.0f);
+	chair[10]->position = D3DXVECTOR4(-60.0f, 10.4f,  0.5f, 0.0f);
+
+	chair[8 ]->rotation = D3DXVECTOR3(180.0f, 0.0f, 0.0f);
+	chair[9 ]->rotation = D3DXVECTOR3(180.0f, 0.0f, 0.0f);
+	chair[10]->rotation = D3DXVECTOR3(180.0f, 0.0f, 0.0f);
+
+	chair[11]->position = D3DXVECTOR4(-30.0f, 10.4f, 16.2f, 0.0f);
+	chair[12]->position = D3DXVECTOR4(-30.0f, 10.4f, 12.4f, 0.0f);
+	chair[13]->position = D3DXVECTOR4(-30.0f, 10.4f,  8.5f, 0.0f);
+	chair[14]->position = D3DXVECTOR4(-30.0f, 10.4f,  4.2f, 0.0f);
+	chair[15]->position = D3DXVECTOR4(-30.0f, 10.4f,  0.2f, 0.0f);
+
+	chair[11]->rotation = D3DXVECTOR3( 90.0f, 0.0f, 0.0f);
+	chair[12]->rotation = D3DXVECTOR3( 90.0f, 0.0f, 0.0f);
+	chair[13]->rotation = D3DXVECTOR3( 90.0f, 0.0f, 0.0f);
+	chair[14]->rotation = D3DXVECTOR3( 90.0f, 0.0f, 0.0f);
+	chair[15]->rotation = D3DXVECTOR3( 90.0f, 0.0f, 0.0f);
+
+	chair[16]->position = D3DXVECTOR4(-54.0f, 10.4f, -30.0f, 0.0f);
+	chair[17]->position = D3DXVECTOR4(-48.0f, 10.4f, -30.0f, 0.0f);
+	chair[18]->position = D3DXVECTOR4(-32.0f, 10.4f, -30.0f, 0.0f);
+	chair[19]->position = D3DXVECTOR4(-35.0f, 10.4f, -30.0f, 0.0f);
+
+	chair[16]->rotation = D3DXVECTOR3(-90.0f, 0.0f, 0.0f);
+	chair[17]->rotation = D3DXVECTOR3(-90.0f, 0.0f, 0.0f);
+	chair[18]->rotation = D3DXVECTOR3(-90.0f, 0.0f, 0.0f);
+	chair[19]->rotation = D3DXVECTOR3(-90.0f, 0.0f, 0.0f);
+
+
+											 
+	// Dining Room							 
+	chair[2]->position = D3DXVECTOR4( 49.0f, 10.4f, 24.4, 0.0f);
+	chair[3]->position = D3DXVECTOR4( 49.0f, 10.4f, -0.5, 0.0f);
+	chair[4]->position = D3DXVECTOR4( 49.0f, 10.4f, 15.5, 0.0f);
+									   
+	chair[2]->rotation = D3DXVECTOR3( 90.0f, 0.0f, 0.0f);
+	chair[3]->rotation = D3DXVECTOR3( 90.0f, 0.0f, 0.0f);
+	chair[4]->rotation = D3DXVECTOR3( 90.0f, 0.0f, 0.0f);
+
+	chair[5]->position = D3DXVECTOR4( 39.0f, 10.4f, 46.2, 0.0f);
+	chair[6]->position = D3DXVECTOR4( 39.0f, 10.4f, 24.4, 0.0f);
+	chair[7]->position = D3DXVECTOR4( 39.0f, 10.4f, -0.5, 0.0f);
+
+	chair[5]->rotation = D3DXVECTOR3(-90.0f, 0.0f, 0.0f);
+	chair[6]->rotation = D3DXVECTOR3(-90.0f, 0.0f, 0.0f);
+	chair[7]->rotation = D3DXVECTOR3(-90.0f, 0.0f, 0.0f);
+
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Load Shader Effects																					 //
@@ -649,7 +706,7 @@ if(gameState->activeGameState == GAME)
 		renderObject(candleStick[i], D3DXVECTOR3(-0.0f, -6.75f, 0.0f));
 
 	for(short i = 0; i < ARRAYSIZE(chair); ++i)
-		renderObject(chair[i], D3DXVECTOR3(0.0f, -7.5f, 0.5f));
+		renderObject(chair[i], D3DXVECTOR3(0.0f, -8.0f, 0.5f));
 
 	levelManager.Render( m_hWnd, viewMat, projMat, eyePos);
 
@@ -723,13 +780,6 @@ gameState->Render(m_pD3DSprite);
 	// Draw Text, using DT_TOP, DT_RIGHT for placement in the top right of the
 	// screen.  DT_NOCLIP can improve speed of text rendering, but allows text
 	// to be drawn outside of the rect specified to draw text in.
-	char debugMessage[256];
-	//sprintf(debugMessage, "CurrentRoom: %d", 
-		//currentRoom);
-
-	m_pD3DFont->DrawTextA(0, debugMessage, -1, &rect, 
-                  DT_TOP | DT_LEFT | DT_NOCLIP, 
-                  D3DCOLOR_ARGB(255, 255, 255, 255));
 
 
 	// EndScene, and Present the back buffer to the display buffer
@@ -855,7 +905,7 @@ void CDirectXFramework::UpdateCamera(float dt)
 
 	D3DXMatrixIdentity(&tempRot);
 
-	D3DXMatrixRotationY(&tempRot, D3DXToRadian(Player->rotation.x));
+	D3DXMatrixRotationYawPitchRoll(&tempRot, D3DXToRadian(Player->rotation.x), D3DXToRadian(Player->rotation.y), 0.0f );
 
 	tempPos = D3DXVECTOR3(0.0f, 0.5f, -1.0f);
 
@@ -1004,24 +1054,21 @@ void CDirectXFramework::playerControls(float dt)
 		Player->velLR = 0.0f;
 	}*/
 
-	if(m_pDInput->keyDown(DIK_SPACE))
-	{
-		Player->wantJump = true;
-		Player->jumpTimer = 0.0f;
-	}
-	else if(!m_pDInput->keyDown(DIK_SPACE))
-	{
-		Player->wantJump = false;
-	}
-
 	Player->rotation.x += m_pDInput->getMouseMovingX();
 
-	Player->rotation.y += m_pDInput->getMouseMovingY();
+	Player->rotation.y -= m_pDInput->getMouseMovingY();
+
+	if(Player->rotation.y > 60.0f)
+		Player->rotation.y = 60.0f;
+
+	if(Player->rotation.y < -65.0f)
+		Player->rotation.y = -65.0f;
 
 	if(Player->rotation.x >= 360.0f)
 		Player->rotation.x = 0.0f;
 	else if(Player->rotation.x <= 0.0f)
 		Player->rotation.x = 360.0f;
+
 }
 
  void CDirectXFramework::createRamp(hkpWorld* world, float scaleX, float scaleY, float scaleZ, float posX, float posY, float posZ)
@@ -1090,7 +1137,7 @@ void CDirectXFramework::renderObject(Object_Base* object, D3DXVECTOR3 offset)
 
 		// Mesh Matrix
 		D3DXMatrixScaling(&scaleMat, object->scale.x, object->scale.y, object->scale.z);
-		D3DXMatrixRotationYawPitchRoll(&rotMat, 0.0f, 0.0f, 0.0f);
+		D3DXMatrixRotationYawPitchRoll(&rotMat, object->rotation.x, object->rotation.y, object->rotation.z);
 		D3DXMatrixTranslation(&transMat, object->position.x + offset.x, object->position.y + offset.y, object->position.z + offset.z);
 		D3DXMatrixMultiply(&scaleMat, &scaleMat, &rotMat);
 		D3DXMatrixMultiply(&worldMat, &scaleMat, &transMat);
